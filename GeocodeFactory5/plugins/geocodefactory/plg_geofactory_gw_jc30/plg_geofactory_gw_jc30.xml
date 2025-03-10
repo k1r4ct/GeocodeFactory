@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" method="upgrade" group="geocodefactory" >
+	<name>PLG_GEOFACTORY_GW_JC30</name>
+	<version>5.16.0311</version>
+	<author>MyJoom</author>
+	<authorEmail>info@myJoom.com</authorEmail>
+	<authorUrl>http://www.myJoom.com</authorUrl>
+	<copyright>Copyright © 2009-2014 - All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<creationDate>2013</creationDate>
+	<description>PLG_GEOFACTORY_GW_JC30_DESCRIPTION</description>
+  	<scriptfile>plg_geofactory_gw_jc30.install.php</scriptfile>
+	<files>
+		<filename plugin="plg_geofactory_gw_jc30">plg_geofactory_gw_jc30.php</filename>	
+		<filename>index.html</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_geocodefactory_plg_geofactory_gw_jc30.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_geocodefactory_plg_geofactory_gw_jc30.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field 
+					name="linesOwners"
+					type="color" 
+					default="red" 
+					label="PLG_GEOFACTORY_GW_JC30_COL_OWNERS" 
+					description="PLG_GEOFACTORY_GW_JC30_COL_HLP" 
+				/>
+			</fieldset>
+		</fields>
+	</config>
+   <updateservers>
+    	<server type="extension" priority="1" name="GeocodeFactoryGatewayJc30">http://myjoom.com/myjoom-updater/geofactory-updater-jc_gw_30.xml</server>
+ 	</updateservers>
+</extension>

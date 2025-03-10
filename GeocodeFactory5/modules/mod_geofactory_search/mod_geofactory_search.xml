@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.0" method="upgrade" client="site">
+    <name>MOD_GEOFACTORY_SEARCH</name>
+    <author>MyJoom</author>
+	<authorEmail>info@myjoom.com</authorEmail>
+	<authorUrl>http://www.myjoom.com/</authorUrl>
+	<copyright>Copyright (C) 2009-2014 myJoom.com</copyright>
+	<license>GNU General Public License v3</license>
+	<creationDate>February 2012</creationDate>
+    <version>5.15.0909</version>
+    <description>MOD_GEOFACTORY_SEARCH_DESC</description>
+    <files>
+		<folder>tmpl</folder>
+		<folder>language</folder>
+        <filename>mod_geofactory_search.xml</filename>
+        <filename module="mod_geofactory_search">mod_geofactory_search.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+    </files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix:" description="This suffix is appended to the class name (class='moduletable') of the HTML element containing the entire module, to allow individual styling of the entire module." />
+		
+				<field name="sMapUrl" type="menuitem" default="" label="MOD_GEOFACTORY_SEARCH_MAP_URL" description="MOD_GEOFACTORY_SEARCH_MAP_URL_HLP" />
+		
+				<field name="bRadius" type="list" default="1" label="MOD_GEOFACTORY_SEARCH_USE_RADIUS" description="MOD_GEOFACTORY_SEARCH_USE_RADIUS_HLP">
+					<option value="1">MOD_GEOFACTORY_SEARCH_YES</option>
+					<option value="0">MOD_GEOFACTORY_SEARCH_NO</option>
+				</field>
+				<field name="vRadius" type="text" default="" label="MOD_GEOFACTORY_SEARCH_VALS_RADIUS" description="MOD_GEOFACTORY_SEARCH_VALS_RADIUS_HLP" />
+				<field name="iUnit" type="list" default="1" label="MOD_GEOFACTORY_SEARCH_UNIT_TO_DISPLAY" description="MOD_GEOFACTORY_SEARCH_UNIT_TO_DISPLAY_HLP">
+					<option value="km">MOD_GEOFACTORY_SEARCH_KILOMETER</option>
+					<option value="mi">MOD_GEOFACTORY_SEARCH_MILES</option>
+					<option value="nm">MOD_GEOFACTORY_SEARCH_NAUTIC_MILES</option>
+				</field>
+				<field name="bLocateMe" type="list" default="0" label="MOD_GEOFACTORY_LOCATE_ME_BTN" description="MOD_GEOFACTORY_LOCATE_ME_BTN_HLP">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field name="sLabInput" type="text" default="" label="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_INPUT" description="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_HLP" />
+				<field name="sLabSelect" type="text" default="" label="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_SELECT" description="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_HLP" />
+				<field name="sLabSearch" type="text" default="" label="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_SEARCH" description="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_HLP" />
+				<field name="sLabReset" type="text" default="" label="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_RESET" description="MOD_GEOFACTORY_SEARCH_LABEL_CUSTOM_HLP" />
+				<field name="placeholder" type="text" default="" label="Text into the input" description="" />
+				<field 
+					name="tmplCode" 
+					type="editor" 
+					default="" 
+					cols="10" 
+					rows="3" 
+					label="Template code (optionnal)" 
+					description="Template code (optionnal, leave empty for core function), use any html tag and following placehoder : [INPUT], [DISTANCE] and [SEARCH_BTN]" 
+				/>
+				<field name="bSidebar" type="list" default="1" label="MOD_GEOFACTORY_SEARCH_USE_SIDEBAR" description="MOD_GEOFACTORY_SEARCH_USE_SIDEBAR_HLP">
+					<option value="1">MOD_GEOFACTORY_SEARCH_YES</option>
+					<option value="0">MOD_GEOFACTORY_SEARCH_NO</option>
+				</field>
+		
+				<field name="bSidelists" type="list" default="1" label="MOD_GEOFACTORY_SEARCH_USE_SIDELISTS" description="MOD_GEOFACTORY_SEARCH_USE_SIDELISTS_HLP">
+					<option value="1">MOD_GEOFACTORY_SEARCH_YES</option>
+					<option value="0">MOD_GEOFACTORY_SEARCH_NO</option>
+				</field>
+				<field name="sIntro" type="text" default="" label="MOD_GEOFACTORY_SEARCH_LABEL_INTRO" description="MOD_GEOFACTORY_SEARCH_LABEL_INTRO_HLP" />
+				<field name="sCountryLimit" type="text" default="" label="MOD_GEOFACTORY_COUNTRY_LIMIT" description="MOD_GEOFACTORY_COUNTRY_LIMIT_HLP" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

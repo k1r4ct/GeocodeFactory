@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/administrator/components/com_geofactory/models/fields">
+	<fieldset name="base" label="base" >
+		<field	name="name"
+				type="text" 
+				class="inputbox" 
+				size="40" 
+				required="true" 
+				label="COM_GEOFACTORY_MS_NAME" 
+				description="COM_GEOFACTORY_MS_NAME_DESC"/>
+	</fieldset>
+	<fieldset name="general" label="COM_GEOFACTORY_MS_DESC" >
+		<field	name="extrainfo"
+				type="textarea" 
+				class="inputbox" 
+				rows="3" 
+				cols="30" 
+				label="COM_GEOFACTORY_BACKEND_DESC" 
+				description="COM_GEOFACTORY_BACKEND_DESC_DESC" />
+		<field	name="idmaps"
+				type="listmaps" 
+				multiple="true" 
+				class="inputbox" 
+				size="7"
+				default="0" 
+				label="COM_GEOFACTORY_MAP_SELECTOR" 
+				description="COM_GEOFACTORY_MAP_SELECTOR_DESC" />
+		<field	name="language"
+				type="contentlanguage"
+				label="JFIELD_LANGUAGE_LABEL" 
+				description="COM_CATEGORIES_FIELD_LANGUAGE_DESC" >
+					<option value="*">JALL</option>
+		</field>
+		<field	name="state"
+				type="list" 
+				class="inputbox" 
+				size="1"
+				default="1" 
+				label="JSTATUS">
+					<option value="1">JPUBLISHED</option>
+					<option value="0">JUNPUBLISHED</option>
+					<option value="2">JARCHIVED</option>
+					<option value="-2">JTRASHED</option>
+		</field>
+		<field	name="id"
+				type="text"
+				default="0"
+				size="5" 
+				readonly="true" 
+				class="readonly" 
+				label="JGLOBAL_FIELD_ID_LABEL" 
+				description="JGLOBAL_FIELD_ID_DESC"/>
+		
+		<field	name="mslevel"
+				type="list" 
+				class="inputbox" 
+				size="1"
+				default="0" 
+				label="COM_GEOFACTORY_LEVEL" 
+				description="COM_GEOFACTORY_LEVEL_DESC">
+					<option value="0">COM_GEOFACTORY_TOP</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset name="markerset-template" label="Template" >
+		<field	name="template_bubble"
+				type="editor" 
+				editor="codemirror|none" 
+				buttons="no" 
+				label="COM_GEOFACTORY_TEMPLATE_BUBBLE" 
+				description="COM_GEOFACTORY_TEMPLATE_BUBBLE_DESC" 
+				height="250px"
+				width="500px"
+				syntax="php"
+				filter="raw" />			
+		
+		<field	name="template_sidebar"
+				type="editor" 
+				editor="codemirror|none" 
+				buttons="no" 
+				label="COM_GEOFACTORY_TEMPLATE_SIDE" 
+				description="COM_GEOFACTORY_TEMPLATE_SIDE_DESC" 
+				height="250px"
+				width="500px"
+				filter="raw" />			
+		
+		<field	name="template_buttons"
+				type="markerTemplate" 
+				class="inputbox" 
+				label="COM_GEOFACTORY_TMPL_MODAL" 
+				description="COM_GEOFACTORY_TMPL_MODAL_DESC" />
+	</fieldset>
+
+	<fieldset name="markerset-type" label="COM_GEOFACTORY_TYPE_MS" >
+		<field	name="typeList"
+				type="typeListe" 
+				label="COM_GEOFACTORY_TYPE_MS_SELECTOR" 
+				description="COM_GEOFACTORY_TYPE_MS_SELECTOR_DESC"/>
+	</fieldset>
+
+	<fieldset name="markerset-type-hide" label="COM_GEOFACTORY_TYPE_MS" >
+		<field	name="typeList"
+				type="typeListe" 
+				label="COM_GEOFACTORY_TYPE_MS_SELECTOR" 
+				description="COM_GEOFACTORY_TYPE_MS_SELECTOR_DESC"/>
+	</fieldset>
+
+	<fields name="params_markerset_settings">
+		<fieldset name="markerset-settings" label="COM_GEOFACTORY_MS_SETTINGS" >
+			<field	name="field_assignation" 	
+				type="assignPattern"
+					default="0" 
+					class="" 
+					label="COM_GEOFACTORY_FIELD_ASSIGN_PATERN" 
+					description="COM_GEOFACTORY_FIELD_ASSIGN_PATERN_DESC" />
+
+			<field	name="allow_groups"
+					type="UserGroupsMulti" 
+					multiple="true" 
+					label="COM_GEOFACTORY_USER_ALLOWED_ACCESS" 
+					description="COM_GEOFACTORY_USER_ALLOWED_ACCESS_DESC" />
+
+			<field	name="accuracy"
+					type="list" 
+					class="inputbox" 
+					size="1"
+					default="0" 
+					label="COM_GEOFACTORY_ACCURACY" 
+					description="COM_GEOFACTORY_ACCURACY_DESC">
+						<option value="0"	>COM_GEOFACTORY_EXACT</option>
+						<option value="5"	>COM_GEOFACTORY_CLOSEST</option>
+						<option value="25"	>COM_GEOFACTORY_MEDIUM</option>
+						<option value="75"	>COM_GEOFACTORY_LOW</option>
+						<option value="150"	>COM_GEOFACTORY_VERY_LOW</option>
+			</field>
+
+			<field	name="j_menu_id"
+					type="menuitem"
+						default="" 
+						class="inputbox validate-numeric" 
+						size="5" 
+						label="COM_GEOFACTORY_TARGET_MENU" 
+						description="COM_GEOFACTORY_TARGET_MENU_DESC"/>
+
+			<field	name="bubblewidth"
+					type="textgf"
+					default="" 
+					class="inputbox validate-numeric" 
+					size="5"
+					suffix="px" 
+					label="COM_GEOFACTORY_BUBBLE_WIDTH" 
+					description="COM_GEOFACTORY_BUBBLE_WIDTH_DESC"/>
+			<field	name="cssMs"
+					type="editor" 
+					editor="codemirror|none" 
+					buttons="no" 
+					label="COM_GEOFACTORY_MS_CSS_STYLES" 
+					description="COM_GEOFACTORY_MS_CSS_STYLES_DESC" 
+					height="250px"
+					width="500px"
+					filter="raw" />			
+			<field	name="checked_loading"
+					type="radio"
+					default="1" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_CHECKED_LOADING" 
+					description="COM_GEOFACTORY_CHECKED_LOADING_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>					
+		</fieldset>
+	</fields>
+
+	<fields name="params_markerset_radius">
+		<fieldset name="markerset-radius" label="COM_GEOFACTORY_RADIUS_OPTIONS" >
+			<field	name="rad_distance"
+					type="textgf"
+					suffix="km / mi / nm"
+					class="inputbox validate-numeric" 
+					label="COM_GEOFACTORY_RAD_DIST" 
+					description="COM_GEOFACTORY_RAD_DIST_DESC" />
+			<field	name="rad_unit"
+					type="list" 
+					class="inputbox" 
+					size="1"
+					default="0" 
+					label="COM_GEOFACTORY_RADIUS_UNIT" 
+					description="COM_GEOFACTORY_RADIUS_UNIT_DESC" >
+						<option value="0">COM_GEOFACTORY_KILOMETER</option>
+						<option value="1">COM_GEOFACTORY_MILES</option>
+						<option value="2">COM_GEOFACTORY_NAUTIC_MILES</option>
+			</field>
+			<field	name="rad_mode"
+					type="list" 
+					class="inputbox" 
+					size="1"
+					default="1" label="COM_GEOFACTORY_RADIUS_CENTER_MS" 
+					description="COM_GEOFACTORY_RADIUS_CENTER_MS_DESC" >
+						<option value="0">COM_GEOFACTORY_CONNECTED_PROFILE</option>
+						<option value="1">COM_GEOFACTORY_MAP_DEF_CENTER</option>
+						<option value="2">COM_GEOFACTORY_CUR_PROFILE_ENTRY_CENTER</option>
+			</field>
+			<field	name="current_view_center_pattern" 	
+					type="assignPattern"
+					default="0" 
+					class="" 
+					label="COM_GEOFACTORY_CURRENT_VIEW_CENTER_PATTERN" 
+					description="COM_GEOFACTORY_CURRENT_VIEW_CENTER_PATTERN_DESC" />
+			<field	name="rad_allms"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_RADIUS_CENTER_ALL_MS" 
+					description="COM_GEOFACTORY_RADIUS_CENTER_ALL_MS_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>					
+		</fieldset>
+	</fields>
+	
+	<fields name="params_markerset_icon">
+		<fieldset name="markerset-icon" label="COM_GEOFACTORY_MARKER_ICON" >
+			<field	name="markerIconType" 	
+					type="iconTypeSelector"
+					default="0" 
+					label="COM_GEOFACTORY_MARKER_ICON_TYPE" 
+					description="COM_GEOFACTORY_MARKER_ICON_TYPE_DESC" />
+			<field	name="customimage"
+					type="media"
+					hide_none="1"
+					label="COM_GEOFACTORY_CUSTOM_IMAGE" 
+					description="COM_GEOFACTORY_CUSTOM_IMAGE_DESC" />
+			<field	name="avatarSizeW"
+					type="textgf" 
+					suffix="px | %" 
+					class="inputbox validate-numeric" 
+					size="10" 
+					label="COM_GEOFACTORY_MARKER_ICON_WIDTH" 
+					description="COM_GEOFACTORY_MARKER_ICON_SIZE_DESC" />
+			<field	name="avatarSizeH"
+					type="textgf" 
+					class="inputbox validate-numeric" 
+					size="10" 
+					suffix="px" 
+					label="COM_GEOFACTORY_MARKER_ICON_HEIGHT" 
+					description="COM_GEOFACTORY_MARKER_ICON_SIZE_DESC" />
+			<field	name="mapicon"
+					type="imagelist"
+					label="COM_GEOFACTORY_MAPICON_SELECTOR" 
+					description="COM_GEOFACTORY_MAPICON_SELECTOR_DESC" 
+					directory="media/com_geofactory/mapicons/" 
+					hide_default="true"/>
+		</fieldset>
+	</fields>
+	
+	<fieldset name="markerset-type-settings-info" label="COM_GEOFACTORY_SPECIFIC_SETTING"  >
+		<field name="ms_specif-info" type="note" label="COM_GEOFACTORY_SPECIFIC_SETTING" description="COM_GEOFACTORY_MS_BEFORE_FIRST_SAVE" class="alert alert-info" close="false" />
+	</fieldset>
+				
+	<fields name="params_markerset_type_setting">
+		<fieldset name="markerset-type-settings" label="COM_GEOFACTORY_SPECIFIC_SETTING"  >
+			<field	name="filter"
+					type="filtergenerator" 
+					filter="raw"
+					label="COM_GEOFACTORY_FILTER_GENERATOR" 
+					description="COM_GEOFACTORY_FILTER_GENERATOR_DESC" />
+			<field	name="filter_opt"
+					type="textarea"
+					filter="raw" 
+					class="inputbox" 
+					height="75px"
+					width="500px"
+					label="COM_GEOFACTORY_FILTER_GENERATOR_OPT" 
+					description="COM_GEOFACTORY_FILTER_GENERATOR_OPT_DESC" />
+			<field	name="field_title"
+					type="fieldSelector"
+					default="username"
+					label="COM_GEOFACTORY_TITLE_FIELD_SELECTOR" 
+					description="COM_GEOFACTORY_TITLE_FIELD_SELECTOR_DESC" />
+			<field	name="avatarImage"
+					type="fieldSelector"
+					default="0" 
+					class="" 
+					label="COM_GEOFACTORY_FIELD_IMAGE" 
+					description="COM_GEOFACTORY_FIELD_IMAGE_DESC" />
+			<field	name="salesRadField"
+					type="fieldSelector"
+					default="0" 
+					class=""
+					label="COM_GEOFACTORY_SALESAREA_FIELD_SELECTOR" 
+					description="COM_GEOFACTORY_SALESAREA_FIELD_SELECTOR_DESC" />
+			<field 	name="tags" 
+					type="tag" 
+					label="JTAG" 
+					description="COM_GEOFACTORY_TAG_DESC" 
+					mode="nested" 
+					multiple="true" />
+			<field	name="childTags"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_CATS_MS_CHILDS" 
+					description="COM_GEOFACTORY_TAGS_MS_CHILDS_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+			<field	name="include_categories" 	
+					type="categorymultiSelect"
+					multiple="true"
+					label="COM_GEOFACTORY_CATS_FOR_MS" 
+					description="COM_GEOFACTORY_CATS_FOR_MS_DESC" />
+			<field	name="childCats"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_CATS_MS_CHILDS" 
+					description="COM_GEOFACTORY_CATS_MS_CHILDS_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+			<field	name="include_groups"
+					type="usergroupsmulti"
+					multiple="true" 
+					label="COM_GEOFACTORY_USERGROUP_INCLUDE" 
+					description="COM_GEOFACTORY_USERGROUP_INCLUDE_DESC" />
+			<field	name="onlyPublished"
+					type="list" 
+					class="inputbox" 
+					size="1"
+					default="0" 
+					label="COM_GEOFACTORY_ENTRY_LOAD" 
+					description="COM_GEOFACTORY_ENTRY_LOAD_DESC" >
+						<option value="0">COM_GEOFACTORY_ENTRIES_PUB</option>
+						<option value="1">COM_GEOFACTORY_ENTRIES_UNPUB</option>
+			</field>
+			<field	name="onlyOnline"
+					type="list" 
+					class="inputbox" 
+					size="1"
+					default="0" 
+					label="COM_GEOFACTORY_PROFILES_LOAD" 
+					description="COM_GEOFACTORY_PROFILES_LOAD_DESC" >
+						<option value="0">COM_GEOFACTORY_ALL_PROFILE</option>
+						<option value="1">COM_GEOFACTORY_ONLINE_PROFILE</option>
+						<option value="2">COM_GEOFACTORY_OFFLINE_PROFILE</option>
+			</field>
+			<field	name="allEvents"
+					type="list" 
+					class="inputbox" 
+					size="1"
+					default="0"
+					label="COM_GEOFACTORY_EVENTS_LOAD" 
+					description="COM_GEOFACTORY_EVENTS_LOAD_DESC" >
+						<option value="0">COM_GEOFACTORY_EVENTS_ALL</option>
+						<option value="1">COM_GEOFACTORY_EVENTS_FUTURE</option>
+						<option value="2">COM_GEOFACTORY_EVENTS_PAST</option>
+			</field>
+			<field	name="onlineTmp" 			
+					type="editor" 
+					editor="codemirror|none" 
+					buttons="no" 
+					label="COM_GEOFACTORY_TEMPLATE_ONLINE" 
+					description="COM_GEOFACTORY_TEMPLATE_PROFILE_STATUS_DESC" 
+					height="100px"
+					width="500px"
+					filter="raw" />			
+			<field	name="offlineTmp" 			
+					type="editor" 
+					editor="codemirror|none" 
+					buttons="no" 
+					label="COM_GEOFACTORY_TEMPLATE_OFFLINE" 
+					description="COM_GEOFACTORY_TEMPLATE_PROFILE_STATUS_DESC" 
+					height="100px"
+					width="500px"
+					filter="raw" />	
+
+			<field	name="linesFriends"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_PLINES_FRIENDS" 
+					description="COM_GEOFACTORY_PLINES_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+
+			<field	name="linesMyAddr"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_PLINES_MYADDR" 
+					description="COM_GEOFACTORY_PLINES_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+
+			<field	name="linesOwners"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_PLINES_OWNERS" 
+					description="COM_GEOFACTORY_PLINES_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+
+			<field	name="linesGuests"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_PLINES_GUEST" 
+					description="COM_GEOFACTORY_PLINES_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+
+			<field	name="catAuto"
+					type="radio"
+					default="0" 
+					class="radio btn-group" 
+					label="COM_GEOFACTORY_AUTOCAT" 
+					description="COM_GEOFACTORY_AUTOCAT_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+			</field>
+
+			<field	name="dateFormat"
+					type="text" 
+					class="inputbox" 
+					size="40" 
+					label="COM_GEOFACTORY_DATE_FORMAT" 
+					description="COM_GEOFACTORY_DATE_FORMAT_DESC" />
+			
+			<field	name="maxmarkers"
+					type="text" 
+					class="inputbox" 
+					size="10" 
+					default="0" 
+					label="COM_GEOFACTORY_MS_MAX_MARKERS" 
+					description="COM_GEOFACTORY_MS_MAX_MARKERS_DESC" />
+
+			<field	name="custom_radio_2"
+					type="gfCustomRadio"
+					class="inputbox" 
+					size="10"
+					label="Custom radio" >
+			</field>
+			
+			<field	name="custom_list_1"
+					type="gfCustomList" 
+					class="inputbox" 
+					size="10"
+					multiple="multiple"
+					label="Custom list" >
+			</field>
+
+			<field	name="custom_radio_1"
+					type="gfCustomRadio"
+					class="inputbox" 
+					size="10"
+					label="Custom radio" >
+			</field>
+
+		</fieldset>
+	</fields>
+</form>

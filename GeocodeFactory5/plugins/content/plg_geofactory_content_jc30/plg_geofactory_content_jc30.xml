@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" method="upgrade" group="content" >
+	<name>PLG_GEOFACTORY_CONTENT_JC30</name>
+	<version>5.17.1309</version>
+	<author>MyJoom</author>
+	<authorEmail>info@myJoom.com</authorEmail>
+	<authorUrl>http://www.myJoom.com</authorUrl>
+	<copyright>Copyright © 2009-2014 - All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<creationDate>2013</creationDate>
+	<description>PLG_GEOFACTORY_CONTENT_JC30_DESCRIPTION</description>
+  	<scriptfile>plg_geofactory_content_jc30.install.php</scriptfile>
+	<files>
+		<filename plugin="plg_geofactory_content_jc30">plg_geofactory_content_jc30.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_content_plg_geofactory_content_jc30.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_content_plg_geofactory_content_jc30.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="/components/com_geofactory/models/fields">
+				<field 	name="idMap" 
+						type="listmaps" 
+						default="" 
+						label="PLG_GEOFACTORY_CONTENT_JC30_MAP_SELECTOR" 
+						description="PLG_GEOFACTORY_CONTENT_JC30_MAP_SELECTOR_DESCRIPTION"/>
+				<field 	name="showMap" 
+						type="list" 
+						default="1" 
+						label="PLG_GEOFACTORY_CONTENT_JC30_SHOW_MAP" 
+						description="PLG_GEOFACTORY_CONTENT_JC30_SHOW_MAP_DESCRIPTION">
+							<option value="1">PLG_GEOFACTORY_CONTENT_JC30_SHOW_MAP_GF</option>
+							<option value="2">PLG_GEOFACTORY_CONTENT_JC30_SHOW_MAP_STATIC</option>
+							<option value="0">PLG_GEOFACTORY_CONTENT_JC30_SHOW_MAP_NO</option>
+				</field>
+				<field 	name="useJoomlaMeta" 
+						type="list" 
+						default="0" 
+						label="PLG_GEOFACTORY_CONTENT_JC30_GEOCODE_META" 
+						description="PLG_GEOFACTORY_CONTENT_JC30_GEOCODE_META_DESCRIPTION">
+							<option value="0">PLG_GEOFACTORY_CONTENT_JC30_META_NO</option>
+							<option value="1">PLG_GEOFACTORY_CONTENT_JC30_META_KEY</option>
+							<option value="2">PLG_GEOFACTORY_CONTENT_JC30_META_DESC</option>
+				</field>
+				<field 	name="staticZoom"
+						type="list" 
+						default="0" 
+						label="PLG_GEOFACTORY_CONTENT_JC30_ZOOM" 
+						description="PLG_GEOFACTORY_CONTENT_JC30_ZOOM_DESCRIPTION">
+							<option value="0">PLG_GEOFACTORY_CONTENT_JC30_ZOOM_AUTO</option><option value="1">1</option>
+							<option value="2">2</option><option value="3">3</option>
+							<option value="4">4</option><option value="5">5</option>
+							<option value="6">6</option><option value="7">7</option>
+							<option value="8">8</option><option value="9">9</option>
+							<option value="10">10</option><option value="11">11</option>
+							<option value="12">12</option><option value="13">13</option>
+							<option value="14">14</option><option value="15">15</option>
+							<option value="16">16</option><option value="17">17</option>
+							<option value="18">18</option><option value="19">19</option>
+							<option value="20">20</option><option value="21">21</option>
+							<option value="22">22</option><option value="23">23</option>
+							<option value="24">24</option><option value="25">25</option>
+				</field>
+				<field 	name="staticWidth" 
+						type="text" 
+						default="200" 
+						label="PLG_GEOFACTORY_CONTENT_JC30_SIZE_WIDTH" 
+						description="PLG_GEOFACTORY_CONTENT_JC30_SIZE_DESCRIPTION"/>
+				<field 	name="staticHeight" 
+						type="text" 
+						default="200" 
+						label="PLG_GEOFACTORY_CONTENT_JC30_SIZE_HEIGHT" 
+						description="PLG_GEOFACTORY_CONTENT_JC30_SIZE_DESCRIPTION"/>
+			</fieldset>
+		</fields>
+	</config>
+   <updateservers>
+    	<server type="extension" priority="1" name="GeocodeFactoryContentJc30">http://myjoom.com/myjoom-updater/geofactory-updater-jc_content_30.xml</server>
+ 	</updateservers>
+</extension>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" method="upgrade" group="content" >
+	<name>PLG_GEOFACTORY_LOAD_MAP</name>
+	<version>5.15.0909</version>
+	<author>MyJoom</author>
+	<authorEmail>info@myJoom.com</authorEmail>
+	<authorUrl>http://www.myJoom.com</authorUrl>
+	<copyright>Copyright © 2009-2014 - All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<creationDate>2014</creationDate>
+	<description>PLG_GEOFACTORY_LOAD_MAP_DESCRIPTION</description>
+	<files>
+		<filename plugin="plg_geofactory_load_map">plg_geofactory_load_map.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_content_plg_geofactory_load_map.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_content_plg_geofactory_load_map.sys.ini</language>
+	</languages>
+   <updateservers>
+    	<server type="extension" priority="1" name="GeocodeFactoryPlgLoadMap">http://myjoom.com/myjoom-updater/geofactory-updater-plg_load_map.xml</server>
+ 	</updateservers>
+</extension>
