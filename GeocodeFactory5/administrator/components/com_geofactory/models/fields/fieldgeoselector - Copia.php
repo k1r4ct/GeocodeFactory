@@ -17,7 +17,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 JFormHelper::loadFieldClass('list');
 
@@ -35,20 +34,15 @@ class JFormFieldfieldGeoSelector extends FormFieldList
         $all = (bool) $config->get('useAllFields');
 
         PluginHelper::importPlugin('geocodefactory');
-        
-        // Utilizzo del sistema di eventi Joomla 4
-        $app = Factory::getApplication();
-        
-        // Evento getIsSingleGpsField
-        $result = $app->triggerEvent('onGetIsSingleGpsField', array($typeList, &$singleGps));
+        $dispatcher = JDispatcher::getInstance();
+        $dispatcher->trigger('getIsSingleGpsField', array($typeList, &$singleGps));
 
         if ($singleGps && $this->fieldname == "field_longitude") {
             array_unshift($options, HTMLHelper::_('select.option', '-1', Text::_('COM_GEOFACTORY_NOT_NEEDED')));
             return $options;
         }
 
-        // Evento getCustomFieldsCoord
-        $app->triggerEvent('onGetCustomFieldsCoord', array($typeList, &$options, $all));
+        $dispatcher->trigger('getCustomFieldsCoord', array($typeList, &$options, $all));
  
         return $options;
     }

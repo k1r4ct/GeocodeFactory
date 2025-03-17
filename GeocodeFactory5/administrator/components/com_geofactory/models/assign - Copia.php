@@ -39,8 +39,8 @@ class GeofactoryModelAssign extends AdminModel
 
         // Importa i plugin del gruppo 'geocodefactory'
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
-        $vFields = $app->triggerEvent('getListFieldsAssign', array($typeliste));
+        $dispatcher = JDispatcher::getInstance();
+        $vFields = $dispatcher->trigger('getListFieldsAssign', array($typeliste));
 
         // Prepara il form in base al tipo di lista
         $usefields = null;
@@ -64,7 +64,7 @@ class GeofactoryModelAssign extends AdminModel
             // Rimuove dal form i campi non utilizzati
             foreach ($allfields as $af) {
                 if (!in_array($af, $usefields)) {
-                    $form->removeField($af, "assign-address");
+                    $form->removeField($af);
                 }
             }
         }

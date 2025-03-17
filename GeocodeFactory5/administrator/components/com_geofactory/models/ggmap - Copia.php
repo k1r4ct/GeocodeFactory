@@ -21,19 +21,18 @@ use Joomla\Registry\Registry;
 
 class GeofactoryModelGgmap extends AdminModel
 {
-    protected function canDelete($record): ?bool
+    protected function canDelete($record)
     {
         if (!empty($record->id)) {
             if ($record->state != -2) {
-                return false;
+                return;
             }
             $user = Factory::getUser();
             return $user->authorise('core.delete', 'com_geofactory');
         }
-        return false;
     }
 
-    protected function canEditState($record): bool
+    protected function canEditState($record)
     {
         $user = Factory::getUser();
         return $user->authorise('core.edit.state', 'com_geofactory');
@@ -59,18 +58,33 @@ class GeofactoryModelGgmap extends AdminModel
     public function getItem($pk = null)
     {
         if ($item = parent::getItem($pk)) {
-            // Gestisci i parametri come array
-            foreach (['params_map_cluster', 'params_map_radius', 'params_additional_data', 'params_map_types', 
-                     'params_map_controls', 'params_map_settings', 'params_map_mouse'] as $paramName) {
-                if (property_exists($item, $paramName) && !empty($item->$paramName)) {
-                    $registry = new Registry;
-                    $registry->loadString($item->$paramName);
-                    $item->$paramName = $registry->toArray();
-                } else {
-                    // Inizializza come array vuoto se non esiste o è vuoto
-                    $item->$paramName = [];
-                }
-            }
+            $registry = new Registry;
+            $registry->loadString($item->params_map_cluster);
+            $item->params_map_cluster = $registry->toArray();
+
+            $registry = new Registry;
+            $registry->loadString($item->params_map_radius);
+            $item->params_map_radius = $registry->toArray();
+
+            $registry = new Registry;
+            $registry->loadString($item->params_additional_data);
+            $item->params_additional_data = $registry->toArray();
+
+            $registry = new Registry;
+            $registry->loadString($item->params_map_types);
+            $item->params_map_types = $registry->toArray();
+
+            $registry = new Registry;
+            $registry->loadString($item->params_map_controls);
+            $item->params_map_controls = $registry->toArray();
+
+            $registry = new Registry;
+            $registry->loadString($item->params_map_settings);
+            $item->params_map_settings = $registry->toArray();
+
+            $registry = new Registry;
+            $registry->loadString($item->params_map_mouse);
+            $item->params_map_mouse = $registry->toArray();
         }
         return $item;
     }
@@ -94,9 +108,7 @@ class GeofactoryModelGgmap extends AdminModel
     // Method to save the form data.
     public function save($data)
     {
-        if (isset($data['id']) && is_numeric($data['id'])) {
-            GeofactoryHelperAdm::delCacheFiles($data['id']);
-        }
+        GeofactoryHelperAdm::delCacheFiles($data['id']);
         return parent::save($data);
     }
 }

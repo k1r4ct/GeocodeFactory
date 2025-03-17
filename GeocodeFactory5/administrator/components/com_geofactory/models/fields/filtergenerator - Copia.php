@@ -36,13 +36,8 @@ class JFormFieldFilterGenerator extends FormField
         $jsPlugin = '';
         $config = ComponentHelper::getParams('com_geofactory');
         PluginHelper::importPlugin('geocodefactory');
-        
-        // Utilizzo del sistema di eventi Joomla 4
         $app = Factory::getApplication();
-        
-        // Evento getFilterGenerator con prefisso 'on'
-        $results = $app->triggerEvent('onGetFilterGenerator', array($typeList, &$jsPlugin, &$txt));
-        
+        $app->triggerEvent('getFilterGenerator', array($typeList, &$jsPlugin, &$txt));
         $this->addJs($jsPlugin);
 
         $html = array();
@@ -68,13 +63,11 @@ class JFormFieldFilterGenerator extends FormField
 
         PluginHelper::importPlugin('geocodefactory');
         $app = Factory::getApplication();
-        
-        // Evento getCustomFieldsForFilter con prefisso 'on'
-        $app->triggerEvent('onGetCustomFieldsForFilter', array($typeList, &$options, $all));
+
+        $app->triggerEvent('getCustomFieldsForFilter', array($typeList, &$options, $all));
 
         if (count($options) < 1) {
-            // Evento getCustomFields con prefisso 'on'
-            $app->triggerEvent('onGetCustomFields', array($typeList, &$options, $all));
+            $app->triggerEvent('getCustomFields', array($typeList, &$options, $all));
         }
  
         array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('JSELECT')));
@@ -108,14 +101,6 @@ class JFormFieldFilterGenerator extends FormField
         $js[] = $jsPlugin;
         $js[] = "    jQuery('#" . $this->id . "').val(jQuery('#" . $this->id . "').val() + ' ' + result);";
         $js[] = "}";
-        
-        // Assumiamo che GeofactoryHelperAdm sia disponibile e configurato per Joomla 4
-        if (class_exists('GeofactoryHelperAdm') && method_exists('GeofactoryHelperAdm', 'loadJsCode')) {
-            GeofactoryHelperAdm::loadJsCode($js);
-        } else {
-            // Fallback se il metodo non è disponibile
-            $document = Factory::getApplication()->getDocument();
-            $document->addScriptDeclaration(implode("\n", $js));
-        }
+        GeofactoryHelperAdm::loadJsCode($js);
     }
 }

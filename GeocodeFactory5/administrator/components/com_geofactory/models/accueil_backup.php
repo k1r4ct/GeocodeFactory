@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Factory;
 
 class GeofactoryModelAccueil extends AdminModel
 {
@@ -34,12 +33,7 @@ class GeofactoryModelAccueil extends AdminModel
 
     protected function loadFormData()
     {
-        // Controlla la sessione per eventuali dati precedentemente inseriti
-        $data = Factory::getApplication()->getUserState('com_geofactory.edit.accueil.data', array());
-        if (empty($data)) {
-            $data = new \stdClass();
-        }
-        return $data;
+        // Potresti implementare il caricamento dei dati qui se necessario
     }
 
     protected function prepareTable($table)

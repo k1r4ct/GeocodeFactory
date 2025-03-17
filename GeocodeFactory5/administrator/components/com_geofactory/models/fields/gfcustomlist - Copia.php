@@ -14,35 +14,24 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\FormFieldList;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 
-FormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('list');
 
-class JFormFieldgfCustomRadio extends FormFieldList
+class JFormFieldgfCustomList extends FormFieldList
 {
-    protected $type = 'gfCustomRadio';
+    protected $type = 'gfCustomList';
 
     protected function getOptions()
     {
         $config = ComponentHelper::getParams('com_geofactory');
         $options = array();
         $typeList = $this->form->getValue("typeList");
-        
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
+        $dispatcher = JDispatcher::getInstance();
 
-        if ($this->fieldname == "custom_radio_1") {
+        if ($this->fieldname == "custom_list_1") {
             $lab = null;
-            $app->triggerEvent('onGetCustomRadio_1', array($typeList, &$options, &$lab));
-            if ($lab) {
-                $this->element['label'] = $lab;
-            }
-        }
-
-        if ($this->fieldname == "custom_radio_2") {
-            $lab = null;
-            $app->triggerEvent('onGetCustomRadio_2', array($typeList, &$options, &$lab));
+            $dispatcher->trigger('getCustomList_1', array($typeList, &$options, &$lab));
             if ($lab) {
                 $this->element['label'] = $lab;
             }

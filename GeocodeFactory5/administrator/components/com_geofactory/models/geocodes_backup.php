@@ -5,7 +5,7 @@
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
- * @update      Daniele Bellante
+ * @update		Daniele Bellante
  * @website     www.myJoom.com
  */
 
@@ -16,9 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Application\ApplicationHelper;
 
 class GeofactoryModelGeocodes extends ListModel
 {
@@ -59,29 +56,24 @@ class GeofactoryModelGeocodes extends ListModel
     public function getListIdsToGeocode()
     {
         if (strlen($this->geocodeQuery) < 3) {
-            $app  = Factory::getApplication();
+            $app  = Factory::getApplication('administrator');
             $type = $app->input->get('typeliste', -1);
             $this->geocodeQuery = $this->getGeocodeQuery($type);
         }
 
-        $db = $this->getDbo();
+        $db = Factory::getDbo();
         $db->setQuery($this->geocodeQuery);
-        try {
-            $res = $db->loadObjectList();
-            if (!is_array($res) || count($res) < 1) {
-                return [];
-            }
-
-            $vRes = array();
-            foreach ($res as $r) {
-                $vRes[] = $r->item_id;
-            }
-
-            return $vRes;
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            return [];
+        $res = $db->loadObjectList();
+        if (!is_array($res) || count($res) < 1) {
+            return;
         }
+
+        $vRes = array();
+        foreach ($res as $r) {
+            $vRes[] = $r->item_id;
+        }
+
+        return $vRes;
     }
 
     protected function getGeocodeQuery($typeListe)
@@ -91,7 +83,7 @@ class GeofactoryModelGeocodes extends ListModel
             return $query;
         }
 
-        $app = Factory::getApplication();
+        $app = Factory::getApplication('administrator');
         $assign = $app->input->get('assign', -1);
         if ($assign < 1) {
             return $query;
@@ -99,14 +91,14 @@ class GeofactoryModelGeocodes extends ListModel
 
         $vAssign = GeofactoryHelperAdm::getAssignArray($assign);
         PluginHelper::importPlugin('geocodefactory');
+        $dispatcher = JDispatcher::getInstance();
 
         $filters = array(
             $app->input->get('filter_search'),
             $app->input->get('list_direction'),
             $app->input->get('filter_geocoded')
         );
-        
-        $queries = $app->triggerEvent('getListQueryBackGeocode', array($typeListe, $filters, $this, $vAssign));
+        $queries = $dispatcher->trigger('getListQueryBackGeocode', array($typeListe, $filters, $this, $vAssign));
 
         $ok = false;
         foreach ($queries as $q) {
@@ -127,15 +119,15 @@ class GeofactoryModelGeocodes extends ListModel
         if (!$ok) {
             return $query;
         }
-        
+        //echo nl2br(str_replace('#__','jos_',$query));
         return $query;
     }
 
     public function getAdress($id, $type, $vAssign)
     {
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
-        $results = $app->triggerEvent('getItemPostalAddress', array($type, $id, $vAssign));
+        $dispatcher = JDispatcher::getInstance();
+        $results = $dispatcher->trigger('getItemPostalAddress', array($type, $id, $vAssign));
 
         foreach ($results as $r) {
             // Cerca il risultato del plugin corretto
@@ -159,7 +151,7 @@ class GeofactoryModelGeocodes extends ListModel
             return '';
         }
 
-        $config = ComponentHelper::getParams('com_geofactory');
+        $config = \JComponentHelper::getParams('com_geofactory');
         $region = trim($config->get('ggRegion', ''));
         $ggSeparator = trim($config->get('ggSeparator'), '+');
         $ggSeparator = (strlen($ggSeparator) < 1) ? '+' : $ggSeparator;
@@ -172,14 +164,15 @@ class GeofactoryModelGeocodes extends ListModel
 
         $http = $config->get('sslSite');
         if (empty($http)) {
-            $http = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+            $http = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'])) ? "https://" : "http://";
         }
         if (strlen($region) == 2) {
             $region = "&region={$region}";
         }
 
         $adresse = implode($ggSeparator, $vAdd);
-        // Prepariamo l'URL in un modo più robusto
+        // $adresse = str_replace(array(' ','Æ','æ','Ø','ø','Å','å','Ñ', 'ñ'), array('+','AE','ae','O','o','A','a','N','n'), $adresse);
+        // $adresse = utf8_encode($adresse);
         $server = "https://maps.googleapis.com/maps/api/geocode/xml?{$region}{$ggApikey}";
         $urlRequest = $server . "&address=" . urlencode($adresse);
 
@@ -209,7 +202,7 @@ class GeofactoryModelGeocodes extends ListModel
         $geocoded = $this->getUserStateFromRequest($this->context . '.filter.geocoded', 'filter_geocoded');
         $this->setState('filter.geocoded', $geocoded);
 
-        $params = ComponentHelper::getParams('com_geofactory');
+        $params = \JComponentHelper::getParams('com_geofactory');
         $this->setState('params', $params);
 
         parent::populateState('a.name', 'asc');
@@ -228,8 +221,8 @@ class GeofactoryModelGeocodes extends ListModel
         }
 
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
-        $results = $app->triggerEvent('setItemCoordinates', array($type, $id, $coor, $vAssign));
+        $dispatcher = JDispatcher::getInstance();
+        $results = $dispatcher->trigger('setItemCoordinates', array($type, $id, $coor, $vAssign));
 
         foreach ($results as $r) {
             if (count($r) != 2) {
@@ -267,82 +260,69 @@ class GeofactoryModelGeocodes extends ListModel
 
     public function geocodeItem($urlRequest)
     {
-        $config = ComponentHelper::getParams('com_geofactory');
+        $config = \JComponentHelper::getParams('com_geofactory');
         $delay = 333333; // 1/3 di secondo in microsecondi
         $coor = array(255, 255, Text::_('COM_GEOFACTORY_GEOCODE_ERR_UNKNOWN'));
         $geocodePending = true;
 
         if ((int) $config->get('isDebug', 0) == 1) {
-            Factory::getApplication()->enqueueMessage('<a href="' . $urlRequest . '">debug</a><br>');
+            echo '<a href="' . $urlRequest . '">debug</a><br>';
         }
 
         if (strlen($urlRequest) < 3) {
             $coor[2] = 'No address to geocode';
-            Log::add('NO_ADDRESS :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
+            Log::add('NO_ADDRESS :: ' . $coor[2]);
             return $coor;
         }
 
         while ($geocodePending) {
             if ($delay > 15000000) {
                 $coor[2] = 'Geocode time out, more than 15 secondes to geocode';
-                Log::add('TIME_OUT :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
+                Log::add('TIME_OUT :: ' . $coor[2]);
                 return $coor;
             }
 
             usleep($delay);
 
-            try {
-                $http = HttpFactory::getHttp();
-                $response = $http->get($urlRequest);
-                
-                if ($response->code != 200) {
-                    $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_SERVER');
-                    Log::add('BAD_SERVER_RESPONSE :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
-                    return $coor;
-                }
-
-                $xml = simplexml_load_string($response->body);
-                if (!$xml) {
-                    $coor[2] = 'Invalid XML response';
-                    Log::add('INVALID_XML :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
-                    return $coor;
-                }
-                
-                $status = $xml->status;
-
-                if (strcmp($status, "OK") == 0) {
-                    $geocodePending = false;
-                    Log::add((string)$status, Log::INFO, 'com_geofactory.geocode');
-                    return array(
-                        (double) $xml->result->geometry->location->lat,
-                        (double) $xml->result->geometry->location->lng,
-                        "Successfull geocoded"
-                    );
-                } else if (strcmp($status, "ZERO_RESULTS") == 0) {
-                    $geocodePending = false;
-                    $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_NO_RESULT');
-                    Log::add($status . ' :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
-                    return $coor;
-                } else if (strcmp($status, "OVER_QUERY_LIMIT") == 0) {
-                    $geocodePending = false;
-                    $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_OVER_LIMIT');
-                    Log::add($status . ' :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
-                    return $coor;
-                } else if (strcmp($status, "REQUEST_DENIED") == 0) {
-                    $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_DENIED');
-                    Log::add($status . ' :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
-                    return $coor;
-                } else if (strcmp($status, "INVALID_REQUEST") == 0) {
-                    $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_INVALID');
-                    Log::add($status . ' :: ' . $coor[2], Log::INFO, 'com_geofactory.geocode');
-                    return $coor;
-                } else {
-                    $delay += 100000;
-                }
-            } catch (\Exception $e) {
-                $coor[2] = 'HTTP request error: ' . $e->getMessage();
-                Log::add('HTTP_ERROR :: ' . $coor[2], Log::ERROR, 'com_geofactory.geocode');
+            $http = \JHttpFactory::getHttp();
+            $response = $http->get($urlRequest);
+            if (200 != $response->code) {
+                $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_SERVER');
+                Log::add('BAD_SERVER_RESPONSE :: ' . $coor[2]);
                 return $coor;
+            }
+
+            $xml = simplexml_load_string($response->body);
+            $status = $xml->status;
+
+            if (strcmp($status, "OK") == 0) {
+                $geocodePending = false;
+                Log::add($status);
+                return array(
+                    (double) $xml->result->geometry->location->lat,
+                    (double) $xml->result->geometry->location->lng,
+                    "Successfull geocoded"
+                );
+            } else if (strcmp($status, "ZERO_RESULTS") == 0) {
+                $geocodePending = false;
+                $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_NO_RESULT');
+                Log::add($status . ' :: ' . $coor[2]);
+                return $coor;
+            } else if (strcmp($status, "OVER_QUERY_LIMIT") == 0) {
+                $geocodePending = false;
+                $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_OVER_LIMIT');
+                Log::add($status . ' :: ' . $coor[2]);
+                return $coor;
+            } else if (strcmp($status, "REQUEST_DENIED") == 0) {
+                $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_DENIED');
+                Log::add($status . ' :: ' . $coor[2]);
+                return $coor;
+            } else if (strcmp($status, "INVALID_REQUEST") == 0) {
+                $coor[2] = Text::_('COM_GEOFACTORY_GEOCODE_ERR_INVALID');
+                Log::add($status . ' :: ' . $coor[2]);
+                return $coor;
+            } else {
+                $delay += 100000;
             }
         }
         return $coor;
@@ -350,58 +330,38 @@ class GeofactoryModelGeocodes extends ListModel
 
     public function getCurGeocodeId($query, $cur)
     {
-        $db = $this->getDbo();
-        try {
-            $db->setQuery($query, $cur, 1);
-            $res = $db->loadObjectList();
+        $db = Factory::getDbo();
+        $db->setQuery($query, $cur, 1);
+        echo $query;
+        $res = $db->loadObjectList();
 
-            if (count($res) < 1) {
-                return -1;
-            }
-
-            $r = $res[0];
-            return $r->item_id;
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        if (count($res) < 1) {
             return -1;
         }
+
+        $r = $res[0];
+        return $r->item_id;
     }
 
     public function deleteFromGFTable($type)
     {
         $app = Factory::getApplication();
         $ids = $app->input->get('cid', array(), 'array');
-        
+        ArrayHelper::toInteger($ids);
         if (!is_array($ids)) {
             $ids = array($ids);
         }
-        
-        // Assicuriamoci che tutti gli ID siano interi
-        foreach ($ids as &$id) {
-            $id = (int)$id;
-        }
-        
         if (count($ids) < 1) {
             return;
         }
 
-        $db = $this->getDbo();
-        try {
-            $query = $db->getQuery(true)
-                ->delete($db->quoteName('#__geofactory_contents'))
-                ->where($db->quoteName('type') . ' = ' . $db->quote($type))
-                ->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $ids) . ') OR (' 
-                      . $db->quoteName('id_content') . ' > 100000000))');
-            
-            $db->setQuery($query);
-            $db->execute();
-            
-            Factory::getApplication()->enqueueMessage(
-                Text::sprintf('COM_GEOFACTORY_DELETE_POSITIONS_SUCCESS', count($ids)),
-                'success'
-            );
-        } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-        }
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true);
+        $db->setQuery(
+            'DELETE FROM ' . $db->quoteName('#__geofactory_contents') .
+            ' WHERE type = ' . $db->quote($type) .
+            ' AND (id IN (' . implode(',', $ids) . ') OR (id_content > 100000000))'
+        );
+        $db->execute();
     }
 }

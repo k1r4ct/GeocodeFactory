@@ -32,32 +32,20 @@ class GeofactoryModelTerms extends BaseModel
         $config->set('showTerms', $iEnable);
 
         // Recupera l'ID del componente e carica la configurazione nell'estensione
-        $component = ComponentHelper::getComponent('com_geofactory');
-        $componentid = $component->id;
-        
-        if (empty($componentid)) {
-            $this->setError('Component not found');
-            return false;
-        }
-        
+        $componentid = ComponentHelper::getComponent('com_geofactory')->id;
         $table = Table::getInstance('extension');
-        
-        if (!$table->load($componentid)) {
-            $this->setError('Failed to load extension: ' . $table->getError());
-            return false;
-        }
-        
+        $table->load($componentid);
         $table->bind(array('params' => $config->toString()));
 
         // Controlla eventuali errori durante il check della tabella
         if (!$table->check()) {
-            $this->setError('Table check failed: ' . $table->getError());
+            $this->setError('lastcreatedate: check: ' . $table->getError());
             return false;
         }
 
         // Salva le modifiche sul database
         if (!$table->store()) {
-            $this->setError('Table store failed: ' . $table->getError());
+            $this->setError('lastcreatedate: store: ' . $table->getError());
             return false;
         }
 
@@ -65,18 +53,5 @@ class GeofactoryModelTerms extends BaseModel
         $this->cleanCache('com_geofactory');
 
         return true;
-    }
-    
-    /**
-     * Pulisce la cache per una sezione specifica.
-     *
-     * @param   string   $group   The cache group
-     * @param   integer  $client  The ID of the client
-     *
-     * @return  void
-     */
-    public function cleanCache($group = null, $client = 0)
-    {
-        parent::cleanCache($group, $client);
     }
 }

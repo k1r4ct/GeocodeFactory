@@ -59,14 +59,14 @@ class GeofactoryControllerGeocodes extends AdminController
         $cur    = $app->input->getInt('cur', -1);
         $max    = $app->input->getInt('total', -1);
         $err    = $app->input->getInt('errors', -1);
-        $type   = $app->input->getString('type', '');
-        $assign = $app->input->getInt('assign', 0);
+        $type   = $app->input->get('type');
+        $assign = $app->input->getInt('assign');
 
         $model   = $this->getModel('Geocodes');
         $vAssign = GeofactoryHelperAdm::getAssignArray($assign);
 
         $config    = ComponentHelper::getParams('com_geofactory');
-        $geocodeLog = (int)$config->get('geocodeLog', 0);
+        $geocodeLog = (int)$config->get('geocodeLog');
 
         if ($geocodeLog) {
             if ($log === null) {
@@ -92,11 +92,7 @@ class GeofactoryControllerGeocodes extends AdminController
             $msg .= '#-@' . implode('#-@', $coor);
         }
         echo $msg;
-        
-        // In Joomla 4, usiamo un metodo più moderno per terminare l'applicazione
-        $app->getDocument()->setMimeEncoding('text/html');
-        $app->sendHeaders();
-        $app->close();
+        exit;
     }
 
     public function getcurrentitemaddressraw()
@@ -106,18 +102,14 @@ class GeofactoryControllerGeocodes extends AdminController
         $cur = $app->input->getInt('cur', -1);
         $max = $app->input->getInt('total', -1);
         $err = $app->input->getInt('errors', -1);
-        $type = $app->input->getString('type', '');
-        $assign = $app->input->getInt('assign', 0);
+        $type = $app->input->get('type');
+        $assign = $app->input->getInt('assign');
         $model = $this->getModel('Geocodes');
         $vAssign = GeofactoryHelperAdm::getAssignArray($assign);
         $adr = $model->getAdress($id, $type, $vAssign);
         $adr = trim(implode(' ', $adr));
         echo $adr;
-        
-        // In Joomla 4, usiamo un metodo più moderno per terminare l'applicazione
-        $app->getDocument()->setMimeEncoding('text/plain');
-        $app->sendHeaders();
-        $app->close();
+        exit;
     }
 
     public function axsavecoord()
@@ -128,11 +120,11 @@ class GeofactoryControllerGeocodes extends AdminController
         $cur = $app->input->getInt('cur', -1);
         $max = $app->input->getInt('total', -1);
         $err = $app->input->getInt('errors', -1);
-        $type = $app->input->getString('type', '');
-        $assign = $app->input->getInt('assign', 0);
+        $type = $app->input->get('type');
+        $assign = $app->input->getInt('assign');
         $coor[] = $app->input->getFloat('savlat');
         $coor[] = $app->input->getFloat('savlng');
-        $coor[] = $app->input->getString('savMsg', '');
+        $coor[] = $app->input->get('savMsg');
         $adresse = $app->input->getString('adresse', '-');
         $adresse = [$adresse];
         $model = $this->getModel('Geocodes');
@@ -140,19 +132,15 @@ class GeofactoryControllerGeocodes extends AdminController
         $save = $model->saveCoord($id, $coor, $type, $vAssign);
         $msg = $model->htmlResult($cur, $max, $adresse, $save);
         echo $msg;
-        
-        // In Joomla 4, usiamo un metodo più moderno per terminare l'applicazione
-        $app->getDocument()->setMimeEncoding('text/html');
-        $app->sendHeaders();
-        $app->close();
+        exit;
     }
 
     public function geocodeuniqueitem()
     {
         $app = Factory::getApplication();
         $id = $app->input->getInt('cur', -1);
-        $type = $app->input->getString('type', '');
-        $assign = $app->input->getInt('assign', 0);
+        $type = $app->input->get('type');
+        $assign = $app->input->getInt('assign');
         $model = $this->getModel('Geocodes');
         $vAssign = GeofactoryHelperAdm::getAssignArray($assign);
         $adr = $model->getAdress($id, $type, $vAssign);
@@ -161,27 +149,23 @@ class GeofactoryControllerGeocodes extends AdminController
         $save = $model->saveCoord($id, $coor, $type, $vAssign);
         $msg = $model->htmlResult($id, 1, $adr, $save, false);
         $config = ComponentHelper::getParams('com_geofactory');
-        $ggApikey = (strlen($config->get('ggApikeySt', '')) > 3) ? '&key=' . $config->get('ggApikeySt') : '';
-        $http = $config->get('sslSite', '');
+        $ggApikey = (strlen($config->get('ggApikeySt')) > 3) ? '&key=' . $config->get('ggApikeySt') : '';
+        $http = $config->get('sslSite');
         if (empty($http)) {
             $http = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
         }
         $img = '<img src="' . $http . 'maps.googleapis.com/maps/api/staticmap?center=' . $coor[0] . ',' . $coor[1] . '&zoom=15&size=200x100&markers=' . $coor[0] . ',' . $coor[1] . $ggApikey . '">';
         echo $img . '<br />' . $msg;
-        
-        // In Joomla 4, usiamo un metodo più moderno per terminare l'applicazione
-        $app->getDocument()->setMimeEncoding('text/html');
-        $app->sendHeaders();
-        $app->close();
+        exit;
     }
 
     public function getaddress()
     {
         $app = Factory::getApplication();
         $id = $app->input->getInt('idCur', -1);
-        $type = $app->input->getString('type', '');
-        $assignId = $app->input->getInt('assign', 0);
-        $gglink = (bool)$app->input->getInt('gglink', 0);
+        $type = $app->input->getString('type');
+        $assignId = $app->input->getInt('assign');
+        $gglink = (bool)$app->input->getInt('gglink');
         $model = $this->getModel('Geocodes');
         $vAssign = GeofactoryHelperAdm::getAssignArray($assignId);
         $adr = $model->getAdress($id, $type, $vAssign);
@@ -197,18 +181,14 @@ class GeofactoryControllerGeocodes extends AdminController
         } else {
             echo '<br /><strong>' . Text::_('COM_GEOFACTORY_ADDRESS') . ' : </strong><br />' . implode("<br />", $adr);
         }
-        
-        // In Joomla 4, usiamo un metodo più moderno per terminare l'applicazione
-        $app->getDocument()->setMimeEncoding('text/html');
-        $app->sendHeaders();
-        $app->close();
+        exit;
     }
 
     public function deletek2()
     {
         $app = Factory::getApplication();
-        $type = $app->input->getString('typeliste', '');
-        $assign = $app->input->getInt('assign', 0);
+        $type = $app->input->get('typeliste');
+        $assign = $app->input->getInt('assign');
         $model = $this->getModel('Geocodes');
         $model->deleteFromGFTable('com_k2');
         $this->setRedirect(Route::_('index.php?option=com_geofactory&view=geocodes&typeliste=' . $type . '&assign=' . $assign, false));
@@ -217,8 +197,8 @@ class GeofactoryControllerGeocodes extends AdminController
     public function deletejc()
     {
         $app = Factory::getApplication();
-        $type = $app->input->getString('typeliste', '');
-        $assign = $app->input->getInt('assign', 0);
+        $type = $app->input->get('typeliste');
+        $assign = $app->input->getInt('assign');
         $model = $this->getModel('Geocodes');
         $model->deleteFromGFTable('com_content');
         $this->setRedirect(Route::_('index.php?option=com_geofactory&view=geocodes&typeliste=' . $type . '&assign=' . $assign, false));
@@ -227,8 +207,8 @@ class GeofactoryControllerGeocodes extends AdminController
     public function deletejct()
     {
         $app = Factory::getApplication();
-        $type = $app->input->getString('typeliste', '');
-        $assign = $app->input->getInt('assign', 0);
+        $type = $app->input->get('typeliste');
+        $assign = $app->input->getInt('assign');
         $model = $this->getModel('Geocodes');
         $model->deleteFromGFTable('com_contact');
         $this->setRedirect(Route::_('index.php?option=com_geofactory&view=geocodes&typeliste=' . $type . '&assign=' . $assign, false));

@@ -5,20 +5,19 @@
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
+ * @update		Daniele Bellante
  * @website     www.myJoom.com
- * @update      Daniele Bellante
  */
-
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseQuery;
 
-class GeofactoryModelGgmaps extends ListModel
+class GeofactoryModelMarkersets extends ListModel
 {
     public function __construct($config = array())
     {
@@ -27,9 +26,10 @@ class GeofactoryModelGgmaps extends ListModel
                 'id', 'a.id',
                 'name', 'a.name',
                 'state', 'a.state',
+                'ordering', 'a.ordering',
                 'checked_out', 'a.checked_out',
                 'checked_out_time', 'a.checked_out_time',
-                'nbrMs'
+                'nbrMaps'
             );
         }
         parent::__construct($config);
@@ -38,7 +38,7 @@ class GeofactoryModelGgmaps extends ListModel
     /**
      * Method to auto-populate the model state.
      *
-     * Note. Calling getState in this method will result in recursion.
+     * Note: Calling getState in this method may result in recursion.
      *
      * @since   1.6
      */
@@ -46,17 +46,18 @@ class GeofactoryModelGgmaps extends ListModel
     {
         $app = Factory::getApplication('administrator');
 
-        // Load the filter state.
-        $search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
 
-        $state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+        $state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
         $this->setState('filter.state', $state);
 
-        $msId = $this->getUserStateFromRequest($this->context.'.filter.markerset_id', 'filter_markerset_id', '');
-        $this->setState('filter.markerset_id', $msId);
+        $mapId = $this->getUserStateFromRequest($this->context . '.filter.map_id', 'filter_map_id', '');
+        $this->setState('filter.map_id', $mapId);
 
-        // Load the parameters.
+        $ext = $this->getUserStateFromRequest($this->context . '.filter.extension', 'filter_extension', '');
+        $this->setState('filter.extension', $ext);
+
         $params = ComponentHelper::getParams('com_geofactory');
         $this->setState('params', $params);
 
@@ -74,13 +75,14 @@ class GeofactoryModelGgmaps extends ListModel
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.access');
         $id .= ':' . $this->getState('filter.state');
+
         return parent::getStoreId($id);
     }
 
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery  A query object.
+     * @return  mixed   The SQL query object.
      */
     protected function getListQuery()
     {
@@ -93,46 +95,57 @@ class GeofactoryModelGgmaps extends ListModel
                 'a.id AS id,' .
                 'a.name AS name,' .
                 'a.extrainfo AS extrainfo,' .
+                'a.ordering AS ordering,' .
+                'a.typeList AS typeList,' .
                 'a.checked_out AS checked_out,' .
-                'a.checked_out_time AS checked_out_time,' .
+                'a.checked_out_time AS checked_out_time, ' .
                 'a.state AS state'
             )
         );
 
-        $query->from($db->quoteName('#__geofactory_ggmaps') . ' AS a');
+        $query->from($db->quoteName('#__geofactory_markersets') . ' AS a');
 
-        $query->select('COUNT(lm.id_map) as nbrMs');
-        $query->join('LEFT', $db->quoteName('#__geofactory_link_map_ms') . ' AS lm ON a.id = lm.id_map');
+        $query->select('COUNT(lm.id_ms) as nbrMaps');
+        $query->join('LEFT', '#__geofactory_link_map_ms AS lm ON a.id = lm.id_ms');
 
         $query->select('uc.name AS editor');
-        $query->join('LEFT', $db->quoteName('#__users') . ' AS uc ON uc.id = a.checked_out');
+        $query->join('LEFT', '#__users AS uc ON uc.id = a.checked_out');
 
-        $msId = $this->getState('filter.markerset_id');
-        if (is_numeric($msId)) {
-            $query->where('lm.id_ms=' . (int)$msId);
+        $mapId = $this->getState('filter.map_id');
+        if (is_numeric($mapId)) {
+            $query->where('lm.id_map=' . (int) $mapId);
+        }
+
+        $ext = $this->getState('filter.extension');
+        if (strlen($ext) > 3) {
+            $query->where('a.typeList=' . $db->Quote($ext));
         }
 
         $published = $this->getState('filter.state');
         if (is_numeric($published)) {
-            $query->where('a.state = ' . (int)$published);
+            $query->where('a.state = ' . (int) $published);
         } elseif ($published === '') {
             $query->where('(a.state IN (0, 1))');
         }
 
-        // In MySQL 8 e modalità SQL strict richiesti da PHP 8.2, tutte le colonne in SELECT devono essere nei GROUP BY
-        $query->group('a.id, a.name, a.extrainfo, a.checked_out, a.checked_out_time, a.state, editor');
+        $query->group('a.id, a.name, a.checked_out, a.checked_out_time, a.state, editor');
 
         $search = $this->getState('filter.search');
         if (!empty($search)) {
             if (stripos($search, 'id:') === 0) {
-                $query->where('a.id = ' . (int)substr($search, 3));
+                $query->where('a.id = ' . (int) substr($search, 3));
             } else {
                 $search = $db->Quote('%' . $db->escape($search, true) . '%');
                 $query->where('a.name LIKE ' . $search);
             }
         }
-
-        $query->order($db->escape('a.name') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+        
+        $orderCol = $this->state->get('list.ordering');
+        $orderDirn = $this->state->get('list.direction');
+        if ($orderCol == 'a.ordering') {
+            $orderCol = $orderDirn . ', a.ordering';
+        }
+        $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
     }

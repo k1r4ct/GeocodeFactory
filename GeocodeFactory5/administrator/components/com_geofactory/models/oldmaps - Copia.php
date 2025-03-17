@@ -26,18 +26,18 @@ class GeofactoryModelOldmaps extends ListModel
      */
     protected function getListQuery()
     {
-        $app = Factory::getApplication();
-        $prefix = $app->get('dbprefix');
+        $app    = Factory::getApplication();
+        $prefix = $app->getCfg('dbprefix');
 
         $db = $this->getDbo();
 
         // Prova a connettersi a un'altra database
         $config = ComponentHelper::getParams('com_geofactory');
-        $extDb = $config->get('import-database');
+        $extDb  = $config->get('import-database');
         if (strlen($extDb) > 0) {
             $prefix = $config->get('import-prefix');
             $db = GeofactoryHelperAdm::loadExternalDb();
-            $this->setDbo($db);
+            parent::setDbo($db);
         }
 
         $tables = $db->getTableList();
@@ -64,6 +64,7 @@ class GeofactoryModelOldmaps extends ListModel
 
         $query->group('a.id, a.title');
 
+        // echo nl2br(str_replace('#__','pec30_',$query));
         return $query;
     }
 
@@ -101,6 +102,7 @@ class GeofactoryModelOldmaps extends ListModel
 
         $new->check();
         if (!$new->store()) {
+            // Correzione: usa $new->getError() anziché $table->getError()
             $new->setError($new->getError());
         }
         $newMapId = $new->id;
@@ -129,10 +131,10 @@ class GeofactoryModelOldmaps extends ListModel
         $db = Factory::getDbo();
 
         $config = ComponentHelper::getParams('com_geofactory');
-        $extDb = $config->get('import-database');
+        $extDb  = $config->get('import-database');
         if (strlen($extDb) > 0) {
             $db = GeofactoryHelperAdm::loadExternalDb();
-            $this->setDbo($db);
+            parent::setDbo($db);
         }
 
         $query = $db->getQuery(true);

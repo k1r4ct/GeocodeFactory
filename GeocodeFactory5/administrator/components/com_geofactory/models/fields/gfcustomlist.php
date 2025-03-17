@@ -14,8 +14,10 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\FormFieldList;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 class JFormFieldgfCustomList extends FormFieldList
 {
@@ -26,12 +28,13 @@ class JFormFieldgfCustomList extends FormFieldList
         $config = ComponentHelper::getParams('com_geofactory');
         $options = array();
         $typeList = $this->form->getValue("typeList");
+        
         PluginHelper::importPlugin('geocodefactory');
-        $dispatcher = JDispatcher::getInstance();
+        $app = Factory::getApplication();
 
         if ($this->fieldname == "custom_list_1") {
             $lab = null;
-            $dispatcher->trigger('getCustomList_1', array($typeList, &$options, &$lab));
+            $app->triggerEvent('onGetCustomList_1', array($typeList, &$options, &$lab));
             if ($lab) {
                 $this->element['label'] = $lab;
             }

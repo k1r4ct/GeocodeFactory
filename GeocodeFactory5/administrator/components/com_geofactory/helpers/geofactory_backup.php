@@ -25,20 +25,14 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\Sidebar;
 use Joomla\CMS\Object\CMSObject;
 use RuntimeException;
 
 // Includiamo i file helper necessari
-if (file_exists(JPATH_SITE . '/components/com_geofactory/helpers/geofactoryPlugin.php')) {
-    require_once JPATH_SITE . '/components/com_geofactory/helpers/geofactoryPlugin.php';
-}
-if (file_exists(JPATH_ADMINISTRATOR . '/components/com_geofactory/helpers/geofactoryUpdater.php')) {
-    require_once JPATH_ADMINISTRATOR . '/components/com_geofactory/helpers/geofactoryUpdater.php';
-}
-if (file_exists(JPATH_ADMINISTRATOR . '/components/com_geofactory/tables/assign.php')) {
-    require_once JPATH_ADMINISTRATOR . '/components/com_geofactory/tables/assign.php';
-}
+require_once JPATH_SITE . '/components/com_geofactory/helpers/geofactoryPlugin.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_geofactory/helpers/geofactoryUpdater.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_geofactory/tables/assign.php';
 
 /**
  * Classe helper per la parte amministrativa di Geocode Factory
@@ -47,59 +41,46 @@ class GeofactoryHelperAdm
 {
     /**
      * Configura la sidebar amministrativa
-     * 
-     * Aggiornato per Joomla 4: usa l'approccio moderno per il menu laterale
      *
      * @param   string  $vName  Nome della view attiva
      */
     public static function addSubmenu($vName = 'geofactory')
     {
-        // In Joomla 4, utilizziamo un approccio diverso con il menu laterale
-        // Se la classe Sidebar esiste ancora, continuiamo a usarla per retrocompatibilità
-        if (class_exists('\Joomla\CMS\HTML\Sidebar')) {
-            \Joomla\CMS\HTML\Sidebar::addEntry(
-                Text::_('COM_GEOFACTORY_MENU_CPANEL'),
-                'index.php?option=com_geofactory&view=accueil',
-                $vName === 'accueil'
-            );
-            \Joomla\CMS\HTML\Sidebar::addEntry(
-                Text::_('COM_GEOFACTORY_MENU_MAPS_MANAGER'),
-                'index.php?option=com_geofactory&view=ggmaps',
-                $vName === 'ggmaps'
-            );
-            \Joomla\CMS\HTML\Sidebar::addEntry(
-                Text::_('COM_GEOFACTORY_MENU_MARKERSETS_MANAGER'),
-                'index.php?option=com_geofactory&view=markersets',
-                $vName === 'markersets'
-            );
-            \Joomla\CMS\HTML\Sidebar::addEntry(
-                Text::_('COM_GEOFACTORY_MENU_GEOCODING'),
-                'index.php?option=com_geofactory&view=geocodes',
-                $vName === 'geocodes'
-            );
-            \Joomla\CMS\HTML\Sidebar::addEntry(
-                Text::_('COM_GEOFACTORY_MENU_ASSIGN_PATTERN'),
-                'index.php?option=com_geofactory&view=assigns',
-                $vName === 'assigns'
-            );
-        }
+        Sidebar::addEntry(
+            Text::_('COM_GEOFACTORY_MENU_CPANEL'),
+            'index.php?option=com_geofactory&view=accueil',
+            $vName === 'accueil'
+        );
+        Sidebar::addEntry(
+            Text::_('COM_GEOFACTORY_MENU_MAPS_MANAGER'),
+            'index.php?option=com_geofactory&view=ggmaps',
+            $vName === 'ggmaps'
+        );
+        Sidebar::addEntry(
+            Text::_('COM_GEOFACTORY_MENU_MARKERSETS_MANAGER'),
+            'index.php?option=com_geofactory&view=markersets',
+            $vName === 'markersets'
+        );
+        Sidebar::addEntry(
+            Text::_('COM_GEOFACTORY_MENU_GEOCODING'),
+            'index.php?option=com_geofactory&view=geocodes',
+            $vName === 'geocodes'
+        );
+        Sidebar::addEntry(
+            Text::_('COM_GEOFACTORY_MENU_ASSIGN_PATTERN'),
+            'index.php?option=com_geofactory&view=assigns',
+            $vName === 'assigns'
+        );
     }
 
     /**
      * Ritorna link di shortcut per la modifica di oggetti
-     *
-     * @param   array   $items  Array di oggetti
-     * @param   string  $task   Task per il link
-     * @return  string  HTML dei link generati
      */
     public static function getLinksEditShortCuts($items, $task)
     {
         $res = [];
         if (is_array($items) && count($items)) {
             foreach ($items as $item) {
-                if (!isset($item->value) || !isset($item->text)) {
-                    continue;
-                }
                 $res[] = '<a style="font-size:0.75em!important;" class="badge bg-info" '
                     . 'href="index.php?option=com_geofactory&task='
                     . $task . '.edit&id=' . $item->value . '">'
@@ -111,8 +92,6 @@ class GeofactoryHelperAdm
 
     /**
      * Ottiene la lista di azioni ACL (core.manage, core.edit, ecc.)
-     *
-     * @return  CMSObject  Oggetto con le azioni e i relativi permessi
      */
     public static function getActions()
     {
@@ -128,8 +107,8 @@ class GeofactoryHelperAdm
             return $result;
         }
 
-        // Carica il file XML in modo sicuro
-        $xml = @simplexml_load_file($xmlFile);
+        // Carica il file XML
+        $xml = simplexml_load_file($xmlFile);
         if (!$xml)
         {
             return $result;
@@ -167,7 +146,7 @@ class GeofactoryHelperAdm
         if ((int)$config->get('isDebug', 0) === 1) {
             $js = implode("\n", $js);
         } else {
-            $js = str_replace('  ', '', implode('', $js));
+            $js = str_replace('  ', '', implode($js));
         }
 
         $document = Factory::getDocument();
@@ -176,9 +155,6 @@ class GeofactoryHelperAdm
 
     /**
      * Ritorna un array di oggetti (value, text) dal plugin geocodefactory.
-     * 
-     * @param   boolean  $unique  Se true, ritorna valori unici
-     * @return  array    Array di oggetti stdClass
      */
     public static function getArrayObjTypeListe($unique = false)
     {
@@ -197,7 +173,7 @@ class GeofactoryHelperAdm
                     continue;
                 }
                 foreach ($vNames as $id => $name) {
-                    if (!is_array($name) || count($name) !== 2) {
+                    if (count($name) !== 2) {
                         continue;
                     }
                     $text = $name[1];
@@ -225,8 +201,6 @@ class GeofactoryHelperAdm
 
     /**
      * Elementi "avanzati" da nascondere in modalità basic (per la mappa)
-     * 
-     * @return array Array di campi da nascondere
      */
     public static function getExpertMap()
     {
@@ -261,8 +235,6 @@ class GeofactoryHelperAdm
 
     /**
      * Elementi "avanzati" da nascondere in modalità basic (per markerset)
-     * 
-     * @return array Array di campi da nascondere
      */
     public static function getExpertMarkerset()
     {
@@ -271,14 +243,11 @@ class GeofactoryHelperAdm
 
     /**
      * Ritorna la lista degli ID delle mappe collegate a un markerset
-     * 
-     * @param   integer  $id  ID del markerset
-     * @return  array|null  Array di ID delle mappe o null
      */
     public static function getArrayMapsFromMs($id)
     {
         if ($id < 1) {
-            return null;
+            return;
         }
         $maps = [];
         $db = Factory::getDbo();
@@ -287,29 +256,21 @@ class GeofactoryHelperAdm
             ->from('#__geofactory_link_map_ms')
             ->where('id_ms=' . (int)$id);
         $db->setQuery($query);
-        try {
-            $res = $db->loadObjectList();
-            if (!is_array($res) || empty($res)) {
-                return null;
-            }
-            foreach ($res as $v) {
-                if (!isset($v->id_map) || $v->id_map < 1) {
-                    continue;
-                }
-                $maps[] = $v->id_map;
-            }
-            return $maps;
-        } catch (RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            return null;
+        $res = $db->loadObjectList();
+        if (!is_array($res) || !count($res)) {
+            return;
         }
+        foreach ($res as $v) {
+            if ($v->id_map < 1) {
+                continue;
+            }
+            $maps[] = $v->id_map;
+        }
+        return $maps;
     }
 
     /**
      * Ritorna un array di "assignation pattern"
-     * 
-     * @param   string|null  $curType  Tipo corrente
-     * @return  array  Array di oggetti
      */
     public static function getArrayObjAssign($curType = null)
     {
@@ -326,15 +287,13 @@ class GeofactoryHelperAdm
         try {
             $options = $db->loadObjectList();
         } catch (RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
         return $options;
     }
 
     /**
      * Ritorna un array di mappe (attive)
-     * 
-     * @return  array  Array di oggetti
      */
     public static function getArrayListMaps()
     {
@@ -349,17 +308,11 @@ class GeofactoryHelperAdm
         try {
             $options = $db->loadObjectList();
         } catch (RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
         return $options;
     }
 
-    /**
-     * Ritorna le opzioni per la lista delle mappe
-     * 
-     * @param   integer  $type  Tipo di selezione
-     * @return  array  Array di opzioni
-     */
     public static function getMapsOptions($type = 0)
     {
         $options = self::getArrayListMaps();
@@ -374,8 +327,6 @@ class GeofactoryHelperAdm
 
     /**
      * Ritorna un array di markersets
-     * 
-     * @return  array  Array di oggetti
      */
     public static function getArrayListMarkersets()
     {
@@ -389,17 +340,11 @@ class GeofactoryHelperAdm
         try {
             $options = $db->loadObjectList();
         } catch (RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
         }
         return $options;
     }
 
-    /**
-     * Ritorna le opzioni per la lista dei markersets
-     * 
-     * @param   integer  $type  Tipo di selezione
-     * @return  array  Array di opzioni
-     */
     public static function getMarkersetsOptions($type = 0)
     {
         $options = self::getArrayListMarkersets();
@@ -414,11 +359,6 @@ class GeofactoryHelperAdm
 
     /**
      * Usato per import (carica parametri personalizzati da #__geocode_factory_parametres)
-     * 
-     * @param   array     $listVal  Array di valori predefiniti
-     * @param   integer   $typ      Tipo (1=map, 2=markerset)
-     * @param   integer   $id       ID dell'oggetto
-     * @param   object    $obj      Oggetto in cui caricare i valori
      */
     public static function loadMultiParamFor($listVal, $typ, $id, &$obj)
     {
@@ -445,15 +385,10 @@ class GeofactoryHelperAdm
             ->where($where);
 
         $db->setQuery($query);
-        try {
-            $opm = $db->loadObjectList();
-        } catch (RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-            $opm = [];
-        }
+        $opm = $db->loadObjectList();
 
         if (!is_array($opm)) {
-            $opm = [];
+            $opm = [0];
         }
 
         if (!$obj) {
@@ -481,9 +416,9 @@ class GeofactoryHelperAdm
             $obj->markerIconType = 0;
             if (!empty($obj->marker) && strlen($obj->marker) > 3) {
                 $obj->markerIconType = 1;
-            } elseif (isset($obj->avatarAsIcon) && !empty($obj->avatarAsIcon) && $obj->avatarAsIcon == 1) {
+            } elseif (!empty($obj->avatarAsIcon) && $obj->avatarAsIcon == 1) {
                 $obj->markerIconType = 3;
-            } elseif (isset($obj->catAuto) && !empty($obj->catAuto) && $obj->catAuto == 1) {
+            } elseif (!empty($obj->catAuto) && $obj->catAuto == 1) {
                 $obj->markerIconType = 4;
             }
         }
@@ -491,25 +426,17 @@ class GeofactoryHelperAdm
 
     /**
      * Elimina file di cache di geocode factory
-     * 
-     * @param   integer  $idMap  ID della mappa
      */
     public static function delCacheFiles($idMap)
     {
         $pattern = JPATH_CACHE . DIRECTORY_SEPARATOR . "_geocodeFactory_{$idMap}*.xml";
-        $files = glob($pattern);
-        if (is_array($files)) {
-            foreach ($files as $filename) {
-                File::delete($filename);
-            }
+        foreach (glob($pattern) as $filename) {
+            File::delete($filename);
         }
     }
 
     /**
      * Ritorna un array (campo => fid) per la tabella #__geofactory_assignation
-     * 
-     * @param   integer  $id  ID dell'assegnazione
-     * @return  array  Array di campi e valori
      */
     public static function getAssignArray($id)
     {
@@ -537,8 +464,6 @@ class GeofactoryHelperAdm
 
     /**
      * Verifica se l'editor "codemirror" è abilitato
-     * 
-     * @return  boolean  True se abilitato
      */
     public static function isCodeMirrorEnabled()
     {
@@ -554,8 +479,6 @@ class GeofactoryHelperAdm
 
     /**
      * Verifica se l'editor "none" è abilitato
-     * 
-     * @return  boolean  True se abilitato
      */
     public static function isEditorNoneEnabled()
     {
@@ -571,8 +494,6 @@ class GeofactoryHelperAdm
 
     /**
      * Carica un DB esterno, se definito
-     * 
-     * @return  DatabaseInterface  Istanza del database
      */
     public static function loadExternalDb()
     {

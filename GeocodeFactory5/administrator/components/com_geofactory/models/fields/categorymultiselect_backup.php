@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 FormHelper::loadFieldClass('list');
 
@@ -27,14 +26,13 @@ class JFormFieldcategoryMultiSelect extends FormFieldList
     protected function getOptions()
     {
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
+        $dsp = JDispatcher::getInstance();
         $typeList = $this->form->getValue("typeList");
         $language = $this->form->getValue("language");
         $idTopParent = -1;
 
         $vTmp = array();
-        // Trigger il nuovo evento
-        $app->triggerEvent('getAllSubCats', array($typeList, &$vTmp, &$idTopParent, $language));
+        $dsp->trigger('getAllSubCats', array($typeList, &$vTmp, &$idTopParent, $language));
 
         $vRes = array();
         if (count($vTmp) > 5000) { // Per siti grandi, si evita la gerarchia per evitare problemi

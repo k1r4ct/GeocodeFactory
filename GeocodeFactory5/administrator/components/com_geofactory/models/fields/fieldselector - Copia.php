@@ -16,7 +16,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 JFormHelper::loadFieldClass('list');
 
@@ -32,14 +31,14 @@ class JFormFieldFieldSelector extends FormFieldList
         $typeList = $this->form->getValue("typeList");
 
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
+        $dispatcher = JDispatcher::getInstance();
 
         if ($this->fieldname == "avatarImage") {
-            $app->triggerEvent('onGetCustomFieldsImages', array($typeList, &$options));
+            $dispatcher->trigger('getCustomFieldsImages', array($typeList, &$options));
         }
 
         if (count($options) < 1) {
-            $app->triggerEvent('onGetCustomFields', array($typeList, &$options, $all));
+            $dispatcher->trigger('getCustomFields', array($typeList, &$options, $all));
         }
     
         if ($this->default == "username" && ($typeList == 'MS_CB' || $typeList == 'MS_JS')) {

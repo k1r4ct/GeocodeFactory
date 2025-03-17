@@ -5,7 +5,7 @@
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
- * @update      Daniele Bellante
+ * @update		Daniele Bellante
  * @website     www.myJoom.com
  */
 defined('_JEXEC') or die;
@@ -53,8 +53,8 @@ class GeofactoryModelMarkerset extends AdminModel
 
         $typeliste = $form->getValue("typeList");
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
-        $vFields = $app->triggerEvent('getListFieldsMs', array($typeliste));
+        $dispatcher = JDispatcher::getInstance();
+        $vFields = $dispatcher->trigger('getListFieldsMs', array($typeliste));
 
         $usefields = null;
         foreach ($vFields as $fs) {
@@ -84,9 +84,8 @@ class GeofactoryModelMarkerset extends AdminModel
             }
             foreach ($allfields as $af) {
                 if (!in_array($af, $usefields)) {
-                    if (!$form->removeField($af, "params_markerset_type_setting")) {
-                        // Quietly handle failure to remove field
-                    }
+                    if (!$form->removeField($af, "params_markerset_type_setting"))
+                        echo "Unable to hide : {$af}<br />";
                 }
             }
         }

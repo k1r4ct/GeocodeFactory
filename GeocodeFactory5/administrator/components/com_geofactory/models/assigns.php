@@ -99,7 +99,7 @@ class GeofactoryModelAssigns extends ListModel
             $query->where('(a.state IN (0, 1))');
         }
 
-        $query->group('a.id, a.name, a.checked_out, a.checked_out_time, a.state, editor');
+        $query->group('a.id, a.name, a.checked_out, a.checked_out_time, a.state, editor, a.typeList');
 
         // Filtro per la ricerca sul titolo.
         $search = $this->getState('filter.search');
@@ -114,7 +114,6 @@ class GeofactoryModelAssigns extends ListModel
         
         $query->order($db->escape('a.name') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-        // echo nl2br(str_replace('#__','jos_',$query));
         return $query;
     }
 
@@ -122,15 +121,28 @@ class GeofactoryModelAssigns extends ListModel
     {
         // Per ogni plugin, verifica che esista una configurazione default.
         PluginHelper::importPlugin('geocodefactory');
-        $dispatcher = JDispatcher::getInstance();
-        $vvPluginsInfos = $dispatcher->trigger('getPlgInfo');
+        $app = Factory::getApplication();
+        $vvPluginsInfos = $app->triggerEvent('getPlgInfo');
+        
+        if (!is_array($vvPluginsInfos) || empty($vvPluginsInfos)) {
+            return;
+        }
         
         $table = Table::getInstance('Assign', 'GeofactoryTable');
         foreach ($vvPluginsInfos as $vPluginsInfos) {
+            if (!is_array($vPluginsInfos)) {
+                continue;
+            }
+            
             foreach ($vPluginsInfos as $plgInfo) {
+                if (!is_array($plgInfo) || count($plgInfo) < 2) {
+                    continue;
+                }
+                
                 if ($table->_existDefault($plgInfo[0], $plgInfo[1]) > 0) {
                     continue;
                 }
+                
                 $table->_createDefault($plgInfo[0], $plgInfo[1]);
             }
         }

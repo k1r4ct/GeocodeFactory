@@ -13,7 +13,6 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Factory;
 
 class JFormFieldOrdering extends FormField
 {
@@ -36,20 +35,11 @@ class JFormFieldOrdering extends FormField
                . ' WHERE catid = ' . (int)$categoryId
                . ' ORDER BY ordering';
 
-        // Otteniamo una istanza del database di Joomla 4
-        $db = Factory::getDbo();
-        $db->setQuery($query);
-        
-        // Otteniamo i risultati come array associativo
-        $items = $db->loadObjectList();
-        
         if ((string)$this->element['readonly'] == 'true') {
-            // Crea la lista di ordinamento per elementi in sola lettura
-            $html[] = HTMLHelper::_('select.genericlist', $items, '', trim($attr), 'value', 'text', $this->value, $this->id);
+            $html[] = HTMLHelper::_('list.ordering', '', $query, trim($attr), $this->value, $bannerId ? 0 : 1);
             $html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
         } else {
-            // Crea la lista di ordinamento interattiva
-            $html[] = HTMLHelper::_('select.genericlist', $items, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+            $html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $bannerId ? 0 : 1);
         }
 
         return implode('', $html);

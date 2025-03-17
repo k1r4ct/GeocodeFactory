@@ -16,22 +16,19 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseQuery;
 
 class GeofactoryModelGgmaps extends ListModel
 {
     public function __construct($config = array())
     {
-        if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'state', 'a.state',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'nbrMs'
-            );
-        }
+        $config['filter_fields'] = array(
+            'id', 'a.id',
+            'name', 'a.name',
+            'state', 'a.state',
+            'checked_out', 'a.checked_out',
+            'checked_out_time', 'a.checked_out_time',
+            'nbrMs'
+        );
         parent::__construct($config);
     }
 
@@ -80,7 +77,7 @@ class GeofactoryModelGgmaps extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery  A query object.
+     * @return  \JDatabaseQuery
      */
     protected function getListQuery()
     {
@@ -119,8 +116,7 @@ class GeofactoryModelGgmaps extends ListModel
             $query->where('(a.state IN (0, 1))');
         }
 
-        // In MySQL 8 e modalità SQL strict richiesti da PHP 8.2, tutte le colonne in SELECT devono essere nei GROUP BY
-        $query->group('a.id, a.name, a.extrainfo, a.checked_out, a.checked_out_time, a.state, editor');
+        $query->group('a.id, a.name, a.checked_out, a.checked_out_time, a.state, editor');
 
         $search = $this->getState('filter.search');
         if (!empty($search)) {
@@ -134,6 +130,7 @@ class GeofactoryModelGgmaps extends ListModel
 
         $query->order($db->escape('a.name') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
+        // echo nl2br(str_replace('#__','jos_',$query));
         return $query;
     }
 }

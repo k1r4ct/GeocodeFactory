@@ -16,10 +16,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 
-FormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('list');
 
 class JFormFieldIconTypeSelector extends FormFieldList
 {
@@ -31,7 +29,7 @@ class JFormFieldIconTypeSelector extends FormFieldList
         $typeList = $this->form->getValue("typeList");
 
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
+        $dispatcher = JDispatcher::getInstance();
 
         array_push($options, HTMLHelper::_('select.option', '0', Text::_('COM_GEOFACTORY_ICON_DEFAULT')));
         array_push($options, HTMLHelper::_('select.option', '1', Text::_('COM_GEOFACTORY_ICON_IMAGE')));
@@ -39,8 +37,8 @@ class JFormFieldIconTypeSelector extends FormFieldList
 
         $avat = false;
         $cat = false;
-        $app->triggerEvent('onIsIconAvatarEntrySupported', array($typeList, &$avat));
-        $app->triggerEvent('onIsIconCategorySupported', array($typeList, &$cat));
+        $dispatcher->trigger('isIconAvatarEntrySupported', array($typeList, &$avat));
+        $dispatcher->trigger('isIconCategorySupported', array($typeList, &$cat));
 
         if ($avat) {
             array_push($options, HTMLHelper::_('select.option', '3', Text::_('COM_GEOFACTORY_ICON_AVATAR')));

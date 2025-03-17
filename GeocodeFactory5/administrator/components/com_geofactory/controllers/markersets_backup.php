@@ -16,9 +16,6 @@ class GeofactoryControllerMarkersets extends AdminController
 
     public function saveOrderAjax()
     {
-        // Ottieni l'applicazione
-        $app = Factory::getApplication();
-        
         // Ottieni input
         $pks   = $this->input->post->get('cid', [], 'array');
         $order = $this->input->post->get('order', [], 'array');
@@ -33,9 +30,6 @@ class GeofactoryControllerMarkersets extends AdminController
         // Salva l'ordinamento
         $return = $model->saveorder($pks, $order);
 
-        // Invia risposta JSON
-        $app->setHeader('Content-Type', 'application/json');
-        echo json_encode(['success' => (bool)$return]);
-        $app->close();
+        exit;
     }
 }

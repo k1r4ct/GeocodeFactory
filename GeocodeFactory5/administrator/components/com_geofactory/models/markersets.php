@@ -5,7 +5,7 @@
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
- * @update		Daniele Bellante
+ * @update      Daniele Bellante
  * @website     www.myJoom.com
  */
 defined('_JEXEC') or die;
@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
 
 class GeofactoryModelMarkersets extends ListModel
 {
@@ -82,7 +83,7 @@ class GeofactoryModelMarkersets extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  mixed   The SQL query object.
+     * @return  DatabaseQuery  The database query object.
      */
     protected function getListQuery()
     {
@@ -128,7 +129,8 @@ class GeofactoryModelMarkersets extends ListModel
             $query->where('(a.state IN (0, 1))');
         }
 
-        $query->group('a.id, a.name, a.checked_out, a.checked_out_time, a.state, editor');
+        // In MySQL 8 e modalità strict SQL, tutte le colonne SELECT devono essere presenti in GROUP BY
+        $query->group('a.id, a.name, a.extrainfo, a.ordering, a.typeList, a.checked_out, a.checked_out_time, a.state, editor');
 
         $search = $this->getState('filter.search');
         if (!empty($search)) {
@@ -140,11 +142,14 @@ class GeofactoryModelMarkersets extends ListModel
             }
         }
         
-        $orderCol = $this->state->get('list.ordering');
-        $orderDirn = $this->state->get('list.direction');
+        $orderCol = $this->state->get('list.ordering', 'a.name');
+        $orderDirn = $this->state->get('list.direction', 'ASC');
+        
+        // Gestisce il caso speciale di ordinamento per il campo 'ordering'
         if ($orderCol == 'a.ordering') {
             $orderCol = $orderDirn . ', a.ordering';
         }
+        
         $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
         return $query;
