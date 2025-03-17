@@ -11,12 +11,9 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormFieldList;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
-FormHelper::loadFieldClass('list');
-
-class JFormFieldListMaps extends FormFieldList
+class JFormFieldListMaps extends ListField
 {
     protected $type = 'listMaps';
 

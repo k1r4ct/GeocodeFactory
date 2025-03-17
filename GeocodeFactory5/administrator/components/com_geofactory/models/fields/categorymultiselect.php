@@ -11,16 +11,13 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormFieldList;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
-FormHelper::loadFieldClass('list');
-
-class JFormFieldcategoryMultiSelect extends FormFieldList
+class JFormFieldcategoryMultiSelect extends ListField
 {
     protected $type = 'categorymultiselect';
 

@@ -11,11 +11,11 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
 
-class JFormFieldOrdering extends FormField
+class JFormFieldOrdering extends ListField
 {
     protected $type = 'Ordering';
 

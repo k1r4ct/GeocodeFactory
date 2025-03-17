@@ -11,15 +11,12 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormFieldList;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 
-FormHelper::loadFieldClass('list');
-
-class JFormFieldgfCustomRadio extends FormFieldList
+class JFormFieldgfCustomRadio extends ListField
 {
     protected $type = 'gfCustomRadio';
 

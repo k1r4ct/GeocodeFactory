@@ -11,17 +11,14 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormFieldList;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 
-FormHelper::loadFieldClass('list');
-
-class JFormFieldIconTypeSelector extends FormFieldList
+class JFormFieldIconTypeSelector extends ListField
 {
     protected $type = 'iconTypeSelector';
 
