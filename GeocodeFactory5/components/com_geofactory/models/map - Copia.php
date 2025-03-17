@@ -4,7 +4,7 @@
  * @package     geoFactory
  * @copyright   Copyright © 2013
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      
+ * @author
  * @update      Daniele Bellante
  * @website     www.myJoom.com
  */
@@ -40,7 +40,7 @@ class GeofactoryModelMap extends ItemModel
         $this->m_idM = $idMap;
         $map   = $this->_loadMap($idMap);
 
-        // Variables di lavoro
+        // Variables de travail
         $map->forceZoom = 0;
 
         $this->_loadMapTemplate($map);
@@ -92,7 +92,7 @@ class GeofactoryModelMap extends ItemModel
             return null;
         }
 
-        // Definisce il nome della variabile interna della mappa
+        // Détermine le nom de la variable de map et du container
         $map->mapInternalName = $this->mapContext . '_gf_' . $map->id;
 
         return $map;
@@ -113,20 +113,20 @@ class GeofactoryModelMap extends ItemModel
             PluginHelper::importPlugin('geocodefactory');
             $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
-            // Creazione evento per definire il contesto: "onDefineContext"
+            // "defineContext" -> "onDefineContext"
             $evDefContext = new Event('onDefineContext', [
                 'option' => $option,
                 'map'    => &$map
             ]);
-            $dispatcher->dispatch('onDefineContext', $evDefContext);
+            $dispatcher->dispatch($evDefContext);
 
-            // Compatibilità ascendante: riprendi eventuali variabili dalla sessione
+            // Compatibilità ascendante
             $session = Factory::getSession();
             $sszmid  = $session->get('gf_zoomMeId');
             $sszmty  = $session->get('gf_zoomMeType');
 
             if (($sszmid > 0) && ($map->gf_zoomMeId == 0)) {
-                $map->gf_zoomMeId = $sszmid;
+                $map->ss_zoomMeId = $sszmid;
             }
             if ((strlen($sszmty) > 0) && ($map->gf_zoomMeType == '')) {
                 $map->gf_zoomMeType = $sszmty;
@@ -144,7 +144,7 @@ class GeofactoryModelMap extends ItemModel
 
         PluginHelper::importPlugin('geocodefactory');
 
-        // Dati dall'URL
+        // Dati dall’URL
         $map->forceZoom = $app->input->getInt('zf', 0);
         $mapName = $app->input->getString('mn');
         $map->mapInternalName = (strlen($mapName) > 3) ? $mapName : $map->mapInternalName;
@@ -176,7 +176,7 @@ class GeofactoryModelMap extends ItemModel
         $map->dynRadTxtCenter   = Text::_('COM_GEOFACTORY_DYN_RAD_MOVE_CENTER');
         $map->dynRadTxtDrag     = Text::_('COM_GEOFACTORY_DYN_RAD_MOVE_SIZER');
 
-        // Nota a piè di mappa
+        // Nota a pie’ di mappa
         $map->hideNote = $config->get('hideNote') ? 1 : 0;
 
         // Uso del metodo newMethod sperimentale
@@ -187,7 +187,7 @@ class GeofactoryModelMap extends ItemModel
         $evGate = new Event('onGatewayPresent', [
             'gateways' => &$gateways
         ]);
-        $dispatcher->dispatch('onGatewayPresent', $evGate);
+        $dispatcher->dispatch($evGate);
 
         if (count($gateways)) {
             foreach ($gateways as $k => $v) {
@@ -205,11 +205,11 @@ class GeofactoryModelMap extends ItemModel
             'typeList' => $map->ss_zoomMeTy,
             'isProfile'=> &$map->ss_zoomMeProf
         ]);
-        $dispatcher->dispatch('onIsProfile', $evProf);
+        $dispatcher->dispatch($evProf);
 
         $map->ss_zoomMeProf = $map->ss_zoomMeProf ? 1 : 0;
 
-        // Centrage per l'articolo
+        // Centrage per l’articolo
         $articleArray = $session->get('gf_article_map_center', []);
         $session->clear('gf_article_map_center');
         $map->ss_artLat = (count($articleArray) > 1)
@@ -228,7 +228,7 @@ class GeofactoryModelMap extends ItemModel
             if (strlen($ip) > 6) {
                 $json = '';
                 $url = "http://ipinfo.io/{$ip}/json";
-                $opts = ['http' => ['timeout' => 1]];
+                $opts = array('http' => array('timeout' => 1));
                 $context = stream_context_create($opts);
                 $json = @file_get_contents($url, false, $context);
                 if (strlen($json) > 2) {
@@ -281,7 +281,7 @@ class GeofactoryModelMap extends ItemModel
         $carte  = '<div id="gf_waitZone"></div>';
         $carte .= '<div id="' . $mapVar . '" class="gf_map" style="' . $size . ' background-repeat:no-repeat;background-position:center center; background-image:url(' . Uri::root() . 'media/com_geofactory/assets/icon_wait.gif);"></div>';
 
-        // Se non c'è {map} nel template...
+        // Se non c’è {map} nel template...
         if (strpos($template, "{map}") === false) {
             $template .= '{map}';
         }
@@ -310,16 +310,16 @@ class GeofactoryModelMap extends ItemModel
         $near_me = '<input id="gf_near_me" type="button" value="' . Text::_('COM_GEOFACTORY_NEAR_ME') . '" onClick="' . $mapVar . '.NMBTN();" />';
         $save_me_full = '';
         $reset_map = '<input type="button" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" value="' . Text::_('COM_GEOFACTORY_RESET_MAP') . '"/>';
-        
+
         // {layer_selector}
         $template = str_replace('{layer_selector}', $this->_getLayersSelector($map->layers, $map->mapInternalName), $template);
-        
+
         // {route} se useRoutePlaner
         $route = $this->_getRouteDiv();
         if ((strpos($template, '{route}') === false) && ($map->useRoutePlaner)) {
             $template .= '{route}';
         }
-        
+
         // Selettore di liste
         $idMs = GeofactoryHelper::getArrayIdMs($map->id);
         $selector = "";
@@ -342,46 +342,46 @@ class GeofactoryModelMap extends ItemModel
             $m_selector_1 .= '<select id="gf_multi_selector" onChange="' . $mapVar . '.SLFP();" style="width:100%;" multiple="multiple" size="' . count($idMs) . '" >';
             $toggeler_1 .= $toggeler;
             $toggeler_img_1 .= $toggeler;
-        
+
             $first = true;
             $sel_1 = ' selected="selected" ';
             $chk_1 = ' checked="checked" ';
-        
+
             foreach ($idMs as $ms) {
                 $list = GeofactoryHelper::getMs($ms);
                 if (!$list)
                     continue;
-        
+
                 $sel = ' selected="selected" ';
                 $chk = ' checked="checked" ';
                 if (isset($list->checked_loading) && ((int)$list->checked_loading < 1)) {
                     $sel = '';
                     $chk = '';
                 }
-        
+
                 $map->fullCss .= (strlen($list->cssMs) > 0) ? $list->cssMs : "";
-        
+
                 $img = GeofactoryHelper::_getSelectorImage($list);
-        
+
                 $selector .= '<option value="' . $list->typeList . '_' . $list->id . '">' . $list->name . '</option>';
                 $m_selector .= '<option value="' . $list->typeList . '_' . $list->id . '" selected="selected">' . $list->name . '</option>';
                 $toggeler .= '<div id="gf_toggeler_item_' . $list->id . '" style="margin-right:10px;float:left" class="gf_toggeler_item"><input type="checkbox" ' . $chk . ' name="' . $list->typeList . '_' . $list->id . '" onChange="' . $mapVar . '.SLFP();">' . $list->name . '</div>';
-        
+
                 $toggeler_map .= '<div class="gfMapControls" id="gf_toggeler_item_' . $list->id . '" style="height:28px!important;margin-top:3px!important;padding:2px!important;float:left;width:100%;"><input type="checkbox" ' . $chk . ' style="margin:0px!important;" name="' . $list->typeList . '_' . $list->id . '" onChange="switchPanel(\'gf_toggeler\', 0); ' . $mapVar . '.SLFP();"> ' . $list->name . '</div>';
-        
+
                 $ullist_img .= '<li class="gf_toggeler_item"><label class="checkbox inline">
                                     <input type="checkbox" id="cbType1" ' . $chk . ' name="' . $list->typeList . '_' . $list->id . '" onChange="' . $mapVar . '.SLFP();" />
                                     <img src="' . $img . '">
                                     ' . $list->name . '
                                 </label></li>';
-        
+
                 $toggeler_img .= '<div class="gf_toggeler_item" style="margin-right:10px;float:left"><input type="checkbox" ' . $chk . ' name="' . $list->typeList . '_' . $list->id . '" onChange="' . $mapVar . '.SLFP();"><img src="' . $img . '"> ' . $list->name . '</div>';
                 $toggeler_img_1 .= '<div class="gf_toggeler_item" style="margin-right:10px;float:left"><input type="checkbox" ' . $chk_1 . ' name="' . $list->typeList . '_' . $list->id . '" onChange="' . $mapVar . '.SLFP();"><img src="' . $img . '"> ' . $list->name . '</div>';
-        
+
                 $toggeler_1 .= '<div class="gf_toggeler_item" style="margin-right:10px;float:left"><input type="checkbox" ' . $chk_1 . ' name="' . $list->typeList . '_' . $list->id . '" onChange="' . $mapVar . '.SLFP();">' . $list->name . '</div>';
                 $selector_1 .= '<option ' . $sel_1 . ' value="' . $list->typeList . '_' . $list->id . '">' . $list->name . '</option>';
                 $m_selector_1 .= $selector_1;
-        
+
                 if ($first) {
                     $first = false;
                     $sel_1 = '';
@@ -398,16 +398,16 @@ class GeofactoryModelMap extends ItemModel
             $selector_1 .= '</select>';
             $m_selector_1 .= '</select>';
         }
-        
-        // Dispatch evento: onBeforeParseMapTemplate
+
+        // "beforeParseMapTemplate" -> "onBeforeParseMapTemplate"
         $evBeforeParse = new Event('onBeforeParseMapTemplate', [
             'template'  => &$template,
             'idMs'      => $idMs,
             'map'       => $map,
             'mapVar'    => $mapVar
         ]);
-        $dispatcher->dispatch('onBeforeParseMapTemplate', $evBeforeParse);
-        
+        $dispatcher->dispatch($evBeforeParse);
+
         // Radius form
         $rad_dist = '';
         $radius_form = '';
@@ -423,7 +423,7 @@ class GeofactoryModelMap extends ItemModel
             $gf_mod_search = htmlspecialchars(str_replace(['"', '`'], '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
             $rad_dist = $this->_getRadiusDistances($map, $gf_mod_search);
         }
-        
+
         $template = str_replace('{mapvar}', $mapVar, $template);
         $template = str_replace('{rad_distances}', $rad_dist, $template);
         $template = str_replace('{locate_me}', $locate_me, $template);
@@ -444,7 +444,7 @@ class GeofactoryModelMap extends ItemModel
         $template = str_replace('{toggle_selector_1}', $toggeler_1, $template);
         $template = str_replace('{multi_selector_1}', $m_selector_1, $template);
         $template = str_replace('{selector_1}', $selector_1, $template);
-        
+
         // Debug
         $debug = "";
         if (GeofactoryHelper::isDebugMode()){
@@ -455,22 +455,22 @@ class GeofactoryModelMap extends ItemModel
             $debug .= '  <li>Last bubble : <a id="gf_debugmode_bubble"></a></li>';
             $debug .= '</ul>';
         }
-        
+
         // Contenitore
         $template = '<div id="gf_template_container">' . $debug . $template . '</div>';
-        
+
         // Dyncat
         $template = $this->_replaceDynCat($template);
-        
+
         $map->formatedTemplate = $template;
     }
-    
+
     protected function _cleanCss(&$map)
     {
-        $css = ' #' . $map->mapInternalName . ' img{max-width:none!important;}';
+        $css = ' #'.$map->mapInternalName.' img{max-width:none!important;}';
         $css .= $map->fullCss;
-        $css = str_replace(["\t", "\r\n"], "", $css);
-        $css = str_replace(["    ", "   ", "  "], " ", $css);
+        $css = str_replace(array("\t", "\r\n"), "", $css);
+        $css = str_replace(array("    ", "   ", "  "), " ", $css);
         $css = str_replace("#", " #", $css);
         $css = str_replace("{ ", "{", $css);
         $css = str_replace("} ", "}", $css);
@@ -478,39 +478,39 @@ class GeofactoryModelMap extends ItemModel
         $css = str_replace(" }", "}", $css);
         $map->fullCss = (strlen(trim($css)) > 0) ? trim($css) : "";
     }
-    
+
     protected function _getRadiusDistances($map, $gf_mod_search, $class = true)
     {
         $ses = Factory::getSession();
         $app = Factory::getApplication('site');
         $gf_mod_radius = $app->input->getFloat('gf_mod_radius', $ses->get('mj_rs_ref_dist', 0));
-        
+
         if ($gf_mod_search && (strlen($gf_mod_search) > 0)) {
             $ses->set('gf_ss_search_phrase', $gf_mod_search);
             $ses->set('gf_ss_search_radius', $gf_mod_radius);
         }
-        
+
         $listVal = explode(',', $map->frontDistSelect);
         $find = false;
         $unit = Text::_('COM_GEOFACTORY_UNIT_KM');
         $unit = ($map->fe_rad_unit == 1) ? Text::_('COM_GEOFACTORY_UNIT_MI') : $unit;
         $unit = ($map->fe_rad_unit == 2) ? Text::_('COM_GEOFACTORY_UNIT_NM') : $unit;
         $cls = $class ? 'class="gfMapControls"' : '';
-        $radForm = '<select id="radiusSelect" style="width:100px;" ' . $cls . ' onChange="if (mj_radiuscenter){' . $map->mapInternalName . '.SLFI();}">';
+        $radForm = '<select id="radiusSelect" style="width:100px;" ' . $cls . ' onChange="if (mj_radiuscenter){'.$map->mapInternalName.'.SLFI();}">';
         foreach ($listVal as $val) {
             $sel = ($val == $gf_mod_radius) ? ' selected="selected" ' : '';
             if ($sel != '') {
                 $find = true;
             }
-            $radForm .= '<option value="' . $val . '" ' . $sel . '>' . $val . ' ' . $unit . '</option>';
+            $radForm .= '<option value="'.$val.'" '.$sel.'>'.$val.' '.$unit.'</option>';
         }
         if (!$find && is_numeric($gf_mod_radius) && ($gf_mod_radius > 0)) {
-            $radForm .= '<option value="' . $gf_mod_radius . '" selected="selected">' . $gf_mod_radius . '</option>';
+            $radForm .= '<option value="'.$gf_mod_radius.'" selected="selected">'.$gf_mod_radius.'</option>';
         }
         $radForm .= '</select>';
         return $radForm;
     }
-    
+
     protected function _replaceDynCat($text)
     {
         $regex = '/{dyncat\s+(.*?)}/i';
@@ -527,32 +527,29 @@ class GeofactoryModelMap extends ItemModel
             $vCode = explode('#', $code);
             if ((count($vCode) < 1) || (strlen($vCode[1]) < 1))
                 continue;
-            $ext = $vCode[0];
-            $idP = $vCode[1];
-            $js[] = "{$mapVar}.loadDynCat('{$ext}', {$idP}, 'gf_dyncat_{$ext}_{$idP}', '{$mapVar}');";
-            // In questo caso, se vuoi aggiungere l'azione via JS, puoi inserirla nell'array $js
-            // oppure gestirla diversamente
+            $loading = HTMLHelper::_('select.genericlist', array(HTMLHelper::_('select.option', '', "...loading...")), "", 'class="gf_dyncat_sel" size="1"', 'value', 'text');
+            $div = '<span id="gf_dyncat_' . $vCode[0] . '_' . $vCode[1] . '">'.$loading.'</span>';
+            $text = preg_replace('{'.preg_quote($matches[0][$i], '}').'}', $div, $text);
         }
-        // Se necessario, si potrebbe fare un preg_replace per sostituire tutte le occorrenze.
-        return preg_replace($regex, '', $text);
+        return $text;
     }
-    
+
     protected function _getRadForm($map, $mapVar, $toggeler_map, $nbrMs, &$dists)
     {
         $app = Factory::getApplication('site');
         $gf_mod_search = $app->input->getString('gf_mod_search', null);
-        $gf_mod_search = htmlspecialchars(str_replace(['"', '`'], '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
-        $form_start = '<form id="gf_radius_form" onsubmit="' . $mapVar . '.SLFI();return false;">';
-        $input = '<input type="text" id="addressInput" value="' . $gf_mod_search . '" class="gfMapControls"/>';
+        $gf_mod_search = htmlspecialchars(str_replace(array('"', '`'), '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
+        $form_start = '<form id="gf_radius_form" onsubmit="'.$mapVar.'.SLFI();return false;">';
+        $input = '<input type="text" id="addressInput" value="'.$gf_mod_search.'" class="gfMapControls"/>';
         $dists = $this->_getRadiusDistances($map, $gf_mod_search);
-        $search_btn = '<input type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" value="' . Text::_('COM_GEOFACTORY_SEARCH') . '"/>';
+        $search_btn = '<input type="button" onclick="'.$mapVar.'.SLFI();" id="gf_search_rad_btn" value="'.Text::_('COM_GEOFACTORY_SEARCH').'"/>';
         $divsOnMapGo = '<div id="gf_map_panel" style="padding-top:5px;display:none;"><div id="gf_radius_form" style="margin:0;padding:0;">';
         $radius_form = '';
         if ($map->radFormMode == 0) {
             $radius_form .= $form_start;
-            $radius_form .= '<label for="addressInput">' . Text::_('COM_GEOFACTORY_ADDRESS') . '</label>';
+            $radius_form .= '<label for="addressInput">'.Text::_('COM_GEOFACTORY_ADDRESS').'</label>';
             $radius_form .= $input;
-            $radius_form .= '<label for="radiusSelect">' . Text::_('COM_GEOFACTORY_RADIUS') . '</label>';
+            $radius_form .= '<label for="radiusSelect">'.Text::_('COM_GEOFACTORY_RADIUS').'</label>';
             $radius_form .= $dists;
             $radius_form .= $search_btn;
             $radius_form .= '</form>';
@@ -571,7 +568,7 @@ class GeofactoryModelMap extends ItemModel
             $radius_form .= $divsOnMapGo;
             $radius_form .= $input;
             $radius_form .= $dists;
-            $radius_form .= '<input type="button" class="gfMapControls" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" value="' . Text::_('COM_GEOFACTORY_RESET_MAP') . '"/>';
+            $radius_form .= '<input type="button" class="gfMapControls" onclick="'.$mapVar.'.SLRES();" id="gf_reset_rad_btn" value="'.Text::_('COM_GEOFACTORY_RESET_MAP').'"/>';
             $radius_form .= ' <input type="button" class="gfMapControls" value="Filters" onclick="switchPanel(\'gf_toggeler\', 0);" />';
             $radius_form .= '</div>';
             $radius_form .= '<div id="gf_toggeler" style="display:none;">';
@@ -583,27 +580,27 @@ class GeofactoryModelMap extends ItemModel
             $radius_form .= $divsOnMapGo;
             $radius_form .= $input;
             $radius_form .= $dists;
-            $radius_form .= '<input type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" value="" style="display:none" />';
-            $radius_form .= '<input type="button" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" value="" style="display:none" />';
+            $radius_form .= '<input type="button" onclick="'.$mapVar.'.SLFI();" id="gf_search_rad_btn" value="" style="display:none" />';
+            $radius_form .= '<input type="button" onclick="'.$mapVar.'.SLRES();" id="gf_reset_rad_btn" value="" style="display:none" />';
             $radius_form .= '</div>';
             $radius_form .= '</div>';
         }
         return $radius_form;
     }
-    
+
     protected function _getRouteDiv()
     {
         $route  = '<div id="gf_routecontainer">';
         $route .= '<select id="gf_transport">';
-        $route .= '<option value="DRIVING">' . Text::_('COM_GEOFACTORY_DRIVING') . '</option>';
-        $route .= '<option value="WALKING">' . Text::_('COM_GEOFACTORY_WALKING') . '</option>';
-        $route .= '<option value="BICYCLING">' . Text::_('COM_GEOFACTORY_BICYCLING') . '</option>';
+        $route .= '<option value="DRIVING">'.Text::_('COM_GEOFACTORY_DRIVING').'</option>';
+        $route .= '<option value="WALKING">'.Text::_('COM_GEOFACTORY_WALKING').'</option>';
+        $route .= '<option value="BICYCLING">'.Text::_('COM_GEOFACTORY_BICYCLING').'</option>';
         $route .= '</select>';
         $route .= '<div id="gf_routepanel"></div>';
         $route .= '</div>';
         return $route;
     }
-    
+
     protected function _getLayersSelector($arLayersTmp, $var)
     {
         if (!is_array($arLayersTmp) || !count($arLayersTmp)) {
@@ -622,25 +619,25 @@ class GeofactoryModelMap extends ItemModel
         $layers[] = '<h4>Layers</h4>';
         $layers[] = '<ul style="list-style-type:none" id="gf_layers_selector">';
         if (in_array(1, $arLayers)) {
-            $layers[] = ' <li><label class="checkbox inline"><input type="checkbox" id="gf_l_traffic" onclick="' . $var . '.LAYSEL();"> ' . Text::_('COM_GEOFACTORY_TRAFFIC') . '</label></li>';
+            $layers[] = ' <li><label class="checkbox inline"><input type="checkbox" id="gf_l_traffic" onclick="'.$var.'.LAYSEL();"> '.Text::_('COM_GEOFACTORY_TRAFFIC').'</label></li>';
         }
         if (in_array(2, $arLayers)) {
-            $layers[] = ' <li><label class="checkbox inline"><input type="checkbox" id="gf_l_transit" onclick="' . $var . '.LAYSEL();"> ' . Text::_('COM_GEOFACTORY_TRANSIT') . '</label></li>';
+            $layers[] = ' <li><label class="checkbox inline"><input type="checkbox" id="gf_l_transit" onclick="'.$var.'.LAYSEL();"> '.Text::_('COM_GEOFACTORY_TRANSIT').'</label></li>';
         }
         if (in_array(3, $arLayers)) {
-            $layers[] = ' <li><label class="checkbox inline"><input type="checkbox" id="gf_l_bicycle" onclick="' . $var . '.LAYSEL();"> ' . Text::_('COM_GEOFACTORY_BICYCLE') . '</label></li>';
+            $layers[] = ' <li><label class="checkbox inline"><input type="checkbox" id="gf_l_bicycle" onclick="'.$var.'.LAYSEL();"> '.Text::_('COM_GEOFACTORY_BICYCLE').'</label></li>';
         }
         $layers[] = '</ul>';
         return implode('', $layers);
     }
-    
+
     protected function _getSidePanel($map)
     {
         $app = Factory::getApplication('site');
         $gf_mod_search = $app->input->getString('gf_mod_search', null);
-        $gf_mod_search = htmlspecialchars(str_replace(['"', '`'], '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
+        $gf_mod_search = htmlspecialchars(str_replace(array('"','`'), '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
         $route = $map->useRoutePlaner
-            ? '<br /><div class="alert alert-info" id="route_box"><h4>' . Text::_('COM_GEOFACTORY_MARKER_TO_REACH') . '</h4>{route}</div>'
+            ? '<br /><div class="alert alert-info" id="route_box"><h4>'.Text::_('COM_GEOFACTORY_MARKER_TO_REACH').'</h4>{route}</div>'
             : '';
         $selector = '{ullist_img}';
         if (isset($map->niveaux) && ($map->niveaux == 1)) {
@@ -652,28 +649,30 @@ class GeofactoryModelMap extends ItemModel
                     <div class="col-md-4" id="gf_sideTemplateCont">
                         <div id="gf_sideTemplateCtrl">
                             <div class="well">
-                                <div id="gf_btn_superfull" style="display:none;" onclick="superFull(' . $map->mapInternalName . '.map);return false;">
-                                    <a id="reset" href="#"><i class="glyphicon glyphicon-chevron-right"></i> ' . Text::_('COM_GEOFACTORY_REDUCE') . '</a>
+                                <div id="gf_btn_superfull" style="display:none;" onclick="superFull('.$map->mapInternalName.'.map);return false;">
+                                    <a id="reset" href="#"><i class="glyphicon glyphicon-chevron-right"></i> '.Text::_('COM_GEOFACTORY_REDUCE').'</a>
                                 </div>
-                                <h4>' . Text::_('COM_GEOFACTORY_ADDRESS_SEARCH_NEAR') . ' <small>(<a id="find_me" href="#" onClick="' . $map->mapInternalName . '.LMBTN();">' . Text::_('COM_GEOFACTORY_ADDRESS_FIND_ME') . '</a>)</small></h4>
+                                <h4>'.Text::_('COM_GEOFACTORY_ADDRESS_SEARCH_NEAR').' <small>(<a id="find_me" href="#" onClick="'.$map->mapInternalName.'.LMBTN();">'.Text::_('COM_GEOFACTORY_ADDRESS_FIND_ME').'</a>)</small></h4>
                                 <p>
-                                    <input type="text" id="addressInput" value="' . $gf_mod_search . '" class="gfMapControls" placeholder="' . Text::_('COM_GEOFACTORY_ENTER_ADDRESS_OR') . '" />
+                                    <input type="text" id="addressInput" value="'.$gf_mod_search.'" class="gfMapControls" placeholder="'.Text::_('COM_GEOFACTORY_ENTER_ADDRESS_OR').'" />
                                 </p>
                                 <p>
-                                    <label>' . Text::_('COM_GEOFACTORY_WITHIN') . ' {rad_distances}</label>
+                                    <label>'.Text::_('COM_GEOFACTORY_WITHIN').' {rad_distances}</label>
                                 </p>
-                                <h4>' . Text::_('COM_GEOFACTORY_CATEGORIES_ON_MAP') . '</h4>
-                                ' . $selector . '
+                                <h4>'.Text::_('COM_GEOFACTORY_CATEGORIES_ON_MAP').'</h4>
+                                '.$selector.'
                                 <br />
-                                <a class="btn btn-primary" id="search" href="#" onclick="' . $map->mapInternalName . '.SLFI();">
-                                    <i class="glyphicon glyphicon-search"></i> ' . Text::_('COM_GEOFACTORY_SEARCH') . '
+                                <a class="btn btn-primary" id="search" href="#" onclick="'.$map->mapInternalName.'.SLFI();">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    '.Text::_('COM_GEOFACTORY_SEARCH').'
                                 </a>
-                                <a class="btn btn-default" id="reset" href="#" onclick="' . $map->mapInternalName . '.SLRES();">
-                                    <i class="glyphicon glyphicon-repeat"></i> ' . Text::_('COM_GEOFACTORY_RESET_MAP') . '
+                                <a class="btn btn-default" id="reset" href="#" onclick="'.$map->mapInternalName.'.SLRES();">
+                                    <i class="glyphicon glyphicon-repeat"></i>
+                                    '.Text::_('COM_GEOFACTORY_RESET_MAP').'
                                 </a>
                                 {layer_selector}
                             </div>
-                            <div class="alert alert-info" id="result_box"><h4>' . Text::_('COM_GEOFACTORY_RESULTS') . ' {number}</h4>{sidelists}</div>
+                            <div class="alert alert-info" id="result_box"><h4>'.Text::_('COM_GEOFACTORY_RESULTS').' {number}</h4>{sidelists}</div>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -684,14 +683,14 @@ class GeofactoryModelMap extends ItemModel
                             </div>
                         </noscript>
                         {map}
-                        ' . $route . '
+                        '.$route.'
                     </div>
                 </div>
             </div>
-            <div id="gf_panelback" style="cursor:pointer;float:right;display:none;position:fixed;width:20px;height:100%;top:0;right:0;z-index:100; background-color:silver!important; background: url(' . Uri::root() . 'media/com_geofactory/assets/arrow-left.png) no-repeat center" onclick="normalFull(' . $map->mapInternalName . '.map);"><div></div></div>
+            <div id="gf_panelback" style="cursor:pointer;float:right;display:none;position:fixed;width:20px;height:100%;top:0;right:0;z-index:100; background-color:silver!important; background: url('.Uri::root().'media/com_geofactory/assets/arrow-left.png) no-repeat center" onclick="normalFull('.$map->mapInternalName.'.map);"><div>
         ';
     }
-    
+
     public static function _setKml($jsVarName, &$js, $kml_file)
     {
         $vKml = explode(';', $kml_file);
@@ -704,7 +703,8 @@ class GeofactoryModelMap extends ItemModel
             $js[] = $jsVarName . ".addKmlLayer('{$kml}');";
         }
     }
-    
+
+    // Caricamento tiles
     public static function _loadTiles($jsVarName, &$js, $map)
     {
         $vTypes = [];
@@ -798,7 +798,8 @@ class GeofactoryModelMap extends ItemModel
         }
         return;
     }
-    
+
+    // Caricamento dyncats dal template
     public static function _loadDynCatsFromTmpl($jsVarName, &$js, $map)
     {
         $regex = '/{dyncat\s+(.*?)}/i';
@@ -816,9 +817,12 @@ class GeofactoryModelMap extends ItemModel
             $code = str_replace("}", '', $code);
             $code = trim($code);
             $vCode = explode('#', $code);
-            if ((count($vCode) < 1) || (strlen($vCode[1]) < 1))
+            if ((count($vCode) < 1) || (strlen($vCode[1]) < 1)) {
                 continue;
-            $js[] = "{$jsVarName}.loadDynCat('{$vCode[0]}', {$vCode[1]}, 'gf_dyncat_{$vCode[0]}_{$vCode[1]}', '{$jsVarName}');";
+            }
+            $ext = $vCode[0];
+            $idP = $vCode[1];
+            $js[] = "{$jsVarName}.loadDynCat('{$ext}', {$idP}, 'gf_dyncat_{$ext}_{$idP}', '{$jsVarName}');";
         }
     }
 }

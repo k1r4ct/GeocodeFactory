@@ -15,6 +15,7 @@ require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Log\Log;
 
 class GeofactoryControllerMarkers extends BaseController
 {
@@ -27,18 +28,26 @@ class GeofactoryControllerMarkers extends BaseController
         $model = $this->getModel('Markers');
         $json  = $model->createfile($idMap, 'json');
         $config = ComponentHelper::getParams('com_geofactory');
-        $mem   = $config->get('largeMarkers', 64);
-
-        // Prepara la memoria
-        ini_set("memory_limit", $mem . "M");
-        if ((int)$mem > 128) {
-            set_time_limit(0);
+        
+        // Nota: impostazioni di memoria rimosse per sicurezza
+        // Le seguenti righe sono state rimosse per compatibilità con ambienti restrittivi:
+        // ini_set("memory_limit", $mem . "M");
+        // if ((int)$mem > 128) { set_time_limit(0); }
+        
+        // In caso di elaborazione di grandi moli di dati, è preferibile ottimizzare
+        // l'algoritmo piuttosto che aumentare i limiti di memoria
+        try {
+            // Output JSON in modo compatibile con Joomla 4
+            $app->setHeader('Content-Type', 'application/json');
+            $app->setBody($json);
+            $app->close();
+        } catch (\Exception $e) {
+            // Log dell'errore per fini diagnostici
+            Log::add('Errore durante la generazione JSON: ' . $e->getMessage(), Log::ERROR, 'geofactory');
+            $app->setHeader('Content-Type', 'application/json');
+            $app->setBody(json_encode(['error' => $e->getMessage()]));
+            $app->close();
         }
-
-        @ob_clean();
-        flush();
-        echo $json;
-        exit;
     }
 
     public function dyncat()
@@ -52,9 +61,9 @@ class GeofactoryControllerMarkers extends BaseController
         $mapVar = $app->input->getString('mapVar', '');
         $select = $model->getCategorySelect($ext, $idP, $mapVar);
 
-        @ob_clean();
-        flush();
-        echo $select;
-        exit;
+        // Output HTML in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
+        $app->setBody($select);
+        $app->close();
     }
 }

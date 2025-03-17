@@ -17,13 +17,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Tags\Site\Helper\TagsHelper; // da Joomla 4 per i tag (se installato correttamente)
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Se esiste, carica il helper (o altri file necessari)
 require_once JPATH_COMPONENT . '/helpers/geofactory.php';
-// Se esiste un model “map” o file con classi, caricalo qui
-// require_once JPATH_COMPONENT . '/models/map.php'; (esempio)
 
 class GeofactoryViewMap extends HtmlView
 {
@@ -85,8 +84,8 @@ class GeofactoryViewMap extends HtmlView
         $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
         // Gestione Tag tramite TagsHelper (Joomla 4)
-        $item->tags = new TagsHelper;
-        $item->tags->getItemTags('com_geofactory.map', $this->item->id);
+        // Utilizza il metodo statico invece dell'istanza diretta
+        $item->tags = TagsHelper::getItemTags('com_geofactory.map', $this->item->id);
 
         // Escape strings
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_QUOTES, 'UTF-8');
@@ -112,7 +111,7 @@ class GeofactoryViewMap extends HtmlView
 
         // Leggi eventuali parametri dalla richiesta
         $adre = $app->input->getString('gf_mod_search', '');
-        $adre = htmlspecialchars(str_replace(['"', '`'], '', $adre), ENT_QUOTES, 'UTF-8');
+        $adre = htmlspecialchars(str_replace(['"', ''], '', $adre), ENT_QUOTES, 'UTF-8');
         $dist = $app->input->getFloat('gf_mod_radius', 1);
 
         // Costruisci parametri url
@@ -127,8 +126,7 @@ class GeofactoryViewMap extends HtmlView
 
         $dataMap = implode('&', $urlParams);
 
-        // Esempio: caricamento jQuery / Bootstrap in vari “modi” (qui come da Joomla 3)
-        // In Joomla 4, la gestione di jQuery e UI è un po' diversa, ma manteniamo la tua logica di base.
+        // Gestione di jQuery e Bootstrap in Joomla 4
         $jsBootStrap  = $config->get('jsBootStrap');
         $cssBootStrap = $config->get('cssBootStrap');
         $jqMode       = $config->get('jqMode');
@@ -148,15 +146,14 @@ class GeofactoryViewMap extends HtmlView
             $jqMode = 1;
         }
 
-        // Caricamento jQuery in base al “jqMode”
+        // Caricamento jQuery in base al "jqMode"
         switch ($jqMode) {
             case 0: // nessun caricamento jQuery
                 break;
             case 2: // Joomla
-                // In Joomla 4 puoi usare JHtml::_( 'jquery.framework' ), ma:
-                \Joomla\CMS\HTML\HTMLHelper::_('jquery.framework', false);
+                HTMLHelper::_('jquery.framework', false);
                 if ($jqui) {
-                    \Joomla\CMS\HTML\HTMLHelper::_('jquery.ui', ['core', 'sortable', 'draggable', 'droppable']);
+                    HTMLHelper::_('jquery.ui', ['core', 'sortable', 'draggable', 'droppable']);
                 }
                 break;
             case 3: // CDN Google
@@ -183,20 +180,16 @@ class GeofactoryViewMap extends HtmlView
                 break;
         }
 
-        // Caricamento Bootstrap (se impostato)
-        if ($this->item->templateAuto == 1) {
-            if ($jsBootStrap == 1) {
-                $this->document->addScript($http . 'maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
-            }
+        // Caricamento Bootstrap aggiornato a Bootstrap 5 (senza duplicazioni)
+        if ($jsBootStrap == 1 || $cssBootStrap == 1) {
+            $bootstrapCss = $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css';
+            $bootstrapJs  = $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js';
             if ($cssBootStrap == 1) {
-                $this->document->addStyleSheet($http . 'maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+                $this->document->addStyleSheet($bootstrapCss);
             }
-        }
-        if ($jsBootStrap == 1) {
-            $this->document->addScript($http . 'maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
-        }
-        if ($cssBootStrap == 1) {
-            $this->document->addStyleSheet($http . 'maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css');
+            if ($jsBootStrap == 1) {
+                $this->document->addScript($bootstrapJs);
+            }
         }
 
         // Istanza JavaScript principale
@@ -236,8 +229,8 @@ class GeofactoryViewMap extends HtmlView
             $js[] = "  });"; // Fine getJSON
             $js[] = "}";     // Fine init_{$jsVarName}
 
-            // Variabili globali da modulo
-            $js[] = "var gf_mod_search = `{$adre}`;";
+            // Variabili globali da modulo (aggiunta di apici per la stringa)
+            $js[] = "var gf_mod_search = '{$adre}';";
             $js[] = "var gf_mod_radius = {$dist};";
 
             // Carica la mappa al load
@@ -251,7 +244,7 @@ class GeofactoryViewMap extends HtmlView
         // Google API Key
         $ggApikey = strlen($config->get('ggApikey')) > 3 ? "&key=" . $config->get('ggApikey') : "";
 
-        // Verifica se servono librerie “weather”
+        // Verifica se servono librerie "weather"
         $arLayers = [];
         if (is_array($this->item->layers)) {
             foreach ($this->item->layers as $tmp) {
@@ -262,7 +255,7 @@ class GeofactoryViewMap extends HtmlView
         }
         $lib = ((count($arLayers) > 0) && (in_array(4, $arLayers) || in_array(5, $arLayers) || in_array(6, $arLayers))) ? ",weather" : "";
 
-        // Se ci sono “layers” o “radFormMode”
+        // Se ci sono "layers" o "radFormMode"
         if (count($arLayers) > 0 || $this->item->radFormMode > 1) {
             $this->document->addStyleSheet('components/com_geofactory/assets/css/geofactory-maps_btn.css');
         }
@@ -288,13 +281,10 @@ class GeofactoryViewMap extends HtmlView
             $this->document->addScript($root . 'components/com_geofactory/assets/js/map_api-5151020.js');
             $this->document->addScriptDeclaration($js);
         } else {
-            // Gestione “nuovo” con script generato in modo differente
-            // ...
+            // Gestione "nuovo" con script generato in modo differente
             if (empty($dist)) {
                 $dist = $app->input->getFloat('mj_rs_radius_selector', 1);
             }
-            // Ecc. (resto della logica invariata)
-            // ...
             $this->document->addScript('index.php?option=com_geofactory&task=map.getJs&' . implode('&', $urlParams));
         }
 
@@ -311,11 +301,11 @@ class GeofactoryViewMap extends HtmlView
 
         $title = $this->params->get('page_title', '');
         if (empty($title)) {
-            $title = $app->getCfg('sitename');
-        } elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
-            $title = Text::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
-        } elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
-            $title = Text::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+            $title = $app->get('sitename');
+        } elseif ($app->get('sitename_pagetitles', 0) == 1) {
+            $title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+        } elseif ($app->get('sitename_pagetitles', 0) == 2) {
+            $title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
         }
         $this->document->setTitle($title);
 
@@ -331,7 +321,7 @@ class GeofactoryViewMap extends HtmlView
     }
 
     /**
-     * Genera l’URL del file sorgente XML/JSON
+     * Genera l'URL del file sorgente XML/JSON
      */
     protected function _getSourceUrl($oMap, &$js, $root)
     {

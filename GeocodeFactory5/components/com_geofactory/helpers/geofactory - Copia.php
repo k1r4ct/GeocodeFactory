@@ -18,8 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Cache\Cache;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Event\Event;
+
+// Prima era "use Joomla\CMS\Registry\Registry;", ora in Joomla 4.4 usiamo il package Framework:
 use Joomla\Registry\Registry;
 
 require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactoryPlugin.php';
@@ -34,8 +36,9 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  object|null  Oggetto mappa o null se non trovato
          * @since   1.0
          */
-        public static function getMap(int $id): ?object
+        public static function getMap($id)
         {
+            /** @var DatabaseDriver $db */
             $db = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                         ->select('a.*')
@@ -80,14 +83,14 @@ if (!class_exists('GeofactoryHelper')) {
          * @param   int  $id  ID del markerset
          * @return  object|null  Oggetto markerset o null se non trovato
          * @since   1.0
-         * @throws  \RuntimeException
          */
-        public static function getMs(int $id): ?object
+        public static function getMs($id)
         {
             if ($id < 1) {
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MS_ERROR_ID'), 404);
             }
             
+            /** @var DatabaseDriver $db */
             $db = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                         ->select('a.*')
@@ -100,20 +103,20 @@ if (!class_exists('GeofactoryHelper')) {
             }
 
             PluginHelper::importPlugin('geocodefactory');
+            // Utilizzo del dispatcher dell'applicazione
             $app = Factory::getApplication();
             $dispatcher = $app->getDispatcher();
             $pluginOk = false;
             
-            // Creazione dell'evento con passaggio per riferimento del parametro pluginOk
-            $event = new Event('onIsPluginInstalled', [
+            // Crea un evento per verificare l'installazione del plugin
+            $event = new \Joomla\Event\Event('isPluginInstalled', [
                 'typeList' => $data->typeList,
                 'pluginOk' => &$pluginOk
             ]);
             
-            // Dispatch dell'evento
-            $results = $dispatcher->dispatch('onIsPluginInstalled', $event);
+            // Esegui l'evento
+            $dispatcher->dispatch('isPluginInstalled', $event);
             
-            // Verifica se pluginOk è stato modificato a true dai plugin
             if (!$pluginOk) {
                 return null;
             }
@@ -135,10 +138,9 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  array  Array con i campi latitudine e longitudine
          * @since   1.0
          */
-        public static function getCoordFields(int $idFieldAssign): array
+        public static function getCoordFields($idFieldAssign)
         {
-            // Utilizzo del namespace completo per il componente
-            $table = Table::getInstance('Assign', '\\Geofactory\\Component\\Geofactory\\Administrator\\Table\\');
+            $table = Table::getInstance('Assign', 'GeofactoryTable');
             if ($idFieldAssign > 0 && $table->load($idFieldAssign)) {
                 return ['lat' => $table->field_latitude, 'lng' => $table->field_longitude];
             }
@@ -152,9 +154,9 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  string|null  Tipo di pattern o null se non trovato
          * @since   1.0
          */
-        public static function getPatternType(int $idFieldAssign): ?string
+        public static function getPatternType($idFieldAssign)
         {
-            $table = Table::getInstance('Assign', '\\Geofactory\\Component\\Geofactory\\Administrator\\Table\\');
+            $table = Table::getInstance('Assign', 'GeofactoryTable');
             if ($table->load($idFieldAssign)) {
                 return $table->typeList;
             }
@@ -169,17 +171,13 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  void
          * @since   1.0
          */
-        public static function mergeRegistry(object &$data, string $var): void
+        public static function mergeRegistry(&$data, $var)
         {
             $registry = new Registry;
-            
-            // Verifica che il campo esista e non sia null
-            if (property_exists($data, $var) && $data->$var !== null) {
-                $registry->loadString($data->$var);
-                // Fonde i dati e rimuove la chiave originale
-                $data = (object) array_merge((array)$data, $registry->toArray());
-                unset($data->$var);
-            }
+            $registry->loadString($data->$var);
+            // Fonde i dati e rimuove la chiave originale
+            $data = (object) array_merge((array)$data, $registry->toArray());
+            unset($data->$var);
         }
 
         /**
@@ -190,7 +188,7 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  string  Percorso completo del file di cache
          * @since   1.0
          */
-        public static function getCacheFileName(int $idMap, int $itemid): string
+        public static function getCacheFileName($idMap, $itemid)
         {
             return JPATH_CACHE . DIRECTORY_SEPARATOR . "_geoFactory_{$idMap}_{$itemid}.json";
         }
@@ -203,7 +201,7 @@ if (!class_exists('GeofactoryHelper')) {
          * @since   1.0
          * @throws  \RuntimeException
          */
-        public static function getArrayIdMs(int $id): array
+        public static function getArrayIdMs($id)
         {
             if ($id < 1) {
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MAP_ERROR_ID'), 404);
@@ -216,6 +214,7 @@ if (!class_exists('GeofactoryHelper')) {
             }
 
             $data = [];
+            /** @var DatabaseDriver $db */
             $db = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                         ->select('DISTINCT lmm.id_ms')
@@ -246,7 +245,7 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  string  URL dell'immagine
          * @since   1.0
          */
-        public static function _getSelectorImage(object $list): string
+        public static function _getSelectorImage($list)
         {
             // Usando Joomla\CMS\Uri\Uri
             $img = Uri::root() . 'media/com_geofactory/assets/baloon.png';
@@ -278,8 +277,9 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  void
          * @since   1.0
          */
-        public static function saveItemContentTale(int $id, string $type, float $lat, float $lng, string $adr = ''): void
+        public static function saveItemContentTale($id, $type, $lat, $lng, $adr = '')
         {
+            /** @var DatabaseDriver $db */
             $db = Factory::getContainer()->get(DatabaseInterface::class);
             $cond = 'type = ' . $db->quote($type) . ' AND id_content = ' . (int)$id;
 
@@ -301,7 +301,6 @@ if (!class_exists('GeofactoryHelper')) {
                       ->set($fields)
                       ->where($cond);
             } else {
-                $columns = ['uid', 'type', 'id_content', 'address', 'latitude', 'longitude'];
                 $values = [
                     $db->quote(''),
                     $db->quote($type),
@@ -311,7 +310,6 @@ if (!class_exists('GeofactoryHelper')) {
                     (float)$lng
                 ];
                 $query->insert($db->quoteName('#__geofactory_contents'))
-                      ->columns($db->quoteName($columns))
                       ->values(implode(',', $values));
             }
             $db->setQuery($query);
@@ -324,13 +322,13 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  bool  True se la modalità debug è attiva
          * @since   1.0
          */
-        public static function isDebugMode(): bool
+        public static function isDebugMode()
         {
             $config = ComponentHelper::getParams('com_geofactory');
             if ((bool)$config->get('isDebug')) {
                 return true;
             }
-            $app = Factory::getApplication();
+            $app = Factory::getApplication('site');
             if ((bool)$app->input->getInt('gf_debug', false)) {
                 return true;
             }
@@ -345,7 +343,7 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  bool   True se il marker è nell'area
          * @since   1.0
          */
-        public static function markerInArea(array $marker, array $vp): bool
+        public static function markerInArea($marker, $vp)
         {
             if ($marker['lat'] < $vp[0]) return false;
             if ($marker['lng'] < $vp[1]) return false;
@@ -361,7 +359,7 @@ if (!class_exists('GeofactoryHelper')) {
          * @return  bool    True se usare il nuovo metodo
          * @since   1.0
          */
-        public static function useNewMethod(object $map): bool
+        public static function useNewMethod($map)
         {
             $config = ComponentHelper::getParams('com_geofactory');
             if ((int)$config->get('newMethod') < 1) {

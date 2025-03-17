@@ -9,12 +9,11 @@
  * @website     www.myJoom.com
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormFieldList;
+use Joomla\CMS\Form\Field\ListField;
 
-JFormHelper::loadFieldClass('list');
-
+// Non è più necessario caricare la classe con JFormHelper::loadFieldClass('list')
 // Includo il file helper del backend
 require_once JPATH_SITE . '/administrator/components/com_geofactory/helpers/geofactory.php';
 // Includo il file del campo "listmaps" definito nel backend

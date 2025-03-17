@@ -15,21 +15,21 @@ use Joomla\CMS\MVC\Controller\BaseController;
 
 require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 
-// Se esiste il file gus.php (relativo al componente), lo includiamo.
-// Nota: si usa JPATH_COMPONENT per garantire il percorso assoluto.
-if (file_exists(JPATH_COMPONENT . '/components/gus.php')) {
-    include JPATH_COMPONENT . '/components/gus.php';
-}
+// // Se esiste il file gus.php (relativo al componente), lo includiamo.
+// // Nota: si usa JPATH_COMPONENT per garantire il percorso assoluto.
+// if (file_exists(JPATH_COMPONENT . '/components/gus.php')) {
+//     include JPATH_COMPONENT . '/components/gus.php';
+// }
 
 class GeofactoryController extends BaseController
 {
-    public function gus()
-    {
-        // Utilizza Factory::getDbo() per ottenere l’oggetto DB in Joomla 4
-        if (function_exists('_gus')) {
-            _gus(Factory::getDbo());
-        } else {
-            echo "not available here!";
-        }
-    }
+    // public function gus()
+    // {
+    //     // Utilizza Factory::getDbo() per ottenere l'oggetto DB in Joomla 4
+    //     if (function_exists('_gus')) {
+    //         _gus(Factory::getDbo());
+    //     } else {
+    //         echo "not available here!";
+    //     }
+    // }
 }

@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryNode;
 
 abstract class GeoFactoryHelperRoute
 {
@@ -21,13 +23,13 @@ abstract class GeoFactoryHelperRoute
 
     public static function getMapRoute($catid, $language = 0)
     {
-        if ($catid instanceof JCategoryNode) {
+        if ($catid instanceof CategoryNode) {
             $id = $catid->id;
             $category = $catid;
         } else {
             $id = (int)$catid;
-            // Note : Pour Joomla 4, adaptez la gestion des catégories si nécessaire.
-            $category = \Joomla\CMS\Categories\Categories::getInstance('Weblinks')->get($id);
+            // Nota: Per Joomla 4, adattiamo la gestione delle categorie.
+            $category = Categories::getInstance('Weblinks')->get($id);
         }
 
         if ($id < 1) {
@@ -53,7 +55,7 @@ abstract class GeoFactoryHelperRoute
                 }
             }
 
-            if ($item = self::_findItem($needles)) {
+            if ($item = self::findItem($needles)) {
                 $link .= '&Itemid=' . $item;
             } else {
                 if ($category) {
@@ -62,9 +64,9 @@ abstract class GeoFactoryHelperRoute
                         'category'   => $catids,
                         'categories' => $catids
                     ];
-                    if ($item = self::_findItem($needles)) {
+                    if ($item = self::findItem($needles)) {
                         $link .= '&Itemid=' . $item;
-                    } elseif ($item = self::_findItem()) {
+                    } elseif ($item = self::findItem()) {
                         $link .= '&Itemid=' . $item;
                     }
                 }
@@ -73,7 +75,13 @@ abstract class GeoFactoryHelperRoute
         return $link;
     }
 
-    protected static function _findItem($needles = null)
+    /**
+     * Cerca un elemento di menu corrispondente ai parametri dati.
+     * 
+     * @param array|null $needles Array di parametri di ricerca
+     * @return int|null ID dell'elemento di menu o null se non trovato
+     */
+    protected static function findItem($needles = null)
     {
         $app = Factory::getApplication();
         $menus = $app->getMenu('site');

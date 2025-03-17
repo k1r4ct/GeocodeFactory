@@ -10,38 +10,48 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\WebAsset\WebAssetManager;
+
 // Carica il file di lingua per i testi
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 $lang->load('com_geofactory');
 
 class GeofactoryExternalMapHelper
 {
     /**
-     * Retourne une carte complète à partir de son ID.
+     * Restituisce una mappa completa dal suo ID.
      *
-     * @param   int     $id      L'ID de la carte
-     * @param   string  $context Contexte ('m' = module, 'cbp' = profil, etc.)
-     * @param   int     $zoom    Zoom forcé (0 pour utiliser la valeur par défaut)
-     * @return  object|null  L'objet carte ou null si non trouvé
+     * @param   int     $id      L'ID della mappa
+     * @param   string  $context Contesto ('m' = modulo, 'cbp' = profilo, ecc.)
+     * @param   int     $zoom    Zoom forzato (0 per usare il valore predefinito)
+     * @return  object|null  L'oggetto mappa o null se non trovato
      */
     public static function getMap($id, $context, $zoom = 0)
     {
-        // Ajoute le chemin des modèles pour Geofactory
-        JModelLegacy::addIncludePath(JPATH_ROOT . '/components/com_geofactory/models', 'GeofactoryModel');
+        // Aggiunge il percorso dei modelli per Geofactory
+        BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/components/com_geofactory/models', 'GeofactoryModel');
 
         $idMap = (int) $id;
         if ($idMap < 1) {
-            echo "No selected map in settings ({$context})!";
+            echo "Nessuna mappa selezionata nelle impostazioni ({$context})!";
             return null;
         }
 
-        // Récupère le modèle de carte (en ignorant la requête)
-        $model = JModelLegacy::getInstance('Map', 'GeofactoryModel', array('ignore_request' => true));
+        // Recupera il modello di mappa (ignorando la richiesta)
+        $model = BaseDatabaseModel::getInstance('Map', 'GeofactoryModel', array('ignore_request' => true));
         $model->setMapContext($context);
         $map = $model->getItem($idMap);
         $map->forceZoom = (int) $zoom;
 
-        // Prépare une pseudo-vue pour préparer le document (pour les métadonnées, etc.)
+        // Prepara una pseudo-vista per preparare il documento (per metadata, ecc.)
         if (!class_exists('GeofactoryViewMap')) {
             require_once JPATH_ROOT . '/components/com_geofactory/views/map/view.html.php';
         }
@@ -53,32 +63,37 @@ class GeofactoryExternalMapHelper
     }
 
     /**
-     * Retourne une carte pour l'affichage en mode profil.
-     * Tente de récupérer les coordonnées depuis les champs, sinon géocode.
+     * Restituisce una mappa per la visualizzazione in modalità profilo.
+     * Tenta di recuperare le coordinate dai campi, altrimenti geocodifica.
      *
-     * @param   mixed   $fLat    Identifiant ou valeur du champ latitude
-     * @param   mixed   $fLng    Identifiant ou valeur du champ longitude
-     * @param   string  $mapvar  ID de la div où sera affichée la carte
-     * @param   int     $idMap   ID de la carte
-     * @param   int     $idU     ID utilisateur (pour la bubble, par exemple)
-     * @param   bool    $lib     Si true, charge la librairie Google Maps
-     * @return  string  Le HTML généré pour afficher la carte
+     * @param   mixed   $fLat    Identificatore o valore del campo latitudine
+     * @param   mixed   $fLng    Identificatore o valore del campo longitudine
+     * @param   string  $mapvar  ID del div dove verrà visualizzata la mappa
+     * @param   int     $idMap   ID della mappa
+     * @param   int     $idU     ID utente (per la bolla, ad esempio)
+     * @param   bool    $lib     Se true, carica la libreria Google Maps
+     * @return  string  L'HTML generato per visualizzare la mappa
      */
     public static function getProfileMap($fLat, $fLng, $mapvar, $idMap, $idU, $lib = false)
     {
-        JModelLegacy::addIncludePath(JPATH_ROOT . '/components/com_geofactory/models', 'GeofactoryModel');
+        BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/components/com_geofactory/models', 'GeofactoryModel');
         if ($idMap < 1) {
-            return "@admin: no selected map in CB plugin settings!";
+            return "@admin: nessuna mappa selezionata nelle impostazioni del plugin CB!";
         }
 
-        $doc = JFactory::getDocument();
+        $doc = Factory::getDocument();
+        $wa = $doc->getWebAssetManager();
 
-        // Charge l'objet carte à partir du modèle
-        $model = JModelLegacy::getInstance('Map', 'GeofactoryModel', array('ignore_request' => true));
+        // Aggiunge Bootstrap e jQuery se necessario (usando WebAsset Manager)
+        $wa->useStyle('bootstrap.css')
+           ->useScript('jquery');
+
+        // Carica l'oggetto mappa dal modello
+        $model = BaseDatabaseModel::getInstance('Map', 'GeofactoryModel', array('ignore_request' => true));
         $model->setMapContext('cbp');
         $map = $model->getItem($idMap);
 
-        // Paramètres de la carte
+        // Parametri della mappa
         $width  = (strlen($map->mapwidth) > 5) ? $map->mapwidth : "width:200px";
         $height = (strlen($map->mapheight) > 5) ? $map->mapheight : "height:200px";
         $size   = str_replace(' ', '', $width . ";" . $height . ";");
@@ -90,10 +105,10 @@ class GeofactoryExternalMapHelper
             $type = 'google.maps.MapTypeId.' . $map->mapTypeOnStart;
         }
 
-        // Récupère les markersets attachés à la carte
+        // Recupera i markerset collegati alla mappa
         $idMs = GeofactoryHelper::getArrayIdMs($map->id);
 
-        // Recherche le premier markerset de type CB
+        // Cerca il primo markerset di tipo CB
         $cbMs = null;
         foreach ($idMs as $ms) {
             $list = GeofactoryHelper::getMs($ms);
@@ -106,15 +121,15 @@ class GeofactoryExternalMapHelper
             }
         }
 
-        // Construction du code JavaScript
+        // Costruzione del codice JavaScript
         $js = "
-            var gf_sr = '" . JURI::root() . "';
+            var gf_sr = '" . Uri::root() . "';
             var {$mapvar};
             var marker_{$mapvar};
             var cm_{$mapvar};
             function init_{$mapvar}(){
                 if (!jQuery('#{$fLat}')){
-                    alert('No coordinates in this profile (lat/long)!');
+                    alert('Nessuna coordinata in questo profilo (lat/long)!');
                     return;
                 }
                 jQuery('#{$mapvar}').fadeTo('slow', 1);
@@ -134,16 +149,16 @@ class GeofactoryExternalMapHelper
         if ($cbMs) {
             $icon = null;
             if ($cbMs->markerIconType == 1) {
-                // Icône définie par l'utilisateur
-                $icon = (strlen($cbMs->customimage) > 3) ? (JURI::root() . $cbMs->customimage) : null;
+                // Icona definita dall'utente
+                $icon = (strlen($cbMs->customimage) > 3) ? (Uri::root() . $cbMs->customimage) : null;
             } else if ($cbMs->markerIconType == 2 && strlen($cbMs->mapicon) > 3) {
-                // Mapicon depuis le répertoire d'installation
-                $icon = (JURI::root() . 'media/com_geofactory/mapicons/' . $cbMs->mapicon);
+                // Mapicon dalla cartella di installazione
+                $icon = (Uri::root() . 'media/com_geofactory/mapicons/' . $cbMs->mapicon);
             }
             if ($icon) {
                 $js .= " marker_{$mapvar}.setIcon('{$icon}');";
             }
-            // Ajoute la gestion de la bulle (bubble)
+            // Aggiunge la gestione della bolla (bubble)
             $js .= "
                 google.maps.event.addListener(marker_{$mapvar}, 'click', function(){
                     iw.open({$mapvar}, marker_{$mapvar});
@@ -158,20 +173,24 @@ class GeofactoryExternalMapHelper
 
         $js = str_replace(array("\n", "\t", "  ", "\r"), '', trim($js));
 
-        // Ajoute éventuellement la clé API et le paramètre de langue
-        $config = JComponentHelper::getParams('com_geofactory');
+        // Aggiunge eventualmente la chiave API e il parametro di lingua
+        $config = ComponentHelper::getParams('com_geofactory');
         $ggApikey = (strlen($config->get('ggApikey')) > 3) ? "&key=" . $config->get('ggApikey') : "";
         $mapLang = (strlen($config->get('mapLang')) > 1) ? '&language=' . $config->get('mapLang') : "";
+        
         if ($lib) {
             $http = $config->get('sslSite');
             if (empty($http)) {
                 $http = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'])) ? "https://" : "http://";
             }
-            $doc->addScript($http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang);
-            $doc->addScript(JURI::root() . 'components/com_geofactory/assets/js/header.js');
+            
+            // Usando WebAssetManager per aggiungere script esterni
+            $wa->registerAndUseScript('googleMapsAPI', $http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang);
+            $wa->registerAndUseScript('geoFactoryHeader', Uri::root() . 'components/com_geofactory/assets/js/header.js');
         }
+        
         $doc->addStyleDeclaration("#{$mapvar} img{max-width:none!important;}");
-        $doc->addScriptDeclaration($js);
+        $wa->addInlineScript($js);
 
         $html = [];
         $html[] = '<div id="gf_admin_map_container" style="display:_none;padding: 3px 3px 4px 6px;">';
@@ -181,18 +200,18 @@ class GeofactoryExternalMapHelper
     }
 
     /**
-     * Retourne une carte éditable pour le profil (mode édition).
-     * Si les coordonnées ne sont pas renseignées, tente de les récupérer par géocodage.
+     * Restituisce una mappa modificabile per il profilo (modalità modifica).
+     * Se le coordinate non sono specificate, tenta di recuperarle tramite geocodifica.
      *
-     * @param   mixed   $fLat         Identifiant ou valeur du champ latitude
-     * @param   mixed   $fLng         Identifiant ou valeur du champ longitude
-     * @param   string  $mapvar       ID de la div contenant la carte
-     * @param   bool    $lib          Si true, charge la librairie Google Maps
-     * @param   string  $defAdress    Adresse par défaut (si aucune coordonnée n'est renseignée)
-     * @param   array   $checkBox     Tableau de configuration pour la case à cocher de remplissage automatique
-     * @param   array   $addressField Tableau associatif des champs d'adresse (city, zip, state, country, street)
-     * @param   string  $defCenter    Coordonnées de centre par défaut (format "lat,lng")
-     * @return  string  Le HTML généré pour afficher la carte éditable
+     * @param   mixed   $fLat         Identificatore o valore del campo latitudine
+     * @param   mixed   $fLng         Identificatore o valore del campo longitudine
+     * @param   string  $mapvar       ID del div contenente la mappa
+     * @param   bool    $lib          Se true, carica la libreria Google Maps
+     * @param   string  $defAdress    Indirizzo predefinito (se nessuna coordinata è specificata)
+     * @param   array   $checkBox     Array di configurazione per la casella di selezione di auto-compilazione 
+     * @param   array   $addressField Array associativo dei campi dell'indirizzo (city, zip, state, country, street)
+     * @param   string  $defCenter    Coordinate del centro predefinito (formato "lat,lng")
+     * @return  string  L'HTML generato per visualizzare la mappa modificabile
      */
     public static function getProfileEditMap($fLat, $fLng, $mapvar, $lib = false, $defAdress = '', $checkBox = array(), $addressField = array(), $defCenter = null)
     {
@@ -216,7 +235,7 @@ class GeofactoryExternalMapHelper
             var cm_{$mapvar};
             function init_{$mapvar}(){
                 if (!jQuery('#{$fLat}')){
-                    alert('Coordinates fields not loaded (lat/long)!');
+                    alert('Campi delle coordinate non caricati (lat/long)!');
                     return;
                 }
                 jQuery('#{$mapvar}').fadeTo('slow', 1);
@@ -261,7 +280,7 @@ class GeofactoryExternalMapHelper
                         );
                     }
                     else {
-                        alert('Geocode not supported by this browser.');
+                        alert('Geocode non supportato da questo browser.');
                     }
                 }
                 
@@ -367,19 +386,26 @@ class GeofactoryExternalMapHelper
             google.maps.event.addDomListener(window, 'load', init_{$mapvar});
         ";
         $js = str_replace(array("\n", "\t", "  ", "\r"), '', trim($js));
-        $doc = JFactory::getDocument();
+        
+        $doc = Factory::getDocument();
+        $wa = $doc->getWebAssetManager();
+        
         if ($lib) {
-            $config = JComponentHelper::getParams('com_geofactory');
+            $config = ComponentHelper::getParams('com_geofactory');
             $http = $config->get('sslSite');
             if (empty($http)) {
                 $http = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'])) ? "https://" : "http://";
             }
             $ggApikey = (strlen($config->get('ggApikey')) > 3) ? "&key=" . $config->get('ggApikey') : "";
             $mapLang = (strlen($config->get('mapLang')) > 1) ? '&language=' . $config->get('mapLang') : "";
-            $doc->addScript($http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang);
+            
+            // Usando WebAssetManager
+            $wa->registerAndUseScript('googleMapsAPI', $http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang);
         }
+        
         $doc->addStyleDeclaration("#{$mapvar} img{max-width:none!important;}");
-        $doc->addScriptDeclaration($js);
+        $wa->addInlineScript($js);
+        
         $html = [];
         $html[] = '<div id="gf_admin_map_container" style="display:_none;padding: 3px 3px 4px 6px;">';
         $html[] = ' <div id="' . $mapvar . '" style="border:1px solid silver;' . $size . '" ></div>';

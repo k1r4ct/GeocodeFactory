@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 
 // Includi eventuali helper
@@ -39,13 +38,10 @@ class GeofactoryControllerMap extends BaseController
 
         $json  = $model->createfile($idMap);
 
-        // Pulisce eventuali buffer di output
-        @ob_clean();
-        flush();
-
-        // Output del JSON
-        echo $json;
-        exit;
+        // Output del JSON in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'application/json');
+        $app->setBody($json);
+        $app->close();
     }
 
     public function geocodearticle()
@@ -98,7 +94,11 @@ class GeofactoryControllerMap extends BaseController
         $db->setQuery($query);
         $db->execute();
 
-        exit;
+        // Risposta di successo
+        $app = Factory::getApplication();
+        $app->setHeader('Content-Type', 'application/json');
+        $app->setBody(json_encode(['success' => true]));
+        $app->close();
     }
 
     public function getJs()
@@ -163,7 +163,7 @@ class GeofactoryControllerMap extends BaseController
         $js[] = "var zmid = {$map->gf_zoomMeId};";
         $js[] = "var tmty = '{$map->gf_zoomMeType}';";
 
-        // Aggiunge altri file JS
+        // Aggiunge altri file JS - usando pathinfo per verificare l'estensione
         $files = [
             'components/com_geofactory/assets/js/header.js',
             'components/com_geofactory/assets/js/cls.dynRad.js',
@@ -175,9 +175,10 @@ class GeofactoryControllerMap extends BaseController
         ];
 
         foreach ($files as $file) {
-            if (is_file(JPATH_ROOT . '/' . $file)) {
+            $filePath = JPATH_ROOT . '/' . $file;
+            if (is_file($filePath) && pathinfo($filePath, PATHINFO_EXTENSION) === 'js') {
                 $js[] = "/* {$file} */";
-                $js[] = file_get_contents(JPATH_ROOT . '/' . $file);
+                $js[] = file_get_contents($filePath);
             }
         }
 
@@ -185,11 +186,11 @@ class GeofactoryControllerMap extends BaseController
         $js[] = "google.maps.event.addDomListener(window, 'load', init2_{$jsVarName});";
 
         $sep = GeofactoryHelper::isDebugMode() ? "\n" : "";
+        $jsContent = implode($sep, $js);
 
-        @ob_end_clean();
-        header("Content-type: application/javascript; charset=utf-8");
-
-        echo implode($sep, $js);
-        exit;
+        // Output JavaScript in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'application/javascript; charset=utf-8');
+        $app->setBody($jsContent);
+        $app->close();
     }
 }

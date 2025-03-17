@@ -4,7 +4,7 @@
  * @package     geoFactory
  * @copyright   Copyright © 2013
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Rick Pelloquin
+ * @author      
  * @update      Daniele Bellante
  * @website     www.myJoom.com
  */
@@ -93,7 +93,7 @@ class GeofactoryModelMarkers extends ItemModel
 
         $config = ComponentHelper::getParams('com_geofactory');
 
-        // Esegui eventi in modo aggiornato per Joomla 4
+        // Esempio: "resetBeforeGateway" -> "onResetBeforeGateway"
         $dispatcher->dispatch(new Event('onResetBeforeGateway', ['args'=>[]]));
 
         $jsLat = $app->input->getFloat('lat');
@@ -151,8 +151,7 @@ class GeofactoryModelMarkers extends ItemModel
 
             $arIdsMarkers = [];
             $isSpecialMs = false;
-            
-            // Aggiornato per Joomla 4: isSpecialMs event
+            // "isSpecialMs" -> "onIsSpecialMs"
             $evIsSpec = new Event('onIsSpecialMs', [
                 'typeList' => $objMs->typeList,
                 'isSpecialMs' => &$isSpecialMs
@@ -169,7 +168,7 @@ class GeofactoryModelMarkers extends ItemModel
                     $vCheckArray[$objMs->typeList] = [];
                 }
 
-                // Aggiornato per Joomla 4: cleanResultsFromPlugins event
+                // "cleanResultsFromPlugins" -> "onCleanResultsFromPlugins"
                 $evClean = new Event('onCleanResultsFromPlugins', [
                     'typeList' => $objMs->typeList,
                     'msDb'     => &$msDb,
@@ -233,7 +232,7 @@ class GeofactoryModelMarkers extends ItemModel
         }
         $minMarkers = 50;
         if ($useSuperCluster) {
-            // Aggiornato per Joomla 4: howManyMarkerForCluster event
+            // "howManyMarkerForCluster" -> "onHowManyMarkerForCluster"
             $evHowMany = new Event('onHowManyMarkerForCluster', [
                 'minMarkers' => &$minMarkers
             ]);
@@ -242,7 +241,7 @@ class GeofactoryModelMarkers extends ItemModel
         if ($useSuperCluster && $curZoom <= $map->clusterZoom && (count($msDbOk) > $minMarkers)) {
             $VPlimit = [];
 
-            // Aggiornato per Joomla 4: getClusterCarres event
+            // onGetClusterCarres
             $evCarres = new Event('onGetClusterCarres', [
                 'VPlimit' => &$VPlimit,
                 'vpCalc'  => &$this->m_vpCalc
@@ -250,7 +249,7 @@ class GeofactoryModelMarkers extends ItemModel
             $dispatcher->dispatch($evCarres);
 
             $bigger = 0;
-            // Aggiornato per Joomla 4: ventileMarkers event
+            // onVentileMarkers
             $evVent = new Event('onVentileMarkers', [
                 'bigger'   => &$bigger,
                 'VPlimit'  => &$VPlimit,
@@ -259,7 +258,7 @@ class GeofactoryModelMarkers extends ItemModel
             $dispatcher->dispatch($evVent);
 
             $cluster = null;
-            // Aggiornato per Joomla 4: genereJson event
+            // onGenereJson
             $evGenJson = new Event('onGenereJson', [
                 'cluster' => &$cluster,
                 'VPlimit' => $VPlimit,
@@ -283,8 +282,6 @@ class GeofactoryModelMarkers extends ItemModel
 
         $data['infos']['messages'] = [Text::_('COM_GEOFACTORY_DATA_FILE_SUCCESS')];
         $data['infos']['elapsed'] = $this->_getElapsed($start_timestamp);
-        
-        return json_encode($data);
     }
 
     function sortPremium($vUid, $idMap)
@@ -392,8 +389,7 @@ class GeofactoryModelMarkers extends ItemModel
 
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         $vCol = [];
-        
-        // Aggiornato per Joomla 4: getColorPline event
+        // "getColorPline" -> "onGetColorPline"
         $evColor = new Event('onGetColorPline', [
             'vCol' => &$vCol
         ]);
@@ -444,7 +440,7 @@ class GeofactoryModelMarkers extends ItemModel
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         $vCon = null;
 
-        // Aggiornato per Joomla 4: getFriendsList event
+        // "getFriendsList" -> "onGetFriendsList"
         $evFriends = new Event('onGetFriendsList', [
             'vCon' => &$vCon
         ]);
@@ -486,7 +482,7 @@ class GeofactoryModelMarkers extends ItemModel
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         $vCon = null;
 
-        // Aggiornato per Joomla 4: getGuestList event
+        // "getGuestList" -> "onGetGuestList"
         $evGuest = new Event('onGetGuestList', [
             'vCon' => &$vCon
         ]);
@@ -581,7 +577,7 @@ class GeofactoryModelMarkers extends ItemModel
         $allM = $app->input->getInt('allM');
 
         $isUserPlg = false;
-        // Aggiornato per Joomla 4: isProfile event
+        // "isProfile" -> "onIsProfile"
         $evProf = new Event('onIsProfile', [
             'typeList' => $oMs->typeList,
             'isUserPlg'=> &$isUserPlg
@@ -589,7 +585,7 @@ class GeofactoryModelMarkers extends ItemModel
         $dispatcher->dispatch($evProf);
 
         $isEventPlg = false;
-        // Aggiornato per Joomla 4: isEvent event
+        // "isEvent" -> "onIsEvent"
         $evEvt = new Event('onIsEvent', [
             'typeList'   => $oMs->typeList,
             'isEventPlg' => &$isEventPlg
@@ -597,7 +593,7 @@ class GeofactoryModelMarkers extends ItemModel
         $dispatcher->dispatch($evEvt);
 
         $isOnCurContext = false;
-        // Aggiornato per Joomla 4: isOnCurContext event
+        // "isOnCurContext" -> "onIsOnCurContext"
         $evCont = new Event('onIsOnCurContext', [
             'typeList'      => $oMs->typeList,
             'ss_zoomMeTy'   => $ss_zoomMeTy,
@@ -608,7 +604,7 @@ class GeofactoryModelMarkers extends ItemModel
         $listCatIcon = null;
         $listCatEntry = null;
         if ($oMs->markerIconType == 4) {
-            // Aggiornato per Joomla 4: getRel_idCat_iconPath event
+            // getRel_idCat_iconPath -> onGetRel_idCat_iconPath
             $evCatIcon = new Event('onGetRel_idCat_iconPath', [
                 'typeList'   => $oMs->typeList,
                 'listCatIcon'=> &$listCatIcon,
@@ -616,7 +612,7 @@ class GeofactoryModelMarkers extends ItemModel
             ]);
             $dispatcher->dispatch($evCatIcon);
 
-            // Aggiornato per Joomla 4: getRel_idEntry_idCat event
+            // getRel_idEntry_idCat -> onGetRel_idEntry_idCat
             $evCatEntry = new Event('onGetRel_idEntry_idCat', [
                 'typeList'    => $oMs->typeList,
                 'listCatEntry'=> &$listCatEntry
@@ -686,7 +682,7 @@ class GeofactoryModelMarkers extends ItemModel
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         PluginHelper::importPlugin('geocodefactory');
 
-        // Aggiornato per Joomla 4: checkMainQueryResults event
+        // "checkMainQueryResults" -> "onCheckMainQueryResults"
         $evCheck = new Event('onCheckMainQueryResults', [
             'typeList' => $oMs->typeList,
             'results'  => &$oU
@@ -711,7 +707,7 @@ class GeofactoryModelMarkers extends ItemModel
         $vTmp = [];
         $idTopParent = -1;
         if (isset($oMs->childCats) && $oMs->childCats == 1 && (count($inCats) > 0)) {
-            // Aggiornato per Joomla 4: getAllSubCats event
+            // getAllSubCats -> onGetAllSubCats
             $evAllSub = new Event('onGetAllSubCats', [
                 'typeList'  => $oMs->typeList,
                 'catList'   => &$vTmp,
@@ -802,7 +798,7 @@ class GeofactoryModelMarkers extends ItemModel
             }
         }
 
-        // Aggiornato per Joomla 4: customiseQuery event
+        // "customiseQuery" -> "onCustomiseQuery"
         $evCustom = new Event('onCustomiseQuery', [
             'typeList'   => $oMs->typeList,
             'params'     => $params,
@@ -812,7 +808,7 @@ class GeofactoryModelMarkers extends ItemModel
         ]);
         $dispatcher->dispatch($evCustom);
 
-        // Aggiornato per Joomla 4: setMainQueryFilters event
+        // "setMainQueryFilters" -> "onSetMainQueryFilters"
         $evSetMain = new Event('onSetMainQueryFilters', [
             'typeList' => $oMs->typeList,
             'oMs'      => $oMs,
@@ -834,7 +830,7 @@ class GeofactoryModelMarkers extends ItemModel
             'oMs'       => $oMs
         ];
 
-        // Aggiornato per Joomla 4: getMainQuery event
+        // "getMainQuery" -> "onGetMainQuery"
         $evMainQ = new Event('onGetMainQuery', [
             'data'   => $data,
             'query'  => &$query
@@ -880,8 +876,7 @@ class GeofactoryModelMarkers extends ItemModel
             $path = Uri::root().'media/com_geofactory/mapicons/';
         } else if ($objMs->markerIconType == 3 || $objMs->markerIconType == 4) {
             $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
-            
-            // Aggiornato per Joomla 4: getIconCommonPath event
+            // "getIconCommonPath" -> "onGetIconCommonPath"
             $evIconPath = new Event('onGetIconCommonPath', [
                 'typeList'       => $objMs->typeList,
                 'markerIconType' => $objMs->markerIconType,
@@ -939,7 +934,7 @@ class GeofactoryModelMarkers extends ItemModel
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         PluginHelper::importPlugin('geocodefactory');
 
-        // Aggiornato per Joomla 4: getAllSubCats event
+        // "getAllSubCats" -> "onGetAllSubCats"
         $evAllSub = new Event('onGetAllSubCats', [
             'typeList'   => $ext,
             'catList'    => &$categoryList,
@@ -967,8 +962,7 @@ class GeofactoryModelMarkers extends ItemModel
         $dynCat = false;
 
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
-        
-        // Aggiornato per Joomla 4: isMyShortName event
+        // "isMyShortName" -> "onIsMyShortName"
         $evShort = new Event('onIsMyShortName', [
             'typeList'  => $typeList,
             'dynCatFromExt' => $dynCatFromExt,
@@ -1025,7 +1019,7 @@ class GeofactoryModelMarkers extends ItemModel
             $lngRad = $jsLng;
         } else if ($oMarkerSet->rad_distance > 0) {
             if ($oMarkerSet->rad_mode == 0) {
-                // Aggiornato per Joomla 4: getCurrentUserProfileCoordinates event
+                // "getCurrentUserProfileCoordinates" -> "onGetCurrentUserProfileCoordinates"
                 $coor = [];
                 $evProfCoor = new Event('onGetCurrentUserProfileCoordinates', [
                     'typeList' => $oMarkerSet->typeList,
@@ -1073,8 +1067,7 @@ class GeofactoryModelMarkers extends ItemModel
         $coor = [];
 
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
-        
-        // Aggiornato per Joomla 4: getItemCoordinates event
+        // "getItemCoordinates" -> "onGetItemCoordinates"
         $evItemCoor = new Event('onGetItemCoordinates', [
             'patternType' => $params['pattern_type'],
             'curId'       => $curId,
@@ -1113,7 +1106,8 @@ class GeofactoryModelMarkers extends ItemModel
     }
 }
 
-// Lasciamo invariata la classe markerObject, ma se necessario potremmo aggiornarla
+// Lasciamo invariata la classe “markerObject” se non ha “triggerEvent”;
+// in caso serva, la convertiamo come negli altri punti.
 class markerObject
 {
     protected $m_vMarker = [];
@@ -1242,8 +1236,7 @@ class markerObject
             $this->m_vMarker['mi'] = (strlen($this->m_oMs->mapicon) > 3) ? $this->m_oMs->mapicon : "";
         } else if ($this->m_oMs->markerIconType == 3) {
             $fieldImg = isset($this->m_dbMarker->avatar) ? $this->m_dbMarker->avatar : '';
-            
-            // Aggiornato per Joomla 4: getIconPathFromBrutDbValue event
+            // "getIconPathFromBrutDbValue" -> "onGetIconPathFromBrutDbValue"
             $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
             $evIcon = new Event('onGetIconPathFromBrutDbValue', [
                 'typeList' => $this->m_oMs->typeList,

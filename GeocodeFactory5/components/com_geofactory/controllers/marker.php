@@ -36,10 +36,10 @@ class GeofactoryControllerMarker extends BaseController
         $model->init($vids, $idMs, $vDist, 1);
         $content = $model->loadTemplate();
 
-        @ob_clean();
-        flush();
-        echo $content;
-        exit;
+        // Output in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
+        $app->setBody($content);
+        $app->close();
     }
 
     // Visualizza la bolla per i nuovi Google Place
@@ -53,10 +53,10 @@ class GeofactoryControllerMarker extends BaseController
         $model->initLt($idMs);
         $content = $model->loadTemplate();
 
-        @ob_clean();
-        flush();
-        echo $content;
-        exit;
+        // Output in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
+        $app->setBody($content);
+        $app->close();
     }
 
     // Visualizza un singolo marker
@@ -74,10 +74,10 @@ class GeofactoryControllerMarker extends BaseController
         $model->init($vids, $idMs, $vDist, 2);
         $content = $model->loadTemplate();
 
-        @ob_clean();
-        flush();
-        echo $content;
-        exit;
+        // Output in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
+        $app->setBody($content);
+        $app->close();
     }
 
     // Visualizza tutti i markers in una volta
@@ -90,13 +90,13 @@ class GeofactoryControllerMarker extends BaseController
         $model  = $this->getModel('Marker');
         $brutes = json_decode($json, true);
         
+        $content = "";
         if (is_string($brutes)) {
             $brutes = explode(',', $brutes);
         }
         $vIds  = [];
         $vDist = [];
 
-        $content = "";
         if (is_array($brutes) && count($brutes) > 1 && count($brutes) % 2 == 0) {
             $max = count($brutes);
             for ($i = 0; $i < $max; $i++) {
@@ -109,10 +109,10 @@ class GeofactoryControllerMarker extends BaseController
             $content = $model->loadTemplate();
         }
 
-        @ob_clean();
-        flush();
-        echo $content;
-        exit;
+        // Output in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
+        $app->setBody($content);
+        $app->close();
     }
 
     // Visualizza più markers nella stessa posizione (multi-bubble)
@@ -158,9 +158,9 @@ class GeofactoryControllerMarker extends BaseController
             $content = $titre . $content;
         }
 
-        @ob_clean();
-        flush();
-        echo $content;
-        exit;
+        // Output in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
+        $app->setBody($content);
+        $app->close();
     }
 }

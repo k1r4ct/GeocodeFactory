@@ -14,48 +14,50 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Log\Log;
+use Joomla\Event\Event;
 
 class GeofactoryPluginHelper extends CMSPlugin
 {
     /**
-     * Retourne les informations du plugin pour l'affichage dans les listes du backend.
+     * Restituisce le informazioni del plugin per la visualizzazione nelle liste del backend.
      *
      * @return array
      * @since 1.0
      */
     public function getPlgInfo()
     {
-        // Pour les TPC à multidirectoires, on peut fusionner ici les répertoires internes.
-        $this->_mergeInternalDirectories();
-        // Dans les cas standards, on retourne simplement $this->vGatewayInfo.
+        // Per i TPC a multidirectory, possiamo unire qui le directory interne.
+        $this->mergeInternalDirectories();
+        // Nei casi standard, restituiamo semplicemente $this->vGatewayInfo.
         return $this->vGatewayInfo;
     }
 
     /**
-     * Fonction commune en lecture seule.
+     * Funzione comune in sola lettura.
      *
      * @param string $type
-     * @param bool   $flag (passé par référence)
+     * @param bool   $flag (passato per riferimento)
      * @since 1.0
      */
     public function isProfile($type, &$flag)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         $flag = $this->isProfileCom;
     }
 
     /**
-     * Fonction commune en lecture seule.
+     * Funzione comune in sola lettura.
      *
      * @param string $type
-     * @param bool   $flag (passé par référence)
+     * @param bool   $flag (passato per riferimento)
      * @since 1.0
      */
     public function isEvent($type, &$flag)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         if (isset($this->isEventCom) && $this->isEventCom === true) {
@@ -64,15 +66,15 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * Fonction commune en lecture seule.
+     * Funzione comune in sola lettura.
      *
      * @param string $type
-     * @param bool   $flag (passé par référence)
+     * @param bool   $flag (passato per riferimento)
      * @since 1.0
      */
     public function isSpecialMs($type, &$flag)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         if (isset($this->isSpecialMs) && $this->isSpecialMs === true) {
@@ -81,61 +83,61 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * Fonction commune en lecture seule.
+     * Funzione comune in sola lettura.
      *
      * @param string $type
-     * @param bool   $flag (passé par référence)
+     * @param bool   $flag (passato per riferimento)
      * @since 1.0
      */
     public function isIconAvatarEntrySupported($type, &$flag)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         $flag = $this->isSupportAvatar;
     }
 
     /**
-     * Fonction commune en lecture seule.
+     * Funzione comune in sola lettura.
      *
      * @param string $type
-     * @param bool   $flag (passé par référence)
+     * @param bool   $flag (passato per riferimento)
      * @since 1.0
      */
     public function isIconCategorySupported($type, &$flag)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         $flag = $this->isSupportCatIcon;
     }
 
     /**
-     * Fonction commune en lecture seule.
+     * Funzione comune in sola lettura.
      *
      * @param string $type
-     * @param bool   $flag (passé par référence)
+     * @param bool   $flag (passato per riferimento)
      * @since 1.0
      */
     public function getIsSingleGpsField($type, &$flag)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         $flag = $this->isSingleGpsField;
     }
 
     /**
-     * Vérifie le contexte courant et définit s'il s'agit du bon type.
+     * Verifica il contesto corrente e definisce se è il tipo corretto.
      *
      * @param string $type
      * @param string $ssType
-     * @param bool   $isOnCurItem (passé par référence)
+     * @param bool   $isOnCurItem (passato per riferimento)
      * @since 1.0
      */
     public function isOnCurContext($type, $ssType, &$isOnCurItem)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         if ($this->gatewayCode != $ssType) {
@@ -145,22 +147,22 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * Vérifie si le plugin est installé pour le type donné.
+     * Verifica se il plugin è installato per il tipo dato.
      *
      * @param string $type
-     * @param bool   $flag (passé par référence)
+     * @param bool   $flag (passato per riferimento)
      * @since 1.0
      */
     public function isPluginInstalled($type, &$flag)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
         $flag = true;
     }
 
     /**
-     * Retourne la liste des champs d'assignation.
+     * Restituisce la lista dei campi di assegnazione.
      *
      * @param string $type
      * @return array
@@ -169,7 +171,7 @@ class GeofactoryPluginHelper extends CMSPlugin
     public function getListFieldsAssign($type)
     {
         $listFields = [];
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return [$this->gatewayCode, $listFields];
         }
         if ($this->custom_latitude) {
@@ -200,13 +202,13 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * INTERNAL - Retourne l'ID du sous-dossier à partir du typeList.
+     * INTERNO - Restituisce l'ID della sottodirectory dal typeList.
      *
      * @param string $typeList
      * @return int
      * @since 1.0
      */
-    protected function _getSubDirIdFromTypeListe($typeList)
+    protected function getSubDirIdFromTypeListe($typeList)
     {
         if (!is_string($typeList)) {
             return -1;
@@ -219,34 +221,34 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * Vérifie si le "short name" de l'URL est utilisable par ce plugin.
+     * Verifica se il "nome breve" dell'URL è utilizzabile da questo plugin.
      *
      * @param string $type
      * @param string $ext
-     * @param bool   $ret (passé par référence)
+     * @param bool   $ret (passato per riferimento)
      * @since 1.0
      */
     public function isMyShortName($type, $ext, &$ret)
     {
-        if (!$this->_isInCurrentType($type)) {
+        if (!$this->isInCurrentType($type)) {
             return;
         }
-        if (!$this->_isInCurrentType($ext)) {
+        if (!$this->isInCurrentType($ext)) {
             return;
         }
         $ret = true;
     }
 
     /**
-     * INTERNAL - Vérifie si le plugin doit s'exécuter pour le bon type.
+     * INTERNO - Verifica se il plugin deve essere eseguito per il tipo corretto.
      *
      * @param string $type
      * @return bool
      * @since 1.0
      */
-    protected function _isInCurrentType($type)
+    protected function isInCurrentType($type)
     {
-        $this->_mergeInternalDirectories();
+        $this->mergeInternalDirectories();
         foreach ($this->vGatewayInfo as $gi) {
             if (strtolower($type) == strtolower($gi[0])) {
                 return true;
@@ -256,13 +258,13 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * INTERNAL - Retourne l'ID de l'élément de menu.
+     * INTERNO - Restituisce l'ID dell'elemento di menu.
      *
      * @param int $itemid
      * @return int
      * @since 1.0
      */
-    protected function _getMenuItemId($itemid = 0)
+    protected function getMenuItemId($itemid = 0)
     {
         if ($itemid > 0) {
             return $itemid;
@@ -277,14 +279,14 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * INTERNAL - Ajoute une condition WHERE pour tester la validité des coordonnées.
+     * INTERNO - Aggiunge una condizione WHERE per testare la validità delle coordinate.
      *
      * @param string $fieldLat
      * @param string $fieldLng
      * @return string
      * @since 1.0
      */
-    protected function _getValidCoordTest($fieldLat, $fieldLng)
+    protected function getValidCoordTest($fieldLat, $fieldLng)
     {
         $app = Factory::getApplication('site');
         $vp = $app->input->getString('bo', '');
@@ -316,14 +318,14 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * INTERNAL - Finalise la requête de liste pour la géocodification.
+     * INTERNO - Finalizza la query di lista per la geocodifica.
      *
      * @param  object $query
      * @param  array  $filters
      * @return object
      * @since 1.0
      */
-    protected function _finaliseGetListQueryBackGeocode($query, $filters)
+    protected function finaliseGetListQueryBackGeocode($query, $filters)
     {
         $filterSearch = $filters[0];
         $filterGeocoded = $filters[2];
@@ -348,13 +350,13 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * INTERNAL - Génère une URL complète.
+     * INTERNO - Genera un URL completo.
      *
      * @param string $href
      * @return string
      * @since 1.0
      */
-    protected function _genericUrl($href)
+    protected function genericUrl($href)
     {
         $href = str_replace('&amp;', '&', $href);
         $uri = \Joomla\CMS\Uri\Uri::getInstance();
@@ -363,7 +365,7 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * Retourne tous les tags.
+     * Restituisce tutti i tag.
      *
      * @param int   $idTopCat
      * @param array &$vCats
@@ -376,15 +378,17 @@ class GeofactoryPluginHelper extends CMSPlugin
                     ->select('id as catid, parent_id as parentid, title')
                     ->from($db->quoteName('#__tags'))
                     ->order('title');
-        $db->setQuery($query);
-        $vCats = $db->loadObjectList();
-        if ($db->getError()) {
-            trigger_error("getAllTags: DB reports: " . $db->stderr(), E_USER_WARNING);
+        try {
+            $db->setQuery($query);
+            $vCats = $db->loadObjectList();
+        } catch (\Exception $e) {
+            // Utilizziamo il sistema di log di Joomla invece di trigger_error
+            Log::add('getAllTags: Errore nel database: ' . $e->getMessage(), Log::ERROR, 'geofactory');
         }
     }
 
     /**
-     * INTERNAL - Retourne les sous-catégories d'une liste de catégories.
+     * INTERNO - Restituisce le sottocategorie di una lista di categorie.
      *
      * @param array  $categoryList
      * @param mixed  &$par
@@ -392,7 +396,7 @@ class GeofactoryPluginHelper extends CMSPlugin
      * @param string $indent
      * @since 1.0
      */
-    public static function _getChildCatOf($categoryList, &$par, &$vRes, $indent)
+    public static function getChildCatOf($categoryList, &$par, &$vRes, $indent)
     {
         if (is_string($indent)) {
             $indent .= "- ";
@@ -403,10 +407,24 @@ class GeofactoryPluginHelper extends CMSPlugin
                     $vRes[] = is_string($indent)
                         ? HTMLHelper::_('select.option', $category->catid, $indent . stripcslashes(stripslashes(stripslashes($category->title))))
                         : $category->catid;
-                    // Appel récursif
-                    self::_getChildCatOf($categoryList, $category->catid, $vRes, $indent);
+                    // Chiamata ricorsiva
+                    self::getChildCatOf($categoryList, $category->catid, $vRes, $indent);
                 }
             }
         }
+    }
+    
+    /**
+     * INTERNO - Unisce le directory interne.
+     * 
+     * Questo metodo è un alias rinominato da _mergeInternalDirectories per seguire
+     * le convenzioni di Joomla 4 che evitano i metodi con underscore iniziale.
+     * 
+     * @since 1.0
+     */
+    protected function mergeInternalDirectories()
+    {
+        // Implementare se necessario
+        // Questo metodo sostituisce _mergeInternalDirectories
     }
 }

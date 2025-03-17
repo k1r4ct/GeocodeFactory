@@ -61,7 +61,7 @@ class GeofactoryModelMarker extends ItemModel
                 ? $this->m_objMs->template_bubble
                 : $this->m_objMs->template_sidebar;
 
-            // Rinominiamo l'evento in "onMarkerTemplateAndPlaceholder"
+            // Rinominiamo l’evento in "onMarkerTemplateAndPlaceholder"
             // e usiamo il nuovo dispatcher->dispatch(...)
             $event = new Event(
                 'onMarkerTemplateAndPlaceholder',
