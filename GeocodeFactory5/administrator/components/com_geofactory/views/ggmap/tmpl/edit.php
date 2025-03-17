@@ -4,18 +4,19 @@
  * @package     geoFactory
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later
- * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
+ * @author      
  * @update      Daniele Bellante
  * @website     www.myJoom.com
  */
+
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Component\ComponentHelper;  // <--- Import necessario
 use Joomla\Component\Geofactory\Administrator\Helper\GeofactoryHelper;
-
-defined('_JEXEC') or die;
 
 /**
  * Questo file di layout gestisce l'editing di una mappa nel backend.
@@ -24,11 +25,15 @@ defined('_JEXEC') or die;
 
 // Carica i comportamenti di Joomla
 HTMLHelper::_('bootstrap.framework');
-HTMLHelper::_('form.validate');
+// Sostituzione form.validate con behavior.formvalidator
+HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('formbehavior.chosen', 'select');
 
+// Ottieni l'application (se serve per i messaggi) e i parametri del componente
 $app = Factory::getApplication();
-$config = $app->getParams('com_geofactory');
+// In Joomla 4, getParams() non esiste più nell'app Administrator, quindi usiamo ComponentHelper:
+$config = ComponentHelper::getParams('com_geofactory');
+
 $basicMode = (int) $config->get('isBasic', 0); // basic=0 => Expert mode
 $expert = ($basicMode === 0) ? GeofactoryHelper::getExpertMap() : [];
 $message = ($basicMode === 0)
@@ -38,7 +43,6 @@ $message = ($basicMode === 0)
 // Mostra un messaggio
 $app->enqueueMessage($message, 'message');
 ?>
-
 <style>
     .CodeMirror {
         height: 200px !important;

@@ -4,9 +4,9 @@
  * @package     geoFactory
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
- * @website     www.myJoom.com
+ * @author      
  * @update      Daniele Bellante
+ * @website     www.myJoom.com
  * 
  * Gestione del form di modifica del Markerset.
  * - I parametri comuni sono in schede condivise
@@ -22,8 +22,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 
+// Carica i comportamenti di Joomla
 HTMLHelper::_('bootstrap.framework');
-HTMLHelper::_('form.validate');
+// Sostituzione form.validate con behavior.formvalidator
+HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('formbehavior.chosen', 'select');
 
 $app    = Factory::getApplication();
@@ -54,7 +56,6 @@ if (empty($this->item->id)) {
     $fieldSetsUsed[] = 'markerset-type-settings';
 }
 ?>
-
 <style>
     .CodeMirror { 
         height: 200px !important; 
