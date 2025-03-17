@@ -4,7 +4,7 @@
  * @package     geoFactory
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      
+ * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
  * @website     www.myJoom.com
  * @update      Daniele Bellante
  */
@@ -26,9 +26,10 @@ $user       = Factory::getUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
+// In Joomla 4 si può usare anche un oggetto di tipo \stdClass se non è presente una classe specifica
 $params     = (isset($this->state->params)) ? $this->state->params : new \stdClass;
-$archived   = ($this->state->get('filter.published') == 2);
-$trashed    = ($this->state->get('filter.published') == -2);
+$archived   = ($this->state->get('filter.published') == 2) ? true : false;
+$trashed    = ($this->state->get('filter.published') == -2) ? true : false;
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
@@ -47,63 +48,59 @@ $sortFields = $this->getSortFields();
 </script>
 <form action="<?php echo Route::_('index.php?option=com_geofactory&view=ggmaps'); ?>" method="post" name="adminForm" id="adminForm">
     <?php if (!empty($this->sidebar)) : ?>
-        <div class="col-md-2" id="j-sidebar-container_mj">
+        <div id="j-sidebar-container_mj" class="span2">
             <?php echo $this->sidebar; ?>
         </div>
-        <div class="col-md-10" id="j-main-container">
+        <div id="j-main-container" class="span10">
     <?php else : ?>
         <div id="j-main-container">
     <?php endif; ?>
-            <div id="filter-bar" class="btn-toolbar mb-3">
-                <div class="filter-search btn-group float-start">
-                    <label for="filter_search" class="visually-hidden"><?php echo Text::_('COM_GEOFACTORY_SEARCH_IN_TITLE'); ?></label>
-                    <input type="text" name="filter_search" id="filter_search" class="form-control" placeholder="<?php echo Text::_('COM_GEOFACTORY_SEARCH_IN_TITLE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo Text::_('COM_GEOFACTORY_SEARCH_IN_TITLE'); ?>" />
+            <div id="filter-bar" class="btn-toolbar">
+                <div class="filter-search btn-group pull-left">
+                    <label for="filter_search" class="element-invisible"><?php echo Text::_('COM_GEOFACTORY_SEARCH_IN_TITLE'); ?></label>
+                    <input type="text" name="filter_search" id="filter_search" placeholder="<?php echo Text::_('COM_GEOFACTORY_SEARCH_IN_TITLE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo Text::_('COM_GEOFACTORY_SEARCH_IN_TITLE'); ?>" />
                 </div>
-                <div class="btn-group float-start ms-2">
-                    <button class="btn btn-primary hasTooltip" type="submit" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <button class="btn btn-secondary hasTooltip" type="button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
+                <div class="btn-group pull-left">
+                    <button class="btn hasTooltip" type="submit" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+                    <button class="btn hasTooltip" type="button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
                 </div>
-                <div class="btn-group float-end d-none d-sm-block">
-                    <label for="limit" class="visually-hidden"><?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
+                <div class="btn-group pull-right hidden-phone">
+                    <label for="limit" class="element-invisible"><?php echo Text::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
                     <?php echo $this->pagination->getLimitBox(); ?>
                 </div>
-                <div class="btn-group float-end d-none d-sm-block me-2">
-                    <label for="directionTable" class="visually-hidden"><?php echo Text::_('JFIELD_ORDERING_DESC'); ?></label>
-                    <select name="directionTable" id="directionTable" class="form-select" onchange="Joomla.orderTable()">
+                <div class="btn-group pull-right hidden-phone">
+                    <label for="directionTable" class="element-invisible"><?php echo Text::_('JFIELD_ORDERING_DESC'); ?></label>
+                    <select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
                         <option value=""><?php echo Text::_('JFIELD_ORDERING_DESC'); ?></option>
                         <option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo Text::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
                         <option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo Text::_('JGLOBAL_ORDER_DESCENDING'); ?></option>
                     </select>
                 </div>
-                <div class="btn-group float-end me-2">
-                    <label for="sortTable" class="visually-hidden"><?php echo Text::_('JGLOBAL_SORT_BY'); ?></label>
-                    <select name="sortTable" id="sortTable" class="form-select" onchange="Joomla.orderTable()">
+                <div class="btn-group pull-right">
+                    <label for="sortTable" class="element-invisible"><?php echo Text::_('JGLOBAL_SORT_BY'); ?></label>
+                    <select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
                         <option value=""><?php echo Text::_('JGLOBAL_SORT_BY'); ?></option>
                         <?php echo HTMLHelper::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
                     </select>
                 </div>
             </div>
-            <div class="clearfix mb-3"></div>
+            <div class="clearfix"> </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th width="1%" class="d-none d-sm-table-cell">
+                        <th width="1%" class="hidden-phone">
                             <input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
                         </th>
-                        <th width="5%" class="text-center">
+                        <th width="5%" class="center">
                             <?php echo Text::_('JSTATUS'); ?>
                         </th>
                         <th>
                             <?php echo Text::_('COM_GEOFACTORY_MAPS_HEADING'); ?>
                         </th>
-                        <th width="5%" class="d-none d-sm-table-cell">
+                        <th width="5%" class="hidden-phone">
                             <?php echo Text::_('COM_GEOFACTORY_MAPS_NBR_MS'); ?>
                         </th>
-                        <th width="1%" class="text-nowrap d-none d-sm-table-cell">
+                        <th width="1%" class="nowrap hidden-phone">
                             <?php echo Text::_('JGRID_HEADING_ID'); ?>
                         </th>
                     </tr>
@@ -123,15 +120,15 @@ $sortFields = $this->getSortFields();
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
                     $canChange  = $user->authorise('core.edit.state', 'com_geofactory') && $canCheckin;
                     ?>
-                    <tr class="<?php echo ($i % 2 == 0) ? 'table-light' : 'table-secondary'; ?>">
-                        <td class="text-center d-none d-sm-table-cell">
+                    <tr class="row<?php echo $i % 2; ?>">
+                        <td class="center hidden-phone">
                             <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                         </td>
-                        <td class="text-center">
+                        <td class="center">
                             <?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'markersets.', $canChange); ?>
                         </td>
-                        <td class="text-nowrap has-context">
-                            <div class="float-start">
+                        <td class="nowrap has-context">
+                            <div class="pull-left">
                                 <?php if ($item->checked_out) : ?>
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'markersets.', $canCheckin); ?>
                                 <?php endif; ?>
@@ -145,7 +142,7 @@ $sortFields = $this->getSortFields();
                                     <?php echo $this->escape($item->extrainfo); ?>
                                 </div>
                             </div>
-                            <div class="float-start ms-2">
+                            <div class="pull-left">
                                 <?php
                                     HTMLHelper::_('dropdown.edit', $item->id, 'markerset.');
                                     HTMLHelper::_('dropdown.divider');
@@ -172,13 +169,13 @@ $sortFields = $this->getSortFields();
                                 ?>
                             </div>
                         </td>
-                        <td class="d-none d-sm-table-cell">
+                        <td class="hidden-phone">
                             <?php echo ($this->_getTypeListeName($item->typeList) != '?') ? $this->_getTypeListeName($item->typeList) : Text::_('COM_GEOCODE_WARNING_MISSING_PLUGIN') . ((!is_numeric($item->typeList)) ? $item->typeList : 'unknown'); ?>
                         </td>
-                        <td class="d-none d-sm-table-cell">
+                        <td class="hidden-phone">
                             <?php echo $item->nbrMaps; ?>
                         </td>
-                        <td class="d-none d-sm-table-cell">
+                        <td class="hidden-phone">
                             <?php echo $item->id; ?>
                         </td>
                     </tr>

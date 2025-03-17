@@ -6,35 +6,42 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
  * @website     www.myJoom.com
+ * @update      Daniele Bellante
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Loader\Loader;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 
-Loader::register('GeofactoryHelper', JPATH_COMPONENT . '/helpers/geofactory.php');
+// Includiamo direttamente helper invece di usare Loader::register
 require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 
 class GeofactoryTableOldmap extends Table
 {
-    public function __construct(&$db)
+    public function __construct($db = null)
     {
         $config = ComponentHelper::getParams('com_geofactory');
         $extDb  = $config->get('import-database');
-        if (strlen($extDb) > 0) { 
+        
+        // Se è configurato un database esterno, lo carichiamo
+        if (!empty($extDb)) { 
             $db = GeofactoryHelperAdm::loadExternalDb();
         }
 
         parent::__construct('#__geocode_factory_maps', 'id', $db);
     }
 
-    public function load($id = null, $reset = true)
+    public function load($pk = null, $reset = true)
     {
         // Carica l'oggetto di base
-        parent::load($id);
+        $result = parent::load($pk, $reset);
+        
+        if (!$result) {
+            return false;
+        }
+        
         // Carica i parametri multi dell'antico GF
         $listVar = array(
             'kml_file'            => '',
@@ -72,6 +79,9 @@ class GeofactoryTableOldmap extends Table
             'acCountry'           => '',
             'acTypes'             => 0
         );
-        GeofactoryHelperAdm::loadMultiParamFor($listVar, 1, $id, $this);
+        
+        GeofactoryHelperAdm::loadMultiParamFor($listVar, 1, $pk, $this);
+        
+        return $result;
     }
 }

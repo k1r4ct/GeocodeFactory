@@ -35,12 +35,12 @@ class GeofactoryViewGeocodes extends HtmlView
 
         // check errors
         if (count($errors = $this->get('Errors'))) {
-            throw new \Exception(implode("\n", $errors), 500);
+            JError::raiseError(500, implode("\n", $errors));
             return false;
         }
 
         $this->addToolbar();
-        $this->sidebar = $this->renderSidebar();
+        $this->sidebar = HTMLHelper::_('sidebar.render'); // In Joomla 4 di solito si usa differently, ma lasciamo la minima conversione
         parent::display($tpl);
     }
 
@@ -74,38 +74,20 @@ class GeofactoryViewGeocodes extends HtmlView
             ToolbarHelper::preferences('com_geofactory');
             ToolbarHelper::divider();
         }
-    }
+        // ToolbarHelper::help('COM_GEOFACTORY_HELP_XXX');
 
-    protected function renderSidebar()
-    {
-        // Prepara le liste
-        $valTypes = GeofactoryHelperAdm::getArrayObjTypeListe();
-        $curType  = $this->escape($this->state->get('filter.typeliste'));
-        $valAssign= GeofactoryHelperAdm::getArrayObjAssign($curType);
-        $assign   = $this->escape($this->state->get('filter.assign'));
-        
-        $html = '<div class="sidebar-nav">';
-        $html .= '<ul class="nav flex-column">';
-        
-        // Filtro per tipo
-        $html .= '<li class="nav-item">';
-        $html .= '<a class="nav-link" href="#">' . Text::_('COM_GEOFACTORY_SELECT_TYPE') . '</a>';
-        $html .= '<select name="typeliste" class="form-select" onchange="this.form.submit();">';
-        $html .= HTMLHelper::_('select.options', $valTypes, 'value', 'text', $curType);
-        $html .= '</select>';
-        $html .= '</li>';
-        
-        // Filtro per pattern
-        $html .= '<li class="nav-item">';
-        $html .= '<a class="nav-link" href="#">' . Text::_('COM_GEOFACTORY_SELECT_PATTERN') . '</a>';
-        $html .= '<select name="assign" class="form-select" onchange="this.form.submit();">';
-        $html .= HTMLHelper::_('select.options', $valAssign, 'value', 'text', $assign);
-        $html .= '</select>';
-        $html .= '</li>';
-        
-        $html .= '</ul>';
-        $html .= '</div>';
-        
-        return $html;
+        HTMLHelper::_('sidebar.setAction', 'index.php?option=com_geofactory&view=geocodes');
+
+        HTMLHelper::_('sidebar.addFilter',
+            Text::_('COM_GEOFACTORY_SELECT_TYPE'),
+            'typeliste',
+            HTMLHelper::_('select.options', $valTypes, 'value', 'text', $curType)
+        );
+
+        HTMLHelper::_('sidebar.addFilter',
+            Text::_('COM_GEOFACTORY_SELECT_PATTERN'),
+            'assign',
+            HTMLHelper::_('select.options', $valAssign, 'value', 'text', $assign)
+        );
     }
 }

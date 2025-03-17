@@ -6,38 +6,45 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
  * @website     www.myJoom.com
+ * @update      Daniele Bellante
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Loader\Loader;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 
-Loader::register('GeofactoryHelper', JPATH_COMPONENT . '/helpers/geofactory.php');
+// Includiamo direttamente helper invece di usare Loader::register
 require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 
 class GeofactoryTableOldmarkerset extends Table
 {
-    public function __construct(&$db)
+    public function __construct($db = null)
     {
         $config = ComponentHelper::getParams('com_geofactory');
         $extDb  = $config->get('import-database');
-        if (strlen($extDb) > 0) { 
+        
+        // Se è configurato un database esterno, lo carichiamo
+        if (!empty($extDb)) { 
             $db = GeofactoryHelperAdm::loadExternalDb();
         }
 
         parent::__construct('#__geocode_factory_markersets', 'id', $db);
     }
 
-    public function load($id = null, $reset = true)
+    public function load($pk = null, $reset = true)
     {
         // Carica l'oggetto di base
-        parent::load($id);
+        $result = parent::load($pk, $reset);
+        
+        if (!$result) {
+            return false;
+        }
 
         // Carica i parametri multi in funzione del markerset
         $listVar = array();
+        
         if ($this->typeList == "MS_CB") {
             $listVar = array(
                 'sidebar_template' => '',
@@ -56,7 +63,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'field_spec_lng'   => 0
             );
         }
-        if ($this->typeList == "MS_JS") {
+        else if ($this->typeList == "MS_JS") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -74,7 +81,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'field_spec_lng'   => 0
             );
         }
-        if ($this->typeList == "MS_S2") {
+        else if ($this->typeList == "MS_S2") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -92,7 +99,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'categoryAsIcon'   => 0
             );
         }
-        if ($this->typeList == "MS_MT") {
+        else if ($this->typeList == "MS_MT") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -108,7 +115,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'categoryAsIcon'   => 0
             );
         }
-        if ($this->typeList == "MS_JSEV") {
+        else if ($this->typeList == "MS_JSEV") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -121,7 +128,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'pline'            => 0
             );
         }
-        if ($this->typeList == "MS_SP") {
+        else if ($this->typeList == "MS_SP") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -142,7 +149,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'categoryAsIcon'   => 0
             );
         }
-        if ($this->typeList == "MS_AM") {
+        else if ($this->typeList == "MS_AM") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -157,7 +164,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'catAuto'          => 0
             );
         }
-        if ($this->typeList == "MS_JEV") {
+        else if ($this->typeList == "MS_JEV") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -172,7 +179,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'allEvents'        => 0
             );
         }
-        if ($this->typeList == "MS_JC") {
+        else if ($this->typeList == "MS_JC") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -186,7 +193,7 @@ class GeofactoryTableOldmarkerset extends Table
                 'catAuto'          => 0
             );
         }
-        if ($this->typeList == "MS_GT") {
+        else if ($this->typeList == "MS_GT") {
             $listVar = array(
                 'sidebar_template' => '',
                 'markerIconType'   => 99,
@@ -201,6 +208,8 @@ class GeofactoryTableOldmarkerset extends Table
             );
         }
 
-        GeofactoryHelperAdm::loadMultiParamFor($listVar, 2, $id, $this);
+        GeofactoryHelperAdm::loadMultiParamFor($listVar, 2, $pk, $this);
+        
+        return $result;
     }
 }

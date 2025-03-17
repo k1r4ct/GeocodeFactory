@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
 
 class GeofactoryViewGgmap extends HtmlView
 {
@@ -31,7 +30,7 @@ class GeofactoryViewGgmap extends HtmlView
 
         // Verifica errori
         if (count($errors = $this->get('Errors'))) {
-            throw new \Exception(implode("\n", $errors), 500);
+            throw new Exception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();
@@ -44,7 +43,7 @@ class GeofactoryViewGgmap extends HtmlView
         $isNew     = ($this->item->id == 0);
         $checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
-        ToolbarHelper::title($isNew ? Text::_('COM_GEOFACTORY_MAPS_NEW_MAP') : Text::_('COM_GEOFACTORY_MAPS_EDIT_MAP'));
+        ToolbarHelper::title($isNew ? JText::_('COM_GEOFACTORY_MAPS_NEW_MAP') : JText::_('COM_GEOFACTORY_MAPS_EDIT_MAP'));
 
         if (!$checkedOut) {
             ToolbarHelper::apply('ggmap.apply');

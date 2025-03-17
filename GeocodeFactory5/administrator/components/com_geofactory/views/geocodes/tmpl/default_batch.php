@@ -15,25 +15,23 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 
 // Aggiungiamo il percorso per eventuali override degli helper HTML
 HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-// In Joomla 4 si consiglia di usare i comportamenti Bootstrap per i tooltip
+// Tooltip e framework Bootstrap
 HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('bootstrap.framework');
+
 // Multiselezione rimane invariata
 HTMLHelper::_('behavior.multiselect');
-// Il vecchio comportamento modal non esiste in Joomla 4.
-// Se necessario, puoi abilitare il comportamento dei modali Bootstrap (ad es. HTMLHelper::_('bootstrap.modal');)
-// HTMLHelper::_('behavior.modal'); // rimosso
-// Carica jQuery
-HTMLHelper::_('jquery.framework');
 
 $config   = ComponentHelper::getParams('com_geofactory');
 $client   = (int) $config->get('geocodeClient', 0);
 $delayRaw = (int) $config->get('iPauseGeo', 2000000);
 $delay    = $delayRaw / 1000; // delay in secondi (il valore originale era in microsecondi)
-$jobEnd   = "<a class='btn btn-primary btn-large' href='" . 
+$jobEnd   = "<a class='btn btn-primary btn-lg' href='" . 
             Route::_('index.php?option=com_geofactory&view=geocodes&assign=' . $this->assign . "&typeliste=" . $this->type) . 
             "'>" . Text::_('COM_GEOFACTORY_GEOCODE_DONE') . "</a>";
 
@@ -54,9 +52,10 @@ $ggApikeyQ   = (strlen($ggApikey) > 4) ? "&key=" . $ggApikey : "";
 <!-- Includiamo l'API di Google Maps -->
 <script src="https://maps.googleapis.com/maps/api/js?<?php echo $ggApikeyQ; ?>"></script>
 <script type="text/javascript">
-jQuery(document).ready(function(){
-    var needStop = false;
-    jQuery('#button_stop').click(function(){
+document.addEventListener('DOMContentLoaded', function() {
+    let needStop = false;
+    
+    document.getElementById('button_stop').addEventListener('click', function() {
         needStop = true;
     });
 
@@ -64,11 +63,11 @@ jQuery(document).ready(function(){
     initialize();
     geocodeJob(-1);
 
-    function geocodeJob(item){
-        var toGc = [<?php echo $idsToGc; ?>];
+    function geocodeJob(item) {
+        const toGc = [<?php echo $idsToGc; ?>];
         item = parseInt(item) + 1;
 
-        setTimeout(function(){
+        setTimeout(function() {
             <?php if ($client) : ?>
                 geocodeItemClient(item, toGc[item]);
             <?php else : ?>
@@ -77,120 +76,132 @@ jQuery(document).ready(function(){
         }, <?php echo (int)$delay; ?> + item + <?php echo (int)$delayClient; ?>);
     }
 
-    function geocodeItemClient(item, curid){
-        if (needStop){
-            jQuery('#geocodeEnd').html("<?php echo $jobEnd; ?>");
+    function geocodeItemClient(item, curid) {
+        if (needStop) {
+            document.getElementById('geocodeEnd').innerHTML = "<?php echo $jobEnd; ?>";
             return;
         }
-        var total = parseInt(jQuery('#total').val());
-        if (item >= total){
-            jQuery('#geocodeEnd').html("<?php echo $jobEnd; ?>");
+        
+        const total = parseInt(document.getElementById('total').value);
+        
+        if (item >= total) {
+            document.getElementById('geocodeEnd').innerHTML = "<?php echo $jobEnd; ?>";
             return;
         }
-        var urlAx  = 'index.php?option=com_geofactory&task=geocodes.getcurrentitemaddressraw';
-        var arData = {
+        
+        const urlAx = 'index.php?option=com_geofactory&task=geocodes.getcurrentitemaddressraw';
+        const arData = {
             'cur': item,
             'curId': curid,
             'total': total,
-            'type': jQuery('#type').val(),
-            'assign': jQuery('#assign').val()
+            'type': document.getElementById('type').value,
+            'assign': document.getElementById('assign').value
         };
-        jQuery('#currentIdx').val(item);
+        
+        document.getElementById('currentIdx').value = item;
 
-        jQuery.ajax({
-            url: urlAx,
-            data: arData,
-            success: function(data){
-                var defPos = new google.maps.LatLng(34, -41);
-                if (data.length > 2){
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({'address': data}, function(results, status){
-                        if(status == google.maps.GeocoderStatus.OK){
-                            jQuery('#geocodeLog').html('Geocode ok');
-                            var pos = results[0].geometry.location;
+        fetch(urlAx + '&' + new URLSearchParams(arData).toString())
+            .then(response => response.text())
+            .then(data => {
+                const defPos = new google.maps.LatLng(34, -41);
+                
+                if (data.length > 2) {
+                    const geocoder = new google.maps.Geocoder();
+                    
+                    geocoder.geocode({'address': data}, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            document.getElementById('geocodeLog').innerHTML = 'Geocode ok';
+                            const pos = results[0].geometry.location;
                             drawGeocodeResult(defPos, pos);
 
                             // Salva le coordinate
-                            var urlAx2 = 'index.php?option=com_geofactory&task=geocodes.axsavecoord';
+                            const urlAx2 = 'index.php?option=com_geofactory&task=geocodes.axsavecoord';
                             arData['savlat'] = pos.lat();
                             arData['savlng'] = pos.lng();
                             arData['savMsg'] = 'Save';
                             arData['adresse'] = data;
 
-                            jQuery.ajax({
-                                url: urlAx2,
-                                data: arData,
-                                success: function(resp){
-                                    jQuery('#geocodeLog').html(resp);
-                                }
-                            });
+                            fetch(urlAx2 + '&' + new URLSearchParams(arData).toString())
+                                .then(response => response.text())
+                                .then(resp => {
+                                    document.getElementById('geocodeLog').innerHTML = resp;
+                                });
                         }
                     });
                 }
+                
                 geocodeJob(item);
-            }
-        });
+            });
     }
 
-    function geocodeItemServer(item, curid){
-        if (needStop){
-            jQuery('#geocodeEnd').html("<?php echo $jobEnd; ?>");
+    function geocodeItemServer(item, curid) {
+        if (needStop) {
+            document.getElementById('geocodeEnd').innerHTML = "<?php echo $jobEnd; ?>";
             return;
         }
-        var total = parseInt(jQuery('#total').val());
-        if (item >= total){
-            jQuery('#geocodeEnd').html("<?php echo $jobEnd; ?>");
+        
+        const total = parseInt(document.getElementById('total').value);
+        
+        if (item >= total) {
+            document.getElementById('geocodeEnd').innerHTML = "<?php echo $jobEnd; ?>";
             return;
         }
-        var urlAx = 'index.php?option=com_geofactory&task=geocodes.geocodecurrentitem';
-        var arData = {
+        
+        const urlAx = 'index.php?option=com_geofactory&task=geocodes.geocodecurrentitem';
+        const arData = {
             'cur': item,
             'curId': curid,
             'total': total,
-            'type': jQuery('#type').val(),
-            'assign': jQuery('#assign').val()
+            'type': document.getElementById('type').value,
+            'assign': document.getElementById('assign').value
         };
-        jQuery('#currentIdx').val(item);
+        
+        document.getElementById('currentIdx').value = item;
 
-        jQuery.ajax({
-            url: urlAx,
-            data: arData,
-            success: function(data){
-                var defPos = new google.maps.LatLng(34, -41);
-                var htmlRes = 'Unknown Ajax Error';
-                var splitted = data.split('#-@');
-                if (splitted.length > 0){
+        fetch(urlAx + '&' + new URLSearchParams(arData).toString())
+            .then(response => response.text())
+            .then(data => {
+                const defPos = new google.maps.LatLng(34, -41);
+                let htmlRes = 'Unknown Ajax Error';
+                const splitted = data.split('#-@');
+                
+                if (splitted.length > 0) {
                     htmlRes = splitted[0];
                 }
-                if (splitted.length > 2){
-                    var lat = parseFloat(splitted[1]);
-                    var lng = parseFloat(splitted[2]);
-                    var pos = defPos;
-                    if (lat !== 255){
+                
+                if (splitted.length > 2) {
+                    const lat = parseFloat(splitted[1]);
+                    const lng = parseFloat(splitted[2]);
+                    let pos = defPos;
+                    
+                    if (lat !== 255) {
                         pos = new google.maps.LatLng(lat, lng);
                         drawGeocodeResult(defPos, pos);
                     }
                 }
-                jQuery('#geocodeLog').html(htmlRes);
+                
+                document.getElementById('geocodeLog').innerHTML = htmlRes;
                 geocodeJob(item);
-            }
-        });
+            });
     }
 
-    function drawGeocodeResult(defPos, pos){
-        if (!pos.equals(defPos)){
-            var points = [defPos, pos];
-            var pline = new google.maps.Polyline({
+    function drawGeocodeResult(defPos, pos) {
+        if (!pos.equals(defPos)) {
+            const points = [defPos, pos];
+            const pline = new google.maps.Polyline({
                 path: points,
                 geodesic: true,
                 strokeColor: '#FF0000',
                 strokeOpacity: 1.0,
                 strokeWeight: 1
             });
+            
             pline.setMap(map);
         }
+        
         map.panTo(pos);
-        var marker = new google.maps.Marker({
+        
+        const marker = new google.maps.Marker({
             map: map,
             draggable: false,
             animation: google.maps.Animation.DROP,
@@ -200,16 +211,18 @@ jQuery(document).ready(function(){
 });
 
 // Definiamo la mappa in una funzione globale "initialize"
-var map;
-function initialize(){
-    var myLatlng = new google.maps.LatLng(34, -41);
-    var mapOptions = {
+let map;
+
+function initialize() {
+    const myLatlng = new google.maps.LatLng(34, -41);
+    const mapOptions = {
         zoom: 4,
         center: myLatlng
     };
+    
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-    var origin = new google.maps.Marker({
+    const origin = new google.maps.Marker({
         position: myLatlng,
         icon: {
             path: google.maps.SymbolPath.CIRCLE,
@@ -221,20 +234,28 @@ function initialize(){
 }
 </script>
 
-<h2><?php echo Text::_('COM_GEOFACTORY_GEOCODE_PROCESS'); ?></h2>
+<div class="container-fluid">
+    <h2><?php echo Text::_('COM_GEOFACTORY_GEOCODE_PROCESS'); ?></h2>
 
-<form action="" method="post" name="adminForm" id="markerset-form">
-    <input type="hidden" name="currentIdx" id="currentIdx" value="1">
-    <input type="hidden" name="total" id="total" value="<?php echo (int)$total; ?>">
-    <input type="hidden" name="type" id="type" value="<?php echo $this->type; ?>">
-    <input type="hidden" name="assign" id="assign" value="<?php echo $this->assign; ?>">
-    <input type="hidden" name="task" value="" />
-    <?php echo HTMLHelper::_('form.token'); ?>
-</form>
+    <form action="" method="post" name="adminForm" id="markerset-form">
+        <input type="hidden" name="currentIdx" id="currentIdx" value="1">
+        <input type="hidden" name="total" id="total" value="<?php echo (int)$total; ?>">
+        <input type="hidden" name="type" id="type" value="<?php echo $this->type; ?>">
+        <input type="hidden" name="assign" id="assign" value="<?php echo $this->assign; ?>">
+        <input type="hidden" name="task" value="" />
+        <?php echo HTMLHelper::_('form.token'); ?>
+    </form>
 
-<div style="max-width:100%;height:500px;" id="map-canvas" class="map-canvas"></div>
+    <div class="row">
+        <div class="col-12">
+            <div id="map-canvas" class="map-canvas" style="width:100%; height:500px;"></div>
+        </div>
+    </div>
 
-<div id="geocodeLog"></div>
-<div id="geocodeEnd"></div>
+    <div class="mt-3">
+        <div id="geocodeLog" class="alert alert-info"></div>
+        <div id="geocodeEnd"></div>
 
-<input type="button" id="button_stop" name="button_stop" value="Stop !">
+        <button type="button" id="button_stop" name="button_stop" class="btn btn-danger">Stop !</button>
+    </div>
+</div>

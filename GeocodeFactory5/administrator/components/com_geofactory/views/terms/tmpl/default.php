@@ -4,8 +4,6 @@
  * @package     geoFactory
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
- * @website     www.myJoom.com
  * @update      Daniele Bellante
  */
 
@@ -16,24 +14,24 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 
-// Caricamento behavior standard (se serve)
+// Carica il behavior multiselect (se necessario)
 HTMLHelper::_('behavior.multiselect');
 
-// Messaggio
+// Mostra un messaggio (es. per eventuali problemi di cache)
 Factory::getApplication()->enqueueMessage(Text::_('COM_GEOFACTORY_TERM_CACHE_ISSUE'), 'message');
 ?>
 
 <script>
 function validateTerms() {
-    var res = 0;
-    if (document.getElementById('accept_rules').checked == true) { 
+    let res = 0;
+    if (document.getElementById('accept_rules').checked) { 
         res += 1; 
     }
-    if (document.getElementById('accept_support').checked == true) {
+    if (document.getElementById('accept_support').checked) {
         res += 1;
     }
-    if (res != 2) {
-        alert('<?php echo Text::_('COM_GEOFACTORY_PLEASE_ACCEPT_CONDITIONS');?>');
+    if (res !== 2) {
+        alert('<?php echo Text::_('COM_GEOFACTORY_PLEASE_ACCEPT_CONDITIONS'); ?>');
         return false;
     }
     return true;
@@ -51,13 +49,13 @@ function validateTerms() {
     <?php echo Text::_('COM_GEOFACTORY_ACCEPT_RULES'); ?>
 </label>
 <br/>
-<a class="btn btn-primary btn-large"
+<a class="btn btn-primary btn-lg"
    onclick="return validateTerms();"
    href="<?php echo Route::_('index.php?option=com_geofactory&task=terms.apply', false); ?>">
    <?php echo Text::_('COM_GEOFACTORY_AGREE_TERMS'); ?>
 </a>
 
-<a class="btn btn-warning btn-large"
+<a class="btn btn-warning btn-lg"
    href="<?php echo Route::_('index.php?option=com_geofactory&task=terms.cancel', false); ?>">
    <?php echo Text::_('COM_GEOFACTORY_DECLINE_TERMS'); ?>
 </a>

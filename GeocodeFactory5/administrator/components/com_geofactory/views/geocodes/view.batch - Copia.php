@@ -18,10 +18,6 @@ use Joomla\CMS\Factory;
 class GeofactoryViewGeocodesBatch extends HtmlView
 {
     protected $total;
-    protected $type;
-    protected $assign;
-    protected $items;
-    protected $idsToGc;
 
     public function display($tpl = null)
     {
@@ -34,7 +30,7 @@ class GeofactoryViewGeocodesBatch extends HtmlView
 
         // Verifica errori
         if (count($errors = $this->get('Errors'))) {
-            throw new \Exception(implode("\n", $errors), 500);
+            throw new Exception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();
@@ -43,6 +39,6 @@ class GeofactoryViewGeocodesBatch extends HtmlView
 
     protected function addToolbar()
     {
-        ToolbarHelper::title(Text::_('COM_GEOFACTORY_BATCH_GEOCODE'));
+        ToolbarHelper::title(JText::_('COM_GEOFACTORY_BATCH_GEOCODE'));
     }
 }

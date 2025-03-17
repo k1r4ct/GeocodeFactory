@@ -33,7 +33,8 @@ class GeofactoryViewAssign extends HtmlView
 
         // Controllo errori
         if (count($errors = $this->get('Errors'))) {
-            throw new \Exception(implode("\n", $errors), 500);
+            // Conversione minima
+            JError::raiseError(500, implode("\n", $errors));
             return false;
         }
 

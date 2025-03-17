@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('bootstrap.tooltip');
 
 // Questi sample sono solo un esempio predefinito di URL e settaggi
@@ -33,108 +33,120 @@ $vSamples = [
 ];
 ?>
 
-<fieldset>
-    <?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', ['active' => 'codes']); ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'codes']); ?>
 
-    <!-- TAB 1: TILES INSERT -->
-    <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'codes', Text::_('COM_GEOFACTORY_TILES_INSERT')); ?>
-    <table class="table table-striped table-condensed">
-        <thead>
-            <tr>
-                <th width="33%" class="nowrap"><?php echo Text::_('COM_GEOFACTORY_TILES_ELEMENT'); ?></th>
-                <th width="67%" class="nowrap"><?php echo Text::_('COM_GEOFACTORY_TILES_ELEMENT_DESC'); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <input type="text" value="" id="gf_tile_name" placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_NAME'); ?>" />
-                </td>
-                <td><?php echo Text::_('COM_GEOFACTORY_TILES_NAME'); ?></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" value="" id="gf_tile_desc" placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_TOOTIPS'); ?>" />
-                </td>
-                <td><?php echo Text::_('COM_GEOFACTORY_TILES_TOOTIPS'); ?></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" value="" id="gf_tile_url" placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_URL'); ?>" />
-                </td>
-                <td><?php echo Text::_('COM_GEOFACTORY_TILES_URL'); ?></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" value="18" id="gf_tile_zoom" placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_ZOOM'); ?>" />
-                </td>
-                <td><?php echo Text::_('COM_GEOFACTORY_TILES_ZOOM'); ?></td>
-            </tr>
-            <tr>
-                <td>
-                    <select id="gf_tile_png">
-                        <option value="true" selected="selected">Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                </td>
-                <td><?php echo Text::_('COM_GEOFACTORY_TILES_ISPNG'); ?></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" value="256" id="gf_tile_size" placeholder="256" />
-                </td>
-                <td><?php echo Text::_('COM_GEOFACTORY_TILES_SIZE'); ?></td>
-            </tr>
-            <tr>
-                <td>
-                    <button class="btn btn-primary" style="width: 150px;"
-                            onclick="if(window.parent) {
-                                window.parent.insertNewTile(
-                                    document.getElementById('gf_tile_url').value,
-                                    document.getElementById('gf_tile_name').value,
-                                    document.getElementById('gf_tile_zoom').value,
-                                    document.getElementById('gf_tile_desc').value,
-                                    document.getElementById('gf_tile_png').value,
-                                    document.getElementById('gf_tile_size').value
-                                );
-                            }">
-                        <?php echo Text::_('COM_GEOFACTORY_INSERT'); ?>
-                    </button>
-                </td>
-                <td><?php echo Text::_('COM_GEOFACTORY_INSERT'); ?></td>
-            </tr>
-        </tbody>
-    </table>
-    <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+            <!-- TAB 1: TILES INSERT -->
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'codes', Text::_('COM_GEOFACTORY_TILES_INSERT')); ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="w-33"><?php echo Text::_('COM_GEOFACTORY_TILES_ELEMENT'); ?></th>
+                            <th class="w-67"><?php echo Text::_('COM_GEOFACTORY_TILES_ELEMENT_DESC'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" value="" id="gf_tile_name" class="form-control" 
+                                       placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_NAME'); ?>" />
+                            </td>
+                            <td><?php echo Text::_('COM_GEOFACTORY_TILES_NAME'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" value="" id="gf_tile_desc" class="form-control" 
+                                       placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_TOOTIPS'); ?>" />
+                            </td>
+                            <td><?php echo Text::_('COM_GEOFACTORY_TILES_TOOTIPS'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" value="" id="gf_tile_url" class="form-control" 
+                                       placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_URL'); ?>" />
+                            </td>
+                            <td><?php echo Text::_('COM_GEOFACTORY_TILES_URL'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" value="18" id="gf_tile_zoom" class="form-control" 
+                                       placeholder="<?php echo Text::_('COM_GEOFACTORY_TILES_ZOOM'); ?>" />
+                            </td>
+                            <td><?php echo Text::_('COM_GEOFACTORY_TILES_ZOOM'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="gf_tile_png" class="form-select">
+                                    <option value="true" selected="selected">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </td>
+                            <td><?php echo Text::_('COM_GEOFACTORY_TILES_ISPNG'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" value="256" id="gf_tile_size" class="form-control" placeholder="256" />
+                            </td>
+                            <td><?php echo Text::_('COM_GEOFACTORY_TILES_SIZE'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-primary" 
+                                        onclick="if(window.parent) {
+                                            window.parent.insertNewTile(
+                                                document.getElementById('gf_tile_url').value,
+                                                document.getElementById('gf_tile_name').value,
+                                                document.getElementById('gf_tile_zoom').value,
+                                                document.getElementById('gf_tile_desc').value,
+                                                document.getElementById('gf_tile_png').value,
+                                                document.getElementById('gf_tile_size').value
+                                            );
+                                        }">
+                                    <?php echo Text::_('COM_GEOFACTORY_INSERT'); ?>
+                                </button>
+                            </td>
+                            <td><?php echo Text::_('COM_GEOFACTORY_INSERT'); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-    <!-- TAB 2: TILES SAMPLES -->
-    <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'sample', Text::_('COM_GEOFACTORY_TILES_SAMPLES')); ?>
-    <table class="table table-striped table-condensed">
-        <thead>
-            <tr>
-                <th width="33%" class="nowrap"><?php echo Text::_('COM_GEOFACTORY_TILES_SAMPLE_INSERT'); ?></th>
-                <th width="67%" class="nowrap"><?php echo Text::_('COM_GEOFACTORY_TILES_SAMPLE'); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 0; ?>
-            <?php foreach ($vSamples as $sample) : ?>
-                <tr class="row<?php echo $i % 2; ?>">
-                    <td>
-                        <button class="btn btn-success" style="width: 150px;"
-                                onclick="if(window.parent) {
-                                    window.parent.insertSampleTile('<?php echo addslashes($sample); ?>');
-                                }">
-                            <?php echo Text::_('COM_GEOFACTORY_INSERT'); ?>
-                        </button>
-                    </td>
-                    <td><?php echo $sample; ?></td>
-                </tr>
-                <?php $i++; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+            <!-- TAB 2: TILES SAMPLES -->
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'sample', Text::_('COM_GEOFACTORY_TILES_SAMPLES')); ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="w-33"><?php echo Text::_('COM_GEOFACTORY_TILES_SAMPLE_INSERT'); ?></th>
+                            <th class="w-67"><?php echo Text::_('COM_GEOFACTORY_TILES_SAMPLE'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 0; ?>
+                        <?php foreach ($vSamples as $sample) : ?>
+                            <tr class="<?php echo ($i % 2) ? 'table-light' : ''; ?>">
+                                <td>
+                                    <button class="btn btn-success" 
+                                            onclick="if(window.parent) {
+                                                window.parent.insertSampleTile('<?php echo addslashes($sample); ?>');
+                                            }">
+                                        <?php echo Text::_('COM_GEOFACTORY_INSERT'); ?>
+                                    </button>
+                                </td>
+                                <td><?php echo $sample; ?></td>
+                            </tr>
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-    <?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
-</fieldset>
+            <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+        </div>
+    </div>
+</div>

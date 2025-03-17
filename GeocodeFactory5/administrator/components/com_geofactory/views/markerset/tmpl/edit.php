@@ -8,10 +8,10 @@
  * @website     www.myJoom.com
  * @update      Daniele Bellante
  * 
- * J'ai un seul form général. 
- *  - les params communs sont dans des onglets communs
- *  - l'onglet images est différent pour chacun
- *  - l'onglet speciphique est le meme avec une liste de champs available venant du plugin ce qui détermine ce qu'il faut dessiner.
+ * Gestione del form di modifica del Markerset.
+ * - I parametri comuni sono in schede condivise
+ * - La scheda delle immagini è diversa per ciascun tipo
+ * - La scheda specifica è la stessa con un elenco di campi disponibili dal plugin
  */
 
 defined('_JEXEC') or die;
@@ -22,152 +22,111 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 
-if (version_compare(JVERSION, '3.2', '>='))
-{
-    // version 3.2.x
-    HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-    HTMLHelper::_('behavior.formvalidation');
-    HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('bootstrap.framework');
+HTMLHelper::_('form.validate');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
-    $app       = Factory::getApplication();
-    $config    = ComponentHelper::getParams('com_geofactory');
-    $basicMode = $config->get('isBasic'); // basic=0
-    $expert    = $basicMode == 0 ? GeofactoryHelperAdm::getExpertMarkerset() : array();
-    $message   = $basicMode == 0 ? Text::_('COM_GEOFACTORY_RUNNING_BASIC') : Text::_('COM_GEOFACTORY_RUNNING_EXPERT');
+$app    = Factory::getApplication();
+$config = ComponentHelper::getParams('com_geofactory');
+$basicMode = (int)$config->get('isBasic', 0); // basic=0 => Modalità Esperto
+$expert = ($basicMode === 0) ? GeofactoryHelperAdm::getExpertMarkerset() : [];
+$message = ($basicMode === 0)
+    ? Text::_('COM_GEOFACTORY_RUNNING_BASIC')
+    : Text::_('COM_GEOFACTORY_RUNNING_EXPERT');
 
-    // http://docs.joomla.org/Display_error_messages_and_notices
-    Factory::getApplication()->enqueueMessage($message, 'message');
+// Mostra un messaggio di configurazione
+$app->enqueueMessage($message, 'message');
 
-    // détermine quels onglets il faut charger
-    $fieldSetsUsed = array('general', 'markerset-template', 'markerset-settings', 'markerset-radius');
-    if (empty($this->item->id)) {
-        $fieldSetsUsed[] = 'markerset-type';
-        $fieldSetsUsed[] = 'markerset-type-settings-info';
-    } else {
-        $fieldSetsUsed[] = 'markerset-type-hide';
-        $fieldSetsUsed[] = 'markerset-icon';
-        $fieldSetsUsed[] = 'markerset-type-settings';
-    }
-    ?>
-    <style>.CodeMirror{height:200px!important;}</style>
-    <script type="text/javascript">
-        Joomla.submitbutton = function(task){
-            if (task == 'markerset.cancel' || document.formvalidator.isValid(document.getElementById('markerset-form'))) {
-                Joomla.submitform(task, document.getElementById('markerset-form'));
-            }
-        }
-        jQuery(document).ready(function(){
-            var codeMirors = jQuery('.CodeMirror');
-            jQuery('a[href="#markerset-template"],a[href="#markerset-settings"],a[href="#markerset-type-settings"]').on('shown', function (e) {
-                codeMirors.each(function(i, el){
-                    el.CodeMirror.refresh();
-                });
-            });
-        });
-    </script>
+// Definisce le schede da caricare
+$fieldSetsUsed = [
+    'general',
+    'markerset-template',
+    'markerset-settings',
+    'markerset-radius'
+];
 
-    <form action="<?php echo Route::_('index.php?option=com_geofactory&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="markerset-form" class="form-validate">
-        <?php echo HTMLHelper::_('layout.render', 'joomla.edit.title_alias', $this); ?>
-        <div class="form-horizontal">
-            <?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
-
-                <?php
-                $fieldSets = $this->form->getFieldsets();
-                foreach ($fieldSets as $name => $fieldSet) :
-                    if (!in_array($name, $fieldSetsUsed))
-                        continue;
-                ?>
-                    <?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', $name, Text::_($fieldSet->label, true)); ?>
-                    <div class="row-fluid">
-                        <div class="span9">
-                            <?php echo $this->form->getControlGroups($name); ?>
-                        </div>
-                    </div>
-                    <?php echo HTMLHelper::_('bootstrap.endTab'); ?>
-                <?php endforeach; ?>
-            <?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
-        </div>
-
-        <input type="hidden" name="task" value="" />
-        <?php echo HTMLHelper::_('form.token'); ?>
-    </form>
-
-    <?php
-
-}
-else
-{
-    // version 3.1.x
-    HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-    HTMLHelper::_('behavior.tooltip');
-    HTMLHelper::_('behavior.formvalidation');
-    HTMLHelper::_('formbehavior.chosen', 'select');
-
-    $config    = ComponentHelper::getParams('com_geofactory');
-    $basicMode = $config->get('isBasic'); // basic=0
-    $expert    = $basicMode == 0 ? GeofactoryHelperAdm::getExpertMarkerset() : array();
-    $message   = $basicMode == 0 ? Text::_('COM_GEOFACTORY_RUNNING_BASIC') : Text::_('COM_GEOFACTORY_RUNNING_EXPERT');
-    $canDo     = GeofactoryHelperAdm::getActions();
-
-    Factory::getApplication()->enqueueMessage($message, 'message');
-
-    // détermine quels onglets il faut charger
-    $fieldSetsUsed = array('base', 'general', 'markerset-template', 'markerset-settings', 'markerset-radius');
-    if (empty($this->item->id)) {
-        $fieldSetsUsed[] = 'markerset-type';
-        $fieldSetsUsed[] = 'markerset-type-settings-info';
-    } else {
-        $fieldSetsUsed[] = 'markerset-type-hide';
-        $fieldSetsUsed[] = 'markerset-icon';
-        $fieldSetsUsed[] = 'markerset-type-settings';
-    }
-    ?>
-    <style>.CodeMirror{height:200px!important;}</style>
-    <script type="text/javascript">
-        Joomla.submitbutton = function(task){
-            if (task == 'markerset.cancel' || document.formvalidator.isValid(document.getElementById('markerset-form'))) {
-                Joomla.submitform(task, document.getElementById('markerset-form'));
-            }
-        }
-    </script>
-
-    <form action="<?php echo Route::_('index.php?option=com_geofactory&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="markerset-form" class="form-validate form-horizontal">
-        <!-- Begin Content -->
-            <ul class="nav nav-tabs">
-                <?php
-                $fieldSets = $this->form->getFieldsets();
-                foreach ($fieldSets as $name => $fieldSet) :
-                    if (in_array($name, $fieldSetsUsed)) :
-                ?>
-                        <li <?php echo $name == "general" ? ' class="active"' : ""; ?>>
-                            <a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo Text::_($fieldSet->label); ?></a>
-                        </li>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </ul>
-
-            <div class="tab-content">
-                <!-- Begin Tabs -->
-                <?php
-                foreach ($fieldSetsUsed as $name) :
-                    $fieldSet = $this->form->getFieldsets($name);
-                ?>
-                    <div class="tab-pane<?php echo $name == "general" ? " active" : ""; ?>" id="<?php echo $name; ?>">
-                    <?php foreach ($this->form->getFieldset($name) as $field) : ?>
-                        <?php $display = ''; if ($basicMode && in_array($field->fieldname, $expert)) $display = 'style="display:none;"'; ?>
-                        <div class="control-group" <?php echo $display; ?>>
-                            <div class="control-label"><?php echo $field->label; ?></div>
-                            <div class="controls"><?php echo $field->input; ?></div>
-                        </div>
-                    <?php endforeach; ?>
-                    </div>
-                <?php endforeach; ?>
-
-                <input type="hidden" name="task" value="" />
-                <?php echo HTMLHelper::_('form.token'); ?>
-            </div>
-        <!-- End Content -->
-    </form>
-    <?php
+if (empty($this->item->id)) {
+    $fieldSetsUsed[] = 'markerset-type';
+    $fieldSetsUsed[] = 'markerset-type-settings-info';
+} else {
+    $fieldSetsUsed[] = 'markerset-type-hide';
+    $fieldSetsUsed[] = 'markerset-icon';
+    $fieldSetsUsed[] = 'markerset-type-settings';
 }
 ?>
+
+<style>
+    .CodeMirror { 
+        height: 200px !important; 
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('markerset-form');
+    const codeMirrors = document.querySelectorAll('.CodeMirror');
+    const tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
+
+    // Gestione submit del form
+    Joomla.submitbutton = function(task) {
+        if (task === 'markerset.cancel' || form.formvalidator.isValid(form)) {
+            Joomla.submitform(task, form);
+        }
+    };
+
+    // Refresh CodeMirror all'apertura delle schede
+    tabs.forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function () {
+            codeMirrors.forEach(cm => {
+                if (cm.CodeMirror) {
+                    cm.CodeMirror.refresh();
+                }
+            });
+        });
+    });
+});
+</script>
+
+<form action="<?php echo Route::_('index.php?option=com_geofactory&layout=edit&id=' . (int) $this->item->id); ?>" 
+      method="post" 
+      name="adminForm" 
+      id="markerset-form" 
+      class="form-validate">
+
+    <?php echo HTMLHelper::_('layout.render', 'joomla.edit.title_alias', $this); ?>
+
+    <div class="container-fluid">
+        <?php 
+        echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general']); 
+
+        $fieldSets = $this->form->getFieldsets();
+        foreach ($fieldSets as $name => $fieldSet) :
+            if (!in_array($name, $fieldSetsUsed)) {
+                continue;
+            }
+        ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', $name, Text::_($fieldSet->label, true)); ?>
+            <div class="row">
+                <div class="col-md-9">
+                    <?php 
+                    foreach ($this->form->getFieldset($name) as $field) : 
+                        // Gestione campi esperti in modalità base
+                        $isExpertField = $basicMode === 0 && in_array($field->fieldname, $expert);
+                        $fieldClasses = $isExpertField ? 'd-none' : '';
+                    ?>
+                        <div class="mb-3 <?php echo $fieldClasses; ?>">
+                            <div class="form-label"><?php echo $field->label; ?></div>
+                            <div><?php echo $field->input; ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
+        <?php endforeach; ?>
+
+        <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+    </div>
+
+    <input type="hidden" name="task" value="" />
+    <?php echo HTMLHelper::_('form.token'); ?>
+</form>

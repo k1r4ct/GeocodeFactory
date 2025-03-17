@@ -30,8 +30,7 @@ class GeofactoryViewTerms extends HtmlView
     {
         // Imposta il titolo nella toolbar
         ToolbarHelper::title(Text::_('COM_GEOFACTORY_TERMS_WELCOME'));
-
-        // Se serve un tasto help:
-        // ToolbarHelper::help('COM_GEOFACTORY_HELP_XXX');
+        // Se serve un pulsante di aiuto, puoi decommentare la riga seguente:
+        // ToolbarHelper::help('COM_GEOFACTORY_HELP_TERMS');
     }
 }

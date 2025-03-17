@@ -15,8 +15,6 @@ use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\HTML\Helpers\Sidebar;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * View to list the patterns assignation
@@ -36,12 +34,12 @@ class GeofactoryViewAssigns extends HtmlView
 
         // Check errors
         if (count($errors = $this->get('Errors'))) {
-            throw new \Exception(implode("\n", $errors), 500);
+            JError::raiseError(500, implode("\n", $errors));
             return false;
         }
 
         $this->addToolbar();
-        $this->sidebar = $this->renderSidebar();
+        $this->sidebar = \JHtmlSidebar::render();  // Minimally, Joomla 4
         parent::display($tpl);
     }
 
@@ -73,33 +71,21 @@ class GeofactoryViewAssigns extends HtmlView
         if ($canDo->get('core.admin')) {
             ToolbarHelper::preferences('com_geofactory');
         }
-    }
 
-    protected function renderSidebar()
-    {
-        $action = 'index.php?option=com_geofactory&view=assigns';
-        
-        $html = '<div class="sidebar-nav">';
-        $html .= '<ul class="nav flex-column">';
-        
-        // Filtro per stato pubblicato
-        $html .= '<li class="nav-item">';
-        $html .= '<a class="nav-link" href="#">' . Text::_('JOPTION_SELECT_PUBLISHED') . '</a>';
-        $html .= '<select name="filter_state" class="form-select" onchange="this.form.submit();">';
-        $html .= HTMLHelper::_('select.options', 
-            HTMLHelper::_('jgrid.publishedOptions'), 
-            'value', 
-            'text', 
-            $this->state->get('filter.state'), 
-            true
+        // ToolbarHelper::help('COM_GEOFACTORY_HELP_XXX');
+
+        \JHtmlSidebar::setAction('index.php?option=com_geofactory&view=assigns');
+        \JHtmlSidebar::addFilter(
+            Text::_('JOPTION_SELECT_PUBLISHED'),
+            'filter_state',
+            \JHtml::_('select.options',
+                \JHtml::_('jgrid.publishedOptions'),
+                'value',
+                'text',
+                $this->state->get('filter.state'),
+                true
+            )
         );
-        $html .= '</select>';
-        $html .= '</li>';
-        
-        $html .= '</ul>';
-        $html .= '</div>';
-        
-        return $html;
     }
 
     protected function getSortFields()

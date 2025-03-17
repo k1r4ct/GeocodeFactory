@@ -12,77 +12,72 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\MVC\View\HtmlView;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Geofactory\Administrator\Helper\GeofactoryHelper;
 
 defined('_JEXEC') or die;
 
 /**
  * Questo file di layout gestisce l'editing di una mappa nel backend.
- * In Joomla 4, molte funzioni sono simili a J3, ma con un approccio più modulare e namespaced.
+ * Ottimizzato per Joomla 4.4.10 e Bootstrap 5.
  */
 
-// Carica le behavior di Joomla (validazione form, chosen, etc.)
-HTMLHelper::_('behavior.formvalidator');
+// Carica i comportamenti di Joomla
+HTMLHelper::_('bootstrap.framework');
+HTMLHelper::_('form.validate');
 HTMLHelper::_('formbehavior.chosen', 'select');
-HTMLHelper::_('behavior.keepalive');
 
 $app = Factory::getApplication();
-$config = $app->getParams('com_geofactory');  // oppure: JComponentHelper::getParams('com_geofactory')
+$config = $app->getParams('com_geofactory');
 $basicMode = (int) $config->get('isBasic', 0); // basic=0 => Expert mode
-$expert = ($basicMode === 0) ? GeofactoryHelperAdm::getExpertMap() : [];
+$expert = ($basicMode === 0) ? GeofactoryHelper::getExpertMap() : [];
 $message = ($basicMode === 0)
     ? Text::_('COM_GEOFACTORY_RUNNING_BASIC') 
     : Text::_('COM_GEOFACTORY_RUNNING_EXPERT');
 
 // Mostra un messaggio
 $app->enqueueMessage($message, 'message');
-
 ?>
+
 <style>
-    /* Se usi CodeMirror in Joomla 4, personalizza pure */
     .CodeMirror {
         height: 200px !important;
     }
 </style>
 
-<script type="text/javascript">
+<script>
     Joomla.submitbutton = function(task) {
-        if (task === 'ggmap.cancel' || document.formvalidator.isValid(document.getElementById('ggmap-form'))) {
-            Joomla.submitform(task, document.getElementById('ggmap-form'));
+        const form = document.getElementById('ggmap-form');
+        if (task === 'ggmap.cancel' || form.formvalidator.isValid(form)) {
+            Joomla.submitform(task, form);
         }
     };
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Esempio di refresh di CodeMirror all'apertura dei tab
         const codeMirrors = document.querySelectorAll('.CodeMirror');
-        // Se hai tab del tipo bootstrap 5, jQuery might be absent. Adatta l'event 'shown.bs.tab'
-        document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(el => {
-            el.addEventListener('shown.bs.tab', function (e) {
+        const tabs = document.querySelectorAll('button[data-bs-toggle="tab"]');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('shown.bs.tab', function () {
                 codeMirrors.forEach(cm => {
-                    // cm.CodeMirror.refresh();  // o simile
+                    if (cm.CodeMirror) {
+                        cm.CodeMirror.refresh();
+                    }
                 });
             });
         });
     });
 </script>
 
-<form action="<?php echo $this->escape(JRoute::_('index.php?option=com_geofactory&layout=edit&id=' . (int) $this->item->id)); ?>"
-      method="post" name="adminForm" id="ggmap-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_geofactory&layout=edit&id=' . (int) $this->item->id); ?>"
+      method="post" 
+      name="adminForm" 
+      id="ggmap-form" 
+      class="form-validate">
     
-    <?php
-    // Se la form prevede un title_alias, possiamo usare il layout standard:
-    // echo LayoutHelper::render('joomla.edit.title_alias', $this);
-
-    // Oppure stampiamo manualmente i fieldset
-    ?>
-
-    <div class="form-horizontal">
+    <div class="container-fluid">
         <?php
-        // Bootstrap 5: useresti un nav con nav-tabs
-        // Joomla 4: puoi usare HTMLHelper::_('bootstrap.startTabSet') se stai usando ancora le classi BS4
-        echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', ['active' => 'general']);
+        echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true]);
 
         $fieldSets = $this->form->getFieldsets();
 
@@ -91,7 +86,8 @@ $app->enqueueMessage($message, 'message');
             if ($name === 'base') {
                 continue;
             }
-            echo HTMLHelper::_('bootstrap.addTab', 'myTab', $name, Text::_($fieldSet->label));
+            
+            echo HTMLHelper::_('uitab.addTab', 'myTab', $name, Text::_($fieldSet->label));
             ?>
             <div class="row">
                 <div class="col-md-9">
@@ -99,10 +95,10 @@ $app->enqueueMessage($message, 'message');
                 </div>
             </div>
             <?php
-            echo HTMLHelper::_('bootstrap.endTab');
+            echo HTMLHelper::_('uitab.endTab');
         endforeach;
 
-        echo HTMLHelper::_('bootstrap.endTabSet');
+        echo HTMLHelper::_('uitab.endTabSet');
         ?>
     </div>
 
