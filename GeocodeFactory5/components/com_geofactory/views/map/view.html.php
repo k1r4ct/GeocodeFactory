@@ -86,7 +86,8 @@ class GeofactoryViewMap extends HtmlView
 
         // Gestione Tag tramite TagsHelper (Joomla 4)
         // Utilizza il metodo statico invece dell'istanza diretta
-        $item->tags = TagsHelper::getItemTags('com_geofactory.map', $this->item->id);
+        $tagHelper = new TagsHelper;
+        $item->tags = $tagHelper->getItemTags('com_geofactory.map', $this->item->id);
 
         // Escape strings
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_QUOTES, 'UTF-8');
@@ -100,7 +101,6 @@ class GeofactoryViewMap extends HtmlView
 
     /**
      * Prepara il documento aggiungendo Script, CSS, Title, Meta, ecc.
-     * (Erede della vecchia _prepareDocument in Joomla 3)
      */
     protected function _prepareDocument()
     {
@@ -109,6 +109,9 @@ class GeofactoryViewMap extends HtmlView
         $session = Factory::getSession();
         $config  = ComponentHelper::getParams('com_geofactory');
         $root    = Uri::root();
+
+        // Ottieni il WebAssetManager
+        $wa = $this->document->getWebAssetManager();
 
         // Leggi eventuali parametri dalla richiesta
         $adre = $app->input->getString('gf_mod_search', '');
@@ -152,44 +155,42 @@ class GeofactoryViewMap extends HtmlView
             case 0: // nessun caricamento jQuery
                 break;
             case 2: // Joomla
-                HTMLHelper::_('jquery.framework', false);
+                $wa->useScript('jquery');
                 if ($jqui) {
-                    HTMLHelper::_('jquery.ui', ['core', 'sortable', 'draggable', 'droppable']);
+                    $wa->useScript('jquery-ui');
                 }
                 break;
             case 3: // CDN Google
-                $this->document->addScript($http . 'ajax.googleapis.com/ajax/libs/jquery/' . $jqVersion . '/jquery.min.js');
+                $wa->registerAndUseScript('jquery-cdn', $http . 'ajax.googleapis.com/ajax/libs/jquery/' . $jqVersion . '/jquery.min.js');
                 if ($jqui) {
-                    $this->document->addScript($http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/jquery-ui.min.js');
-                    $this->document->addStyleSheet($http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css');
+                    $wa->registerAndUseScript('jquery-ui-cdn', $http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/jquery-ui.min.js');
+                    $wa->registerAndUseStyle('jquery-ui-theme', $http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css');
                 }
                 break;
             case 4: // code.jquery.com
-                $this->document->addScript($http . 'code.jquery.com/jquery-' . $jqVersion . '.min.js');
+                $wa->registerAndUseScript('jquery-code', $http . 'code.jquery.com/jquery-' . $jqVersion . '.min.js');
                 if ($jqui) {
-                    $this->document->addScript($http . 'code.jquery.com/ui/' . $jqUiversion . '/jquery-ui.min.js');
-                    $this->document->addStyleSheet($http . 'code.jquery.com/ui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css');
+                    $wa->registerAndUseScript('jquery-ui-code', $http . 'code.jquery.com/ui/' . $jqUiversion . '/jquery-ui.min.js');
+                    $wa->registerAndUseStyle('jquery-ui-theme-code', $http . 'code.jquery.com/ui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css');
                 }
                 break;
             default:
             case 1: // Local
-                $this->document->addScript($root . 'components/com_geofactory/assets/js/jquery/' . $jqVersion . '/jquery.min.js');
+                $wa->registerAndUseScript('jquery-local', $root . 'components/com_geofactory/assets/js/jquery/' . $jqVersion . '/jquery.min.js');
                 if ($jqui) {
-                    $this->document->addScript($root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/jquery-ui.min.js');
-                    $this->document->addStyleSheet($root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/themes/_name_/jquery-ui.css');
+                    $wa->registerAndUseScript('jquery-ui-local', $root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/jquery-ui.min.js');
+                    $wa->registerAndUseStyle('jquery-ui-theme-local', $root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/themes/_name_/jquery-ui.css');
                 }
                 break;
         }
 
-        // Caricamento Bootstrap aggiornato a Bootstrap 5 (senza duplicazioni)
+        // Caricamento Bootstrap aggiornato a Bootstrap 5
         if ($jsBootStrap == 1 || $cssBootStrap == 1) {
-            $bootstrapCss = $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css';
-            $bootstrapJs  = $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js';
             if ($cssBootStrap == 1) {
-                $this->document->addStyleSheet($bootstrapCss);
+                $wa->registerAndUseStyle('bootstrap-css', $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
             }
             if ($jsBootStrap == 1) {
-                $this->document->addScript($bootstrapJs);
+                $wa->registerAndUseScript('bootstrap-js', $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js');
             }
         }
 
@@ -239,7 +240,7 @@ class GeofactoryViewMap extends HtmlView
 
             // Se in debug
             $sep = GeofactoryHelper::isDebugMode() ? "\n" : " ";
-            $js  = implode($sep, $js);
+            $wa->addInlineScript(implode($sep, $js));
         }
 
         // Google API Key
@@ -258,35 +259,34 @@ class GeofactoryViewMap extends HtmlView
 
         // Se ci sono "layers" o "radFormMode"
         if (count($arLayers) > 0 || $this->item->radFormMode > 1) {
-            $this->document->addStyleSheet('components/com_geofactory/assets/css/geofactory-maps_btn.css');
+            $wa->registerAndUseStyle('geofactory-maps-btn', 'components/com_geofactory/assets/css/geofactory-maps_btn.css');
         }
 
         // Full CSS custom
-        $this->document->addStyleDeclaration($this->item->fullCss);
+        $wa->addInlineStyle($this->item->fullCss);
 
         // Caricamento script Google Maps
         $mapLang = (strlen($config->get('mapLang')) > 1) ? '&language=' . $config->get('mapLang') : '';
-        $this->document->addScript($http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang . $lib);
+        $wa->registerAndUseScript('googlemaps-api', $http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang . $lib);
 
         // Se presente un file custom
         if (file_exists(JPATH_BASE . '/components/com_geofactory/assets/js/custom.js')) {
-            $this->document->addScript($root . 'components/com_geofactory/assets/js/custom.js');
+            $wa->registerAndUseScript('geofactory-custom', $root . 'components/com_geofactory/assets/js/custom.js');
         }
 
         // Cluster
         if ($this->item->useCluster == 1) {
-            $this->document->addScript($root . 'components/com_geofactory/assets/js/markerclusterer-5151023.js');
+            $wa->registerAndUseScript('geofactory-markerclusterer', $root . 'components/com_geofactory/assets/js/markerclusterer-5151023.js');
         }
 
         if (!GeofactoryHelper::useNewMethod($this->item)) {
-            $this->document->addScript($root . 'components/com_geofactory/assets/js/map_api-5151020.js');
-            $this->document->addScriptDeclaration($js);
+            $wa->registerAndUseScript('geofactory-map-api', $root . 'components/com_geofactory/assets/js/map_api-5151020.js');
         } else {
             // Gestione "nuovo" con script generato in modo differente
             if (empty($dist)) {
                 $dist = $app->input->getFloat('mj_rs_radius_selector', 1);
             }
-            $this->document->addScript('index.php?option=com_geofactory&task=map.getJs&' . implode('&', $urlParams));
+            $wa->registerAndUseScript('geofactory-map-js', 'index.php?option=com_geofactory&task=map.getJs&' . implode('&', $urlParams));
         }
 
         // Impostazioni del titolo e meta (classico Joomla)
@@ -414,5 +414,258 @@ class GeofactoryViewMap extends HtmlView
             $js[] = " var dropDownOptions = {gmap: {$oMap}.map, name: '{$txt[6]}', id: 'ddControl', title: '{$txt[7]}', position: google.maps.ControlPosition.TOP_RIGHT, dropDown: dropDownDiv};";
             $js[] = ' var dropDown1 = new dropDownControl(dropDownOptions);';
         }
+    }
+    
+    /**
+     * Genera il selettore dei livelli (layers)
+     */
+    protected function _getLayersSelector($arLayersTmp, $var)
+    {
+        if (!is_array($arLayersTmp) || !count($arLayersTmp)) {
+            return '';
+        }
+        $arLayers = [];
+        foreach ($arLayersTmp as $tmp) {
+            if (intval($tmp) > 0) {
+                $arLayers[] = $tmp;
+            }
+        }
+        if (!is_array($arLayers) || count($arLayers) < 1) {
+            return '';
+        }
+        $layers = [];
+        $layers[] = '<h4>Layers</h4>';
+        $layers[] = '<ul class="list-unstyled" id="gf_layers_selector">'; // Sostituito style con classe Bootstrap 5
+        if (in_array(1, $arLayers)) {
+            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_traffic" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_traffic">' . Text::_('COM_GEOFACTORY_TRAFFIC') . '</label></div></li>'; // Aggiornato per Bootstrap 5
+        }
+        if (in_array(2, $arLayers)) {
+            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_transit" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_transit">' . Text::_('COM_GEOFACTORY_TRANSIT') . '</label></div></li>'; // Aggiornato per Bootstrap 5
+        }
+        if (in_array(3, $arLayers)) {
+            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_bicycle" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_bicycle">' . Text::_('COM_GEOFACTORY_BICYCLE') . '</label></div></li>'; // Aggiornato per Bootstrap 5
+        }
+        $layers[] = '</ul>';
+        return implode('', $layers);
+    }
+    
+    /**
+     * Genera il pannello laterale della mappa
+     */
+    protected function _getSidePanel($map)
+    {
+        $app = Factory::getApplication('site');
+        $gf_mod_search = $app->input->getString('gf_mod_search', null);
+        $gf_mod_search = htmlspecialchars(str_replace(['"', '`'], '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
+        $route = isset($map->useRoutePlaner) && $map->useRoutePlaner
+            ? '<br /><div class="alert alert-info" id="route_box"><h4>' . Text::_('COM_GEOFACTORY_MARKER_TO_REACH') . '</h4>{route}</div>'
+            : '';
+        $selector = '{ullist_img}';
+        if (isset($map->niveaux) && ($map->niveaux == 1)) {
+            $selector = '{level_icon_simple_check}';
+        }
+        
+        return '
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4" id="gf_sideTemplateCont">
+                        <div id="gf_sideTemplateCtrl">
+                            <div class="card p-3"> <!-- Sostituito well con card p-3 -->
+                                <div id="gf_btn_superfull" style="display:none;" onclick="superFull(' . $map->mapInternalName . '.map);return false;">
+                                    <a id="reset" href="#"><i class="bi bi-chevron-right"></i> ' . Text::_('COM_GEOFACTORY_REDUCE') . '</a> <!-- Sostituito glyphicon con bootstrap-icons (bi) -->
+                                </div>
+                                <h4>' . Text::_('COM_GEOFACTORY_ADDRESS_SEARCH_NEAR') . ' <small>(<a id="find_me" href="#" onClick="' . $map->mapInternalName . '.LMBTN();">' . Text::_('COM_GEOFACTORY_ADDRESS_FIND_ME') . '</a>)</small></h4>
+                                <p>
+                                    <input type="text" id="addressInput" value="' . $gf_mod_search . '" class="form-control gfMapControls" placeholder="' . Text::_('COM_GEOFACTORY_ENTER_ADDRESS_OR') . '" /> <!-- Aggiunto form-control -->
+                                </p>
+                                <p>
+                                    <label class="form-label">' . Text::_('COM_GEOFACTORY_WITHIN') . ' {rad_distances}</label> <!-- Aggiunto form-label -->
+                                </p>
+                                <h4>' . Text::_('COM_GEOFACTORY_CATEGORIES_ON_MAP') . '</h4>
+                                ' . $selector . '
+                                <div class="mt-3"> <!-- Aggiunto margine top -->
+                                    <a class="btn btn-primary" id="search" href="#" onclick="' . $map->mapInternalName . '.SLFI();">
+                                        <i class="bi bi-search"></i> ' . Text::_('COM_GEOFACTORY_SEARCH') . ' <!-- Sostituito glyphicon con bootstrap-icons -->
+                                    </a>
+                                    <a class="btn btn-secondary" id="reset" href="#" onclick="' . $map->mapInternalName . '.SLRES();"> <!-- Sostituito btn-default con btn-secondary -->
+                                        <i class="bi bi-arrow-repeat"></i> ' . Text::_('COM_GEOFACTORY_RESET_MAP') . ' <!-- Sostituito glyphicon con bootstrap-icons -->
+                                    </a>
+                                </div>
+                                {layer_selector}
+                            </div>
+                            <div class="alert alert-info mt-3" id="result_box"><h4>' . Text::_('COM_GEOFACTORY_RESULTS') . ' {number}</h4>{sidelists}</div> <!-- Aggiunto mt-3 -->
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <noscript>
+                            <div class="alert alert-info">
+                                <h4>Your JavaScript is disabled</h4>
+                                <p>Please enable JavaScript to view the map.</p>
+                            </div>
+                        </noscript>
+                        {map}
+                        ' . $route . '
+                    </div>
+                </div>
+            </div>
+            <div id="gf_panelback" style="cursor:pointer;float:right;display:none;position:fixed;width:20px;height:100%;top:0;right:0;z-index:100; background-color:silver!important; background: url(' . Uri::root() . 'media/com_geofactory/assets/arrow-left.png) no-repeat center" onclick="normalFull(' . $map->mapInternalName . '.map);"><div></div></div>
+        ';
+    }
+    
+    /**
+     * Genera il div per la pianificazione del percorso
+     */
+    protected function _getRouteDiv()
+    {
+        $route  = '<div id="gf_routecontainer">';
+        $route .= '<select id="gf_transport" class="form-select mb-2">'; // Aggiunto form-select e mb-2
+        $route .= '<option value="DRIVING">' . Text::_('COM_GEOFACTORY_DRIVING') . '</option>';
+        $route .= '<option value="WALKING">' . Text::_('COM_GEOFACTORY_WALKING') . '</option>';
+        $route .= '<option value="BICYCLING">' . Text::_('COM_GEOFACTORY_BICYCLING') . '</option>';
+        $route .= '</select>';
+        $route .= '<div id="gf_routepanel"></div>';
+        $route .= '</div>';
+        return $route;
+    }
+    
+    /**
+     * Genera il form del radius per la ricerca
+     */
+    protected function _getRadForm($map, $mapVar, $toggeler_map, $nbrMs, &$dists)
+    {
+        $app = Factory::getApplication('site');
+        $gf_mod_search = $app->input->getString('gf_mod_search', null);
+        $gf_mod_search = htmlspecialchars(str_replace(['"', '`'], '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
+        $form_start = '<form id="gf_radius_form" onsubmit="' . $mapVar . '.SLFI();return false;">';
+        $input = '<input type="text" id="addressInput" value="' . $gf_mod_search . '" class="form-control gfMapControls"/>'; // Aggiunto form-control
+        $dists = $this->_getRadiusDistances($map, $gf_mod_search);
+        $search_btn = '<input type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" class="btn btn-primary" value="' . Text::_('COM_GEOFACTORY_SEARCH') . '"/>'; // Aggiunto btn btn-primary
+        $divsOnMapGo = '<div id="gf_map_panel" style="padding-top:5px;display:none;"><div id="gf_radius_form" style="margin:0;padding:0;">';
+        $radius_form = '';
+        
+        if (!isset($map->radFormMode)) {
+            $map->radFormMode = 0;
+        }
+        
+        if ($map->radFormMode == 0) {
+            $radius_form .= $form_start;
+            $radius_form .= '<div class="mb-3">'; // Aggiunto div con mb-3
+            $radius_form .= '<label for="addressInput" class="form-label">' . Text::_('COM_GEOFACTORY_ADDRESS') . '</label>'; // Aggiunto form-label
+            $radius_form .= $input;
+            $radius_form .= '</div>';
+            $radius_form .= '<div class="mb-3">'; // Aggiunto div con mb-3
+            $radius_form .= '<label for="radiusSelect" class="form-label">' . Text::_('COM_GEOFACTORY_RADIUS') . '</label>'; // Aggiunto form-label
+            $radius_form .= $dists;
+            $radius_form .= '</div>';
+            $radius_form .= '<div class="mb-3">'; // Aggiunto div con mb-3
+            $radius_form .= $search_btn;
+            $radius_form .= '</div>';
+            $radius_form .= '</form>';
+        }
+        if ($map->radFormMode == 1) {
+            $radius_form .= $form_start;
+            $radius_form .= isset($map->radFormSnipet) ? $map->radFormSnipet : '';
+            $radius_form = str_replace('[input_center]', $input, $radius_form);
+            $radius_form = str_replace('[distance_sel]', $dists, $radius_form);
+            $radius_form = str_replace('[search_btn]', $search_btn, $radius_form);
+            $radius_form .= '</form>';
+        }
+        if ($map->radFormMode == 3 && $nbrMs && $nbrMs > 0)
+            $map->radFormMode = 2;
+        if ($map->radFormMode == 3) {
+            $radius_form .= $divsOnMapGo;
+            $radius_form .= $input;
+            $radius_form .= $dists;
+            $radius_form .= '<input type="button" class="btn btn-secondary gfMapControls" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" value="' . Text::_('COM_GEOFACTORY_RESET_MAP') . '"/>'; // Aggiunto btn btn-secondary
+            $radius_form .= ' <input type="button" class="btn btn-info gfMapControls" value="Filters" onclick="switchPanel(\'gf_toggeler\', 0);" />'; // Aggiunto btn btn-info
+            $radius_form .= '</div>';
+            $radius_form .= '<div id="gf_toggeler" style="display:none;">';
+            $radius_form .= $toggeler_map;
+            $radius_form .= '</div>';
+            $radius_form .= '</div>';
+        }
+        if ($map->radFormMode == 2) {
+            $radius_form .= $divsOnMapGo;
+            $radius_form .= $input;
+            $radius_form .= $dists;
+            $radius_form .= '<input type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" value="" style="display:none" />';
+            $radius_form .= '<input type="button" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" value="" style="display:none" />';
+            $radius_form .= '</div>';
+            $radius_form .= '</div>';
+        }
+        return $radius_form;
+    }
+    
+    /**
+     * Genera il selettore di distanze per il radius
+     */
+    protected function _getRadiusDistances($map, $gf_mod_search, $class = true)
+    {
+        $ses = Factory::getSession();
+        $app = Factory::getApplication('site');
+        $gf_mod_radius = $app->input->getFloat('gf_mod_radius', $ses->get('mj_rs_ref_dist', 0));
+        
+        if ($gf_mod_search && (strlen($gf_mod_search) > 0)) {
+            $ses->set('gf_ss_search_phrase', $gf_mod_search);
+            $ses->set('gf_ss_search_radius', $gf_mod_radius);
+        }
+        
+        if (!isset($map->frontDistSelect)) {
+            $map->frontDistSelect = "5,10,25,50,100";
+        }
+        
+        $listVal = explode(',', $map->frontDistSelect);
+        $find = false;
+        $unit = Text::_('COM_GEOFACTORY_UNIT_KM');
+        if (isset($map->fe_rad_unit)) {
+            $unit = ($map->fe_rad_unit == 1) ? Text::_('COM_GEOFACTORY_UNIT_MI') : $unit;
+            $unit = ($map->fe_rad_unit == 2) ? Text::_('COM_GEOFACTORY_UNIT_NM') : $unit;
+        }
+        $cls = $class ? 'class="form-select gfMapControls"' : 'class="form-select"'; // Aggiunto form-select
+        $radForm = '<select id="radiusSelect" style="width:100px;" ' . $cls . ' onChange="if (mj_radiuscenter){' . $map->mapInternalName . '.SLFI();}">';
+        
+        if (is_array($listVal)) {
+            foreach ($listVal as $val) {
+                $sel = ($val == $gf_mod_radius) ? ' selected="selected" ' : '';
+                if ($sel != '') {
+                    $find = true;
+                }
+                $radForm .= '<option value="' . $val . '" ' . $sel . '>' . $val . ' ' . $unit . '</option>';
+            }
+        }
+        
+        if (!$find && is_numeric($gf_mod_radius) && ($gf_mod_radius > 0)) {
+            $radForm .= '<option value="' . $gf_mod_radius . '" selected="selected">' . $gf_mod_radius . '</option>';
+        }
+        $radForm .= '</select>';
+        return $radForm;
+    }
+    
+    /**
+     * Sostituisce i tag dyncat nel template
+     */
+    protected function _replaceDynCat($text)
+    {
+        $regex = '/{dyncat\s+(.*?)}/i';
+        if (strpos($text, "{dyncat ") === false)
+            return $text;
+        preg_match_all($regex, $text, $matches);
+        $count = is_array($matches[0]) ? count($matches[0]) : 0;
+        if ($count < 1)
+            return $text;
+        for ($i = 0; $i < $count; $i++) {
+            $code = str_replace("{dyncat ", '', $matches[0][$i]);
+            $code = str_replace("}", '', $code);
+            $code = trim($code);
+            $vCode = explode('#', $code);
+            if ((count($vCode) < 1) || (strlen($vCode[1]) < 1))
+                continue;
+            $ext = $vCode[0];
+            $idP = $vCode[1];
+            // In questo caso, se vuoi aggiungere l'azione via JS, puoi inserirla nell'array $js
+            // oppure gestirla diversamente
+        }
+        // Se necessario, si potrebbe fare un preg_replace per sostituire tutte le occorrenze.
+        return preg_replace($regex, '', $text);
     }
 }

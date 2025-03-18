@@ -26,7 +26,7 @@ $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
 */
-HTMLHelper::_('behavior.caption');
+// HTMLHelper::_('behavior.caption');
 $map = $this->item;
 ?>
 

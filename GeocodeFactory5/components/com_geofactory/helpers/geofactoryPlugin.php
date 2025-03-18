@@ -16,14 +16,21 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\Event;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Database\DatabaseInterface;
 
+/**
+ * Classe helper per i plugin di geocodefactory
+ * 
+ * @since  1.0
+ */
 class GeofactoryPluginHelper extends CMSPlugin
 {
     /**
      * Restituisce le informazioni del plugin per la visualizzazione nelle liste del backend.
      *
-     * @return array
-     * @since 1.0
+     * @return  array
+     * @since   1.0
      */
     public function getPlgInfo()
     {
@@ -36,9 +43,10 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Funzione comune in sola lettura.
      *
-     * @param string $type
-     * @param bool   $flag (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isProfile($type, &$flag)
     {
@@ -51,9 +59,10 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Funzione comune in sola lettura.
      *
-     * @param string $type
-     * @param bool   $flag (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isEvent($type, &$flag)
     {
@@ -68,9 +77,10 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Funzione comune in sola lettura.
      *
-     * @param string $type
-     * @param bool   $flag (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isSpecialMs($type, &$flag)
     {
@@ -85,9 +95,10 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Funzione comune in sola lettura.
      *
-     * @param string $type
-     * @param bool   $flag (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isIconAvatarEntrySupported($type, &$flag)
     {
@@ -100,9 +111,10 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Funzione comune in sola lettura.
      *
-     * @param string $type
-     * @param bool   $flag (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isIconCategorySupported($type, &$flag)
     {
@@ -115,9 +127,10 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Funzione comune in sola lettura.
      *
-     * @param string $type
-     * @param bool   $flag (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function getIsSingleGpsField($type, &$flag)
     {
@@ -130,10 +143,11 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Verifica il contesto corrente e definisce se è il tipo corretto.
      *
-     * @param string $type
-     * @param string $ssType
-     * @param bool   $isOnCurItem (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   string  $ssType  Sottotipo
+     * @param   bool    &$isOnCurItem  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isOnCurContext($type, $ssType, &$isOnCurItem)
     {
@@ -149,9 +163,10 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Verifica se il plugin è installato per il tipo dato.
      *
-     * @param string $type
-     * @param bool   $flag (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isPluginInstalled($type, &$flag)
     {
@@ -164,9 +179,9 @@ class GeofactoryPluginHelper extends CMSPlugin
     /**
      * Restituisce la lista dei campi di assegnazione.
      *
-     * @param string $type
-     * @return array
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @return  array
+     * @since   1.0
      */
     public function getListFieldsAssign($type)
     {
@@ -174,39 +189,39 @@ class GeofactoryPluginHelper extends CMSPlugin
         if (!$this->isInCurrentType($type)) {
             return [$this->gatewayCode, $listFields];
         }
-        if ($this->custom_latitude) {
+        if (!empty($this->custom_latitude)) {
             $listFields[] = "field_latitude";
         }
-        if ($this->custom_longitude) {
+        if (!empty($this->custom_longitude)) {
             $listFields[] = "field_longitude";
         }
-        if ($this->custom_street) {
+        if (!empty($this->custom_street)) {
             $listFields[] = "field_street";
         }
-        if ($this->custom_postal) {
+        if (!empty($this->custom_postal)) {
             $listFields[] = "field_postal";
         }
-        if ($this->custom_city) {
+        if (!empty($this->custom_city)) {
             $listFields[] = "field_city";
         }
-        if ($this->custom_county) {
+        if (!empty($this->custom_county)) {
             $listFields[] = "field_county";
         }
-        if ($this->custom_state) {
+        if (!empty($this->custom_state)) {
             $listFields[] = "field_state";
         }
-        if ($this->custom_country) {
+        if (!empty($this->custom_country)) {
             $listFields[] = "field_country";
         }
         return [$type, $listFields];
     }
 
     /**
-     * INTERNO - Restituisce l'ID della sottodirectory dal typeList.
+     * Restituisce l'ID della sottodirectory dal typeList.
      *
-     * @param string $typeList
-     * @return int
-     * @since 1.0
+     * @param   string  $typeList  Tipo di lista
+     * @return  int
+     * @since   1.0
      */
     protected function getSubDirIdFromTypeListe($typeList)
     {
@@ -217,16 +232,17 @@ class GeofactoryPluginHelper extends CMSPlugin
         if (count($v) < 2) {
             return -1;
         }
-        return $v[1];
+        return (int)$v[1];
     }
 
     /**
      * Verifica se il "nome breve" dell'URL è utilizzabile da questo plugin.
      *
-     * @param string $type
-     * @param string $ext
-     * @param bool   $ret (passato per riferimento)
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @param   string  $ext  Estensione
+     * @param   bool    &$ret  Risultato (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function isMyShortName($type, $ext, &$ret)
     {
@@ -240,17 +256,22 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * INTERNO - Verifica se il plugin deve essere eseguito per il tipo corretto.
+     * Verifica se il plugin deve essere eseguito per il tipo corretto.
      *
-     * @param string $type
-     * @return bool
-     * @since 1.0
+     * @param   string  $type  Tipo di plugin
+     * @return  bool
+     * @since   1.0
      */
     protected function isInCurrentType($type)
     {
         $this->mergeInternalDirectories();
+        
+        if (!isset($this->vGatewayInfo) || !is_array($this->vGatewayInfo)) {
+            return false;
+        }
+        
         foreach ($this->vGatewayInfo as $gi) {
-            if (strtolower($type) == strtolower($gi[0])) {
+            if (is_array($gi) && count($gi) > 0 && strtolower($type) == strtolower($gi[0])) {
                 return true;
             }
         }
@@ -258,155 +279,190 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
 
     /**
-     * INTERNO - Restituisce l'ID dell'elemento di menu.
+     * Restituisce l'ID dell'elemento di menu.
      *
-     * @param int $itemid
-     * @return int
-     * @since 1.0
+     * @param   int  $itemid  ID elemento di menu
+     * @return  int
+     * @since   1.0
      */
     protected function getMenuItemId($itemid = 0)
     {
         if ($itemid > 0) {
             return $itemid;
         }
-        $db = Factory::getDbo();
+        
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
                     ->select('id')
                     ->from($db->quoteName('#__menu'))
-                    ->where("link LIKE '%index.php?option={$this->gatewayOption}%' AND type='component' AND published='1'");
+                    ->where($db->quoteName('link') . ' LIKE ' . $db->quote('%index.php?option=' . $this->gatewayOption . '%'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+                    ->where($db->quoteName('published') . ' = 1');
+        
         $db->setQuery($query, 0, 1);
-        return $db->loadResult();
+        
+        try {
+            return (int)$db->loadResult();
+        } catch (\Exception $e) {
+            Log::add('getMenuItemId: ' . $e->getMessage(), Log::ERROR, 'geofactory');
+            return 0;
+        }
     }
 
     /**
-     * INTERNO - Aggiunge una condizione WHERE per testare la validità delle coordinate.
+     * Aggiunge una condizione WHERE per testare la validità delle coordinate.
      *
-     * @param string $fieldLat
-     * @param string $fieldLng
-     * @return string
-     * @since 1.0
+     * @param   string  $fieldLat  Campo latitudine
+     * @param   string  $fieldLng  Campo longitudine
+     * @return  string
+     * @since   1.0
      */
     protected function getValidCoordTest($fieldLat, $fieldLng)
     {
         $app = Factory::getApplication('site');
         $vp = $app->input->getString('bo', '');
         $allM = $app->input->getInt('allM');
+        
         $vp = explode(',', $vp);
         if (!is_array($vp) || count($vp) != 4 || $allM == 1) {
             $vp = null;
         }
-        $db = Factory::getDbo();
+        
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
         $t = "(";
-        $t .= "({$fieldLat} <> " . $db->quote("");
+        $t .= "({$fieldLat} <> " . $db->quote('');
+        
         if ($vp) {
-            $t .= " AND ({$fieldLat} BETWEEN {$vp[0]} AND {$vp[2]})";
+            $t .= " AND ({$fieldLat} BETWEEN " . $db->escape($vp[0]) . " AND " . $db->escape($vp[2]) . ")";
         }
+        
         $t .= " AND {$fieldLat} IS NOT NULL ";
         $t .= " AND {$fieldLat} <> 0 ";
         $t .= " AND {$fieldLat} <> " . $this->defEmptyLat . ")";
         $t .= " OR ";
-        $t .= "({$fieldLng} <> " . $db->quote("");
+        $t .= "({$fieldLng} <> " . $db->quote('');
+        
         if ($vp) {
-            $t .= " AND ({$fieldLng} BETWEEN {$vp[1]} AND {$vp[3]})";
+            $t .= " AND ({$fieldLng} BETWEEN " . $db->escape($vp[1]) . " AND " . $db->escape($vp[3]) . ")";
         }
+        
         $t .= " AND {$fieldLng} IS NOT NULL ";
         $t .= " AND {$fieldLng} <> 0 ";
         $t .= " AND {$fieldLng} <> " . $this->defEmptyLng . ")";
         $t .= ")";
-        $t = str_replace(array('\t', '   ', '  '), ' ', $t);
-        return $t;
+        
+        return str_replace(array('\t', '   ', '  '), ' ', $t);
     }
 
     /**
-     * INTERNO - Finalizza la query di lista per la geocodifica.
+     * Finalizza la query di lista per la geocodifica.
      *
-     * @param  object $query
-     * @param  array  $filters
-     * @return object
-     * @since 1.0
+     * @param   object  $query    Oggetto query
+     * @param   array   $filters  Filtri
+     * @return  object
+     * @since   1.0
      */
     protected function finaliseGetListQueryBackGeocode($query, $filters)
     {
+        if (empty($filters) || !is_array($filters) || count($filters) < 3) {
+            return $query;
+        }
+        
         $filterSearch = $filters[0];
         $filterGeocoded = $filters[2];
         $listDirection = $filters[1];
-        $db = Factory::getDbo();
-        $query->group('item_id, item_name, c_status');
+        
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $query->group($db->quoteName(['item_id', 'item_name', 'c_status']));
+        
         if (!empty($filterSearch)) {
             if (stripos($filterSearch, 'id:') === 0) {
-                $query->having('item_id = ' . (int)substr($filterSearch, 3));
+                $query->having($db->quoteName('item_id') . ' = ' . (int)substr($filterSearch, 3));
             } else {
                 $filterSearch = $db->quote('%' . $db->escape($filterSearch, true) . '%');
-                $query->having('item_name LIKE ' . $filterSearch);
+                $query->having($db->quoteName('item_name') . ' LIKE ' . $filterSearch);
             }
         }
+        
         if ($filterGeocoded == 1) {
-            $query->having('c_status = 1');
-        } else if ($filterGeocoded == 2) {
-            $query->having('c_status = 0');
+            $query->having($db->quoteName('c_status') . ' = 1');
+        } elseif ($filterGeocoded == 2) {
+            $query->having($db->quoteName('c_status') . ' = 0');
         }
-        $query->order($db->escape('item_name') . ' ' . $db->escape($listDirection));
+        
+        $listDirection = strtoupper($listDirection) === 'DESC' ? 'DESC' : 'ASC';
+        $query->order($db->quoteName('item_name') . ' ' . $listDirection);
+        
         return $query;
     }
 
     /**
-     * INTERNO - Genera un URL completo.
+     * Genera un URL completo.
      *
-     * @param string $href
-     * @return string
-     * @since 1.0
+     * @param   string  $href  URL relativo
+     * @return  string
+     * @since   1.0
      */
     protected function genericUrl($href)
     {
         $href = str_replace('&amp;', '&', $href);
         $uri = \Joomla\CMS\Uri\Uri::getInstance();
-        $prefix = $uri->toString(array('scheme', 'host', 'port'));
+        $prefix = $uri->toString(['scheme', 'host', 'port']);
         return $prefix . Route::_($href);
     }
 
     /**
      * Restituisce tutti i tag.
      *
-     * @param int   $idTopCat
-     * @param array &$vCats
-     * @since 1.0
+     * @param   int     $idTopCat  ID categoria superiore
+     * @param   array   &$vCats    Array categorie (passato per riferimento)
+     * @return  void
+     * @since   1.0
      */
     public function getAllTags($idTopCat, &$vCats)
     {
-        $db = Factory::getDbo();
-        $query = $db->getQuery(true)
-                    ->select('id as catid, parent_id as parentid, title')
-                    ->from($db->quoteName('#__tags'))
-                    ->order('title');
         try {
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+            $query = $db->getQuery(true)
+                        ->select([
+                            $db->quoteName('id', 'catid'),
+                            $db->quoteName('parent_id', 'parentid'),
+                            $db->quoteName('title')
+                        ])
+                        ->from($db->quoteName('#__tags'))
+                        ->order($db->quoteName('title'));
+                        
             $db->setQuery($query);
             $vCats = $db->loadObjectList();
         } catch (\Exception $e) {
-            // Utilizziamo il sistema di log di Joomla invece di trigger_error
             Log::add('getAllTags: Errore nel database: ' . $e->getMessage(), Log::ERROR, 'geofactory');
+            $vCats = [];
         }
     }
 
     /**
-     * INTERNO - Restituisce le sottocategorie di una lista di categorie.
+     * Restituisce le sottocategorie di una lista di categorie.
      *
-     * @param array  $categoryList
-     * @param mixed  &$par
-     * @param array  &$vRes
-     * @param string $indent
-     * @since 1.0
+     * @param   array   $categoryList  Lista categorie
+     * @param   mixed   &$par          ID genitore (passato per riferimento)
+     * @param   array   &$vRes         Risultati (passato per riferimento)
+     * @param   string  $indent        Indentazione
+     * @return  void
+     * @since   1.0
      */
     public static function getChildCatOf($categoryList, &$par, &$vRes, $indent)
     {
         if (is_string($indent)) {
             $indent .= "- ";
         }
-        if (sizeof($categoryList) > 0) {
+        
+        if (is_array($categoryList) && count($categoryList) > 0) {
             foreach ($categoryList as $category) {
-                if ($category->parentid == $par) {
+                if (isset($category->parentid) && $category->parentid == $par) {
                     $vRes[] = is_string($indent)
-                        ? HTMLHelper::_('select.option', $category->catid, $indent . stripcslashes(stripslashes(stripslashes($category->title))))
+                        ? HTMLHelper::_('select.option', $category->catid, $indent . htmlspecialchars($category->title, ENT_QUOTES, 'UTF-8'))
                         : $category->catid;
+                    
                     // Chiamata ricorsiva
                     self::getChildCatOf($categoryList, $category->catid, $vRes, $indent);
                 }
@@ -415,16 +471,15 @@ class GeofactoryPluginHelper extends CMSPlugin
     }
     
     /**
-     * INTERNO - Unisce le directory interne.
+     * Unisce le directory interne.
+     * Questo metodo deve essere implementato nelle classi derivate se necessario.
      * 
-     * Questo metodo è un alias rinominato da _mergeInternalDirectories per seguire
-     * le convenzioni di Joomla 4 che evitano i metodi con underscore iniziale.
-     * 
-     * @since 1.0
+     * @return  void
+     * @since   1.0
      */
     protected function mergeInternalDirectories()
     {
-        // Implementare se necessario
-        // Questo metodo sostituisce _mergeInternalDirectories
+        // Metodo vuoto che deve essere sovrascritto nelle classi figlie
+        // Sostituisce il vecchio _mergeInternalDirectories()
     }
 }
