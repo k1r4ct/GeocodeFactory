@@ -117,87 +117,91 @@ class GeofactoryModelMarkers extends ItemModel
         $lastMsType = [];
         $vCheckArray = [];
 
-        foreach ($ms as $idMs) {
-            if ($useSelLists && !in_array($idMs, $selLists))
-                continue;
+        if (is_array($ms) && count($ms) > 0) {
+            foreach ($ms as $idMs) {
+                if ($useSelLists && !in_array($idMs, $selLists))
+                    continue;
 
-            $objMs = GeofactoryHelper::getMs($idMs);
-            if (!$objMs) {
-                $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_PLUGIN').$idMs;
-                continue;
-            }
-
-            if (!$this->_checkUserLevel($objMs)) {
-                $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_LEVEL').$objMs->id;
-                continue;
-            }
-
-            $zIdx++;
-            $queryForMsg = "";
-            $msDb = $this->_getDataFromMsDb($objMs, $queryForMsg);
-
-            if (GeofactoryHelper::isDebugMode()) {
-                $data['infos']['queries'][] = $queryForMsg;
-            }
-            if (!$msDb) {
-                $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_DATA').$objMs->id;
-                continue;
-            }
-
-            $latRad = $map->centerlat;
-            $lngRad = $map->centerlng;
-
-            $this->_getRadiusCenterDirectory($latRad, $lngRad, $jsRadius, $jsLat, $jsLng, $objMs, $map);
-
-            $arIdsMarkers = [];
-            $isSpecialMs = false;
-            
-            // Aggiornato per Joomla 4: isSpecialMs event
-            $evIsSpec = new Event('onIsSpecialMs', [
-                'typeList' => $objMs->typeList,
-                'isSpecialMs' => &$isSpecialMs
-            ]);
-            $dispatcher->dispatch($evIsSpec);
-
-            if (!$isSpecialMs) {
-                $msDb = $this->_extractMarkersFrom($msDb, $objMs, $latRad, $lngRad, $jsRadius, $zIdx);
-                if (!count($msDb)) {
-                    $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_MARKERS').$objMs->id;
+                $objMs = GeofactoryHelper::getMs($idMs);
+                if (!$objMs) {
+                    $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_PLUGIN').$idMs;
                     continue;
                 }
-                if (!isset($vCheckArray[$objMs->typeList])) {
-                    $vCheckArray[$objMs->typeList] = [];
+
+                if (!$this->_checkUserLevel($objMs)) {
+                    $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_LEVEL').$objMs->id;
+                    continue;
                 }
 
-                // Aggiornato per Joomla 4: cleanResultsFromPlugins event
-                $evClean = new Event('onCleanResultsFromPlugins', [
-                    'typeList' => $objMs->typeList,
-                    'msDb'     => &$msDb,
-                    'objMs'    => $objMs
-                ]);
-                $dispatcher->dispatch($evClean);
+                $zIdx++;
+                $queryForMsg = "";
+                $msDb = $this->_getDataFromMsDb($objMs, $queryForMsg);
 
-                foreach ($msDb as $add) {
-                    $idAdd = $add['id'];
-                    if ($map->allowDbl == 0) {
-                        if (in_array($idAdd, $vCheckArray[$objMs->typeList])) {
-                            continue;
+                if (GeofactoryHelper::isDebugMode()) {
+                    $data['infos']['queries'][] = $queryForMsg;
+                }
+                if (!$msDb) {
+                    $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_DATA').$objMs->id;
+                    continue;
+                }
+
+                $latRad = $map->centerlat;
+                $lngRad = $map->centerlng;
+
+                $this->_getRadiusCenterDirectory($latRad, $lngRad, $jsRadius, $jsLat, $jsLng, $objMs, $map);
+
+                $arIdsMarkers = [];
+                $isSpecialMs = false;
+                
+                // Aggiornato per Joomla 4: isSpecialMs event
+                $evIsSpec = new Event('onIsSpecialMs', [
+                    'typeList' => $objMs->typeList,
+                    'isSpecialMs' => &$isSpecialMs
+                ]);
+                $dispatcher->dispatch($evIsSpec);
+
+                if (!$isSpecialMs) {
+                    $msDb = $this->_extractMarkersFrom($msDb, $objMs, $latRad, $lngRad, $jsRadius, $zIdx);
+                    if (!is_array($msDb) || !count($msDb)) {
+                        $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_MARKERS').$objMs->id;
+                        continue;
+                    }
+                    if (!isset($vCheckArray[$objMs->typeList])) {
+                        $vCheckArray[$objMs->typeList] = [];
+                    }
+
+                    // Aggiornato per Joomla 4: cleanResultsFromPlugins event
+                    $evClean = new Event('onCleanResultsFromPlugins', [
+                        'typeList' => $objMs->typeList,
+                        'msDb'     => &$msDb,
+                        'objMs'    => $objMs
+                    ]);
+                    $dispatcher->dispatch($evClean);
+
+                    if (is_array($msDb)) {
+                        foreach ($msDb as $add) {
+                            $idAdd = $add['id'];
+                            if ($map->allowDbl == 0) {
+                                if (is_array($vCheckArray[$objMs->typeList]) && in_array($idAdd, $vCheckArray[$objMs->typeList])) {
+                                    continue;
+                                }
+                            }
+                            $lastMsType = $objMs->typeList;
+                            $msDbOk[] = $add;
+                            if (!$newMethod) {
+                                $arIdsMarkers[] = $add['id'];
+                            }
                         }
                     }
-                    $lastMsType = $objMs->typeList;
-                    $msDbOk[] = $add;
-                    if (!$newMethod) {
-                        $arIdsMarkers[] = $add['id'];
-                    }
+                } else {
+                    $data['spec'][] = $this->_getSpecial($objMs);
                 }
-            } else {
-                $data['spec'][] = $this->_getSpecial($objMs);
+                $data['lists'][] = $this->_getListInfo($objMs, $arIdsMarkers, $map);
             }
-            $data['lists'][] = $this->_getListInfo($objMs, $arIdsMarkers, $map);
         }
 
         echo "<br><br>".count($msDbOk);
-        if (!count($msDbOk)) {
+        if (!is_array($msDbOk) || count($msDbOk) < 1) {
             $data['infos']['messages'][] = [Text::_('COM_GEOFACTORY_MAP_NO_MARKERS_IN_MSS')];
             $data['infos']['elapsed'] = $this->_getElapsed($start_timestamp);
             if ($app->input->getInt('gf_debug', false) == 2) {
@@ -214,7 +218,7 @@ class GeofactoryModelMarkers extends ItemModel
             shuffle($msDbOk);
         }
 
-        if ($msDbOk[0]['di'] != -1) {
+        if (isset($msDbOk[0]['di']) && $msDbOk[0]['di'] != -1) {
             usort($msDbOk, "orderUserDist");
         } else {
             usort($msDbOk, "orderUser");
@@ -239,7 +243,7 @@ class GeofactoryModelMarkers extends ItemModel
             ]);
             $dispatcher->dispatch($evHowMany);
         }
-        if ($useSuperCluster && $curZoom <= $map->clusterZoom && (count($msDbOk) > $minMarkers)) {
+        if ($useSuperCluster && $curZoom <= $map->clusterZoom && is_array($msDbOk) && (count($msDbOk) > $minMarkers)) {
             $VPlimit = [];
 
             // Aggiornato per Joomla 4: getClusterCarres event
@@ -291,10 +295,12 @@ class GeofactoryModelMarkers extends ItemModel
     {
         $oLists = GeofactoryHelper::getArrayIdMs($idMap);
         $res = [];
-        foreach ($oLists as $idMs) {
-            foreach ($vUid as $uid) {
-                if ($uid['idL'] == $idMs) {
-                    $res[] = $uid;
+        if (is_array($oLists) && is_array($vUid)) {
+            foreach ($oLists as $idMs) {
+                foreach ($vUid as $uid) {
+                    if ($uid['idL'] == $idMs) {
+                        $res[] = $uid;
+                    }
                 }
             }
         }
@@ -304,13 +310,15 @@ class GeofactoryModelMarkers extends ItemModel
     protected function _purgeIfZoomMeAndUniqueMarker($msDbOk)
     {
         $res = [];
-        foreach ($msDbOk as $add) {
-            if ($add['zm'] == 1) {
-                $res[] = $add;
-                break;
+        if (is_array($msDbOk)) {
+            foreach ($msDbOk as $add) {
+                if ($add['zm'] == 1) {
+                    $res[] = $add;
+                    break;
+                }
             }
         }
-        if (count($res) == 1) {
+        if (is_array($res) && count($res) == 1) {
             return $res;
         }
         return $msDbOk;
@@ -319,15 +327,17 @@ class GeofactoryModelMarkers extends ItemModel
     protected function _purgeNotNeededNodesForJs($msDbOk)
     {
         $res = [];
-        foreach ($msDbOk as $add) {
-            unset($add['ow']);
-            unset($add['lfr']);
-            unset($add['lma']);
-            unset($add['low']);
-            unset($add['lgu']);
-            unset($add['pr']);
-            unset($add['ev']);
-            $res[] = $add;
+        if (is_array($msDbOk)) {
+            foreach ($msDbOk as $add) {
+                unset($add['ow']);
+                unset($add['lfr']);
+                unset($add['lma']);
+                unset($add['low']);
+                unset($add['lgu']);
+                unset($add['pr']);
+                unset($add['ev']);
+                $res[] = $add;
+            }
         }
         return $res;
     }
@@ -365,28 +375,30 @@ class GeofactoryModelMarkers extends ItemModel
         $drawEvents  = false;
         $drawOwners  = false;
 
-        foreach ($msDbOk as $ms) {
-            if (!$drawFriends && $ms['lfr'] > 0) {
-                $drawFriends = true;
-            }
-            if (!$drawMyAdd && $ms['lma'] > 0) {
-                $drawMyAdd = true;
-            }
-            if (!$drawOwners && $ms['low'] > 0) {
-                $drawOwners = true;
-            }
-            if (!$drawEvents && $ms['lgu'] > 0) {
-                $drawEvents = true;
-            }
+        if (is_array($msDbOk)) {
+            foreach ($msDbOk as $ms) {
+                if (!$drawFriends && isset($ms['lfr']) && $ms['lfr'] > 0) {
+                    $drawFriends = true;
+                }
+                if (!$drawMyAdd && isset($ms['lma']) && $ms['lma'] > 0) {
+                    $drawMyAdd = true;
+                }
+                if (!$drawOwners && isset($ms['low']) && $ms['low'] > 0) {
+                    $drawOwners = true;
+                }
+                if (!$drawEvents && isset($ms['lgu']) && $ms['lgu'] > 0) {
+                    $drawEvents = true;
+                }
 
-            if ($ms['pr'] == 1) {
-                $vMarkersProfiles[] = $ms;
-            }
-            if ($ms['ev'] == 1 && $ms['lgu'] > 0) {
-                $vMarkersEvent[] = $ms;
-            }
-            if ($ms['ow'] > 0 && $ms['low'] > 0) {
-                $vMarkersWithOwner[] = $ms;
+                if (isset($ms['pr']) && $ms['pr'] == 1) {
+                    $vMarkersProfiles[] = $ms;
+                }
+                if (isset($ms['ev']) && $ms['ev'] == 1 && isset($ms['lgu']) && $ms['lgu'] > 0) {
+                    $vMarkersEvent[] = $ms;
+                }
+                if (isset($ms['ow']) && $ms['ow'] > 0 && isset($ms['low']) && $ms['low'] > 0) {
+                    $vMarkersWithOwner[] = $ms;
+                }
             }
         }
 
@@ -418,7 +430,7 @@ class GeofactoryModelMarkers extends ItemModel
 
     protected function _getPLinesMyAddresses(&$vPlines, $vCol, $vMarkersProfiles)
     {
-        if (count($vMarkersProfiles) < 1) {
+        if (!is_array($vMarkersProfiles) || count($vMarkersProfiles) < 1) {
             return;
         }
         $vFait = [];
@@ -543,11 +555,13 @@ class GeofactoryModelMarkers extends ItemModel
 
     protected function _getPLinesOwners(&$vPlines, $vCol, $vMarkersProfiles, $vMarkersWithOwner)
     {
-        foreach ($vMarkersWithOwner as $mo) {
-            foreach ($vMarkersProfiles as $mpTst) {
-                if ($mo['ow'] != $mpTst['id'])
-                    continue;
-                $this->_createPlineArray($vPlines, $mo, $mpTst, $vCol, 'linesOwners');
+        if (is_array($vMarkersWithOwner) && is_array($vMarkersProfiles)) {
+            foreach ($vMarkersWithOwner as $mo) {
+                foreach ($vMarkersProfiles as $mpTst) {
+                    if (isset($mo['ow']) && isset($mpTst['id']) && $mo['ow'] != $mpTst['id'])
+                        continue;
+                    $this->_createPlineArray($vPlines, $mo, $mpTst, $vCol, 'linesOwners');
+                }
             }
         }
     }
@@ -556,6 +570,12 @@ class GeofactoryModelMarkers extends ItemModel
     {
         if (!is_array($m1) || !is_array($m2) || count($m1) < 4 || count($m2) < 4)
             return;
+
+        if (!isset($m1['tl']) || !isset($m1['id']) || !isset($m1['lat']) || !isset($m1['lng']) ||
+            !isset($m2['id']) || !isset($m2['lat']) || !isset($m2['lng'])) {
+            return;
+        }
+
         $colItem = $m1['tl'].$colItem;
         $col = isset($vCol[$colItem]) ? $vCol[$colItem] : "red";
         $vPlines[] = [
@@ -574,7 +594,7 @@ class GeofactoryModelMarkers extends ItemModel
         // Se necessario
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
+        $app = Factory::getApplication('site');
 
         $ss_zoomMeId = $app->input->getInt('zmid');
         $ss_zoomMeTy = $app->input->getString('tmty');
@@ -628,28 +648,30 @@ class GeofactoryModelMarkers extends ItemModel
         $tmp = new markerObject();
         $tmp->setCommon($oMs, $listCatIcon, $listCatEntry, $this->m_idDyncat);
         $count = 0;
-        foreach ($msDb as $m) {
-            if (isset($oMs->maxmarkers) && ($oMs->maxmarkers > 0) && ($count == $oMs->maxmarkers)) {
-                break;
-            }
-            $tmp->initialise($m, $zIdx);
-            if (!$tmp->baseValues()) {
-                continue;
-            }
-            if (!$tmp->inRadius($latCenterRad, $lngCenterRad, $distRadius)) {
-                continue;
-            }
-            if ($allM != 1) {
-                if (!$tmp->inViewport($this->m_vpMaps, $this->m_vpCalc)) {
+        if (is_array($msDb)) {
+            foreach ($msDb as $m) {
+                if (isset($oMs->maxmarkers) && ($oMs->maxmarkers > 0) && ($count == $oMs->maxmarkers)) {
+                    break;
+                }
+                $tmp->initialise($m, $zIdx);
+                if (!$tmp->baseValues()) {
                     continue;
                 }
+                if (!$tmp->inRadius($latCenterRad, $lngCenterRad, $distRadius)) {
+                    continue;
+                }
+                if ($allM != 1) {
+                    if (!$tmp->inViewport($this->m_vpMaps, $this->m_vpCalc)) {
+                        continue;
+                    }
+                }
+                if (!$tmp->setMarkerIcon($app)) {
+                    continue;
+                }
+                $tmp->setAsCurrent($app, $this->m_idCurUser, $isUserPlg, $isEventPlg, $isOnCurContext, $ss_zoomMeId);
+                $voUserDetail[] = $tmp->getResult();
+                $count++;
             }
-            if (!$tmp->setMarkerIcon($app)) {
-                continue;
-            }
-            $tmp->setAsCurrent($app, $this->m_idCurUser, $isUserPlg, $isEventPlg, $isOnCurContext, $ss_zoomMeId);
-            $voUserDetail[] = $tmp->getResult();
-            $count++;
         }
         return $voUserDetail;
     }
@@ -680,7 +702,7 @@ class GeofactoryModelMarkers extends ItemModel
         }
         $query = $db->getQuery();
 
-        if (!count($oU)) {
+        if (!is_array($oU) || !count($oU)) {
             return null;
         }
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
@@ -700,7 +722,7 @@ class GeofactoryModelMarkers extends ItemModel
     {
         $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         PluginHelper::importPlugin('geocodefactory');
-        $app = Factory::getApplication();
+        $app = Factory::getApplication('site');
         $curCat = $app->input->getInt('gfcc', -1);
         $this->m_idDyncat = $this->_getDyncatId($app, $oMs->typeList);
 
@@ -710,7 +732,7 @@ class GeofactoryModelMarkers extends ItemModel
 
         $vTmp = [];
         $idTopParent = -1;
-        if (isset($oMs->childCats) && $oMs->childCats == 1 && (count($inCats) > 0)) {
+        if (isset($oMs->childCats) && $oMs->childCats == 1 && is_array($inCats) && (count($inCats) > 0)) {
             // Aggiornato per Joomla 4: getAllSubCats event
             $evAllSub = new Event('onGetAllSubCats', [
                 'typeList'  => $oMs->typeList,
@@ -722,16 +744,16 @@ class GeofactoryModelMarkers extends ItemModel
             $childs = [];
             foreach ($inCats as $catPar) {
                 $childs[] = $catPar;
-                if (sizeof($vTmp) > 0) {
+                if (is_array($vTmp) && sizeof($vTmp) > 0) {
                     GeofactoryPluginHelper::_getChildCatOf($vTmp, $catPar, $childs, null);
                 }
             }
             $inCats = array_unique($childs);
         }
-        $inCats = implode(',', $inCats);
+        $inCats = is_array($inCats) ? implode(',', $inCats) : "";
 
         if ((isset($oMs->catAuto) && ($oMs->catAuto == 1) && ($curCat >= 0)) || ($this->m_idDyncat != -1)) {
-            if (!count($vTmp)) {
+            if (!is_array($vTmp) || !count($vTmp)) {
                 // Ricarichiamo se serve
                 $evAllSub2 = new Event('onGetAllSubCats', [
                     'typeList'  => $oMs->typeList,
@@ -741,7 +763,7 @@ class GeofactoryModelMarkers extends ItemModel
                 $dispatcher->dispatch($evAllSub2);
             }
             $vRes = [$curCat];
-            if (sizeof($vTmp) > 0) {
+            if (is_array($vTmp) && sizeof($vTmp) > 0) {
                 GeofactoryPluginHelper::_getChildCatOf($vTmp, $curCat, $vRes, null);
             }
             $allowedCats = explode(',', $inCats);
@@ -755,7 +777,7 @@ class GeofactoryModelMarkers extends ItemModel
                     $inCats[] = $autoCatCurOrChild;
                 }
             }
-            if (count($inCats) < 1) {
+            if (!is_array($inCats) || count($inCats) < 1) {
                 $inCats[] = -1;
             }
             $inCats = implode(',', $inCats);
@@ -791,12 +813,12 @@ class GeofactoryModelMarkers extends ItemModel
                 $vRes = [];
                 foreach ($oMs->tags as $papatag) {
                     $vRes[] = $papatag;
-                    if (!is_array($vTmp) && !count($vTmp)) {
+                    if (!is_array($vTmp) || !count($vTmp)) {
                         continue;
                     }
                     GeofactoryPluginHelper::_getChildCatOf($vTmp, $papatag, $vRes, null);
                 }
-                $params['tags'] = implode(',', array_unique($vRes));
+                $params['tags'] = is_array($vRes) ? implode(',', array_unique($vRes)) : "";
             } else {
                 $params['tags'] = implode(',', $oMs->tags);
             }
@@ -824,8 +846,8 @@ class GeofactoryModelMarkers extends ItemModel
 
         $query = "";
         $sqlSelect = (is_array($sqlSelect) && count($sqlSelect) > 0) ? implode(',', $sqlSelect) : "";
-        $sqlJoin = (count($sqlJoin) > 0) ? ' '.implode(' ', $sqlJoin) : "";
-        $sqlWhere = (count($sqlWhere) > 0) ? ' WHERE '.implode(' AND ', $sqlWhere) : "";
+        $sqlJoin = (is_array($sqlJoin) && count($sqlJoin) > 0) ? ' '.implode(' ', $sqlJoin) : "";
+        $sqlWhere = (is_array($sqlWhere) && count($sqlWhere) > 0) ? ' WHERE '.implode(' AND ', $sqlWhere) : "";
         $data = [
             'type'      => $oMs->typeList,
             'sqlSelect' => $sqlSelect,
@@ -849,7 +871,7 @@ class GeofactoryModelMarkers extends ItemModel
     {
         $user = Factory::getUser();
         $groups = $user->getAuthorisedViewLevels();
-        $allow_groups = $oMs->allow_groups;
+        $allow_groups = isset($oMs->allow_groups) ? $oMs->allow_groups : [];
         if (!is_array($allow_groups))
             $allow_groups = [$allow_groups];
         if (count($allow_groups) == 1 && $allow_groups[0] == "")
@@ -951,7 +973,7 @@ class GeofactoryModelMarkers extends ItemModel
         $vRes = [];
         $indent = "";
         $vRes[] = HTMLHelper::_('select.option', '', Text::_('COM_GEOFACTORY_ALL'));
-        if (sizeof($categoryList) > 0) {
+        if (is_array($categoryList) && sizeof($categoryList) > 0) {
             GeofactoryPluginHelper::_getChildCatOf($categoryList, $par, $vRes, $indent);
         }
         return HTMLHelper::_('select.genericlist', $vRes, "gf_dyncat_sel_{$ext}_{$par}", 'class="gf_dyncat_sel" size="1" onChange="'.$mapVar.'.SLFDYN(this, \''.$ext.'\');" ', 'value', 'text');
@@ -999,20 +1021,22 @@ class GeofactoryModelMarkers extends ItemModel
     {
         if ((int)$jsRadius > 0)
             return;
-        foreach ($arObjMs as $idMs => $objMs) {
-            if (isset($objMs->rad_allms) && ($objMs->rad_allms < 1))
-                continue;
-            if ($objMs->rad_mode != 2)
-                continue;
-            if ($objMs->rad_distance <= 0)
-                continue;
-            $coor = $this->_getCurrentViewCoordinates($objMs);
-            if (!is_array($coor) || (count($coor) != 2) || (($coor[0] + $coor[1]) == 510))
-                continue;
-            $jsLat = $coor[0];
-            $jsLng = $coor[1];
-            $jsRadius = $objMs->rad_distance;
-            return;
+        if (is_array($arObjMs)) {
+            foreach ($arObjMs as $idMs => $objMs) {
+                if (isset($objMs->rad_allms) && ($objMs->rad_allms < 1))
+                    continue;
+                if ($objMs->rad_mode != 2)
+                    continue;
+                if ($objMs->rad_distance <= 0)
+                    continue;
+                $coor = $this->_getCurrentViewCoordinates($objMs);
+                if (!is_array($coor) || (count($coor) != 2) || (($coor[0] + $coor[1]) == 510))
+                    continue;
+                $jsLat = $coor[0];
+                $jsLng = $coor[1];
+                $jsRadius = $objMs->rad_distance;
+                return;
+            }
         }
     }
 
@@ -1165,12 +1189,16 @@ class markerObject
 
     public function baseValues()
     {
+        if (!isset($this->m_dbMarker) || !isset($this->m_oMs)) {
+            return false;
+        }
+        
         $oMs = $this->m_oMs;
-        $this->m_vMarker['lat'] = $this->_getCoord($this->m_dbMarker->latitude, 'lat');
-        $this->m_vMarker['lng'] = $this->_getCoord($this->m_dbMarker->longitude, 'lng');
+        $this->m_vMarker['lat'] = $this->_getCoord(isset($this->m_dbMarker->latitude) ? $this->m_dbMarker->latitude : null, 'lat');
+        $this->m_vMarker['lng'] = $this->_getCoord(isset($this->m_dbMarker->longitude) ? $this->m_dbMarker->longitude : null, 'lng');
         if (!$this->m_vMarker['lat'] || !$this->m_vMarker['lng'])
             return false;
-        $this->m_vMarker['id'] = $this->m_dbMarker->id;
+        $this->m_vMarker['id'] = isset($this->m_dbMarker->id) ? $this->m_dbMarker->id : 0;
         $this->m_vMarker['idL'] = $oMs->id;
         $this->m_vMarker['tl'] = $oMs->typeList;
         $this->m_vMarker['lv'] = $oMs->mslevel;
