@@ -68,7 +68,8 @@ class GeofactoryViewMap extends HtmlView
 
         // Controlla eventuali errori
         $errors = $this->get('Errors');
-        if (count($errors)) {
+        // Correzione qui per verificare che $errors sia un array prima di chiamare count()
+        if (is_array($errors) && count($errors)) {
             Factory::getApplication()->enqueueMessage(implode("\n", $errors), 'warning');
             return false;
         }
