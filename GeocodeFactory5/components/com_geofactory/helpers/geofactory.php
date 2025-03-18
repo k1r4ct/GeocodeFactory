@@ -137,9 +137,17 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getCoordFields(int $idFieldAssign): array
         {
-            // Utilizzo del namespace completo per il componente
-            $table = Table::getInstance('Assign', '\\Geofactory\\Component\\Geofactory\\Administrator\\Table\\');
-            if ($idFieldAssign > 0 && $table->load($idFieldAssign)) {
+            // Prima cerchiamo di usare il namespace completo
+            $table = null;
+            
+            // Se fallisce, usiamo l'approccio classico
+            try {
+                $table = Table::getInstance('Assign', '\\Geofactory\\Component\\Geofactory\\Administrator\\Table\\');
+            } catch (\Exception $e) {
+                $table = Table::getInstance('Assign', 'GeofactoryTable');
+            }
+            
+            if ($table && $idFieldAssign > 0 && $table->load($idFieldAssign)) {
                 return ['lat' => $table->field_latitude, 'lng' => $table->field_longitude];
             }
             return ['lat' => 0, 'lng' => 0];
@@ -154,8 +162,14 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getPatternType(int $idFieldAssign): ?string
         {
-            $table = Table::getInstance('Assign', '\\Geofactory\\Component\\Geofactory\\Administrator\\Table\\');
-            if ($table->load($idFieldAssign)) {
+            $table = null;
+            try {
+                $table = Table::getInstance('Assign', '\\Geofactory\\Component\\Geofactory\\Administrator\\Table\\');
+            } catch (\Exception $e) {
+                $table = Table::getInstance('Assign', 'GeofactoryTable');
+            }
+            
+            if ($table && $table->load($idFieldAssign)) {
                 return $table->typeList;
             }
             return null;
@@ -187,12 +201,14 @@ if (!class_exists('GeofactoryHelper')) {
          *
          * @param   int  $idMap   ID della mappa
          * @param   int  $itemid  ID della voce di menu
+         * @param   int  $type    Tipo del file (1 = JSON)
          * @return  string  Percorso completo del file di cache
          * @since   1.0
          */
-        public static function getCacheFileName(int $idMap, int $itemid): string
+        public static function getCacheFileName(int $idMap, int $itemid, int $type = 0): string
         {
-            return JPATH_CACHE . DIRECTORY_SEPARATOR . "_geoFactory_{$idMap}_{$itemid}.json";
+            $ext = ($type === 1) ? 'json' : 'xml';
+            return JPATH_CACHE . DIRECTORY_SEPARATOR . "_geofFactory_{$idMap}_{$itemid}.{$ext}";
         }
 
         /**
@@ -227,11 +243,11 @@ if (!class_exists('GeofactoryHelper')) {
             $db->setQuery($query);
             $res = $db->loadObjectList();
 
-            if (!is_array($res) || !count($res)) {
+            if (!is_array($res) || count($res) < 1) {
                 return $data;
             }
             foreach ($res as $v) {
-                if ($v->id_ms < 1) {
+                if (!isset($v->id_ms) || $v->id_ms < 1) {
                     continue;
                 }
                 $data[] = $v->id_ms;
@@ -253,13 +269,13 @@ if (!class_exists('GeofactoryHelper')) {
             if (!isset($list->markerIconType)) {
                 return $img;
             }
-            if (($list->markerIconType < 2) && (strlen($list->customimage) > 3)) {
+            if (($list->markerIconType < 2) && (isset($list->customimage) && strlen($list->customimage) > 3)) {
                 $img = Uri::root() . $list->customimage;
-            } elseif (($list->markerIconType == 4) && (strlen($list->customimage) > 3)) {
+            } elseif (($list->markerIconType == 4) && (isset($list->customimage) && strlen($list->customimage) > 3)) {
                 $img = Uri::root() . $list->customimage;
-            } elseif (($list->markerIconType == 4) && (strlen($list->customimage) < 3)) {
+            } elseif (($list->markerIconType == 4) && (!isset($list->customimage) || strlen($list->customimage) < 3)) {
                 $img = Uri::root() . 'media/com_geofactory/assets/category.png';
-            } elseif ($list->markerIconType == 2) {
+            } elseif ($list->markerIconType == 2 && isset($list->mapicon)) {
                 $img = Uri::root() . 'media/com_geofactory/mapicons/' . $list->mapicon;
             } elseif ($list->markerIconType == 3) {
                 $img = Uri::root() . 'media/com_geofactory/assets/avatar.png';
@@ -347,6 +363,16 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function markerInArea(array $marker, array $vp): bool
         {
+            // Verifichiamo che tutte le chiavi necessarie esistano nel marker
+            if (!isset($marker['lat']) || !isset($marker['lng'])) {
+                return false;
+            }
+            
+            // Verifichiamo che l'array $vp abbia almeno 4 elementi
+            if (count($vp) < 4) {
+                return false;
+            }
+            
             if ($marker['lat'] < $vp[0]) return false;
             if ($marker['lng'] < $vp[1]) return false;
             if ($marker['lat'] >= $vp[2]) return false;
@@ -370,7 +396,7 @@ if (!class_exists('GeofactoryHelper')) {
             if ((int)$config->get('newMethod') == 2) {
                 return true;
             }
-            if ((int)$map->centerUser > 0) {
+            if (isset($map->centerUser) && (int)$map->centerUser > 0) {
                 return false;
             }
             return true;
