@@ -16,6 +16,7 @@ require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
 
 class GeofactoryControllerMarker extends BaseController
 {
@@ -124,7 +125,7 @@ class GeofactoryControllerMarker extends BaseController
         $idMs = $app->input->getInt('idL', -1);
         $model = $this->getModel('Marker');
 
-        $config = \Joomla\CMS\Component\ComponentHelper::getParams('com_geofactory');
+        $config = ComponentHelper::getParams('com_geofactory');
         if ($config->get('multibubble_json') == 1) {
             $brutes = json_decode($json, true);
         } else {
