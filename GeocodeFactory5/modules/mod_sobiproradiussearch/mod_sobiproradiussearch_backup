@@ -1,0 +1,35 @@
+<?php
+/**
+ * @name		Sobipro Radius Search module
+ * @package		mod_sobiproRadiusSearch
+ * @copyright	Copyright © 2012 - All rights reserved.
+ * @license		GNU/GPL
+ * @author		Cédric Pelloquin
+ * @author mail	info@myJoom.com
+ * @website		www.myJoom.com
+ */ 
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+if(!defined('DS')){ define('DS',DIRECTORY_SEPARATOR); }
+
+require_once( JPATH_SITE . '/components/com_sobipro/lib/sobi.php' );
+Sobi::Initialise();
+
+// Include the syndicate functions only once
+//ini_set("display_errors","on");	error_reporting(E_ALL);
+require_once( dirname(__FILE__).DS.'helper.php' );
+//$jit	= ($params->get('itemid')?$params->get('itemid'):$_REQUEST['Itemid']);
+$jit    = ($params->get('itemid')?$params->get('itemid'):$app->input->getInt('Itemid'));
+$sps	= ($params->get('spsection')?$params->get('spsection'):Sobi::Section());
+$psp	= modsobiproRadiusSearchHelper::setGetSpParam($sps);
+$dist	= modsobiproRadiusSearchHelper::getDistanceList($psp,$params->get('distshow'));
+$keyw	= modsobiproRadiusSearchHelper::getKeywordMode($params->get('kwmode'));
+$kwshow	= modsobiproRadiusSearchHelper::getKeywordInput($params->get('kwshow'));
+$rad	= modsobiproRadiusSearchHelper::getRadiusSearchForm($psp, $dist, $params->get('useTmpl'), $params->get('enterPrev')) ;
+$btn	= modsobiproRadiusSearchHelper::getSubmitBtn($params->get('btnTxt'), $psp);
+$lmb	= modsobiproRadiusSearchHelper::getLocateMeBtn($psp, $params->get('btnLocateMe'));
+$tpl	= modsobiproRadiusSearchHelper::getTemplate($params->get('useTmpl'),$params->get('tmplCode'), $kwshow,$keyw, $rad, $btn, $lmb);
+modsobiproRadiusSearchHelper::setJsSrcipt($psp, $params->get('def_loc'), $params->get('def_rad'), $params->get('apiKey'));
+require(JModuleHelper::getLayoutPath( 'mod_sobiproradiussearch' ));
+?>
+

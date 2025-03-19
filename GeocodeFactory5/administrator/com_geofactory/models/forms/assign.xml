@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/administrator/components/com_geofactory/models/fields">
+	<fieldset name="base" label="base" >
+		<field 	name="name" 
+				type="text" 
+				class="inputbox" 
+				size="40" 
+				required="true" 
+				label="COM_GEOFACTORY_PATTERN_NAME" 
+				description="COM_GEOFACTORY_PATTERN_NAME_DESC"/>
+	</fieldset>
+	<fieldset name="general" label="COM_GEOFACTORY_ASSIGN_GENERAL" description="COM_GEOFACTORY_ASSIGN_GENERAL_DESC">
+		<field 	name="extrainfo" 
+				type="textarea" 
+				class="inputbox" 
+				rows="3" 
+				cols="30" 
+				label="JGLOBAL_DESCRIPTION"/>
+		<field 	name="state" 
+				type="list" 
+				label="JSTATUS" 
+				class="inputbox" 
+				size="1" 
+				default="1">
+					<option value="1">JPUBLISHED</option>
+					<option value="0">JUNPUBLISHED</option>
+					<option value="2">JARCHIVED</option>
+					<option value="-2">JTRASHED</option>
+		</field>
+		<field 	name="id" 
+				type="text" 
+				default="0" 
+				size="5" 
+				readonly="true" 
+				class="readonly" 
+				label="JGLOBAL_FIELD_ID_LABEL" 
+				description="JGLOBAL_FIELD_ID_DESC"/>
+	</fieldset>
+
+	<fieldset name="assign-type" label="COM_GEOFACTORY_PATTERN_TYPE">
+		<field 	name="typeList" 
+				type="typeListe" 
+				label="COM_GEOFACTORY_PATTERN_TYPE" 
+				description="COM_GEOFACTORY_PATTERN_TYPE_DESC"/>
+	</fieldset>
+
+	<fieldset name="assign-type-hide" label="COM_GEOFACTORY_PATTERN_TYPE">
+		<field 	name="typeList" 
+				type="typeListe" 
+				readonly="true" 
+				class="readonly" 
+				label="COM_GEOFACTORY_PATTERN_TYPE" 
+				description="COM_GEOFACTORY_PATTERN_TYPE_DESC"/>
+	</fieldset>
+
+	<fieldset name="assign-address" label="COM_GEOFACTORY_ASSIGN_FIELDS">
+		<field name="field_latitude" 	type="fieldgeoselector" 	default="0" label="COM_GEOFACTORY_LATITUDE" 	description="COM_GEOFACTORY_ASSIGN_COORDINATE" />
+		<field name="field_longitude" 	type="fieldgeoselector" 	default="0" label="COM_GEOFACTORY_LONGITUDE"	description="COM_GEOFACTORY_ASSIGN_COORDINATE" />
+		<field name="field_street" 		type="fieldselector" 		default="0" label="COM_GEOFACTORY_STREET" 		description="COM_GEOFACTORY_ASSIGN_ADDRESS" />
+		<field name="field_postal" 		type="fieldselector" 		default="0" label="COM_GEOFACTORY_POSTCODE" 	description="COM_GEOFACTORY_ASSIGN_ADDRESS" />
+		<field name="field_city" 		type="fieldselector" 		default="0" label="COM_GEOFACTORY_CITY" 		description="COM_GEOFACTORY_ASSIGN_ADDRESS" />
+		<field name="field_county" 		type="fieldselector" 		default="0" label="COM_GEOFACTORY_COUNTY"		description="COM_GEOFACTORY_ASSIGN_ADDRESS" />
+		<field name="field_state" 		type="fieldselector" 		default="0" label="COM_GEOFACTORY_STATE" 		description="COM_GEOFACTORY_ASSIGN_ADDRESS" />
+		<field name="field_country" 	type="fieldselector" 		default="0" label="COM_GEOFACTORY_COUNTRY" 		description="COM_GEOFACTORY_ASSIGN_ADDRESS" />
+	</fieldset>
+</form>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="module" client="site" method="upgrade">
+    <name>Sobipro Radius Search module</name>
+    <author>Cédric Pelloquin</author>
+	<authorEmail>info@myjoom.com</authorEmail>
+	<authorUrl>http://www.myjoom.com/</authorUrl>
+	<copyright>Copyright (C) 2009-2012 myJoom.com</copyright>
+	<license>GNU General Public License v3</license>
+	<creationDate>June 2012</creationDate>
+    <version>1.7.2</version>
+    <description>This module allows you to search trough Sobipro defined section within a defined radius. Designed for the Myjoom Radius Search application.</description>
+    <files>
+        <filename>mod_sobiproradiussearch.xml</filename>
+        <filename module="mod_sobiproradiussearch">mod_sobiproradiussearch.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+	<languages>
+		<language tag="en-GB">language/en-GB.mod_sobiproradiussearch.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field 
+					name="moduleclass_sfx" 
+					type="text" 
+					default="" 
+					label="Module Class Suffix:" 
+					description="This suffix is appended to the class name (class='moduletable') of the HTML element containing the entire module, to allow individual styling of the entire module." 
+				/>
+				<field 
+					name="itemid" 
+					type="text" 
+					default="" 
+					label="Search page itemid" 
+					description="Joomla menu Item id of the search form page." 
+				/>
+				<field 
+					name="spsection" 
+					type="sql" 
+					label="Sobipro section" 
+					query="SELECT id, sValue AS val FROM #__sobipro_language WHERE oType='section' AND sKey='name' ORDER BY val " 
+					key_field="id" 
+					value_field="val" 
+					description="MOD_search4sobipro_SECTION_DESC" 
+				/>
+				<field 
+					name="btnTxt" 
+					type="text" 
+					default="" 
+					label="Text for search button" 
+					description="Enter any text or leave empty for default." 
+				/>
+				<field 
+					name="btnLocateMe" 
+					type="text" 
+					default="" 
+					label="Text for locate me button" 
+					description="Enter any text or leave empty for default." 
+				/>
+				<field 
+					name="apiKey" 
+					type="text" 
+					default="" 
+					label="Google Api Key" 
+					description="Enter the api key" 
+				/>				
+				<field
+					name="kwmode" 
+					type="list" 
+					default="0" 
+					label="Keyword match mode" 
+					description="Display the 'all, any, exact' choice"
+				>
+					<option value="0">Hide, use any</option>
+					<option value="1">Normal</option>
+					<option value="2">Normal, without label</option>
+					<option value="3">Hide, use all</option>
+					<option value="4">Hide, use exact</option>
+				</field>
+				<field
+					name="kwshow" 
+					type="list" 
+					default="0" 
+					label="Show the keyword input" 
+					description="Display the input box where the user enter the search phrase"
+				>
+					<option value="0">hide</option>
+					<option value="1">show</option>
+					<option value="2">show without label</option>
+				</field>
+				<field
+					name="distshow" 
+					type="list" 
+					default="0" 
+					label="Show the distance list" 
+					description="Display the dropdown list for distances or one value from the component distance list as default"
+				>
+					<option value="0">show</option>
+					<option value="1">hide and use the value 1</option>
+					<option value="2">hide and use the value 2</option>
+					<option value="3">hide and use the value 3</option>
+					<option value="4">hide and use the value 4</option>
+					<option value="5">hide and use the value 5</option>
+					<option value="6">hide and use the value 6</option>
+					<option value="7">hide and use the value 7</option>
+					<option value="8">hide and use the value 8</option>
+				</field>
+				<field
+					name="useTmpl" 
+					type="list" 
+					default="0" 
+					label="Standard design or template" 
+					description="Use the standard function or the template, see the template tooltip for existing keywords"
+				>
+					<option value="0">Standard function</option>
+					<option value="1">Template (see tooltip)</option>
+				</field>
+				<field 
+					name="tmplCode" 
+					type="editor" 
+					default="Search [KEYWORD] [MATCH] Start point : [RADIUS_START] [SEARCH_BTN]" 
+					cols="30" 
+					rows="5" 
+					label="Template code" 
+					description="USe any html tag and following placehoder : [KEYWORD], [MATCH], [RADIUS_START] and [SEARCH_BTN]" 
+				/>
+				<field
+					name="enterPrev" 
+					type="list" 
+					default="1" 
+					label="Prevent enter" 
+					description="Prevent the enter key to send the search (autocomplete)"
+				>
+					<option value="0">No</option>
+					<option value="1">Yes (default)</option>
+				</field>
+				<field 
+					name="def_loc" 
+					type="text" 
+					default="" 
+					label="Location used if user dont enter" 
+					description="Enter a location that will be used as center if user dont enter any center point. A good idea is to enter a country to show to user that the search will be done in whole directory" 
+				/>
+				<field 
+					name="def_rad" 
+					type="text" 
+					default="" 
+					label="Radius used if user dont enter" 
+					description="Enter a radius that will be used if user dont enter one. A good idea is to enter a big value be sure all your entries will be retruned" 
+				/>
+				<field 
+   					name="m_geocodeMode" 
+    				type="list" 
+    			    default="0" 
+    			    label="Geocode Mode" 
+    				description="Seleziona la modalità di geocodifica (0 = Autocomplete, 1 = Ricerca manuale, 2 = Ibrida)">
+    				<option value="0">Autocomplete (default)</option>
+    				<option value="1">Ricerca manuale</option>
+    				<option value="2">Ibrida</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

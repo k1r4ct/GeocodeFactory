@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="content" method="upgrade">
+	<name>Sobipro Radius Search - Search Results</name>
+	<version>1.6.0</version>	
+	<author>Cédric Pelloquin</author>
+	<authorEmail>info@myJoom.com</authorEmail>
+	<authorUrl>http://www.myJoom.com</authorUrl>
+	<copyright>Copyright © 2009 - All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<creationDate>December 2012</creationDate>
+	<description><![CDATA[	<p>This plugin replace the code with a link to the Sobipro search results page, with the given latitude and longitude. The Radius Search Application is needed.</p>
+							<p>Use the <em>{myjoom_sprs sps:lat:lng:place:rad:opt_text}</em> code, where sps is the Sobipro section, lat is the latitude (45.76), lng is the longitude (7.54), rad is the value of the radius (the unit -km/mi- inherits from the application), place is the text that appears in search form, and finaly you can add an optional text for the link . Sample: {myjoom_sprs 3:47.76:5.54:Orlando:10:Link text}.</p> 
+							<p>For full usage instructions, see <a href='http://www.myjoom.com'>myjoom.com</a></p>]]></description>
+	<files>
+		<filename plugin="sprs_search_result">sprs_search_result.php</filename>	
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="plgDisable" type="list" default="0" label="Enable plugin" description="">
+					<option value="0">Yes</option>
+					<option value="1">No</option>
+				</field>
+				<field name="linkMode" type="list" default="0" label="Link to display" description="Link to display in the articles, the text is the default text or the custom text from optionnal code">
+					<option value="0">Text link</option>
+					<option value="1">Button</option>
+					<option value="2">Template</option>
+				</field>
+				<field name="linkText" type="text" default="" label="Link text" description="Custom text displayed in link and button (if no custom code text)"/>
+				<field name="templateLink" type="textarea" default="" label="Template for the link" description="Html template used for the link, the [text] is replaced by the link text" filter="safehtml" />
+				<field name="itemid" type="text" default="" label="Search page itemid" description="Joomla menu Item id of the search form page."/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

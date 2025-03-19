@@ -41,7 +41,7 @@ $map = $this->item;
         <div class="page-header">
             <h2>
                 <?php if ($this->item->state == 0) : ?>
-                    <span class="label label-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+                    <span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
                 <?php endif; ?>
                 <?php if ($this->params->get('show_title')) : ?>
                     <?php echo $this->escape($this->item->title); ?>

@@ -20,46 +20,92 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Session\Session;
 
-// Se esiste, carica il helper (o altri file necessari)
+// Carica il helper di Geocode Factory
 require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 
+/**
+ * View per la mappa di Geocode Factory
+ *
+ * @since  1.0
+ */
 class GeofactoryViewMap extends HtmlView
 {
-    protected $item;
-    protected $params;
-    protected $state;
-    protected $user;
-    protected $pageclass_sfx;
+    /**
+     * L'oggetto mappa corrente
+     *
+     * @var    object|null
+     * @since  1.0
+     */
+    protected ?object $item = null;
 
     /**
-     * Metodo (ereditato) che esegue la preparazione dati del View
-     * e la lettura dei parametri principali da Joomla.
+     * Parametri
+     *
+     * @var    object|null
+     * @since  1.0
      */
-    public function initView($map)
-    {
-        // Recupera l'app, l'utente
-        $app   = Factory::getApplication();
-        $user  = Factory::getUser();
+    protected ?object $params = null;
 
-        // Assegna i dati recuperati dal Controller/Model
-        $this->item  = $map;
-        $this->state = $this->get('State');
-        $this->user  = $user;
+    /**
+     * Stato
+     *
+     * @var    object|null
+     * @since  1.0
+     */
+    protected ?object $state = null;
+
+    /**
+     * Utente corrente
+     *
+     * @var    object|null
+     * @since  1.0
+     */
+    protected ?object $user = null;
+
+    /**
+     * Suffisso classe pagina
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected string $pageclass_sfx = '';
+
+    /**
+     * Inizializza la vista con i dati della mappa
+     *
+     * @param   object  $map  Oggetto mappa
+     * 
+     * @return  void
+     * @since   1.0
+     */
+    public function initView(object $map): void
+    {
+        // Recupera l'app e l'utente
+        $app  = Factory::getApplication();
+        $user = Factory::getUser();
+
+        // Assegna i dati recuperati
+        $this->item   = $map;
+        $this->state  = $this->get('State');
+        $this->user   = $user;
         $this->params = $app->getParams();
 
-        // In Joomla 4, $this->document dovrebbe essere già valorizzato;
-        // in caso contrario lo si forza:
+        // In Joomla 4, $this->document dovrebbe essere già valorizzato
         if (!isset($this->document) || !$this->document) {
             $this->document = Factory::getDocument();
         }
     }
 
     /**
-     * Display the view
+     * Visualizza la vista
      *
-     * @param   string  $tpl  The name of the template file to parse
+     * @param   string  $tpl  Nome del template da usare
+     * 
      * @return  mixed
+     * @since   1.0
      */
     public function display($tpl = null)
     {
@@ -68,7 +114,8 @@ class GeofactoryViewMap extends HtmlView
 
         // Controlla eventuali errori
         $errors = $this->get('Errors');
-        // Correzione qui per verificare che $errors sia un array prima di chiamare count()
+        
+        // Verifica che $errors sia un array prima di chiamare count()
         if (is_array($errors) && count($errors)) {
             Factory::getApplication()->enqueueMessage(implode("\n", $errors), 'warning');
             return false;
@@ -77,32 +124,33 @@ class GeofactoryViewMap extends HtmlView
         // Crea un alias più comodo
         $item = $this->item;
 
-        // In Joomla 3 usavi: $item->tagLayout = new JLayoutFile('joomla.content.tags');
-        // In Joomla 4 -> FileLayout
+        // Usa FileLayout per i tag (adatto a Joomla 4)
         $item->tagLayout = new FileLayout('joomla.content.tags');
 
         // Costruisci lo slug
         $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
         // Gestione Tag tramite TagsHelper (Joomla 4)
-        // Utilizza il metodo statico invece dell'istanza diretta
         $tagHelper = new TagsHelper;
         $item->tags = $tagHelper->getItemTags('com_geofactory.map', $this->item->id);
 
         // Escape strings
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_QUOTES, 'UTF-8');
+        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_QUOTES, 'UTF-8');
 
         // Prepara il documento (metadati, js, css, ecc.)
-        $this->_prepareDocument();
+        $this->prepareDocument();
 
-        // Ora lascia che la view venga caricata con layout standard
+        // Ora lascia che la vista venga caricata con layout standard
         return parent::display($tpl);
     }
 
     /**
      * Prepara il documento aggiungendo Script, CSS, Title, Meta, ecc.
+     *
+     * @return  void
+     * @since   1.0
      */
-    protected function _prepareDocument()
+    protected function prepareDocument(): void
     {
         // Preleva le info principali
         $app     = Factory::getApplication();
@@ -113,40 +161,44 @@ class GeofactoryViewMap extends HtmlView
         // Ottieni il WebAssetManager
         $wa = $this->document->getWebAssetManager();
 
+        // Carica Bootstrap Icons (moderno sostituto di Glyphicons)
+        $wa->registerAndUseStyle('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css');
+
         // Leggi eventuali parametri dalla richiesta
         $adre = $app->input->getString('gf_mod_search', '');
-        $adre = htmlspecialchars(str_replace(['"', ''], '', $adre), ENT_QUOTES, 'UTF-8');
+        $adre = htmlspecialchars(str_replace(['"', '`'], '', $adre), ENT_QUOTES, 'UTF-8');
         $dist = $app->input->getFloat('gf_mod_radius', 1);
 
         // Costruisci parametri url
-        $urlParams = [];
-        $urlParams[] = 'idmap=' . $this->item->id;
-        $urlParams[] = 'mn=' . $this->item->mapInternalName;
-        $urlParams[] = 'zf=' . $this->item->forceZoom;
-        $urlParams[] = 'gfcc=' . $this->item->gf_curCat;
-        $urlParams[] = 'zmid=' . $this->item->gf_zoomMeId;
-        $urlParams[] = 'tmty=' . $this->item->gf_zoomMeType;
-        $urlParams[] = 'code=' . rand(1, 100000);
+        $urlParams = [
+            'idmap=' . $this->item->id,
+            'mn=' . $this->item->mapInternalName,
+            'zf=' . $this->item->forceZoom,
+            'gfcc=' . $this->item->gf_curCat,
+            'zmid=' . $this->item->gf_zoomMeId,
+            'tmty=' . $this->item->gf_zoomMeType,
+            'code=' . random_int(1, 100000)
+        ];
 
         $dataMap = implode('&', $urlParams);
 
         // Gestione di jQuery e Bootstrap in Joomla 4
-        $jsBootStrap  = $config->get('jsBootStrap');
-        $cssBootStrap = $config->get('cssBootStrap');
-        $jqMode       = $config->get('jqMode');
-        $jqVersion    = strlen($config->get('jqVersion')) ? $config->get('jqVersion') : '2.0';
-        $jqUiversion  = strlen($config->get('jqUiversion')) ? $config->get('jqUiversion') : '1.10';
-        $jqUiTheme    = strlen($config->get('jqUiTheme'))   ? $config->get('jqUiTheme')   : 'none';
+        $jsBootStrap  = (int)$config->get('jsBootStrap', 0);
+        $cssBootStrap = (int)$config->get('cssBootStrap', 0);
+        $jqMode       = (int)$config->get('jqMode', 1);
+        $jqVersion    = $config->get('jqVersion') ? $config->get('jqVersion') : '3.6.4';
+        $jqUiversion  = $config->get('jqUiversion') ? $config->get('jqUiversion') : '1.13.2';
+        $jqUiTheme    = $config->get('jqUiTheme') ? $config->get('jqUiTheme') : 'base';
 
         // Verifica se il sito è SSL
-        $http = $config->get('sslSite');
+        $http = $config->get('sslSite', '');
         if (empty($http)) {
             $http = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
         }
 
         // Gestione tabs
-        $jqui = $this->item->useTabs ? true : false;
-        if ($this->item->useTabs && ($jqMode == 0 || $jqMode == 2)) {
+        $jqui = !empty($this->item->useTabs);
+        if (!empty($this->item->useTabs) && ($jqMode == 0 || $jqMode == 2)) {
             $jqMode = 1;
         }
 
@@ -161,42 +213,82 @@ class GeofactoryViewMap extends HtmlView
                 }
                 break;
             case 3: // CDN Google
-                $wa->registerAndUseScript('jquery-cdn', $http . 'ajax.googleapis.com/ajax/libs/jquery/' . $jqVersion . '/jquery.min.js');
+                $wa->registerAndUseScript(
+                    'jquery-cdn',
+                    $http . 'ajax.googleapis.com/ajax/libs/jquery/' . $jqVersion . '/jquery.min.js',
+                    ['attributes' => ['defer' => true]]
+                );
                 if ($jqui) {
-                    $wa->registerAndUseScript('jquery-ui-cdn', $http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/jquery-ui.min.js');
-                    $wa->registerAndUseStyle('jquery-ui-theme', $http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css');
+                    $wa->registerAndUseScript(
+                        'jquery-ui-cdn',
+                        $http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/jquery-ui.min.js',
+                        ['attributes' => ['defer' => true]]
+                    );
+                    $wa->registerAndUseStyle(
+                        'jquery-ui-theme',
+                        $http . 'ajax.googleapis.com/ajax/libs/jqueryui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css'
+                    );
                 }
                 break;
             case 4: // code.jquery.com
-                $wa->registerAndUseScript('jquery-code', $http . 'code.jquery.com/jquery-' . $jqVersion . '.min.js');
+                $wa->registerAndUseScript(
+                    'jquery-code',
+                    $http . 'code.jquery.com/jquery-' . $jqVersion . '.min.js',
+                    ['attributes' => ['defer' => true]]
+                );
                 if ($jqui) {
-                    $wa->registerAndUseScript('jquery-ui-code', $http . 'code.jquery.com/ui/' . $jqUiversion . '/jquery-ui.min.js');
-                    $wa->registerAndUseStyle('jquery-ui-theme-code', $http . 'code.jquery.com/ui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css');
+                    $wa->registerAndUseScript(
+                        'jquery-ui-code',
+                        $http . 'code.jquery.com/ui/' . $jqUiversion . '/jquery-ui.min.js',
+                        ['attributes' => ['defer' => true]]
+                    );
+                    $wa->registerAndUseStyle(
+                        'jquery-ui-theme-code',
+                        $http . 'code.jquery.com/ui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css'
+                    );
                 }
                 break;
             default:
             case 1: // Local
-                $wa->registerAndUseScript('jquery-local', $root . 'components/com_geofactory/assets/js/jquery/' . $jqVersion . '/jquery.min.js');
+                $wa->registerAndUseScript(
+                    'jquery-local',
+                    $root . 'components/com_geofactory/assets/js/jquery/' . $jqVersion . '/jquery.min.js',
+                    ['attributes' => ['defer' => true]]
+                );
                 if ($jqui) {
-                    $wa->registerAndUseScript('jquery-ui-local', $root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/jquery-ui.min.js');
-                    $wa->registerAndUseStyle('jquery-ui-theme-local', $root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/themes/_name_/jquery-ui.css');
+                    $wa->registerAndUseScript(
+                        'jquery-ui-local',
+                        $root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/jquery-ui.min.js',
+                        ['attributes' => ['defer' => true]]
+                    );
+                    $wa->registerAndUseStyle(
+                        'jquery-ui-theme-local',
+                        $root . 'components/com_geofactory/assets/js/jqueryui/' . $jqUiversion . '/themes/' . $jqUiTheme . '/jquery-ui.css'
+                    );
                 }
                 break;
         }
 
-        // Caricamento Bootstrap aggiornato a Bootstrap 5
+        // Caricamento Bootstrap 5
         if ($jsBootStrap == 1 || $cssBootStrap == 1) {
             if ($cssBootStrap == 1) {
-                $wa->registerAndUseStyle('bootstrap-css', $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+                $wa->registerAndUseStyle(
+                    'bootstrap-css',
+                    $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
+                );
             }
             if ($jsBootStrap == 1) {
-                $wa->registerAndUseScript('bootstrap-js', $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js');
+                $wa->registerAndUseScript(
+                    'bootstrap-js',
+                    $http . 'cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
+                    ['attributes' => ['defer' => true]]
+                );
             }
         }
 
         // Istanza JavaScript principale
         $jsVarName = $this->item->mapInternalName;
-        $js        = [];
+        $js = [];
 
         if (!GeofactoryHelper::useNewMethod($this->item)) {
             $js[] = "var {$jsVarName} = new clsGfMap();";
@@ -213,8 +305,8 @@ class GeofactoryViewMap extends HtmlView
             // Caricamenti dinamici (kml, tiles, layers, ecc.)
             GeofactoryModelMap::_loadDynCatsFromTmpl($jsVarName, $js, $this->item);
             GeofactoryModelMap::_setKml($jsVarName, $js, $this->item->kml_file);
-            $this->_setLayers($jsVarName, $js);
-            $this->_getSourceUrl($jsVarName, $js, $root);
+            $this->setLayers($jsVarName, $js);
+            $this->getSourceUrl($jsVarName, $js, $root);
             GeofactoryModelMap::_loadTiles($jsVarName, $js, $this->item);
 
             // Ricerca / caricamento marker
@@ -222,7 +314,7 @@ class GeofactoryViewMap extends HtmlView
             if ($gf_ss_search_phrase && strlen($gf_ss_search_phrase) > 0) {
                 $js[] = "    {$jsVarName}.searchLocationsFromInput();";
                 $session->clear('gf_ss_search_phrase');
-            } elseif ($this->item->useBrowserRadLoad == 1) {
+            } elseif (!empty($this->item->useBrowserRadLoad)) {
                 $js[] = "    {$jsVarName}.getBrowserPos(false, true);";
             } else {
                 $js[] = "    {$jsVarName}.searchLocationsFromPoint(null);";
@@ -244,11 +336,11 @@ class GeofactoryViewMap extends HtmlView
         }
 
         // Google API Key
-        $ggApikey = strlen($config->get('ggApikey')) > 3 ? "&key=" . $config->get('ggApikey') : "";
+        $ggApikey = strlen($config->get('ggApikey', '')) > 3 ? "&key=" . $config->get('ggApikey') : "";
 
         // Verifica se servono librerie "weather"
         $arLayers = [];
-        if (is_array($this->item->layers)) {
+        if (isset($this->item->layers) && is_array($this->item->layers)) {
             foreach ($this->item->layers as $tmp) {
                 if (intval($tmp) > 0) {
                     $arLayers[] = $tmp;
@@ -258,41 +350,63 @@ class GeofactoryViewMap extends HtmlView
         $lib = ((count($arLayers) > 0) && (in_array(4, $arLayers) || in_array(5, $arLayers) || in_array(6, $arLayers))) ? ",weather" : "";
 
         // Se ci sono "layers" o "radFormMode"
-        if (count($arLayers) > 0 || $this->item->radFormMode > 1) {
+        if ((count($arLayers) > 0) || (!empty($this->item->radFormMode) && $this->item->radFormMode > 1)) {
             $wa->registerAndUseStyle('geofactory-maps-btn', 'components/com_geofactory/assets/css/geofactory-maps_btn.css');
         }
 
         // Full CSS custom
-        $wa->addInlineStyle($this->item->fullCss);
+        if (!empty($this->item->fullCss)) {
+            $wa->addInlineStyle($this->item->fullCss);
+        }
 
         // Caricamento script Google Maps
-        $mapLang = (strlen($config->get('mapLang')) > 1) ? '&language=' . $config->get('mapLang') : '';
-        $wa->registerAndUseScript('googlemaps-api', $http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang . $lib);
+        $mapLang = (strlen($config->get('mapLang', '')) > 1) ? '&language=' . $config->get('mapLang') : '';
+        $wa->registerAndUseScript(
+            'googlemaps-api', 
+            $http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang . $lib,
+            ['attributes' => ['defer' => true]]
+        );
 
         // Se presente un file custom
         if (file_exists(JPATH_BASE . '/components/com_geofactory/assets/js/custom.js')) {
-            $wa->registerAndUseScript('geofactory-custom', $root . 'components/com_geofactory/assets/js/custom.js');
+            $wa->registerAndUseScript(
+                'geofactory-custom', 
+                $root . 'components/com_geofactory/assets/js/custom.js',
+                ['attributes' => ['defer' => true]]
+            );
         }
 
         // Cluster
-        if ($this->item->useCluster == 1) {
-            $wa->registerAndUseScript('geofactory-markerclusterer', $root . 'components/com_geofactory/assets/js/markerclusterer-5151023.js');
+        if (!empty($this->item->useCluster) && $this->item->useCluster == 1) {
+            $wa->registerAndUseScript(
+                'geofactory-markerclusterer', 
+                $root . 'components/com_geofactory/assets/js/markerclusterer-5151023.js',
+                ['attributes' => ['defer' => true]]
+            );
         }
 
         if (!GeofactoryHelper::useNewMethod($this->item)) {
-            $wa->registerAndUseScript('geofactory-map-api', $root . 'components/com_geofactory/assets/js/map_api-5151020.js');
+            $wa->registerAndUseScript(
+                'geofactory-map-api', 
+                $root . 'components/com_geofactory/assets/js/map_api-5151020.js',
+                ['attributes' => ['defer' => true]]
+            );
         } else {
             // Gestione "nuovo" con script generato in modo differente
             if (empty($dist)) {
                 $dist = $app->input->getFloat('mj_rs_radius_selector', 1);
             }
-            $wa->registerAndUseScript('geofactory-map-js', 'index.php?option=com_geofactory&task=map.getJs&' . implode('&', $urlParams));
+            $wa->registerAndUseScript(
+                'geofactory-map-js', 
+                'index.php?option=com_geofactory&task=map.getJs&' . implode('&', $urlParams),
+                ['attributes' => ['defer' => true]]
+            );
         }
 
         // Impostazioni del titolo e meta (classico Joomla)
-        $menus   = $app->getMenu();
-        $menu    = $menus->getActive();
-        $title   = null;
+        $menus = $app->getMenu();
+        $menu  = $menus->getActive();
+        $title = null;
 
         if ($menu) {
             $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
@@ -323,8 +437,15 @@ class GeofactoryViewMap extends HtmlView
 
     /**
      * Genera l'URL del file sorgente XML/JSON
+     *
+     * @param   string  $oMap  Nome variabile mappa
+     * @param   array   &$js   Array JavaScript
+     * @param   string  $root  URL root sito
+     * 
+     * @return  void
+     * @since   1.0
      */
-    protected function _getSourceUrl($oMap, &$js, $root)
+    protected function getSourceUrl(string $oMap, array &$js, string $root): void
     {
         $config = ComponentHelper::getParams('com_geofactory');
         $idmap  = $this->item->id;
@@ -332,17 +453,19 @@ class GeofactoryViewMap extends HtmlView
         $app    = Factory::getApplication();
         $itemid = $app->input->getInt('Itemid', 0);
         $lang   = $app->input->get('lang', '', 'word');
+        
+        $langParam = '';
         if (strlen($lang) > 1) {
-            $lang = "&lang={$lang}";
+            $langParam = "&lang={$lang}";
         }
 
-        $paramsUrl = "&gfcc={$this->item->gf_curCat}&zmid={$this->item->gf_zoomMeId}&tmty={$this->item->gf_zoomMeType}&code=" . rand(1, 100000) . $lang;
+        $paramsUrl = "&gfcc={$this->item->gf_curCat}&zmid={$this->item->gf_zoomMeId}&tmty={$this->item->gf_zoomMeType}&code=" . random_int(1, 100000) . $langParam;
 
         // Gestione cache
         $useCache = 0;
-        if ($this->item->cacheTime > 0) {
+        if (!empty($this->item->cacheTime) && $this->item->cacheTime > 0) {
             $cache_file_serverpath = GeofactoryHelper::getCacheFileName($idmap, $itemid, 1);
-            $filemtime             = @filemtime($cache_file_serverpath);
+            $filemtime = @filemtime($cache_file_serverpath);
             if (!$filemtime || (time() - $filemtime >= $this->item->cacheTime)) {
                 $useCache = 0;
             } else {
@@ -358,17 +481,22 @@ class GeofactoryViewMap extends HtmlView
 
     /**
      * Imposta i layers (traffico, meteo, ecc.)
+     *
+     * @param   string  $oMap  Nome variabile mappa
+     * @param   array   &$js   Array JavaScript
+     * 
+     * @return  void
+     * @since   1.0
      */
-    protected function _setLayers($oMap, &$js)
+    protected function setLayers(string $oMap, array &$js): void
     {
-        $arLayersTmp = $this->item->layers;
-        if (!is_array($arLayersTmp) || !count($arLayersTmp)) {
+        if (empty($this->item->layers) || !is_array($this->item->layers) || !count($this->item->layers)) {
             return;
         }
 
         // Filtra i layers validi
         $arLayers = [];
-        foreach ($arLayersTmp as $tmp) {
+        foreach ($this->item->layers as $tmp) {
             if (intval($tmp) > 0) {
                 $arLayers[] = $tmp;
             }
@@ -418,50 +546,68 @@ class GeofactoryViewMap extends HtmlView
     
     /**
      * Genera il selettore dei livelli (layers)
+     *
+     * @param   mixed   $arLayersTmp  Array di livelli
+     * @param   string  $var          Nome variabile
+     * 
+     * @return  string
+     * @since   1.0
      */
-    protected function _getLayersSelector($arLayersTmp, $var)
+    protected function getLayersSelector($arLayersTmp, string $var): string
     {
         if (!is_array($arLayersTmp) || !count($arLayersTmp)) {
             return '';
         }
+        
         $arLayers = [];
         foreach ($arLayersTmp as $tmp) {
             if (intval($tmp) > 0) {
                 $arLayers[] = $tmp;
             }
         }
+        
         if (!is_array($arLayers) || count($arLayers) < 1) {
             return '';
         }
+        
         $layers = [];
         $layers[] = '<h4>Layers</h4>';
-        $layers[] = '<ul class="list-unstyled" id="gf_layers_selector">'; // Sostituito style con classe Bootstrap 5
+        $layers[] = '<ul class="list-unstyled" id="gf_layers_selector">'; // Aggiornato per Bootstrap 5
+        
         if (in_array(1, $arLayers)) {
-            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_traffic" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_traffic">' . Text::_('COM_GEOFACTORY_TRAFFIC') . '</label></div></li>'; // Aggiornato per Bootstrap 5
+            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_traffic" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_traffic">' . Text::_('COM_GEOFACTORY_TRAFFIC') . '</label></div></li>';
         }
         if (in_array(2, $arLayers)) {
-            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_transit" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_transit">' . Text::_('COM_GEOFACTORY_TRANSIT') . '</label></div></li>'; // Aggiornato per Bootstrap 5
+            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_transit" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_transit">' . Text::_('COM_GEOFACTORY_TRANSIT') . '</label></div></li>';
         }
         if (in_array(3, $arLayers)) {
-            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_bicycle" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_bicycle">' . Text::_('COM_GEOFACTORY_BICYCLE') . '</label></div></li>'; // Aggiornato per Bootstrap 5
+            $layers[] = ' <li><div class="form-check"><input class="form-check-input" type="checkbox" id="gf_l_bicycle" onclick="' . $var . '.LAYSEL();"><label class="form-check-label" for="gf_l_bicycle">' . Text::_('COM_GEOFACTORY_BICYCLE') . '</label></div></li>';
         }
+        
         $layers[] = '</ul>';
         return implode('', $layers);
     }
     
     /**
      * Genera il pannello laterale della mappa
+     *
+     * @param   object  $map  Oggetto mappa
+     * 
+     * @return  string
+     * @since   1.0
      */
-    protected function _getSidePanel($map)
+    protected function getSidePanel(object $map): string
     {
         $app = Factory::getApplication('site');
         $gf_mod_search = $app->input->getString('gf_mod_search', null);
         $gf_mod_search = htmlspecialchars(str_replace(['"', '`'], '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
-        $route = isset($map->useRoutePlaner) && $map->useRoutePlaner
+        
+        $route = (!empty($map->useRoutePlaner) && $map->useRoutePlaner)
             ? '<br /><div class="alert alert-info" id="route_box"><h4>' . Text::_('COM_GEOFACTORY_MARKER_TO_REACH') . '</h4>{route}</div>'
             : '';
+            
         $selector = '{ullist_img}';
-        if (isset($map->niveaux) && ($map->niveaux == 1)) {
+        if (!empty($map->niveaux) && $map->niveaux == 1) {
             $selector = '{level_icon_simple_check}';
         }
         
@@ -470,37 +616,37 @@ class GeofactoryViewMap extends HtmlView
                 <div class="row">
                     <div class="col-md-4" id="gf_sideTemplateCont">
                         <div id="gf_sideTemplateCtrl">
-                            <div class="card p-3"> <!-- Sostituito well con card p-3 -->
+                            <div class="card p-3">
                                 <div id="gf_btn_superfull" style="display:none;" onclick="superFull(' . $map->mapInternalName . '.map);return false;">
-                                    <a id="reset" href="#"><i class="bi bi-chevron-right"></i> ' . Text::_('COM_GEOFACTORY_REDUCE') . '</a> <!-- Sostituito glyphicon con bootstrap-icons (bi) -->
+                                    <a id="reset" href="#"><i class="bi bi-chevron-right"></i> ' . Text::_('COM_GEOFACTORY_REDUCE') . '</a>
                                 </div>
                                 <h4>' . Text::_('COM_GEOFACTORY_ADDRESS_SEARCH_NEAR') . ' <small>(<a id="find_me" href="#" onClick="' . $map->mapInternalName . '.LMBTN();">' . Text::_('COM_GEOFACTORY_ADDRESS_FIND_ME') . '</a>)</small></h4>
-                                <p>
-                                    <input type="text" id="addressInput" value="' . $gf_mod_search . '" class="form-control gfMapControls" placeholder="' . Text::_('COM_GEOFACTORY_ENTER_ADDRESS_OR') . '" /> <!-- Aggiunto form-control -->
-                                </p>
-                                <p>
-                                    <label class="form-label">' . Text::_('COM_GEOFACTORY_WITHIN') . ' {rad_distances}</label> <!-- Aggiunto form-label -->
-                                </p>
+                                <div class="mb-3">
+                                    <input type="text" id="addressInput" value="' . $gf_mod_search . '" class="form-control gfMapControls" placeholder="' . Text::_('COM_GEOFACTORY_ENTER_ADDRESS_OR') . '" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">' . Text::_('COM_GEOFACTORY_WITHIN') . ' {rad_distances}</label>
+                                </div>
                                 <h4>' . Text::_('COM_GEOFACTORY_CATEGORIES_ON_MAP') . '</h4>
                                 ' . $selector . '
-                                <div class="mt-3"> <!-- Aggiunto margine top -->
-                                    <a class="btn btn-primary" id="search" href="#" onclick="' . $map->mapInternalName . '.SLFI();">
-                                        <i class="bi bi-search"></i> ' . Text::_('COM_GEOFACTORY_SEARCH') . ' <!-- Sostituito glyphicon con bootstrap-icons -->
-                                    </a>
-                                    <a class="btn btn-secondary" id="reset" href="#" onclick="' . $map->mapInternalName . '.SLRES();"> <!-- Sostituito btn-default con btn-secondary -->
-                                        <i class="bi bi-arrow-repeat"></i> ' . Text::_('COM_GEOFACTORY_RESET_MAP') . ' <!-- Sostituito glyphicon con bootstrap-icons -->
-                                    </a>
+                                <div class="d-grid gap-2 d-md-flex mt-3">
+                                    <button class="btn btn-primary me-md-2" type="button" id="search" onclick="' . $map->mapInternalName . '.SLFI();">
+                                        <i class="bi bi-search"></i> ' . Text::_('COM_GEOFACTORY_SEARCH') . '
+                                    </button>
+                                    <button class="btn btn-secondary" type="button" id="reset" onclick="' . $map->mapInternalName . '.SLRES();">
+                                        <i class="bi bi-arrow-repeat"></i> ' . Text::_('COM_GEOFACTORY_RESET_MAP') . '
+                                    </button>
                                 </div>
                                 {layer_selector}
                             </div>
-                            <div class="alert alert-info mt-3" id="result_box"><h4>' . Text::_('COM_GEOFACTORY_RESULTS') . ' {number}</h4>{sidelists}</div> <!-- Aggiunto mt-3 -->
+                            <div class="alert alert-info mt-3" id="result_box"><h4>' . Text::_('COM_GEOFACTORY_RESULTS') . ' {number}</h4>{sidelists}</div>
                         </div>
                     </div>
                     <div class="col-md-8">
                         <noscript>
                             <div class="alert alert-info">
-                                <h4>Your JavaScript is disabled</h4>
-                                <p>Please enable JavaScript to view the map.</p>
+                                <h4>' . Text::_('JGLOBAL_WARNJAVASCRIPT') . '</h4>
+                                <p>' . Text::_('JGLOBAL_WARNJAVASCRIPT_SUPPORT_ENABLED') . '</p>
                             </div>
                         </noscript>
                         {map}
@@ -514,11 +660,14 @@ class GeofactoryViewMap extends HtmlView
     
     /**
      * Genera il div per la pianificazione del percorso
+     *
+     * @return  string
+     * @since   1.0
      */
-    protected function _getRouteDiv()
+    protected function getRouteDiv(): string
     {
         $route  = '<div id="gf_routecontainer">';
-        $route .= '<select id="gf_transport" class="form-select mb-2">'; // Aggiunto form-select e mb-2
+        $route .= '<select id="gf_transport" class="form-select mb-3">';
         $route .= '<option value="DRIVING">' . Text::_('COM_GEOFACTORY_DRIVING') . '</option>';
         $route .= '<option value="WALKING">' . Text::_('COM_GEOFACTORY_WALKING') . '</option>';
         $route .= '<option value="BICYCLING">' . Text::_('COM_GEOFACTORY_BICYCLING') . '</option>';
@@ -530,76 +679,87 @@ class GeofactoryViewMap extends HtmlView
     
     /**
      * Genera il form del radius per la ricerca
+     *
+     * @param   object  $map           Oggetto mappa
+     * @param   string  $mapVar        Nome variabile mappa
+     * @param   string  $toggeler_map  HTML del toggle
+     * @param   int     $nbrMs         Numero di marker set
+     * @param   string  &$dists        Output distanze
+     * 
+     * @return  string
+     * @since   1.0
      */
-    protected function _getRadForm($map, $mapVar, $toggeler_map, $nbrMs, &$dists)
+    protected function getRadForm(object $map, string $mapVar, string $toggeler_map, int $nbrMs, string &$dists): string
     {
         $app = Factory::getApplication('site');
         $gf_mod_search = $app->input->getString('gf_mod_search', null);
         $gf_mod_search = htmlspecialchars(str_replace(['"', '`'], '', $gf_mod_search), ENT_QUOTES, 'UTF-8');
+        
         $form_start = '<form id="gf_radius_form" onsubmit="' . $mapVar . '.SLFI();return false;">';
-        $input = '<input type="text" id="addressInput" value="' . $gf_mod_search . '" class="form-control gfMapControls"/>'; // Aggiunto form-control
-        $dists = $this->_getRadiusDistances($map, $gf_mod_search);
-        $search_btn = '<input type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" class="btn btn-primary" value="' . Text::_('COM_GEOFACTORY_SEARCH') . '"/>'; // Aggiunto btn btn-primary
+        $input = '<input type="text" id="addressInput" value="' . $gf_mod_search . '" class="form-control gfMapControls"/>';
+        $dists = $this->getRadiusDistances($map, $gf_mod_search);
+        $search_btn = '<button type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" class="btn btn-primary">' . Text::_('COM_GEOFACTORY_SEARCH') . '</button>';
         $divsOnMapGo = '<div id="gf_map_panel" style="padding-top:5px;display:none;"><div id="gf_radius_form" style="margin:0;padding:0;">';
         $radius_form = '';
         
-        if (!isset($map->radFormMode)) {
-            $map->radFormMode = 0;
-        }
+        $radFormMode = isset($map->radFormMode) ? $map->radFormMode : 0;
         
-        if ($map->radFormMode == 0) {
+        if ($radFormMode == 0) {
             $radius_form .= $form_start;
-            $radius_form .= '<div class="mb-3">'; // Aggiunto div con mb-3
-            $radius_form .= '<label for="addressInput" class="form-label">' . Text::_('COM_GEOFACTORY_ADDRESS') . '</label>'; // Aggiunto form-label
+            $radius_form .= '<div class="mb-3">';
+            $radius_form .= '<label for="addressInput" class="form-label">' . Text::_('COM_GEOFACTORY_ADDRESS') . '</label>';
             $radius_form .= $input;
             $radius_form .= '</div>';
-            $radius_form .= '<div class="mb-3">'; // Aggiunto div con mb-3
-            $radius_form .= '<label for="radiusSelect" class="form-label">' . Text::_('COM_GEOFACTORY_RADIUS') . '</label>'; // Aggiunto form-label
+            $radius_form .= '<div class="mb-3">';
+            $radius_form .= '<label for="radiusSelect" class="form-label">' . Text::_('COM_GEOFACTORY_RADIUS') . '</label>';
             $radius_form .= $dists;
             $radius_form .= '</div>';
-            $radius_form .= '<div class="mb-3">'; // Aggiunto div con mb-3
+            $radius_form .= '<div class="mb-3">';
             $radius_form .= $search_btn;
             $radius_form .= '</div>';
             $radius_form .= '</form>';
-        }
-        if ($map->radFormMode == 1) {
+        } elseif ($radFormMode == 1) {
             $radius_form .= $form_start;
             $radius_form .= isset($map->radFormSnipet) ? $map->radFormSnipet : '';
             $radius_form = str_replace('[input_center]', $input, $radius_form);
             $radius_form = str_replace('[distance_sel]', $dists, $radius_form);
             $radius_form = str_replace('[search_btn]', $search_btn, $radius_form);
             $radius_form .= '</form>';
-        }
-        if ($map->radFormMode == 3 && $nbrMs && $nbrMs > 0)
-            $map->radFormMode = 2;
-        if ($map->radFormMode == 3) {
+        } elseif ($radFormMode == 3 && $nbrMs > 0) {
             $radius_form .= $divsOnMapGo;
             $radius_form .= $input;
             $radius_form .= $dists;
-            $radius_form .= '<input type="button" class="btn btn-secondary gfMapControls" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" value="' . Text::_('COM_GEOFACTORY_RESET_MAP') . '"/>'; // Aggiunto btn btn-secondary
-            $radius_form .= ' <input type="button" class="btn btn-info gfMapControls" value="Filters" onclick="switchPanel(\'gf_toggeler\', 0);" />'; // Aggiunto btn btn-info
+            $radius_form .= '<button type="button" class="btn btn-secondary gfMapControls" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn">' . Text::_('COM_GEOFACTORY_RESET_MAP') . '</button>';
+            $radius_form .= ' <button type="button" class="btn btn-info gfMapControls" onclick="switchPanel(\'gf_toggeler\', 0);">Filters</button>';
             $radius_form .= '</div>';
             $radius_form .= '<div id="gf_toggeler" style="display:none;">';
             $radius_form .= $toggeler_map;
             $radius_form .= '</div>';
             $radius_form .= '</div>';
-        }
-        if ($map->radFormMode == 2) {
+        } elseif ($radFormMode == 2 || ($radFormMode == 3 && $nbrMs <= 0)) {
             $radius_form .= $divsOnMapGo;
             $radius_form .= $input;
             $radius_form .= $dists;
-            $radius_form .= '<input type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" value="" style="display:none" />';
-            $radius_form .= '<input type="button" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" value="" style="display:none" />';
+            $radius_form .= '<button type="button" onclick="' . $mapVar . '.SLFI();" id="gf_search_rad_btn" style="display:none"></button>';
+            $radius_form .= '<button type="button" onclick="' . $mapVar . '.SLRES();" id="gf_reset_rad_btn" style="display:none"></button>';
             $radius_form .= '</div>';
             $radius_form .= '</div>';
         }
+        
         return $radius_form;
     }
     
     /**
      * Genera il selettore di distanze per il radius
+     *
+     * @param   object  $map            Oggetto mappa
+     * @param   string  $gf_mod_search  Valore ricerca
+     * @param   bool    $class          Se aggiungere classe
+     * 
+     * @return  string
+     * @since   1.0
      */
-    protected function _getRadiusDistances($map, $gf_mod_search, $class = true)
+    protected function getRadiusDistances(object $map, string $gf_mod_search, bool $class = true): string
     {
         $ses = Factory::getSession();
         $app = Factory::getApplication('site');
@@ -610,22 +770,26 @@ class GeofactoryViewMap extends HtmlView
             $ses->set('gf_ss_search_radius', $gf_mod_radius);
         }
         
-        if (!isset($map->frontDistSelect)) {
-            $map->frontDistSelect = "5,10,25,50,100";
-        }
-        
-        $listVal = explode(',', $map->frontDistSelect);
+        $frontDistSelect = isset($map->frontDistSelect) ? $map->frontDistSelect : "5,10,25,50,100";
+        $listVal = explode(',', $frontDistSelect);
         $find = false;
+        
         $unit = Text::_('COM_GEOFACTORY_UNIT_KM');
-        if (isset($map->fe_rad_unit)) {
+        if (!empty($map->fe_rad_unit)) {
             $unit = ($map->fe_rad_unit == 1) ? Text::_('COM_GEOFACTORY_UNIT_MI') : $unit;
             $unit = ($map->fe_rad_unit == 2) ? Text::_('COM_GEOFACTORY_UNIT_NM') : $unit;
         }
-        $cls = $class ? 'class="form-select gfMapControls"' : 'class="form-select"'; // Aggiunto form-select
-        $radForm = '<select id="radiusSelect" style="width:100px;" ' . $cls . ' onChange="if (mj_radiuscenter){' . $map->mapInternalName . '.SLFI();}">';
+        
+        $cls = $class ? 'class="form-select gfMapControls"' : 'class="form-select"';
+        $radForm = '<select id="radiusSelect" ' . $cls . ' onChange="if (typeof mj_radiuscenter !== \'undefined\' && mj_radiuscenter){' . $map->mapInternalName . '.SLFI();}">';
         
         if (is_array($listVal)) {
             foreach ($listVal as $val) {
+                $val = trim($val);
+                if (!is_numeric($val)) {
+                    continue;
+                }
+                
                 $sel = ($val == $gf_mod_radius) ? ' selected="selected" ' : '';
                 if ($sel != '') {
                     $find = true;
@@ -637,35 +801,47 @@ class GeofactoryViewMap extends HtmlView
         if (!$find && is_numeric($gf_mod_radius) && ($gf_mod_radius > 0)) {
             $radForm .= '<option value="' . $gf_mod_radius . '" selected="selected">' . $gf_mod_radius . '</option>';
         }
+        
         $radForm .= '</select>';
         return $radForm;
     }
     
     /**
      * Sostituisce i tag dyncat nel template
+     *
+     * @param   string  $text  Testo template
+     * 
+     * @return  string
+     * @since   1.0
      */
-    protected function _replaceDynCat($text)
+    protected function replaceDynCat(string $text): string
     {
         $regex = '/{dyncat\s+(.*?)}/i';
-        if (strpos($text, "{dyncat ") === false)
+        
+        if (strpos($text, "{dyncat ") === false) {
             return $text;
+        }
+        
         preg_match_all($regex, $text, $matches);
         $count = is_array($matches[0]) ? count($matches[0]) : 0;
-        if ($count < 1)
+        
+        if ($count < 1) {
             return $text;
+        }
+        
         for ($i = 0; $i < $count; $i++) {
             $code = str_replace("{dyncat ", '', $matches[0][$i]);
             $code = str_replace("}", '', $code);
             $code = trim($code);
             $vCode = explode('#', $code);
-            if ((count($vCode) < 1) || (strlen($vCode[1]) < 1))
+            
+            if ((count($vCode) < 1) || (strlen($vCode[1]) < 1)) {
                 continue;
-            $ext = $vCode[0];
-            $idP = $vCode[1];
-            // In questo caso, se vuoi aggiungere l'azione via JS, puoi inserirla nell'array $js
-            // oppure gestirla diversamente
+            }
+            
+            // Qui si possono aggiungere azioni JS se necessario
         }
-        // Se necessario, si potrebbe fare un preg_replace per sostituire tutte le occorrenze.
+        
         return preg_replace($regex, '', $text);
     }
 }
