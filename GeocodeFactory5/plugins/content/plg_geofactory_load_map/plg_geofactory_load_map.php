@@ -2,55 +2,50 @@
 /**
  * @name        Geocode Factory - Content plugin
  * @package     geoFactory
- * @copyright   Copyright © 2013 - All rights reserved.
+ * @copyright   Copyright © 2013-2023 - All rights reserved.
  * @license     GNU General Public License version 2 or later
  * @author      Cédric Pelloquin <info@myJoom.com>
  * @website     www.myJoom.com
- * @update      Daniele Bellante
+ * @update      Daniele Bellante, Aggiornato per Joomla 4.4.10
  */
 
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\CMS\Language\Text;
 
-// In Joomla 4 non è necessario jimport('joomla.plugin.plugin')
-
+// Includi helper necessari
 require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactory.php';
 require_once JPATH_SITE . '/components/com_geofactory/helpers/externalMap.php';
 require_once JPATH_SITE . '/components/com_geofactory/views/map/view.html.php';
 require_once JPATH_ROOT . '/administrator/components/com_geofactory/helpers/geofactory.php';
 require_once JPATH_ROOT . '/administrator/components/com_geofactory/models/geocodes.php';
 
+/**
+ * Plugin per caricare le mappe nei contenuti
+ */
 class PlgContentPlg_geofactory_load_map extends CMSPlugin
 {
-    protected $m_plgCode = 'load_gf_map';
-
     /**
-     * Constructor.
+     * Il codice del plugin per i pattern di sostituzione
      *
-     * @param   object  &$subject  The object to observe
-     * @param   array   $config    An array that holds the plugin configuration
+     * @var string
      */
-    public function __construct(&$subject, $config = [])
-    {
-        parent::__construct($subject, $config);
-    }
+    protected $m_plgCode = 'load_gf_map';
 
     /**
      * Evento onContentPrepare: sostituisce {load_gf_map ...} nel testo
      *
-     * @param   string  $context
-     * @param   object  &$article
-     * @param   object  &$params
-     * @param   int     $limitstart
+     * @param   string  $context     Il contesto
+     * @param   object  &$article    L'articolo
+     * @param   object  &$params     I parametri
+     * @param   int     $limitstart  Offset per paginazione
      *
-     * @return  bool
+     * @return  bool    True per continuare
      */
     public function onContentPrepare($context, &$article, &$params, $limitstart = 0)
     {
@@ -64,22 +59,33 @@ class PlgContentPlg_geofactory_load_map extends CMSPlugin
             return false;
         }
 
-        // Sostituisce nel testo: controlla se esiste la proprietà 'text', altrimenti 'introtext'
-        if (isset($article->text)) {
-            $article->text = $this->_prepareArticle($article->text, $article->id);
-        } elseif (isset($article->introtext)) {
-            $article->introtext = $this->_prepareArticle($article->introtext, $article->id);
+        // Proprieta text potrebbe non esistere (usare introtext in quel caso)
+        $text = isset($article->text) ? $article->text : (isset($article->introtext) ? $article->introtext : '');
+
+        // Se non c'è testo o non contiene il tag del plugin, nessuna modifica necessaria
+        if (empty($text) || strpos($text, $this->m_plgCode) === false) {
+            return true;
         }
+
+        // Sostituisce il testo e lo riassegna all'articolo
+        $modifiedText = $this->_prepareArticle($text, $article->id);
+        
+        if (isset($article->text)) {
+            $article->text = $modifiedText;
+        } elseif (isset($article->introtext)) {
+            $article->introtext = $modifiedText;
+        }
+
         return true;
     }
 
     /**
      * Prepara il testo, cercando {load_gf_map X}
      *
-     * @param   string  $text
-     * @param   int     $id
+     * @param   string  $text  Il testo da elaborare
+     * @param   int     $id    ID dell'articolo
      *
-     * @return  string
+     * @return  string  Il testo modificato
      */
     private function _prepareArticle($text, $id)
     {
@@ -99,7 +105,7 @@ class PlgContentPlg_geofactory_load_map extends CMSPlugin
         // Trova tutte le occorrenze
         preg_match_all($regex, $text, $matches);
         $count = count($matches[0]);
-
+        
         if ($count) {
             $text = $this->_replaceMap($text, $count, $regex, $matches);
         }
@@ -110,19 +116,20 @@ class PlgContentPlg_geofactory_load_map extends CMSPlugin
     /**
      * Sostituisce ciascuna occorrenza con la mappa corrispondente
      *
-     * @param   string  $text
-     * @param   int     $count
-     * @param   string  $regex
-     * @param   array   $matches
+     * @param   string  $text     Il testo
+     * @param   int     $count    Numero di occorrenze
+     * @param   string  $regex    Pattern regex
+     * @param   array   $matches  Array di match
      *
-     * @return  string
+     * @return  string  Testo con mappe sostituite
      */
     private function _replaceMap($text, $count, $regex, $matches)
     {
         for ($i = 0; $i < $count; $i++) {
-            // $matches[0][$i] contiene l’intera stringa {load_gf_map 123}
+            // $matches[0][$i] contiene l'intera stringa {load_gf_map 123}
             // $matches[1][$i] contiene la parte "123" dopo load_gf_map
             $idMap = trim($matches[1][$i]);
+            
             // Se non è numerico o minore di 1, rimuove l'occorrenza
             if (!is_numeric($idMap) || (int)$idMap < 1) {
                 $text = preg_replace($regex, '', $text, 1);
@@ -130,12 +137,22 @@ class PlgContentPlg_geofactory_load_map extends CMSPlugin
             }
 
             // Carica la mappa tramite il helper esterno
-            $map = GeofactoryExternalMapHelper::getMap($idMap, 'lm');
-            $res = $map->formatedTemplate;
+            try {
+                $map = GeofactoryExternalMapHelper::getMap($idMap, 'lm');
+                $res = $map ? $map->formatedTemplate : '';
+            } catch (\Exception $e) {
+                $app = Factory::getApplication();
+                if ($app->get('debug')) {
+                    $res = '<div class="alert alert-danger">Error loading map: ' . $e->getMessage() . '</div>';
+                } else {
+                    $res = '';
+                }
+            }
 
             // Rimpiazza la prima occorrenza trovata
             $text = preg_replace($regex, $res, $text, 1);
         }
+        
         return $text;
     }
 }

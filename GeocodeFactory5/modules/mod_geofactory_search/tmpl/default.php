@@ -2,10 +2,11 @@
 /**
  * @name        Geocode Factory Search module
  * @package     mod_geofactory_search
- * @copyright   Copyright © 2014
+ * @copyright   Copyright © 2014-2023 - All rights reserved.
  * @license     GNU/GPL
- * @author      ...
- * @update      Daniele Bellante
+ * @author      Cédric Pelloquin
+ * @author mail  info@myJoom.com
+ * @update      Daniele Bellante, Aggiornato per Joomla 4.4.10
  * @website     www.myJoom.com
  */
 
@@ -21,7 +22,7 @@ $item   = $app->getMenu()->getItem($itemId);
 
 // Se l'item di menu non esiste, esci
 if (!$item) {
-    echo "Invalid menu ID in module params (sMapUrl).";
+    echo '<div class="alert alert-warning">Invalid menu ID in module params (sMapUrl).</div>';
     return;
 }
 
@@ -31,13 +32,13 @@ $url = Route::_($item->link . '&Itemid=' . $item->id, true);
 // Leggi eventuali variabili passate dal helper
 // (assicurati che in mod_geofactory_search.php o helper.php
 //  queste variabili siano effettivamente definite)
-$radIntro   = isset($radIntro)   ? $radIntro   : '';
-$radInpHtml = isset($radInpHtml) ? $radInpHtml : '';
-$radDistHtml= isset($radDistHtml)? $radDistHtml: '';
-$buttons    = isset($buttons)    ? $buttons    : '';
-$barHtml    = isset($barHtml)    ? $barHtml    : '';
-$listHtml   = isset($listHtml)   ? $listHtml   : '';
-$labels     = isset($labels)     ? $labels     : ['City','Distance'];
+$radIntro   = $radIntro ?? '';
+$radInpHtml = $radInpHtml ?? '';
+$radDistHtml = $radDistHtml ?? '';
+$buttons    = $buttons ?? '';
+$barHtml    = $barHtml ?? '';
+$listHtml   = $listHtml ?? '';
+$labels     = $labels ?? ['City', 'Distance'];
 
 // Codice
 $tmplCode = $params->get('tmplCode');
@@ -46,40 +47,48 @@ $tmplCode = $params->get('tmplCode');
 if ($params->get('bRadius'))
 {
     ?>
-    <form action="<?php echo $url; ?>" method="post" id="gf_search-form">
-        <?php
-        if (strlen($tmplCode) > 3)
-        {
-            $tmplCode = str_replace('[INPUT]', $radInpHtml, $tmplCode);
-            $tmplCode = str_replace('[DISTANCE]', $radDistHtml, $tmplCode);
-            $tmplCode = str_replace('[SEARCH_BTN]', $buttons, $tmplCode);
-            echo $tmplCode;
-        }
-        else
-        {
-            ?>
-            <p id="rad-intro">
-                <?php echo $radIntro; ?>
-            </p>
-            <p id="rad-city">
-                <label for="gf_mod_search"><?php echo $labels[0]; ?></label><br />
-                <?php echo $radInpHtml; ?>
-            </p>
-            <p id="rad-dist">
-                <label for="gf_mod_radius"><?php echo $labels[1]; ?></label><br />
-                <?php echo $radDistHtml; ?>
-            </p>
-            <p id="rad-btn">
-                <?php echo $buttons; ?>
-            </p>
+    <div class="mod-geofactory-search<?php echo $params->get('moduleclass_sfx'); ?>">
+        <form action="<?php echo $url; ?>" method="post" id="gf_search-form" class="gf-search-form">
             <?php
-        }
+            if (strlen($tmplCode) > 3)
+            {
+                $tmplCode = str_replace('[INPUT]', $radInpHtml, $tmplCode);
+                $tmplCode = str_replace('[DISTANCE]', $radDistHtml, $tmplCode);
+                $tmplCode = str_replace('[SEARCH_BTN]', $buttons, $tmplCode);
+                echo $tmplCode;
+            }
+            else
+            {
+                ?>
+                <?php if (!empty($radIntro)): ?>
+                <p id="rad-intro" class="mb-3">
+                    <?php echo $radIntro; ?>
+                </p>
+                <?php endif; ?>
+                
+                <div id="rad-city" class="mb-3">
+                    <label for="gf_mod_search" class="form-label"><?php echo $labels[0]; ?></label>
+                    <?php echo $radInpHtml; ?>
+                </div>
+                
+                <div id="rad-dist" class="mb-3">
+                    <label for="gf_mod_radius" class="form-label"><?php echo $labels[1]; ?></label>
+                    <?php echo $radDistHtml; ?>
+                </div>
+                
+                <div id="rad-btn" class="d-grid gap-2 d-md-flex">
+                    <?php echo $buttons; ?>
+                </div>
+                <?php
+            }
+            ?>
+        </form>
+        
+        <?php
+        // Stampa eventuali HTML finali
+        echo $barHtml;
+        echo $listHtml;
         ?>
-    </form>
+    </div>
     <?php
 }
-
-// Stampa eventuali HTML finali
-echo $barHtml;
-echo $listHtml;
-?>
