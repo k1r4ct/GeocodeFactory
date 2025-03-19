@@ -5,7 +5,7 @@
  * @copyright   Copyright © 2013 - All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Cédric Pelloquin aka Rick <info@myJoom.com>
- * @update		Daniele Bellante
+ * @update      Daniele Bellante
  * @website     www.myJoom.com
  */
 
@@ -13,9 +13,21 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
+/**
+ * Helper class for mod_geofactory_map
+ *
+ * @since  1.0
+ */
 class ModGeofactoryMapHelper
 {
-    public static function checkTasks($params)
+    /**
+     * Verifica le condizioni per mostrare la mappa basate sui parametri
+     *
+     * @param   object  $params  I parametri del modulo
+     * @return  bool    True se la mappa dovrebbe essere mostrata
+     * @since   1.0
+     */
+    public static function checkTasks($params): bool
     {
         // Utilizziamo l'input di Joomla 4 al posto di JRequest
         $input   = Factory::getApplication()->input;
@@ -31,10 +43,10 @@ class ModGeofactoryMapHelper
             $session->clear('gf_sp_ssid');
         }
 
-        $ignoreTasks = explode(',', strtolower($params->get('taskToIgnore')));
-        $forceTasks  = explode(',', strtolower($params->get('taskToForce')));
+        $ignoreTasks = explode(',', strtolower($params->get('taskToIgnore', '')));
+        $forceTasks  = explode(',', strtolower($params->get('taskToForce', '')));
 
-        if (!empty($forceTasks)) {
+        if (is_array($forceTasks) && !empty($forceTasks)) {
             foreach ($forceTasks as $pair) {
                 $vPair = explode('=', trim($pair));
                 if (count($vPair) !== 2) {
@@ -52,7 +64,7 @@ class ModGeofactoryMapHelper
             }
         }
 
-        if (!empty($ignoreTasks)) {
+        if (is_array($ignoreTasks) && !empty($ignoreTasks)) {
             foreach ($ignoreTasks as $pair) {
                 $vPair = explode('=', trim($pair));
                 if (count($vPair) !== 2) {
@@ -80,28 +92,39 @@ class ModGeofactoryMapHelper
         return true;
     }
 
-    public static function addScript($params)
+    /**
+     * Aggiunge script necessari per la gestione delle schede
+     *
+     * @param   object  $params  I parametri del modulo
+     * @return  void
+     * @since   1.0
+     */
+    public static function addScript($params): void
     {
-        $tab_id = $params->get('usetab_id');
+        $tab_id = $params->get('usetab_id', '');
         if (strlen($tab_id) < 1) {
             return;
         }
-        // Nota: la variabile {$mapVar} deve essere definita nel contesto in cui viene utilizzata.
+        
+        // Script per gestire il ridimensionamento mappa quando la scheda viene attivata
         $js = "
             jQuery(function() {
-                jQuery('#stabs').on('tabsshow', function(event, ui) {
-                    if (ui.panel.id == '{$tab_id}') {
-                        // Assicurarsi che la variabile 'mapVar' sia definita
-                        google.maps.event.trigger(mapVar.map, 'resize');
-                        if (centerPointGFmap) {
-                            mapVar.map.setCenter(centerPointGFmap);
+                jQuery('#stabs').on('tabsactivate', function(event, ui) {
+                    if (ui.newPanel.attr('id') == '{$tab_id}') {
+                        // Ridimensiona la mappa quando la scheda diventa visibile
+                        if (typeof mapVar !== 'undefined' && mapVar.map) {
+                            google.maps.event.trigger(mapVar.map, 'resize');
+                            if (typeof centerPointGFmap !== 'undefined') {
+                                mapVar.map.setCenter(centerPointGFmap);
+                            }
                         }
                     }
                 });
             });
         ";
 
-        $document = Factory::getDocument();
-        $document->addScriptDeclaration($js);
+        // Usa WebAssetManager per aggiungere lo script inline
+        $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+        $wa->addInlineScript($js);
     }
 }
