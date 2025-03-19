@@ -28,6 +28,19 @@ $info    = $params->get('info_block_position', 0);
 */
 // HTMLHelper::_('behavior.caption');
 $map = $this->item;
+
+// Aggiungi console.log per verificare il caricamento della pagina
+Factory::getDocument()->addScriptDeclaration('
+    console.log("GeocodeFactory Debug: Caricamento template default.php");
+    console.log("GeocodeFactory Debug: ID mappa: ' . $map->id . '");
+    console.log("GeocodeFactory Debug: Nome mappa: ' . addslashes($map->name) . '");
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("GeocodeFactory Debug: DOM completamente caricato");
+        if (document.querySelector(".item-page")) {
+            console.log("GeocodeFactory Debug: Container mappa trovato");
+        }
+    });
+');
 ?>
 
 <div class="item-page<?php echo $this->params->get('pageclass_sfx'); ?>">

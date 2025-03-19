@@ -106,6 +106,9 @@ class GeofactoryViewMap extends HtmlView
      */
     protected function _prepareDocument()
     {
+        // Aggiunta di un console.log iniziale per verificare l'avvio della preparazione del documento
+        $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Inizializzazione _prepareDocument");');
+        
         // Debug - verifica dei parametri iniziali
         error_log('Geocode Factory Debug: Inizializzazione mappa - ID=' . $this->item->id);
         // Preleva le info principali
@@ -202,10 +205,14 @@ class GeofactoryViewMap extends HtmlView
         $js        = [];
 
         if (!GeofactoryHelper::useNewMethod($this->item)) {
+            $js[] = "console.log('GeocodeFactory Debug: Utilizzo metodo vecchio per la mappa');";
             $js[] = "var {$jsVarName} = new clsGfMap();";
             $js[] = "var gf_sr = '{$root}';";
-            $js[] = "function init_{$jsVarName}(){ sleepMulti(repos);";
+            $js[] = "function init_{$jsVarName}(){ ";
+            $js[] = "  console.log('GeocodeFactory Debug: Esecuzione init_{$jsVarName}()');";
+            $js[] = "  sleepMulti(repos);";
             $js[] = "  jQuery.getJSON({$jsVarName}.getMapUrl('{$dataMap}'), function(data){";
+            $js[] = "    console.log('GeocodeFactory Debug: getJSON callback eseguito');";
             $js[] = "    if (!{$jsVarName}.checkMapData(data)) {";
             $js[] = "      document.getElementById('{$jsVarName}').innerHTML = 'Map error.';";
             $js[] = "      console.log('Bad map format in init_{$jsVarName}()');";
@@ -239,11 +246,14 @@ class GeofactoryViewMap extends HtmlView
             $js[] = "var gf_mod_radius = {$dist};";
 
             // Carica la mappa al load
+            $js[] = "console.log('GeocodeFactory Debug: Configurazione event listener per load della mappa');";
             $js[] = "google.maps.event.addDomListener(window, 'load', init_{$jsVarName});";
 
             // Se in debug
             $sep = GeofactoryHelper::isDebugMode() ? "\n" : " ";
             $js  = implode($sep, $js);
+        } else {
+            $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Utilizzo nuovo metodo per la mappa");');
         }
 
         // Google API Key
@@ -270,19 +280,24 @@ class GeofactoryViewMap extends HtmlView
 
         // Caricamento script Google Maps
         $mapLang = (strlen($config->get('mapLang')) > 1) ? '&language=' . $config->get('mapLang') : '';
+        $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Preparazione caricamento Google Maps API");');
         $this->document->addScript($http . 'maps.googleapis.com/maps/api/js?libraries=places' . $ggApikey . $mapLang . $lib);
+        $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Richiesta caricamento Google Maps API completata");');
 
         // Se presente un file custom
         if (file_exists(JPATH_BASE . '/components/com_geofactory/assets/js/custom.js')) {
+            $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Caricamento custom.js");');
             $this->document->addScript($root . 'components/com_geofactory/assets/js/custom.js');
         }
 
         // Cluster
         if ($this->item->useCluster == 1) {
+            $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Caricamento markerclusterer.js");');
             $this->document->addScript($root . 'components/com_geofactory/assets/js/markerclusterer-5151023.js');
         }
 
         if (!GeofactoryHelper::useNewMethod($this->item)) {
+            $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Caricamento map_api.js");');
             $this->document->addScript($root . 'components/com_geofactory/assets/js/map_api-5151020.js');
             $this->document->addScriptDeclaration($js);
         } else {
@@ -290,6 +305,7 @@ class GeofactoryViewMap extends HtmlView
             if (empty($dist)) {
                 $dist = $app->input->getFloat('mj_rs_radius_selector', 1);
             }
+            $this->document->addScriptDeclaration('console.log("GeocodeFactory Debug: Richiesta generazione JS dinamico");');
             $this->document->addScript('index.php?option=com_geofactory&task=map.getJs&' . implode('&', $urlParams));
         }
 
@@ -330,6 +346,7 @@ class GeofactoryViewMap extends HtmlView
      */
     protected function _getSourceUrl($oMap, &$js, $root)
     {
+        $js[] = "console.log('GeocodeFactory Debug: Esecuzione _getSourceUrl');";
         $config = ComponentHelper::getParams('com_geofactory');
         $idmap  = $this->item->id;
 
@@ -365,8 +382,10 @@ class GeofactoryViewMap extends HtmlView
      */
     protected function _setLayers($oMap, &$js)
     {
+        $js[] = "console.log('GeocodeFactory Debug: Esecuzione _setLayers');";
         $arLayersTmp = $this->item->layers;
         if (!is_array($arLayersTmp) || !count($arLayersTmp)) {
+            $js[] = "console.log('GeocodeFactory Debug: Nessun layer configurato');";
             return;
         }
 
@@ -379,6 +398,7 @@ class GeofactoryViewMap extends HtmlView
         }
 
         if (count($arLayers) > 0) {
+            $js[] = "console.log('GeocodeFactory Debug: Configurazione layers - tipi: ' + JSON.stringify(" . json_encode($arLayers) . "));";
             $txt = [
                 Text::_('COM_GEOFACTORY_TRAFFIC'),
                 Text::_('COM_GEOFACTORY_TRANSIT'),
@@ -393,21 +413,27 @@ class GeofactoryViewMap extends HtmlView
             $js[] = 'var layb = []; var sep = new separator();';
 
             if (in_array(1, $arLayers)) {
+                $js[] = " console.log('GeocodeFactory Debug: Aggiunta layer Traffic');";
                 $js[] = " layb.push( new checkBox({gmap: {$oMap}.map, title: '{$txt[0]}', id: 'traffic', label: '{$txt[0]}'}) ); ";
             }
             if (in_array(2, $arLayers)) {
+                $js[] = " console.log('GeocodeFactory Debug: Aggiunta layer Transit');";
                 $js[] = " layb.push( new checkBox({gmap: {$oMap}.map, title: '{$txt[1]}', id: 'transit', label: '{$txt[1]}'}) ); ";
             }
             if (in_array(3, $arLayers)) {
+                $js[] = " console.log('GeocodeFactory Debug: Aggiunta layer Bicycle');";
                 $js[] = " layb.push( new checkBox({gmap: {$oMap}.map, title: '{$txt[2]}', id: 'biking', label: '{$txt[2]}'}) ); ";
             }
             if (in_array(4, $arLayers)) {
+                $js[] = " console.log('GeocodeFactory Debug: Aggiunta layer Weather (F)');";
                 $js[] = " layb.push( new checkBox({gmap: {$oMap}.map, title: '{$txt[3]}', id: 'weatherF', label: '{$txt[3]}'}) ); ";
             }
             if (in_array(5, $arLayers)) {
+                $js[] = " console.log('GeocodeFactory Debug: Aggiunta layer Weather (C)');";
                 $js[] = " layb.push( new checkBox({gmap: {$oMap}.map, title: '{$txt[3]}', id: 'weatherC', label: '{$txt[3]}'}) ); ";
             }
             if (in_array(6, $arLayers)) {
+                $js[] = " console.log('GeocodeFactory Debug: Aggiunta layer Clouds');";
                 $js[] = " layb.push( new checkBox({gmap: {$oMap}.map, title: '{$txt[4]}', id: 'cloud', label: '{$txt[4]}'}) ); ";
             }
 

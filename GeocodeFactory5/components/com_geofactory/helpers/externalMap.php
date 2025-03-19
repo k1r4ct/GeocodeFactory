@@ -36,12 +36,16 @@ class GeofactoryExternalMapHelper
      */
     public static function getMap(int $id, string $context, int $zoom = 0): ?object
     {
+        // Aggiunge script di debug
+        Factory::getApplication()->getDocument()->addScriptDeclaration('console.log("GeocodeFactory Debug: ExternalMapHelper::getMap inizializzato con ID=' . $id . ', context=' . $context . '");');
+        
         // Aggiunge il percorso dei modelli per Geofactory
         BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/components/com_geofactory/models', 'GeofactoryModel');
 
         $idMap = (int) $id;
         if ($idMap < 1) {
             echo "Nessuna mappa selezionata nelle impostazioni ({$context})!";
+            Factory::getApplication()->getDocument()->addScriptDeclaration('console.error("GeocodeFactory Debug: Mappa non valida (ID < 1)");');
             return null;
         }
 
@@ -59,6 +63,9 @@ class GeofactoryExternalMapHelper
         $view->initView($map);
         $view->_prepareDocument();
 
+        // Registra log di successo
+        Factory::getApplication()->getDocument()->addScriptDeclaration('console.log("GeocodeFactory Debug: ExternalMapHelper::getMap completato con successo per ID=' . $idMap . '");');
+        
         return $map;
     }
 
@@ -78,6 +85,7 @@ class GeofactoryExternalMapHelper
     {
         BaseDatabaseModel::addIncludePath(JPATH_ROOT . '/components/com_geofactory/models', 'GeofactoryModel');
         if ($idMap < 1) {
+            Factory::getApplication()->getDocument()->addScriptDeclaration('console.error("GeocodeFactory Debug: ProfileMap - ID mappa non valido");');
             return "@admin: nessuna mappa selezionata nelle impostazioni del plugin CB!";
         }
 
@@ -124,11 +132,13 @@ class GeofactoryExternalMapHelper
 
         // Costruzione del codice JavaScript
         $js = "
+            console.log('GeocodeFactory Debug: ProfileMap - Inizializzazione JS per mapvar=" . $mapvar . "');
             var gf_sr = '" . Uri::root() . "';
             var {$mapvar};
             var marker_{$mapvar};
             var cm_{$mapvar};
             function init_{$mapvar}() {
+                console.log('GeocodeFactory Debug: ProfileMap - Esecuzione init_" . $mapvar . "()');
                 if (!document.getElementById('{$fLat}')){
                     console.error('Nessuna coordinata in questo profilo (lat/long)!');
                     return;
@@ -136,13 +146,17 @@ class GeofactoryExternalMapHelper
                 document.getElementById('{$mapvar}').style.opacity = 1;
                 var ula = '{$fLat}';
                 var ulo = '{$fLng}';
+                console.log('GeocodeFactory Debug: ProfileMap - Coordinate: lat=' + ula + ', lng=' + ulo);
                 cm_{$mapvar} = new google.maps.LatLng(ula, ulo);
                 if (ula === ulo){
+                    console.log('GeocodeFactory Debug: ProfileMap - Utilizzo coordinate centrali predefinite');
                     cm_{$mapvar} = new google.maps.LatLng({$center});
                 }
                 var mo = {zoom: {$zoom}, mapTypeId: {$type}, center: cm_{$mapvar}};
                 {$mapvar} = new google.maps.Map(document.getElementById('{$mapvar}'), mo);
+                console.log('GeocodeFactory Debug: ProfileMap - Mappa creata');
                 if (ula !== ulo){
+                    console.log('GeocodeFactory Debug: ProfileMap - Creazione marker');
                     marker_{$mapvar} = new google.maps.Marker({
                         map: {$mapvar}, 
                         draggable: false, 
@@ -174,6 +188,7 @@ class GeofactoryExternalMapHelper
         }
 
         $js .= "}
+            console.log('GeocodeFactory Debug: ProfileMap - Configurazione event listener');
             google.maps.event.addDomListener(window, 'load', init_{$mapvar});
         ";
 
@@ -243,10 +258,12 @@ class GeofactoryExternalMapHelper
         }
 
         $js = "
+            console.log('GeocodeFactory Debug: ProfileEditMap - Inizializzazione JS per " . $mapvar . "');
             var {$mapvar};
             var marker_{$mapvar};
             var cm_{$mapvar};
             function init_{$mapvar}() {
+                console.log('GeocodeFactory Debug: ProfileEditMap - Esecuzione init_" . $mapvar . "()');
                 if (!document.getElementById('{$fLat}')){
                     console.error('Campi delle coordinate non caricati (lat/long)!');
                     return;
@@ -254,27 +271,33 @@ class GeofactoryExternalMapHelper
                 document.getElementById('{$mapvar}').style.opacity = 1;
                 var ula = document.getElementById('{$fLat}').value;
                 var ulo = document.getElementById('{$fLng}').value;
+                console.log('GeocodeFactory Debug: ProfileEditMap - Valori iniziali: lat=' + ula + ', lng=' + ulo);
                 var uzo = 13;
                 cm_{$mapvar} = new google.maps.LatLng(ula, ulo);
                 var def_cm = new google.maps.LatLng({$defCenter});
                 var mo = {zoom: parseInt(uzo), mapTypeId: google.maps.MapTypeId.ROADMAP, center: cm_{$mapvar}};
                 {$mapvar} = new google.maps.Map(document.getElementById('{$mapvar}'), mo);
+                console.log('GeocodeFactory Debug: ProfileEditMap - Mappa creata');
                 marker_{$mapvar} = new google.maps.Marker({
                     map: {$mapvar}, 
                     draggable: true, 
                     animation: google.maps.Animation.DROP, 
                     position: cm_{$mapvar}
                 });
+                console.log('GeocodeFactory Debug: ProfileEditMap - Marker creato');
                 
                 if ((ula.length < 1) || (ulo.length < 1)){
+                    console.log('GeocodeFactory Debug: ProfileEditMap - Utilizzando coordinate predefinite');
                     document.getElementById('{$fLat}').value = def_cm.lat();
                     document.getElementById('{$fLng}').value = def_cm.lng();
                     {$mapvar}.panTo(def_cm);
                     marker_{$mapvar}.setPosition(def_cm);
                     
                     if (navigator.geolocation) {
+                        console.log('GeocodeFactory Debug: ProfileEditMap - Richiesta posizione corrente');
                         navigator.geolocation.getCurrentPosition(
                             function(position){
+                                console.log('GeocodeFactory Debug: ProfileEditMap - Posizione recuperata dal browser');
                                 var new_cm = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                                 fillAdrFromPos(new_cm, '');
                                 document.getElementById('{$fLat}').value = new_cm.lat();
@@ -290,11 +313,13 @@ class GeofactoryExternalMapHelper
                     }
                 }
                 
+                console.log('GeocodeFactory Debug: ProfileEditMap - Setup autocomplete');
                 var inp = document.getElementById('searchPos_{$mapvar}');
                 var autocomplete = new google.maps.places.Autocomplete(inp);
                 autocomplete.bindTo('bounds', {$mapvar});
                 
                 google.maps.event.addListener(marker_{$mapvar}, 'dragend', function(event) {
+                    console.log('GeocodeFactory Debug: ProfileEditMap - Marker spostato');
                     document.getElementById('{$fLat}').value = event.latLng.lat();
                     document.getElementById('{$fLng}').value = event.latLng.lng();
                     {$mapvar}.panTo(event.latLng);
@@ -302,9 +327,11 @@ class GeofactoryExternalMapHelper
                 });
                 
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    console.log('GeocodeFactory Debug: ProfileEditMap - Luogo selezionato da autocomplete');
                     marker_{$mapvar}.setVisible(false);
                     var place = autocomplete.getPlace();
                     if (!place.geometry) {
+                        console.error('GeocodeFactory Debug: ProfileEditMap - Luogo senza geometria');
                         return;
                     }
                     if (place.geometry.viewport) {
@@ -321,6 +348,7 @@ class GeofactoryExternalMapHelper
             }
             
             function fillAdrFromPos(new_cm, target) {
+                console.log('GeocodeFactory Debug: ProfileEditMap - fillAdrFromPos chiamato');
                 var addressInput = '';
                 if (target.length > 0){
                     addressInput = document.getElementById(target);
@@ -328,7 +356,9 @@ class GeofactoryExternalMapHelper
                 var geocoder = new google.maps.Geocoder();
                 if (geocoder) {
                     geocoder.geocode({ 'latLng': new_cm}, function(results, status) {
+                        console.log('GeocodeFactory Debug: ProfileEditMap - Geocoder status: ' + status);
                         if (status == google.maps.GeocoderStatus.OK) {
+                            console.log('GeocodeFactory Debug: ProfileEditMap - Geocoding riuscito');
                             fillAddress(results[0].address_components);
                             if (target.length > 0 && addressInput){
                                 addressInput.placeholder = results[1].formatted_address;
@@ -343,8 +373,10 @@ class GeofactoryExternalMapHelper
             }
             
             function fillAddress(geoAdresse) {
+                console.log('GeocodeFactory Debug: ProfileEditMap - fillAddress chiamato');
                 const autofillEl = document.getElementById('autofilladdress');
                 if (!autofillEl || !autofillEl.checked) {
+                    console.log('GeocodeFactory Debug: ProfileEditMap - Autofill disabilitato');
                     return;
                 }
                 
@@ -379,6 +411,7 @@ class GeofactoryExternalMapHelper
                 addAdressInfo(adr.can, '{$fieldState}');
                 addAdressInfo(adr.pay, '{$fieldCountry}');
                 addAdressInfo(adr.rue, '{$fieldStreet}');
+                console.log('GeocodeFactory Debug: ProfileEditMap - Indirizzo compilato automaticamente');
             }
             
             function addAdressInfo(info, field) {
@@ -395,6 +428,7 @@ class GeofactoryExternalMapHelper
                 fieldEl.value = info;
             }
             
+            console.log('GeocodeFactory Debug: ProfileEditMap - Configurazione event listener');
             google.maps.event.addDomListener(window, 'load', init_{$mapvar});
         ";
         

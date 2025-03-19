@@ -29,14 +29,21 @@ class GeofactoryControllerMap extends BaseController
 
     public function getJson()
     {
+        // Aggiungi log iniziale
+        error_log('GeocodeFactory Debug: Chiamata a getJson()');
+        
         // Recupera l'applicazione
         $app   = Factory::getApplication();
         $idMap = $app->input->getInt('idmap', -1);
 
+        error_log('GeocodeFactory Debug: getJson richiesto per la mappa ID=' . $idMap);
+        
         // Ottieni il modello "Map"
         $model = $this->getModel('Map');
 
         $json  = $model->createfile($idMap);
+        
+        error_log('GeocodeFactory Debug: JSON generato con successo, lunghezza=' . strlen($json));
 
         // Output del JSON in modo compatibile con Joomla 4
         $app->setHeader('Content-Type', 'application/json');
@@ -46,6 +53,8 @@ class GeofactoryControllerMap extends BaseController
 
     public function geocodearticle()
     {
+        error_log('GeocodeFactory Debug: Chiamata a geocodearticle()');
+        
         $app   = Factory::getApplication();
         $id    = $app->input->getInt('idArt', -1);
         $lat   = $app->input->getFloat('lat');
@@ -53,6 +62,8 @@ class GeofactoryControllerMap extends BaseController
         $adr   = $app->input->getString('adr');
         $c_opt = $app->input->getString('c_opt', 'com_content');
 
+        error_log('GeocodeFactory Debug: Geocoding articolo ID=' . $id . ', lat=' . $lat . ', lng=' . $lng);
+        
         $db    = Factory::getDbo();
         $cond  = 'type=' . $db->quote($c_opt) . ' AND id_content=' . (int) $id;
 
@@ -98,14 +109,19 @@ class GeofactoryControllerMap extends BaseController
         $app = Factory::getApplication();
         $app->setHeader('Content-Type', 'application/json');
         $app->setBody(json_encode(['success' => true]));
+        error_log('GeocodeFactory Debug: Geocoding articolo completato con successo');
         $app->close();
     }
 
     public function getJs()
     {
+        error_log('GeocodeFactory Debug: Chiamata a getJs()');
+        
         $app   = Factory::getApplication();
         $idMap = $app->input->getInt('idmap', -1);
 
+        error_log('GeocodeFactory Debug: getJs richiesto per la mappa ID=' . $idMap);
+        
         $model = $this->getModel('Map');
         $model->set_loadFull(true);
         $map   = $model->getItem($idMap);
@@ -133,22 +149,28 @@ class GeofactoryControllerMap extends BaseController
 
         $js = [];
         $jsVarName = $map->mapInternalName;
+        $js[] = "console.log('GeocodeFactory Debug: Inizializzazione JS dinamico per mappa " . $jsVarName . "');";
         $js[] = "var {$jsVarName} = new clsGfMap2();";
         $js[] = "var gf_sr = '{$root}';";
         $js[] = "function init2_{$jsVarName}() {";
+        $js[] = "  console.log('GeocodeFactory Debug: Esecuzione init2_" . $jsVarName . "()');";
         $js[] = "  jQuery.getJSON({$jsVarName}.getMapUrl('{$dataMap}'), function(data) {";
+        $js[] = "    console.log('GeocodeFactory Debug: getJSON callback eseguito');";
         $js[] = "    if (!{$jsVarName}.checkMapData(data)) {";
         $js[] = "      document.getElementById('{$jsVarName}').innerHTML = 'Map error.';";
-        $js[] = "      console.log('Bad map format.');";
+        $js[] = "      console.error('Bad map format.');";
         $js[] = "      return;";
         $js[] = "    }";
+        $js[] = "    console.log('GeocodeFactory Debug: Dati mappa validati');";
         $js[] = "    {$jsVarName}.setMapInfo(data, '{$jsVarName}');";
+        $js[] = "    console.log('GeocodeFactory Debug: Informazioni mappa impostate');";
 
         // Richiama i metodi statici interni
         GeofactoryModelMap::_setKml($jsVarName, $js, $map->kml_file);
         GeofactoryModelMap::_loadTiles($jsVarName, $js, $map);
         GeofactoryModelMap::_loadDynCatsFromTmpl($jsVarName, $js, $map);
 
+        $js[] = "    console.log('GeocodeFactory Debug: Configurazioni aggiuntive completate');";
         $js[] = "  });";
         $js[] = "}";
 
@@ -183,11 +205,15 @@ class GeofactoryControllerMap extends BaseController
         }
 
         // Aggiunge l'inizializzazione al caricamento della pagina
+        $js[] = "console.log('GeocodeFactory Debug: Configurazione event listener');";
         $js[] = "google.maps.event.addDomListener(window, 'load', init2_{$jsVarName});";
+        $js[] = "console.log('GeocodeFactory Debug: Configurazione JS completata');";
 
         $sep = GeofactoryHelper::isDebugMode() ? "\n" : "";
         $jsContent = implode($sep, $js);
 
+        error_log('GeocodeFactory Debug: JS generato con successo, lunghezza=' . strlen($jsContent));
+        
         // Output JavaScript in modo compatibile con Joomla 4
         $app->setHeader('Content-Type', 'application/javascript; charset=utf-8');
         $app->setBody($jsContent);
