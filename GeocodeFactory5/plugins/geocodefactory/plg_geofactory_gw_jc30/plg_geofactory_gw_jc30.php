@@ -32,14 +32,13 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 require_once JPATH_SITE . '/components/com_geofactory/helpers/geofactoryPlugin.php';
 
-// Carica il contesto di com_content (router, helpers, ecc.)
-$com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'router.php';
-require_once $com_path . 'helpers/route.php';
-BaseDatabaseModel::addIncludePath($com_path . '/models', 'ContentModel');
+// Carica il route helper di com_content
+require_once JPATH_SITE . '/components/com_content/src/Helper/RouteHelper.php';
 
 /**
  * Plugin main class
@@ -108,7 +107,7 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
      * @param   string  $type
      * @return  array   [type, listFields]
      */
-    public function getListFieldsMs($type)
+    public function getListFieldsMs(string $type): array
     {
         if (!$this->_isInCurrentType($type)) {
             return array($this->gatewayCode, array());
@@ -162,8 +161,8 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
             return array($this->gatewayCode, null);
         }
 
-        /** @var DatabaseDriver $db */
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        /** @var DatabaseInterface $db */
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Importa gli articoli che non sono ancora nella tabella #__geofactory_contents
         $query = $db->getQuery(true)
@@ -231,14 +230,14 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
      * @param   array   $vAssign
      * @return  array
      */
-    public function setItemCoordinates($type, $id, $vCoord, $vAssign)
+    public function setItemCoordinates(string $type, int $id, array $vCoord, array $vAssign): array
     {
         if (!$this->_isInCurrentType($type)) {
             return array($this->gatewayCode);
         }
 
-        /** @var DatabaseDriver $db */
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        /** @var DatabaseInterface $db */
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true);
         $fields = array(
@@ -260,7 +259,16 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
         return array($type, "Coordinates properly saved (" . implode(' ', $vCoord) . ").");
     }
 
-    public function getItemCoordinates($type, $ids, &$vCoord, $params)
+    /**
+     * Ottiene le coordinate di un articolo
+     *
+     * @param   string       $type     Tipo di contenuto
+     * @param   int|array    $ids      ID o array di ID
+     * @param   array        &$vCoord  Array di coordinate da riempire
+     * @param   array        $params   Parametri
+     * @return  void
+     */
+    public function getItemCoordinates(string $type, $ids, array &$vCoord, array $params): void
     {
         if (!$this->_isInCurrentType($type)) {
             return;
@@ -275,8 +283,8 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
             return;
         }
 
-        /** @var DatabaseDriver $db */
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        /** @var DatabaseInterface $db */
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select('id_content, latitude, longitude')
@@ -320,13 +328,11 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
                 ->select('address')
                 ->from($db->quoteName($this->plgTable))
                 ->where('id = ' . (int)$id);
-            $db->setQuery($query, 0, 1);
-            $res = $db->loadObjectList();
-
-            if (!count($res)) {
+            $db->setQuery($query);
+            $res = $db->loadObject();
+            if (!$res) {
                 return array($type, $add);
             }
-            $res = $res[0];
             $add["field_city"] = $res->address;
         }
 
@@ -537,7 +543,7 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
 
         $slug    = $article->id . ':' . $article->alias;
         $catslug = $article->catid;
-        $objMarker->link    = Route::_(\ContentHelperRoute::getArticleRoute($slug, $catslug));
+        $objMarker->link = Route::_(RouteHelper::getArticleRoute($slug, $catslug));
         $objMarker->rawTitle= $article->title;
 
         foreach ($objMarker->replace as $k => $v) {
@@ -580,8 +586,8 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
 
     public function _getItemFromArticle($id, $field, $purejoomla = false)
     {
-        /** @var DatabaseDriver $db */
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        /** @var DatabaseInterface $db */
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         if (strpos($field, 'field') !== false) {
             $parts = explode('_', $field);
@@ -626,7 +632,7 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
         return $adre;
     }
 
-    public function onContentPrepare($context, &$article, &$params, $limitstart = 0)
+    public function onContentPrepare($context, &$article, &$params, $limitstart = 0): bool
     {
         if ($context == 'com_finder.indexer') {
             return true;
@@ -708,22 +714,23 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
 
     protected function _loadCoord($id, &$lat, &$lng, $c_opt)
     {
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
-        $query = $db->getQuery(true)
-                    ->select('latitude,longitude')
-                    ->from($db->quoteName($this->plgTable))
-                    ->where('id_content=' . (int)$id . ' AND type=' . $db->quote($c_opt));
-        $db->setQuery($query, 0, 1);
-        $gps = $db->loadObjectList();
-        if ($db->getError()) {
-            trigger_error("_loadCoord error  :" . $db->stderr());
-            exit();
+        try {
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+            $query = $db->getQuery(true)
+                        ->select('latitude,longitude')
+                        ->from($db->quoteName($this->plgTable))
+                        ->where('id_content=' . (int)$id . ' AND type=' . $db->quote($c_opt));
+            $db->setQuery($query, 0, 1);
+            
+            $gps = $db->loadObject();
+            if ($gps) {
+                $lat = $gps->latitude;
+                $lng = $gps->longitude;
+            }
+        } catch (\Exception $e) {
+            // Log dell'errore
+            Factory::getApplication()->enqueueMessage('_loadCoord error: ' . $e->getMessage(), 'error');
         }
-        if (count($gps) < 1) {
-            return;
-        }
-        $lat = $gps[0]->latitude;
-        $lng = $gps[0]->longitude;
     }
 
     protected function _replaceMap($text, $count, $regex, $lat, $lng)
@@ -750,8 +757,8 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
                 $ggApikey = (strlen($config->get('ggApikey')) > 3) ? "&key=" . $config->get('ggApikey') : "";
                 $width = $this->params->get('staticWidth', 200);
                 $height = $this->params->get('staticHeight', 200);
-                $res = "http://maps.googleapis.com/maps/api/staticmap?center={$lat},{$lng}&zoom={$zoom}&size={$width}x{$height}&markers={$lat},{$lng}{$ggApikey}";
-                $res = '<img src="' . $res . '" >';
+                $res = "https://maps.googleapis.com/maps/api/staticmap?center={$lat},{$lng}&zoom={$zoom}&size={$width}x{$height}&markers={$lat},{$lng}{$ggApikey}";
+                $res = '<img src="' . $res . '" class="img-fluid" alt="Map">';
             }
             $text = preg_replace($regex, $res, $text, 1);
         }
@@ -774,5 +781,26 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
         $article->introtext = str_replace($replace, $new, $article->introtext);
         $article->fulltext  = str_replace($replace, $new, $article->fulltext);
         return true;
+    }
+
+    /**
+     * Aggiorna le classi CSS per la compatibilità con Bootstrap 5
+     *
+     * @param   string  $html  HTML da aggiornare
+     * @return  string  HTML aggiornato
+     */
+    protected function _updateBootstrapClasses(string $html): string
+    {
+        $replacements = [
+            'btn-default' => 'btn-secondary',
+            'input-group-addon' => 'input-group-text',
+            'img-responsive' => 'img-fluid',
+        ];
+        
+        foreach ($replacements as $old => $new) {
+            $html = str_replace($old, $new, $html);
+        }
+        
+        return $html;
     }
 }
