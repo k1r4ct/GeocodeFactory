@@ -57,6 +57,7 @@ class GeofactoryControllerMap extends BaseController
             $app->setBody($json);
             error_log('GeocodeFactory Debug: Chiusura applicazione');
             $app->close();
+            error_log('GeocodeFactory Debug: Applicazione chiusa');
         } catch (Exception $e) {
             error_log('GeocodeFactory Debug: Errore in getJson(): ' . $e->getMessage());
             throw $e;
