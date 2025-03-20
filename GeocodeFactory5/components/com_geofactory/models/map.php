@@ -456,8 +456,10 @@ class GeofactoryModelMap extends ItemModel
             $debug .= '</ul>';
         }
         
-        // Contenitore
-        $template = '<div id="gf_template_container">' . $debug . $template . '</div>';
+        // Contenitore con debug
+        $template = '<div id="gf_template_container">
+        <script>console.log("Debug: Template map caricato per ' . $map->mapInternalName . '");</script>' 
+        . $debug . $template . '</div>';
         
         // Dyncat
         $template = $this->_replaceDynCat($template);
@@ -712,6 +714,7 @@ class GeofactoryModelMap extends ItemModel
     
     public static function _setKml($jsVarName, &$js, $kml_file)
     {
+        $js[] = "console.log('Debug: _setKml iniziato per " . $jsVarName . "');";
         $vKml = explode(';', $kml_file);
         if (!is_array($vKml) || count($vKml) < 1)
             return;
@@ -720,11 +723,15 @@ class GeofactoryModelMap extends ItemModel
             if (strlen($kml) < 3)
                 continue;
             $js[] = $jsVarName . ".addKmlLayer('{$kml}');";
+            $js[] = "console.log('Debug: KML aggiunto: " . $kml . "');";
         }
+        $js[] = "console.log('Debug: _setKml completato');";
     }
     
     public static function _loadTiles($jsVarName, &$js, $map)
     {
+        $js[] = "console.log('Debug: _loadTiles iniziato per " . $jsVarName . "');";
+        
         $vTypes = [];
         $vAvailableTypes = isset($map->mapTypeAvailable) ? $map->mapTypeAvailable : null;
         $ref = ["SATELLITE", "HYBRID", "TERRAIN", "ROADMAP"];
@@ -807,28 +814,36 @@ class GeofactoryModelMap extends ItemModel
         }
 
         if (count($vTypes) > 0) {
+            $js[] = "console.log('Debug: Impostazione mapTypeIds: " . implode(',', $vTypes) . "');";
             $js[] = "var optionsUpdate = {mapTypeControlOptions: {mapTypeIds: [".implode(',', $vTypes)."], style: google.maps.MapTypeControlStyle.{$map->mapTypeBar}}}; {$jsVarName}.map.setOptions(optionsUpdate);";
             if (in_array($map->mapTypeOnStart, ["ROADMAP", "SATELLITE", "HYBRID", "TERRAIN"])) {
                 $js[] = $jsVarName . ".map.setMapTypeId(google.maps.MapTypeId.{$map->mapTypeOnStart});";
+                $js[] = "console.log('Debug: MapTypeId impostato a google.maps.MapTypeId." . $map->mapTypeOnStart . "');";
             } else {
                 $js[] = $jsVarName . ".map.setMapTypeId('{$map->mapTypeOnStart}');";
+                $js[] = "console.log('Debug: MapTypeId impostato a custom: " . $map->mapTypeOnStart . "');";
             }
         }
+        $js[] = "console.log('Debug: _loadTiles completato');";
         return;
     }
     
     public static function _loadDynCatsFromTmpl($jsVarName, &$js, $map)
     {
+        $js[] = "console.log('Debug: _loadDynCatsFromTmpl iniziato per " . $jsVarName . "');";
         $regex = '/{dyncat\s+(.*?)}/i';
         $text = $map->template;
         if (strpos($text, "{dyncat ") === false) {
+            $js[] = "console.log('Debug: Nessun dyncat trovato nel template');";
             return;
         }
         preg_match_all($regex, $text, $matches);
         $count = is_array($matches[0]) ? count($matches[0]) : 0;
         if ($count < 1) {
+            $js[] = "console.log('Debug: Nessun match per dyncat');";
             return;
         }
+        $js[] = "console.log('Debug: Trovati " . $count . " dyncat da caricare');";
         for ($i = 0; $i < $count; $i++) {
             $code = str_replace("{dyncat ", '', $matches[0][$i]);
             $code = str_replace("}", '', $code);
@@ -837,6 +852,8 @@ class GeofactoryModelMap extends ItemModel
             if ((count($vCode) < 1) || (strlen($vCode[1]) < 1))
                 continue;
             $js[] = "{$jsVarName}.loadDynCat('{$vCode[0]}', {$vCode[1]}, 'gf_dyncat_{$vCode[0]}_{$vCode[1]}', '{$jsVarName}');";
+            $js[] = "console.log('Debug: Caricamento dyncat " . $vCode[0] . "#" . $vCode[1] . "');";
         }
+        $js[] = "console.log('Debug: _loadDynCatsFromTmpl completato');";
     }
 }

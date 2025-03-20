@@ -32,23 +32,35 @@ class GeofactoryControllerMap extends BaseController
         // Aggiungi log iniziale
         error_log('GeocodeFactory Debug: Chiamata a getJson()');
         
-        // Recupera l'applicazione
-        $app   = Factory::getApplication();
-        $idMap = $app->input->getInt('idmap', -1);
-
-        error_log('GeocodeFactory Debug: getJson richiesto per la mappa ID=' . $idMap);
-        
-        // Ottieni il modello "Map"
-        $model = $this->getModel('Map');
-
-        $json  = $model->createfile($idMap);
-        
-        error_log('GeocodeFactory Debug: JSON generato con successo, lunghezza=' . strlen($json));
-
-        // Output del JSON in modo compatibile con Joomla 4
-        $app->setHeader('Content-Type', 'application/json');
-        $app->setBody($json);
-        $app->close();
+        try {
+            // Recupera l'applicazione
+            $app = Factory::getApplication();
+            $idMap = $app->input->getInt('idmap', -1);
+            
+            error_log('GeocodeFactory Debug: getJson richiesto per la mappa ID=' . $idMap);
+            
+            // Ottieni il modello "Map"
+            error_log('GeocodeFactory Debug: Tentativo di caricamento del modello Map');
+            $model = $this->getModel('Map');
+            error_log('GeocodeFactory Debug: Modello Map caricato correttamente');
+            
+            error_log('GeocodeFactory Debug: Chiamata al metodo createfile()');
+            $json = $model->createfile($idMap);
+            error_log('GeocodeFactory Debug: Metodo createfile() completato con successo');
+            
+            error_log('GeocodeFactory Debug: JSON generato con successo, lunghezza=' . strlen($json));
+            
+            // Output del JSON in modo compatibile con Joomla 4
+            error_log('GeocodeFactory Debug: Impostazione header Content-Type');
+            $app->setHeader('Content-Type', 'application/json');
+            error_log('GeocodeFactory Debug: Impostazione body');
+            $app->setBody($json);
+            error_log('GeocodeFactory Debug: Chiusura applicazione');
+            $app->close();
+        } catch (Exception $e) {
+            error_log('GeocodeFactory Debug: Errore in getJson(): ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function geocodearticle()
