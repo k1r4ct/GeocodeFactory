@@ -46,20 +46,15 @@ if (!class_exists('GeofactoryHelper')) {
                             ->select('a.*')
                             ->from($db->quoteName('#__geofactory_ggmaps', 'a'))
                             ->where('id = ' . (int)$id . ' AND a.state = 1');
-                
-                error_log('GeofactoryHelper: getMap - Query SQL: ' . (string)$query);
                 $db->setQuery($query);
                 
                 $data = $db->loadObject();
-                error_log('GeofactoryHelper: getMap - Risultato query: ' . ($data ? 'oggetto trovato' : 'nessun risultato'));
                 
                 if (empty($data)) {
-                    error_log('GeofactoryHelper: getMap - Nessun dato trovato per ID=' . $id);
                     return null;
                 }
 
                 // Converte i campi di parametri in oggetti Registry
-                error_log('GeofactoryHelper: getMap - Inizia mergeRegistry dei parametri');
                 
                 self::mergeRegistry($data, "params_map_mouse");
                 self::mergeRegistry($data, "params_map_cluster");
@@ -70,7 +65,6 @@ if (!class_exists('GeofactoryHelper')) {
                 self::mergeRegistry($data, "params_map_settings");
                 self::mergeRegistry($data, "params_extra");
                 
-                error_log('GeofactoryHelper: getMap - mergeRegistry completato');
 
                 if (!isset($data->kml_file))  { $data->kml_file = ""; }
                 if (!isset($data->layers))    { $data->layers = "0"; }
@@ -235,15 +229,12 @@ if (!class_exists('GeofactoryHelper')) {
                     error_log('GeofactoryHelper: mergeRegistry - Campo ' . $var . ' esiste, valore: ' . $data->$var);
                     try {
                         $registry->loadString($data->$var);
-                        error_log('GeofactoryHelper: mergeRegistry - loadString OK');
                         
                         // Fonde i dati e rimuove la chiave originale
                         $registryArray = $registry->toArray();
-                        error_log('GeofactoryHelper: mergeRegistry - toArray OK, elementi: ' . count($registryArray));
                         
                         $data = (object) array_merge((array)$data, $registryArray);
                         unset($data->$var);
-                        error_log('GeofactoryHelper: mergeRegistry - array_merge OK');
                     } catch (\Exception $e) {
                         error_log('GeofactoryHelper: mergeRegistry - ERRORE durante loadString: ' . $e->getMessage());
                     }
