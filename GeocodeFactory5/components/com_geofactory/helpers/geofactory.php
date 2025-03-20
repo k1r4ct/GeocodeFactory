@@ -25,7 +25,7 @@ use Joomla\Registry\Registry;
 require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactoryPlugin.php';
 
 if (!class_exists('GeofactoryHelper')) {
-    error_log('GeofactoryHelper: Inizializzazione classe helper');
+    //error_log('GeofactoryHelper: Inizializzazione classe helper');
     
     class GeofactoryHelper
     {
@@ -38,7 +38,7 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getMap(int $id): ?object
         {
-            error_log('GeofactoryHelper: getMap chiamato con ID=' . $id);
+            //error_log('GeofactoryHelper: getMap chiamato con ID=' . $id);
             
             try {
                 $db = Factory::getContainer()->get(DatabaseInterface::class);
@@ -55,7 +55,6 @@ if (!class_exists('GeofactoryHelper')) {
                 }
 
                 // Converte i campi di parametri in oggetti Registry
-                
                 self::mergeRegistry($data, "params_map_mouse");
                 self::mergeRegistry($data, "params_map_cluster");
                 self::mergeRegistry($data, "params_map_radius");
@@ -64,7 +63,6 @@ if (!class_exists('GeofactoryHelper')) {
                 self::mergeRegistry($data, "params_map_controls");
                 self::mergeRegistry($data, "params_map_settings");
                 self::mergeRegistry($data, "params_extra");
-                
 
                 if (!isset($data->kml_file))  { $data->kml_file = ""; }
                 if (!isset($data->layers))    { $data->layers = "0"; }
@@ -80,10 +78,10 @@ if (!class_exists('GeofactoryHelper')) {
                 if (!isset($data->level5) || strlen($data->level5) < 1) { $data->level5 = 'Level 5'; }
                 if (!isset($data->level6) || strlen($data->level6) < 1) { $data->level6 = 'Level 6'; }
 
-                error_log('GeofactoryHelper: getMap - Ritorno oggetto mappa completo');
+                //error_log('GeofactoryHelper: getMap - Completato con successo');
                 return $data;
             } catch (\Exception $e) {
-                error_log('GeofactoryHelper: getMap - ERRORE: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+                //error_log('GeofactoryHelper: getMap - ERRORE: ' . $e->getMessage());
                 return null;
             }
         }
@@ -98,10 +96,9 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getMs(int $id): ?object
         {
-            error_log('GeofactoryHelper: getMs chiamato con ID=' . $id);
+            //error_log('GeofactoryHelper: getMs chiamato con ID=' . $id);
             
             if ($id < 1) {
-                error_log('GeofactoryHelper: getMs - ID non valido');
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MS_ERROR_ID'), 404);
             }
             
@@ -113,16 +110,12 @@ if (!class_exists('GeofactoryHelper')) {
                             ->where('id = ' . (int)$id . ' AND a.state = 1');
                 $db->setQuery($query);
                 
-                error_log('GeofactoryHelper: getMs - Esecuzione query');
                 $data = $db->loadObject();
-                error_log('GeofactoryHelper: getMs - Risultato query: ' . ($data ? 'oggetto trovato' : 'nessun risultato'));
                 
                 if (empty($data) || !isset($data->typeList)) {
-                    error_log('GeofactoryHelper: getMs - Nessun dato valido trovato');
                     return null;
                 }
 
-                error_log('GeofactoryHelper: getMs - Importazione plugin');
                 PluginHelper::importPlugin('geocodefactory');
                 $app = Factory::getApplication();
                 $dispatcher = $app->getDispatcher();
@@ -134,30 +127,26 @@ if (!class_exists('GeofactoryHelper')) {
                     'pluginOk' => &$pluginOk
                 ]);
                 
-                error_log('GeofactoryHelper: getMs - Dispatch evento onIsPluginInstalled');
                 // Dispatch dell'evento
                 $results = $dispatcher->dispatch('onIsPluginInstalled', $event);
-                error_log('GeofactoryHelper: getMs - Risultato plugin: ' . ($pluginOk ? 'OK' : 'NON OK'));
                 
                 // Verifica se pluginOk è stato modificato a true dai plugin
                 if (!$pluginOk) {
-                    error_log('GeofactoryHelper: getMs - Plugin non disponibile');
                     return null;
                 }
 
-                error_log('GeofactoryHelper: getMs - Inizio merge parametri');
                 self::mergeRegistry($data, "params_markerset_settings");
                 self::mergeRegistry($data, "params_markerset_radius");
                 self::mergeRegistry($data, "params_markerset_icon");
                 self::mergeRegistry($data, "params_markerset_type_setting");
                 self::mergeRegistry($data, "params_extra");
-                error_log('GeofactoryHelper: getMs - Fine merge parametri');
 
                 $data->name = Text::_($data->name);
-                error_log('GeofactoryHelper: getMs - Ritorno oggetto markerset completo');
+                
+                //error_log('GeofactoryHelper: getMs - Completato con successo');
                 return $data;
             } catch (\Exception $e) {
-                error_log('GeofactoryHelper: getMs - ERRORE: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+                //error_log('GeofactoryHelper: getMs - ERRORE: ' . $e->getMessage());
                 throw $e;
             }
         }
@@ -171,6 +160,8 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getCoordFields(int $idFieldAssign): array
         {
+            //error_log('GeofactoryHelper: getCoordFields chiamato con ID=' . $idFieldAssign);
+            
             // Prima cerchiamo di usare il namespace completo
             $table = null;
             
@@ -182,8 +173,11 @@ if (!class_exists('GeofactoryHelper')) {
             }
             
             if ($table && $idFieldAssign > 0 && $table->load($idFieldAssign)) {
+                //error_log('GeofactoryHelper: getCoordFields - Completato con successo');
                 return ['lat' => $table->field_latitude, 'lng' => $table->field_longitude];
             }
+            
+            //error_log('GeofactoryHelper: getCoordFields - Completato senza dati');
             return ['lat' => 0, 'lng' => 0];
         }
 
@@ -196,6 +190,8 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getPatternType(int $idFieldAssign): ?string
         {
+            //error_log('GeofactoryHelper: getPatternType chiamato con ID=' . $idFieldAssign);
+            
             $table = null;
             try {
                 $table = Table::getInstance('Assign', '\\Geofactory\\Component\\Geofactory\\Administrator\\Table\\');
@@ -204,8 +200,11 @@ if (!class_exists('GeofactoryHelper')) {
             }
             
             if ($table && $table->load($idFieldAssign)) {
+                //error_log('GeofactoryHelper: getPatternType - Completato con successo');
                 return $table->typeList;
             }
+            
+            //error_log('GeofactoryHelper: getPatternType - Completato senza dati');
             return null;
         }
 
@@ -219,14 +218,13 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function mergeRegistry(object &$data, string $var): void
         {
-            error_log('GeofactoryHelper: mergeRegistry chiamato per campo ' . $var);
+            //error_log('GeofactoryHelper: mergeRegistry chiamato per campo ' . $var);
             
             try {
                 $registry = new Registry;
                 
                 // Verifica che il campo esista e non sia null
                 if (property_exists($data, $var) && $data->$var !== null) {
-                    error_log('GeofactoryHelper: mergeRegistry - Campo ' . $var . ' esiste, valore: ' . $data->$var);
                     try {
                         $registry->loadString($data->$var);
                         
@@ -236,14 +234,14 @@ if (!class_exists('GeofactoryHelper')) {
                         $data = (object) array_merge((array)$data, $registryArray);
                         unset($data->$var);
                     } catch (\Exception $e) {
-                        error_log('GeofactoryHelper: mergeRegistry - ERRORE durante loadString: ' . $e->getMessage());
+                        //error_log('GeofactoryHelper: mergeRegistry - ERRORE durante loadString: ' . $e->getMessage());
                     }
-                } else {
-                    error_log('GeofactoryHelper: mergeRegistry - Campo ' . $var . ' non esiste o è null');
                 }
             } catch (\Exception $e) {
-                error_log('GeofactoryHelper: mergeRegistry - ERRORE GENERALE: ' . $e->getMessage());
+                //error_log('GeofactoryHelper: mergeRegistry - ERRORE GENERALE: ' . $e->getMessage());
             }
+            
+            //error_log('GeofactoryHelper: mergeRegistry - Completato');
         }
 
         /**
@@ -257,8 +255,13 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getCacheFileName(int $idMap, int $itemid, int $type = 0): string
         {
+            //error_log('GeofactoryHelper: getCacheFileName chiamato');
+            
             $ext = ($type === 1) ? 'json' : 'xml';
-            return JPATH_CACHE . DIRECTORY_SEPARATOR . "_geofFactory_{$idMap}_{$itemid}.{$ext}";
+            $cacheFile = JPATH_CACHE . DIRECTORY_SEPARATOR . "_geofFactory_{$idMap}_{$itemid}.{$ext}";
+            
+            //error_log('GeofactoryHelper: getCacheFileName - Completato');
+            return $cacheFile;
         }
 
         /**
@@ -271,10 +274,9 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function getArrayIdMs(int $id): array
         {
-            error_log('GeofactoryHelper: getArrayIdMs chiamato con ID=' . $id);
+            //error_log('GeofactoryHelper: getArrayIdMs chiamato con ID=' . $id);
             
             if ($id < 1) {
-                error_log('GeofactoryHelper: getArrayIdMs - ID non valido');
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MAP_ERROR_ID'), 404);
             }
 
@@ -284,7 +286,6 @@ if (!class_exists('GeofactoryHelper')) {
                 if ($config->get('msOrdering') == 1) {
                     $key2 = 'name';
                 }
-                error_log('GeofactoryHelper: getArrayIdMs - Ordinamento per: ' . $key2);
 
                 $data = [];
                 $db = Factory::getContainer()->get(DatabaseInterface::class);
@@ -296,13 +297,11 @@ if (!class_exists('GeofactoryHelper')) {
                             ->where('ms.state = 1')
                             ->order('mslevel, ' . $key2);
                 
-                error_log('GeofactoryHelper: getArrayIdMs - Query SQL: ' . (string)$query);
                 $db->setQuery($query);
                 $res = $db->loadObjectList();
-                error_log('GeofactoryHelper: getArrayIdMs - Risultati query: ' . ($res ? count($res) : 0));
 
                 if (!is_array($res) || count($res) < 1) {
-                    error_log('GeofactoryHelper: getArrayIdMs - Nessun risultato trovato');
+                    //error_log('GeofactoryHelper: getArrayIdMs - Completato senza risultati');
                     return $data;
                 }
                 
@@ -311,13 +310,12 @@ if (!class_exists('GeofactoryHelper')) {
                         continue;
                     }
                     $data[] = $v->id_ms;
-                    error_log('GeofactoryHelper: getArrayIdMs - Aggiunto markerset ID: ' . $v->id_ms);
                 }
                 
-                error_log('GeofactoryHelper: getArrayIdMs - Totale markerset trovati: ' . count($data));
+                //error_log('GeofactoryHelper: getArrayIdMs - Completato con ' . count($data) . ' risultati');
                 return $data;
             } catch (\Exception $e) {
-                error_log('GeofactoryHelper: getArrayIdMs - ERRORE: ' . $e->getMessage());
+                //error_log('GeofactoryHelper: getArrayIdMs - ERRORE: ' . $e->getMessage());
                 return [];
             }
         }
@@ -331,34 +329,29 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function _getSelectorImage(object $list): string
         {
-            error_log('GeofactoryHelper: _getSelectorImage chiamato');
+            //error_log('GeofactoryHelper: _getSelectorImage chiamato');
             
             // Usando Joomla\CMS\Uri\Uri
             $img = Uri::root() . 'media/com_geofactory/assets/baloon.png';
+            
             if (!isset($list->markerIconType)) {
-                error_log('GeofactoryHelper: _getSelectorImage - markerIconType non impostato, uso default: ' . $img);
+                //error_log('GeofactoryHelper: _getSelectorImage - Completato con default');
                 return $img;
             }
             
-            error_log('GeofactoryHelper: _getSelectorImage - markerIconType: ' . $list->markerIconType);
-            
             if (($list->markerIconType < 2) && (isset($list->customimage) && strlen($list->customimage) > 3)) {
                 $img = Uri::root() . $list->customimage;
-                error_log('GeofactoryHelper: _getSelectorImage - Usando customimage: ' . $img);
             } elseif (($list->markerIconType == 4) && (isset($list->customimage) && strlen($list->customimage) > 3)) {
                 $img = Uri::root() . $list->customimage;
-                error_log('GeofactoryHelper: _getSelectorImage - Usando customimage per tipo 4: ' . $img);
             } elseif (($list->markerIconType == 4) && (!isset($list->customimage) || strlen($list->customimage) < 3)) {
                 $img = Uri::root() . 'media/com_geofactory/assets/category.png';
-                error_log('GeofactoryHelper: _getSelectorImage - Usando icona categoria predefinita: ' . $img);
             } elseif ($list->markerIconType == 2 && isset($list->mapicon)) {
                 $img = Uri::root() . 'media/com_geofactory/mapicons/' . $list->mapicon;
-                error_log('GeofactoryHelper: _getSelectorImage - Usando mapicon: ' . $img);
             } elseif ($list->markerIconType == 3) {
                 $img = Uri::root() . 'media/com_geofactory/assets/avatar.png';
-                error_log('GeofactoryHelper: _getSelectorImage - Usando avatar predefinito: ' . $img);
             }
             
+            //error_log('GeofactoryHelper: _getSelectorImage - Completato');
             return $img;
         }
 
@@ -375,6 +368,8 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function saveItemContentTale(int $id, string $type, float $lat, float $lng, string $adr = ''): void
         {
+            //error_log('GeofactoryHelper: saveItemContentTale chiamato');
+            
             $db = Factory::getContainer()->get(DatabaseInterface::class);
             $cond = 'type = ' . $db->quote($type) . ' AND id_content = ' . (int)$id;
 
@@ -411,6 +406,8 @@ if (!class_exists('GeofactoryHelper')) {
             }
             $db->setQuery($query);
             $db->execute();
+            
+            //error_log('GeofactoryHelper: saveItemContentTale - Completato');
         }
 
         /**
@@ -421,12 +418,14 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function isDebugMode(): bool
         {
+            //error_log('GeofactoryHelper: isDebugMode chiamato');
+            
             try {
                 $config = ComponentHelper::getParams('com_geofactory');
                 $configDebug = (bool)$config->get('isDebug');
                 
                 if ($configDebug) {
-                    error_log('GeofactoryHelper: isDebugMode - Debug attivo da configurazione');
+                    //error_log('GeofactoryHelper: isDebugMode - Completato (true da config)');
                     return true;
                 }
                 
@@ -434,13 +433,14 @@ if (!class_exists('GeofactoryHelper')) {
                 $inputDebug = (bool)$app->input->getInt('gf_debug', false);
                 
                 if ($inputDebug) {
-                    error_log('GeofactoryHelper: isDebugMode - Debug attivo da parametro URL');
+                    //error_log('GeofactoryHelper: isDebugMode - Completato (true da URL)');
                     return true;
                 }
                 
+                //error_log('GeofactoryHelper: isDebugMode - Completato (false)');
                 return false;
             } catch (\Exception $e) {
-                error_log('GeofactoryHelper: isDebugMode - ERRORE: ' . $e->getMessage());
+                //error_log('GeofactoryHelper: isDebugMode - ERRORE: ' . $e->getMessage());
                 return false;
             }
         }
@@ -455,20 +455,38 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function markerInArea(array $marker, array $vp): bool
         {
+            //error_log('GeofactoryHelper: markerInArea chiamato');
+            
             // Verifichiamo che tutte le chiavi necessarie esistano nel marker
             if (!isset($marker['lat']) || !isset($marker['lng'])) {
+                //error_log('GeofactoryHelper: markerInArea - Completato (false, marker invalido)');
                 return false;
             }
             
             // Verifichiamo che l'array $vp abbia almeno 4 elementi
             if (count($vp) < 4) {
+                //error_log('GeofactoryHelper: markerInArea - Completato (false, viewport invalido)');
                 return false;
             }
             
-            if ($marker['lat'] < $vp[0]) return false;
-            if ($marker['lng'] < $vp[1]) return false;
-            if ($marker['lat'] >= $vp[2]) return false;
-            if ($marker['lng'] >= $vp[3]) return false;
+            if ($marker['lat'] < $vp[0]) {
+                //error_log('GeofactoryHelper: markerInArea - Completato (false)');
+                return false;
+            }
+            if ($marker['lng'] < $vp[1]) {
+                //error_log('GeofactoryHelper: markerInArea - Completato (false)');
+                return false;
+            }
+            if ($marker['lat'] >= $vp[2]) {
+                //error_log('GeofactoryHelper: markerInArea - Completato (false)');
+                return false;
+            }
+            if ($marker['lng'] >= $vp[3]) {
+                //error_log('GeofactoryHelper: markerInArea - Completato (false)');
+                return false;
+            }
+            
+            //error_log('GeofactoryHelper: markerInArea - Completato (true)');
             return true;
         }
 
@@ -481,39 +499,38 @@ if (!class_exists('GeofactoryHelper')) {
          */
         public static function useNewMethod(object $map): bool
         {
-            error_log('GeofactoryHelper: useNewMethod chiamato');
+            //error_log('GeofactoryHelper: useNewMethod chiamato');
             
             try {
                 $config = ComponentHelper::getParams('com_geofactory');
                 $newMethodSetting = (int)$config->get('newMethod');
-                error_log('GeofactoryHelper: useNewMethod - Impostazione newMethod: ' . $newMethodSetting);
                 
                 if ($newMethodSetting < 1) {
-                    error_log('GeofactoryHelper: useNewMethod - Ritorno false (disabilitato in config)');
+                    //error_log('GeofactoryHelper: useNewMethod - Completato (false, disabilitato in config)');
                     return false;
                 }
                 
                 if ($newMethodSetting == 2) {
-                    error_log('GeofactoryHelper: useNewMethod - Ritorno true (forzato in config)');
+                    //error_log('GeofactoryHelper: useNewMethod - Completato (true, forzato in config)');
                     return true;
                 }
                 
                 $centerUserValue = isset($map->centerUser) ? (int)$map->centerUser : 0;
-                error_log('GeofactoryHelper: useNewMethod - centerUser: ' . $centerUserValue);
                 
                 if ($centerUserValue > 0) {
-                    error_log('GeofactoryHelper: useNewMethod - Ritorno false (centerUser attivo)');
+                    //error_log('GeofactoryHelper: useNewMethod - Completato (false, centerUser attivo)');
                     return false;
                 }
                 
-                error_log('GeofactoryHelper: useNewMethod - Ritorno true (default)');
+                //error_log('GeofactoryHelper: useNewMethod - Completato (true, default)');
                 return true;
             } catch (\Exception $e) {
-                error_log('GeofactoryHelper: useNewMethod - ERRORE: ' . $e->getMessage());
+                //error_log('GeofactoryHelper: useNewMethod - ERRORE: ' . $e->getMessage());
                 return false;
             }
+            return true;
         }
     }
     
-    error_log('GeofactoryHelper: Classe helper definita con successo');
+    //error_log('GeofactoryHelper: Classe helper definita con successo');
 }
