@@ -134,9 +134,10 @@ class GeofactoryModelMarkers extends ItemModel
 
         // Carica la mappa e i markerset collegati
         try {
+            
+            $map = GeofactoryHelper::getMap($idMap);
             var_dump($map);
             die();
-            $map = GeofactoryHelper::getMap($idMap);
             if (!$map) {
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MAP_NOT_FOUND'), 404);
             }
