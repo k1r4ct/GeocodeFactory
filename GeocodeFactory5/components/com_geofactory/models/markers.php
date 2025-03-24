@@ -22,6 +22,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\Event\Event;
 use Joomla\Event\DispatcherInterface;
 
+
+require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactory.php';
+
+
 // Funzioni di ordinamento per gli array di markers
 if (!function_exists('orderUser')) {
     /**
@@ -136,8 +140,6 @@ class GeofactoryModelMarkers extends ItemModel
         try {
             
             $map = GeofactoryHelper::getMap($idMap);
-            var_dump($map);
-            die();
             if (!$map) {
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MAP_NOT_FOUND'), 404);
             }
@@ -165,8 +167,6 @@ class GeofactoryModelMarkers extends ItemModel
             return $data;
             
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
-            die();
             Log::add('Errore in createfile: ' . $e->getMessage(), Log::ERROR, 'geofactory');
             throw $e;
         }
