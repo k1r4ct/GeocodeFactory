@@ -26,18 +26,6 @@ require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 class GeofactoryControllerMap extends BaseController
 {
     protected $text_prefix = 'COM_GEOFACTORY';
-    protected $log_file = JPATH_ROOT . '/logs/map_debug.log';
-
-    /**
-     * Scrive un messaggio nel file di log
-     *
-     * @param string $message Il messaggio da loggare
-     */
-    protected function logMessage($message)
-    {
-        $timestamp = date('Y-m-d H:i:s');
-        file_put_contents($this->log_file, "[{$timestamp}] {$message}\n", FILE_APPEND);
-    }
 
     public function getJson()
     {
@@ -45,19 +33,23 @@ class GeofactoryControllerMap extends BaseController
             $app = Factory::getApplication();
             $idMap = $app->input->getInt('idmap', 1);
             
-            $this->logMessage("Richiesta getJson per idMap={$idMap}");
+            // Debug file
+            $debug_file = JPATH_ROOT . '/logs/map_debug.log';
+            file_put_contents($debug_file, "Richiesta getJson per idMap={$idMap}\n", FILE_APPEND);
             
             $model = $this->getModel('Map');
             $json = $model->createfile($idMap);
-            $this->logMessage("JSON generato con successo (dimensione: " . strlen($json) . " bytes)");
+            file_put_contents($debug_file, "JSON generato:\n{$json}\n\n", FILE_APPEND);
             
-            // Invia output diretto
+            // Invia output diretto invece di usare setBody
             header('Content-Type: application/json');
             echo $json;
             exit;
             
         } catch (Exception $e) {
-            $this->logMessage("ERRORE in getJson(): " . $e->getMessage());
+            // Log dell'errore
+            $debug_file = JPATH_ROOT . '/logs/map_debug.log';
+            file_put_contents($debug_file, "ERRORE: " . $e->getMessage() . "\n", FILE_APPEND);
             
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json');
@@ -68,6 +60,8 @@ class GeofactoryControllerMap extends BaseController
 
     public function geocodearticle()
     {
+        error_log('GeocodeFactory Debug: Chiamata a geocodearticle()');
+        
         $app   = Factory::getApplication();
         $id    = $app->input->getInt('idArt', -1);
         $lat   = $app->input->getFloat('lat');
@@ -75,7 +69,7 @@ class GeofactoryControllerMap extends BaseController
         $adr   = $app->input->getString('adr');
         $c_opt = $app->input->getString('c_opt', 'com_content');
 
-        $this->logMessage("Geocodearticle per ID={$id}, lat={$lat}, lng={$lng}, tipo={$c_opt}");
+        error_log('GeocodeFactory Debug: Geocoding articolo ID=' . $id . ', lat=' . $lat . ', lng=' . $lng);
         
         $db    = Factory::getDbo();
         $cond  = 'type=' . $db->quote($c_opt) . ' AND id_content=' . (int) $id;
@@ -101,8 +95,6 @@ class GeofactoryControllerMap extends BaseController
             $query->update($db->quoteName('#__geofactory_contents'))
                 ->set($fields)
                 ->where($cond);
-                
-            $this->logMessage("Aggiornamento coordinate per articolo esistente");
         } else {
             // Inserimento nuovo record
             $values = [
@@ -115,26 +107,27 @@ class GeofactoryControllerMap extends BaseController
             ];
             $query->insert($db->quoteName('#__geofactory_contents'))
                 ->values(implode(',', $values));
-                
-            $this->logMessage("Inserimento nuovo record per articolo");
         }
 
         $db->setQuery($query);
         $db->execute();
 
-        // Risposta di successo usando l'approccio diretto
-        $this->logMessage("Geocoding articolo completato con successo");
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true]);
-        exit;
+        // Risposta di successo
+        $app = Factory::getApplication();
+        $app->setHeader('Content-Type', 'application/json');
+        $app->setBody(json_encode(['success' => true]));
+        error_log('GeocodeFactory Debug: Geocoding articolo completato con successo');
+        $app->close();
     }
 
     public function getJs()
     {
+        error_log('GeocodeFactory Debug: Chiamata a getJs()');
+        
         $app   = Factory::getApplication();
         $idMap = $app->input->getInt('idmap', -1);
 
-        $this->logMessage("Richiesta getJs per mappa ID={$idMap}");
+        error_log('GeocodeFactory Debug: getJs richiesto per la mappa ID=' . $idMap);
         
         $model = $this->getModel('Map');
         $model->set_loadFull(true);
@@ -160,7 +153,6 @@ class GeofactoryControllerMap extends BaseController
         $urlParams[] = 'code='  . rand(1, 100000);
 
         $dataMap = implode('&', $urlParams);
-        $this->logMessage("Parametri URL: {$dataMap}");
 
         $js = [];
         $jsVarName = $map->mapInternalName;
@@ -211,16 +203,13 @@ class GeofactoryControllerMap extends BaseController
             'components/com_geofactory/assets/js/cls.controller.js',
         ];
 
-        $filesLoaded = 0;
         foreach ($files as $file) {
             $filePath = JPATH_ROOT . '/' . $file;
             if (is_file($filePath) && pathinfo($filePath, PATHINFO_EXTENSION) === 'js') {
                 $js[] = "/* {$file} */";
                 $js[] = file_get_contents($filePath);
-                $filesLoaded++;
             }
         }
-        $this->logMessage("File JS caricati: {$filesLoaded}");
 
         // Aggiunge l'inizializzazione al caricamento della pagina
         $js[] = "console.log('GeocodeFactory Debug: Configurazione event listener');";
@@ -230,11 +219,11 @@ class GeofactoryControllerMap extends BaseController
         $sep = GeofactoryHelper::isDebugMode() ? "\n" : "";
         $jsContent = implode($sep, $js);
 
-        $this->logMessage("JS generato con successo (dimensione: " . strlen($jsContent) . " bytes)");
+        error_log('GeocodeFactory Debug: JS generato con successo, lunghezza=' . strlen($jsContent));
         
-        // Output JavaScript usando l'approccio diretto
-        header('Content-Type: application/javascript; charset=utf-8');
-        echo $jsContent;
-        exit;
+        // Output JavaScript in modo compatibile con Joomla 4
+        $app->setHeader('Content-Type', 'application/javascript; charset=utf-8');
+        $app->setBody($jsContent);
+        $app->close();
     }
 }

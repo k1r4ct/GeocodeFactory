@@ -16,7 +16,6 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Controller per la gestione dei marker
@@ -32,6 +31,25 @@ class GeofactoryControllerMarkers extends BaseController
      * @since  1.0
      */
     protected $text_prefix = 'COM_GEOFACTORY';
+    
+    /**
+     * File di log
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $log_file = JPATH_ROOT . '/logs/markers_debug.log';
+    
+    /**
+     * Scrive un messaggio nel file di log
+     *
+     * @param string $message Il messaggio da loggare
+     */
+    protected function logMessage($message)
+    {
+        $timestamp = date('Y-m-d H:i:s');
+        file_put_contents($this->log_file, "[{$timestamp}] {$message}\n", FILE_APPEND);
+    }
 
     /**
      * Restituisce i dati dei marker in formato JSON
@@ -45,10 +63,17 @@ class GeofactoryControllerMarkers extends BaseController
         $app   = Factory::getApplication();
         $idMap = $app->input->getInt('idmap', -1);
         
+        // Log della richiesta
+        $request_uri = $_SERVER['REQUEST_URI'] ?? 'Richiesta senza URI';
+        $this->logMessage("Richiesta: {$request_uri}");
+        
         // Verifica che l'ID mappa sia valido
         if ($idMap < 1) {
-            $this->sendJsonError('ID mappa non valido', 400);
-            return;
+            $this->logMessage("Errore: ID mappa non valido ({$idMap})");
+            header('HTTP/1.1 400 Bad Request');
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'ID mappa non valido']);
+            exit;
         }
         
         // Recupera il modello e genera il JSON
@@ -58,24 +83,29 @@ class GeofactoryControllerMarkers extends BaseController
             
             // Verifica che il risultato sia valido
             if (empty($json)) {
-                $this->sendJsonError('Nessun dato disponibile per questa mappa', 404);
-                return;
+                $this->logMessage("Errore: Nessun dato disponibile per la mappa {$idMap}");
+                header('HTTP/1.1 404 Not Found');
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Nessun dato disponibile per questa mappa']);
+                exit;
             }
             
-            // Assicura che sia un JSON valido
-            if (!$this->isValidJson($json)) {
-                $this->sendJsonError('Errore nella generazione dei dati JSON', 500);
-                return;
-            }
+            $this->logMessage("JSON generato con successo per mappa {$idMap} (dimensione: " . strlen($json) . " bytes)");
             
             // Invia la risposta JSON
-            $app->setHeader('Content-Type', 'application/json');
-            $app->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-            $app->setBody($json);
-            $app->close();
+            header('Content-Type: application/json');
+            header('Cache-Control: no-cache, no-store, must-revalidate');
+            echo $json;
+            exit;
             
         } catch (\Exception $e) {
-            $this->sendJsonError($e->getMessage());
+            // Log dell'errore
+            $this->logMessage("Errore in getJson(): " . $e->getMessage());
+            
+            header('HTTP/1.1 500 Internal Server Error');
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $e->getMessage()]);
+            exit;
         }
     }
 
@@ -95,10 +125,15 @@ class GeofactoryControllerMarkers extends BaseController
         $ext    = $app->input->getString('ext', '');
         $mapVar = $app->input->getString('mapVar', '');
         
+        $this->logMessage("Richiesta dyncat per idMap={$idMap}, idP={$idP}, ext={$ext}, mapVar={$mapVar}");
+        
         // Verifica parametri obbligatori
         if (empty($ext) || $idP < 1) {
-            $this->sendHtmlError('Parametri mancanti o non validi');
-            return;
+            $this->logMessage("Errore dyncat: Parametri mancanti o non validi");
+            header('HTTP/1.1 400 Bad Request');
+            header('Content-Type: text/html; charset=utf-8');
+            echo '<div class="alert alert-danger">Parametri mancanti o non validi</div>';
+            exit;
         }
         
         try {
@@ -106,87 +141,29 @@ class GeofactoryControllerMarkers extends BaseController
             $select = $model->getCategorySelect($ext, $idP, $mapVar);
             
             if (empty($select)) {
-                $this->sendHtmlError('Nessuna categoria disponibile');
-                return;
+                $this->logMessage("Errore dyncat: Nessuna categoria disponibile");
+                header('HTTP/1.1 404 Not Found');
+                header('Content-Type: text/html; charset=utf-8');
+                echo '<div class="alert alert-warning">Nessuna categoria disponibile</div>';
+                exit;
             }
             
-            // Output HTML in modo compatibile con Joomla 4
-            $app->setHeader('Content-Type', 'text/html; charset=utf-8');
-            $app->setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-            $app->setBody($select);
-            $app->close();
+            $this->logMessage("Selettore categorie generato con successo");
+            
+            // Output HTML diretto
+            header('Content-Type: text/html; charset=utf-8');
+            header('Cache-Control: no-cache, no-store, must-revalidate');
+            echo $select;
+            exit;
             
         } catch (\Exception $e) {
-            $this->sendHtmlError($e->getMessage());
+            // Log dell'errore
+            $this->logMessage("Errore in dyncat(): " . $e->getMessage());
+            
+            header('HTTP/1.1 500 Internal Server Error');
+            header('Content-Type: text/html; charset=utf-8');
+            echo '<div class="alert alert-danger">' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</div>';
+            exit;
         }
-    }
-    
-    /**
-     * Invia un errore in formato JSON
-     *
-     * @param   string  $message  Messaggio di errore
-     * @param   int     $code     Codice HTTP (default 500)
-     * @return  void
-     * @since   1.0
-     */
-    protected function sendJsonError($message, $code = 500)
-    {
-        $app = Factory::getApplication();
-        
-        // Log dell'errore
-        Log::add($message, Log::ERROR, 'geofactory');
-        
-        // Imposta l'header HTTP
-        $app->setHeader('status', $code);
-        $app->setHeader('Content-Type', 'application/json');
-        
-        // Prepara la risposta
-        $response = new JsonResponse(null, $message, true, $code);
-        $app->setBody($response);
-        $app->close();
-    }
-    
-    /**
-     * Invia un errore in formato HTML
-     *
-     * @param   string  $message  Messaggio di errore
-     * @param   int     $code     Codice HTTP (default 400)
-     * @return  void
-     * @since   1.0
-     */
-    protected function sendHtmlError($message, $code = 400)
-    {
-        $app = Factory::getApplication();
-        
-        // Log dell'errore
-        Log::add($message, Log::ERROR, 'geofactory');
-        
-        // Imposta gli header
-        $app->setHeader('status', $code);
-        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
-        
-        // Prepara un messaggio di errore leggibile
-        $html = '<div class="alert alert-danger">' . Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED') . ': ' . 
-                htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</div>';
-        
-        $app->setBody($html);
-        $app->close();
-    }
-    
-    /**
-     * Verifica se una stringa è un JSON valido
-     *
-     * @param   string  $string  Stringa da verificare
-     * @return  bool
-     * @since   1.0
-     */
-    protected function isValidJson($string)
-    {
-        if (!is_string($string) || empty($string)) {
-            return false;
-        }
-        
-        json_decode($string);
-        return (json_last_error() === JSON_ERROR_NONE);
     }
 }

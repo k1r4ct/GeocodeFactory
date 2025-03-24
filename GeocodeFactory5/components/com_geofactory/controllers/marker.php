@@ -16,19 +16,37 @@ require_once JPATH_COMPONENT . '/helpers/geofactory.php';
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Component\ComponentHelper;
 
 class GeofactoryControllerMarker extends BaseController
 {
     protected $text_prefix = 'COM_GEOFACTORY';
+    protected $log_file = JPATH_ROOT . '/logs/marker_debug.log';
 
-    // Metodo per la visualizzazione della "bolla" (bubble)
+    /**
+     * Scrive un messaggio nel file di log
+     *
+     * @param string $message Il messaggio da loggare
+     */
+    protected function logMessage($message)
+    {
+        $timestamp = date('Y-m-d H:i:s');
+        file_put_contents($this->log_file, "[{$timestamp}] {$message}\n", FILE_APPEND);
+    }
+
+    /**
+     * Metodo per la visualizzazione della "bolla" (bubble)
+     * 
+     * @return void
+     * @since 1.0
+     */
     public function bubble()
     {
         $app  = Factory::getApplication();
         $idM  = $app->input->getInt('idU', -1);
         $idMs = $app->input->getInt('idL', -1);
         $dist = $app->input->getFloat('dist', -1);
+
+        $this->logMessage("Richiesta bubble per marker ID={$idM}, set={$idMs}, dist={$dist}");
 
         $model = $this->getModel('Marker');
         $vids  = [$idM];
@@ -37,36 +55,54 @@ class GeofactoryControllerMarker extends BaseController
         $model->init($vids, $idMs, $vDist, 1);
         $content = $model->loadTemplate();
 
-        // Output in modo compatibile con Joomla 4
-        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
-        $app->setBody($content);
-        $app->close();
+        $this->logMessage("Bubble generato con successo (dimensione: " . strlen($content) . " bytes)");
+
+        // Output diretto
+        header('Content-Type: text/html; charset=utf-8');
+        echo $content;
+        exit;
     }
 
-    // Visualizza la bolla per i nuovi Google Place
+    /**
+     * Visualizza la bolla per i nuovi Google Place
+     * 
+     * @return void
+     * @since 1.0
+     */
     public function bubblePl()
     {
         $app  = Factory::getApplication();
         $dist = $app->input->getFloat('dist', -1);
         $idMs = $app->input->getInt('idL', -1);
 
+        $this->logMessage("Richiesta bubblePl per set={$idMs}, dist={$dist}");
+
         $model = $this->getModel('Marker');
         $model->initLt($idMs);
         $content = $model->loadTemplate();
 
-        // Output in modo compatibile con Joomla 4
-        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
-        $app->setBody($content);
-        $app->close();
+        $this->logMessage("BubblePl generato con successo (dimensione: " . strlen($content) . " bytes)");
+
+        // Output diretto
+        header('Content-Type: text/html; charset=utf-8');
+        echo $content;
+        exit;
     }
 
-    // Visualizza un singolo marker
+    /**
+     * Visualizza un singolo marker
+     * 
+     * @return void
+     * @since 1.0
+     */
     public function side()
     {
         $app  = Factory::getApplication();
         $idM  = $app->input->getInt('idU', -1);
         $idMs = $app->input->getInt('idL', -1);
         $dist = $app->input->getFloat('dist', -1);
+
+        $this->logMessage("Richiesta side per marker ID={$idM}, set={$idMs}, dist={$dist}");
 
         $model = $this->getModel('Marker');
         $vids  = [$idM];
@@ -75,18 +111,27 @@ class GeofactoryControllerMarker extends BaseController
         $model->init($vids, $idMs, $vDist, 2);
         $content = $model->loadTemplate();
 
-        // Output in modo compatibile con Joomla 4
-        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
-        $app->setBody($content);
-        $app->close();
+        $this->logMessage("Side marker generato con successo (dimensione: " . strlen($content) . " bytes)");
+
+        // Output diretto
+        header('Content-Type: text/html; charset=utf-8');
+        echo $content;
+        exit;
     }
 
-    // Visualizza tutti i markers in una volta
+    /**
+     * Visualizza tutti i markers in una volta
+     * 
+     * @return void
+     * @since 1.0
+     */
     public function fullSide()
     {
         $app  = Factory::getApplication();
         $json = $app->input->get('idsDists', '', 'STRING');
         $idMs = $app->input->getInt('idL', -1);
+
+        $this->logMessage("Richiesta fullSide per set={$idMs}, idsDists={$json}");
 
         $model  = $this->getModel('Marker');
         $brutes = json_decode($json, true);
@@ -98,6 +143,7 @@ class GeofactoryControllerMarker extends BaseController
         $vIds  = [];
         $vDist = [];
 
+        // Verifica che $brutes sia un array prima di chiamare count()
         if (is_array($brutes) && count($brutes) > 1 && count($brutes) % 2 == 0) {
             $max = count($brutes);
             for ($i = 0; $i < $max; $i++) {
@@ -108,31 +154,51 @@ class GeofactoryControllerMarker extends BaseController
 
             $model->init($vIds, $idMs, $vDist, 2);
             $content = $model->loadTemplate();
+            $this->logMessage("FullSide generato con " . count($vIds) . " markers");
+        } else {
+            $this->logMessage("FullSide: formato dati non valido");
         }
 
-        // Output in modo compatibile con Joomla 4
-        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
-        $app->setBody($content);
-        $app->close();
+        // Output diretto
+        header('Content-Type: text/html; charset=utf-8');
+        echo $content;
+        exit;
     }
 
-    // Visualizza più markers nella stessa posizione (multi-bubble)
+    /**
+     * Visualizza più markers nella stessa posizione (multi-bubble)
+     * 
+     * @return void
+     * @since 1.0
+     */
     public function bubbleMulti()
     {
         $app = Factory::getApplication();
 
         $json = $app->input->get('idsDists', '', 'STRING');
         $idMs = $app->input->getInt('idL', -1);
+        
+        $this->logMessage("Richiesta bubbleMulti per set={$idMs}, idsDists={$json}");
+        
         $model = $this->getModel('Marker');
 
-        $config = ComponentHelper::getParams('com_geofactory');
+        $config = \Joomla\CMS\Component\ComponentHelper::getParams('com_geofactory');
         if ($config->get('multibubble_json') == 1) {
             $brutes = json_decode($json, true);
+            // Verifica che json_decode non abbia fallito, altrimenti fallback a stringa
+            if ($brutes === null) {
+                $brutes = $json;
+                $this->logMessage("JSON decode fallito, usando stringa originale");
+            }
         } else {
             $brutes = $json;
         }
 
-        $brutes = explode(',', $brutes);
+        // Se $brutes è ancora una stringa, facciamo explode
+        if (is_string($brutes)) {
+            $brutes = explode(',', $brutes);
+        }
+        
         $vIds  = [];
         $vDist = [];
 
@@ -140,6 +206,7 @@ class GeofactoryControllerMarker extends BaseController
         $end   = Text::_('COM_GEOFACTORY_AROUND_MULTI_BUBBLE_2');
 
         $content = "";
+        // Verifica che $brutes sia un array prima di chiamare count()
         if (is_array($brutes) && count($brutes) > 1 && count($brutes) % 2 == 0) {
             $max = count($brutes);
             for ($i = 0; $i < $max; $i++) {
@@ -151,17 +218,21 @@ class GeofactoryControllerMarker extends BaseController
             $model->init($vIds, $idMs, $vDist, 1);
             $model->initBubbleMulti($start, $end);
             $content = $model->loadTemplate();
+            $this->logMessage("BubbleMulti generato con " . count($vIds) . " markers");
+        } else {
+            $this->logMessage("BubbleMulti: formato dati non valido");
         }
 
         $titre = Text::_('COM_GEOFACTORY_THEREIS_X_ENTRIES_HERE');
         if (strlen($titre) > 2) {
-            $titre = sprintf($titre, count($vIds));
+            // Garantisce che $vIds sia un array prima di chiamare count()
+            $titre = sprintf($titre, is_array($vIds) ? count($vIds) : 0);
             $content = $titre . $content;
         }
 
-        // Output in modo compatibile con Joomla 4
-        $app->setHeader('Content-Type', 'text/html; charset=utf-8');
-        $app->setBody($content);
-        $app->close();
+        // Output diretto
+        header('Content-Type: text/html; charset=utf-8');
+        echo $content;
+        exit;
     }
 }
