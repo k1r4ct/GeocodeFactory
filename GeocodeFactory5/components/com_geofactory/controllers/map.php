@@ -29,38 +29,34 @@ class GeofactoryControllerMap extends BaseController
 
     public function getJson()
     {
-        // Aggiungi log iniziale
-        error_log('GeocodeFactory Debug: Chiamata a getJson()');
-        
         try {
-            // Recupera l'applicazione
             $app = Factory::getApplication();
             $idMap = $app->input->getInt('idmap', -1);
             
-            error_log('GeocodeFactory Debug: getJson richiesto per la mappa ID=' . $idMap);
+            // Debug file
+            $debug_file = JPATH_ROOT . '/logs/map_debug.log';
+            file_put_contents($debug_file, "Richiesta getJson per idMap={$idMap}\n", FILE_APPEND);
             
-            // Ottieni il modello "Map"
-            error_log('GeocodeFactory Debug: Tentativo di caricamento del modello Map');
             $model = $this->getModel('Map');
-            error_log('GeocodeFactory Debug: Modello Map caricato correttamente');
-            
-            error_log('GeocodeFactory Debug: Chiamata al metodo createfile()');
             $json = $model->createfile($idMap);
-            error_log('GeocodeFactory Debug: Metodo createfile() completato con successo');
             
-            error_log('GeocodeFactory Debug: JSON generato con successo, lunghezza=' . strlen($json));
+            // Salva il JSON generato per debug
+            file_put_contents($debug_file, "JSON generato:\n{$json}\n\n", FILE_APPEND);
             
-            // Output del JSON in modo compatibile con Joomla 4
-            error_log('GeocodeFactory Debug: Impostazione header Content-Type');
-            $app->setHeader('Content-Type', 'application/json');
-            error_log('GeocodeFactory Debug: Impostazione body');
-            $app->setBody($json);
-            error_log('GeocodeFactory Debug: Chiusura applicazione');
-            $app->close();
-            error_log('GeocodeFactory Debug: Applicazione chiusa');
+            // Invia output diretto invece di usare setBody
+            header('Content-Type: application/json');
+            echo $json;
+            exit;
+            
         } catch (Exception $e) {
-            error_log('GeocodeFactory Debug: Errore in getJson(): ' . $e->getMessage());
-            throw $e;
+            // Log dell'errore
+            $debug_file = JPATH_ROOT . '/logs/map_debug.log';
+            file_put_contents($debug_file, "ERRORE: " . $e->getMessage() . "\n", FILE_APPEND);
+            
+            header('HTTP/1.1 500 Internal Server Error');
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $e->getMessage()]);
+            exit;
         }
     }
 
