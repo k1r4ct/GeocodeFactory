@@ -43,7 +43,7 @@ class GeofactoryControllerMap extends BaseController
     {
         try {
             $app = Factory::getApplication();
-            $idMap = $app->input->getInt('idmap', 1);
+            $idMap = $app->input->getInt('idmap', -1);
             
             $this->logMessage("Richiesta getJson per idMap={$idMap}");
             

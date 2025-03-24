@@ -17,6 +17,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
+
 /**
  * Controller per la gestione dei marker
  *
@@ -59,6 +60,7 @@ class GeofactoryControllerMarkers extends BaseController
      */
     public function getJson()
     {
+        try {
         // Ottieni i dati essenziali
         $app   = Factory::getApplication();
         $idMap = $app->input->getInt('idmap', -1);
@@ -66,6 +68,15 @@ class GeofactoryControllerMarkers extends BaseController
         // Log della richiesta
         $request_uri = $_SERVER['REQUEST_URI'] ?? 'Richiesta senza URI';
         $this->logMessage("Richiesta: {$request_uri}");
+
+        $this->logMessage("1: {$idMap}");
+        $lkasdj = gettype($idMap);
+        $this->logMessage("2: {$lkasdj}");
+        $ofdisf = $idMap < 1;
+        $this->logMessage("3: {$ofdisf}");
+        $oaiduosud = gettype($ofdisf);
+        $this->logMessage("4: {$oaiduosud}");
+       
         
         // Verifica che l'ID mappa sia valido
         if ($idMap < 1) {
@@ -77,10 +88,11 @@ class GeofactoryControllerMarkers extends BaseController
         }
         
         // Recupera il modello e genera il JSON
-        try {
+        //try {
             $model = $this->getModel('Markers');
+            $this->logMessage("5: {$request_uri}");
             $json  = $model->createfile($idMap, 'json');
-            
+            $this->logMessage("6: {$request_uri}");
             // Verifica che il risultato sia valido
             if (empty($json)) {
                 $this->logMessage("Errore: Nessun dato disponibile per la mappa {$idMap}");

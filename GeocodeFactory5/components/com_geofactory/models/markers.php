@@ -102,6 +102,11 @@ class GeofactoryModelMarkers extends ItemModel
      */
     protected $m_vpCalc = null;
 
+    public function getItem($pk=null){
+        
+        return null;
+    }
+
     /**
      * Crea il file dei markers (XML o JSON)
      *
@@ -112,6 +117,7 @@ class GeofactoryModelMarkers extends ItemModel
      */
     public function createfile($idMap, $out)
     {
+   
         // Ottieni l'utente corrente
         $my = Factory::getUser();
         $this->m_idCurUser = $my->id;
@@ -128,10 +134,13 @@ class GeofactoryModelMarkers extends ItemModel
 
         // Carica la mappa e i markerset collegati
         try {
+            var_dump($map);
+            die();
             $map = GeofactoryHelper::getMap($idMap);
             if (!$map) {
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MAP_NOT_FOUND'), 404);
             }
+            
             
             $ms = GeofactoryHelper::getArrayIdMs($idMap);
             $data = $this->_createDataFile($out, $ms, $map);
@@ -155,6 +164,8 @@ class GeofactoryModelMarkers extends ItemModel
             return $data;
             
         } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            die();
             Log::add('Errore in createfile: ' . $e->getMessage(), Log::ERROR, 'geofactory');
             throw $e;
         }
