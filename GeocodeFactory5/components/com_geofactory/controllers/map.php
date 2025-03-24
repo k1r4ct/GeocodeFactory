@@ -31,7 +31,7 @@ class GeofactoryControllerMap extends BaseController
     {
         try {
             $app = Factory::getApplication();
-            $idMap = $app->input->getInt('idmap', -1);
+            $idMap = $app->input->getInt('idmap', 1);
             
             // Debug file
             $debug_file = JPATH_ROOT . '/logs/map_debug.log';
@@ -39,8 +39,6 @@ class GeofactoryControllerMap extends BaseController
             
             $model = $this->getModel('Map');
             $json = $model->createfile($idMap);
-            
-            // Salva il JSON generato per debug
             file_put_contents($debug_file, "JSON generato:\n{$json}\n\n", FILE_APPEND);
             
             // Invia output diretto invece di usare setBody
