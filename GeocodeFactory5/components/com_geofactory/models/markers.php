@@ -23,9 +23,6 @@ use Joomla\Event\Event;
 use Joomla\Event\DispatcherInterface;
 
 
-require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactory.php';
-
-
 // Funzioni di ordinamento per gli array di markers
 if (!function_exists('orderUser')) {
     /**
@@ -235,6 +232,7 @@ class GeofactoryModelMarkers extends ItemModel
 
                 // Carica il markerset
                 $objMs = GeofactoryHelper::getMs($idMs);
+                
                 if (!$objMs) {
                     $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_PLUGIN') . $idMs;
                     continue;
@@ -249,6 +247,7 @@ class GeofactoryModelMarkers extends ItemModel
                 $zIdx++;
                 $queryForMsg = "";
                 $msDb = $this->_getDataFromMsDb($objMs, $queryForMsg);
+
 
                 // Debug info
                 if (GeofactoryHelper::isDebugMode()) {
@@ -1070,7 +1069,7 @@ class GeofactoryModelMarkers extends ItemModel
             $evAllSub = new Event('onGetAllSubCats', [
                 'typeList'    => $oMs->typeList,
                 'catList'     => &$vTmp,
-                'idTopParent' => &$idTopParent
+                'idTopCategory' => &$idTopParent
             ]);
             $dispatcher->dispatch('onGetAllSubCats', $evAllSub);
 

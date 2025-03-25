@@ -17,6 +17,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
+require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactory.php';
 
 /**
  * Controller per la gestione dei marker
