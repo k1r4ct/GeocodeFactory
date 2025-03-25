@@ -1,0 +1,27 @@
+{
+"ehins_geofactory_ggmaps": [
+	{
+		"id" : 1,
+		"name" : "Agenzie",
+		"alias" : "agenzie",
+		"template" : "<div class=\"size-63\" style=\"display:inline-block;vertical-align: top;\">\r\n  {map}\r\n<\/div>\t\r\n<div class=\"size-34\" style=\"display:inline-block\">\r\n   {sidebar}\r\n<\/div>\r\n\r\n",
+		"extrainfo" : "",
+		"mapwidth" : "width: 100 %",
+		"mapheight" : "height: 500 px",
+		"totalmarkers" : 0,
+		"centerlat" : "41.90278349999999",
+		"centerlng" : "12.496365500000024",
+		"state" : 1,
+		"language" : "*",
+		"checked_out" : 0,
+		"checked_out_time" : null,
+		"params_map_cluster" : "{\"useCluster\":\"0\",\"clusterZoom\":\"10\",\"gridSize\":\"\",\"imagePath\":\"\",\"imageSizes\":\"\",\"minimumClusterSize\":\"\"}",
+		"params_map_radius" : "{\"drawCircle\":\"0\",\"dynRadDistMax\":\"\",\"frontDistSelect\":\"10,20,50,100,200\",\"fe_rad_unit\":\"0\",\"radFormMode\":\"1\",\"radFormSnipet\":\"<div class=\\\"g-container\\\">\\r\\n  <div class=\\\"g-grid\\\">\\r\\n    <div class=\\\"g-block size-80\\\">\\r\\n      [input_center]\\r\\n    <\\\/div>\\r\\n    <div class=\\\"g-block size-10\\\">\\r\\n      [distance_sel]\\r\\n    <\\\/div>\\r\\n    <div class=\\\"g-block size-10\\\">\\r\\n      [search_btn]\\r\\n    <\\\/div>    \\r\\n  <\\\/div>\\r\\n<\\\/div>\",\"acCountry\":\"IT\",\"acTypes\":\"0\",\"useBrowserRadLoad\":\"0\"}",
+		"params_additional_data" : "{\"kml_file\":\"\",\"level1\":\"\",\"level2\":\"\",\"level3\":\"\",\"level4\":\"\",\"level5\":\"\",\"level6\":\"\"}",
+		"params_map_types" : "{\"mapControl\":\"0\",\"mapTypeBar\":\"DROPDOWN_MENU\",\"mapTypeOnStart\":\"ROADMAP\",\"tiles\":\"\"}",
+		"params_map_controls" : "{\"templateAuto\":\"0\",\"centerUser\":\"3\",\"mapsZoom\":\"14\",\"minZoom\":\"1\",\"maxZoom\":\"18\",\"mapTypeControl\":\"DEFAULT\",\"pegman\":\"1\",\"scaleControl\":\"1\",\"rotateControl\":\"1\",\"overviewMapControl\":\"1\"}",
+		"params_map_settings" : "{\"allowDbl\":\"2\",\"randomMarkers\":\"0\",\"cleanLoad\":\"0\",\"useRoutePlaner\":\"0\",\"useTabs\":\"0\",\"cacheTime\":\"0\",\"mapStyle\":\"\",\"cssMap\":\"\"}",
+		"params_map_mouse" : "{\"doubleClickZoom\":\"1\",\"wheelZoom\":\"1\",\"bubbleOnOver\":\"0\",\"clickRadius\":\"0\",\"salesRadMode\":\"0\",\"trackOnOver\":\"0\",\"trackZoom\":\"1\"}",
+		"params_extra" : ""
+	}
+]}

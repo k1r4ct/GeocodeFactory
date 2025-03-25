@@ -1,0 +1,7907 @@
+{
+"ehins_geofactory_contents": [
+	{
+		"id" : 1,
+		"type" : "com_content",
+		"id_content" : 34,
+		"address" : "",
+		"latitude" : "0",
+		"longitude" : "0"
+	},
+	{
+		"id" : 2,
+		"type" : "com_content",
+		"id_content" : 1112,
+		"address" : "Como, CO, Italia",
+		"latitude" : "45.8080597",
+		"longitude" : "9.0851765"
+	},
+	{
+		"id" : 3,
+		"type" : "com_content",
+		"id_content" : 1113,
+		"address" : "Borgoricco, PD, Veneto, Italia",
+		"latitude" : "45.5308712",
+		"longitude" : "11.9648136"
+	},
+	{
+		"id" : 4,
+		"type" : "com_content",
+		"id_content" : 1114,
+		"address" : "Lonate Pozzolo, VA, Lombardia, Italia",
+		"latitude" : "45.5993133",
+		"longitude" : "8.753802"
+	},
+	{
+		"id" : 5,
+		"type" : "com_content",
+		"id_content" : 11,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 6,
+		"type" : "com_content",
+		"id_content" : 12,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 7,
+		"type" : "com_content",
+		"id_content" : 21,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 8,
+		"type" : "com_content",
+		"id_content" : 23,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 9,
+		"type" : "com_content",
+		"id_content" : 24,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 10,
+		"type" : "com_content",
+		"id_content" : 41,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 11,
+		"type" : "com_content",
+		"id_content" : 42,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 12,
+		"type" : "com_content",
+		"id_content" : 49,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 13,
+		"type" : "com_content",
+		"id_content" : 55,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 14,
+		"type" : "com_content",
+		"id_content" : 56,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 15,
+		"type" : "com_content",
+		"id_content" : 57,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 16,
+		"type" : "com_content",
+		"id_content" : 63,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 17,
+		"type" : "com_content",
+		"id_content" : 64,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 18,
+		"type" : "com_content",
+		"id_content" : 73,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 19,
+		"type" : "com_content",
+		"id_content" : 83,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 20,
+		"type" : "com_content",
+		"id_content" : 96,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 21,
+		"type" : "com_content",
+		"id_content" : 105,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 22,
+		"type" : "com_content",
+		"id_content" : 106,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 23,
+		"type" : "com_content",
+		"id_content" : 113,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 24,
+		"type" : "com_content",
+		"id_content" : 120,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 25,
+		"type" : "com_content",
+		"id_content" : 123,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 26,
+		"type" : "com_content",
+		"id_content" : 138,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 27,
+		"type" : "com_content",
+		"id_content" : 146,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 28,
+		"type" : "com_content",
+		"id_content" : 149,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 29,
+		"type" : "com_content",
+		"id_content" : 150,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 30,
+		"type" : "com_content",
+		"id_content" : 160,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 31,
+		"type" : "com_content",
+		"id_content" : 161,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 32,
+		"type" : "com_content",
+		"id_content" : 175,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 33,
+		"type" : "com_content",
+		"id_content" : 176,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 34,
+		"type" : "com_content",
+		"id_content" : 196,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 35,
+		"type" : "com_content",
+		"id_content" : 197,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 36,
+		"type" : "com_content",
+		"id_content" : 202,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 37,
+		"type" : "com_content",
+		"id_content" : 204,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 38,
+		"type" : "com_content",
+		"id_content" : 206,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 39,
+		"type" : "com_content",
+		"id_content" : 211,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 40,
+		"type" : "com_content",
+		"id_content" : 216,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 41,
+		"type" : "com_content",
+		"id_content" : 237,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 42,
+		"type" : "com_content",
+		"id_content" : 239,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 43,
+		"type" : "com_content",
+		"id_content" : 240,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 44,
+		"type" : "com_content",
+		"id_content" : 241,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 45,
+		"type" : "com_content",
+		"id_content" : 244,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 46,
+		"type" : "com_content",
+		"id_content" : 246,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 47,
+		"type" : "com_content",
+		"id_content" : 252,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 48,
+		"type" : "com_content",
+		"id_content" : 255,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 49,
+		"type" : "com_content",
+		"id_content" : 259,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 50,
+		"type" : "com_content",
+		"id_content" : 263,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 51,
+		"type" : "com_content",
+		"id_content" : 268,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 52,
+		"type" : "com_content",
+		"id_content" : 269,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 53,
+		"type" : "com_content",
+		"id_content" : 271,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 54,
+		"type" : "com_content",
+		"id_content" : 275,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 55,
+		"type" : "com_content",
+		"id_content" : 290,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 56,
+		"type" : "com_content",
+		"id_content" : 292,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 57,
+		"type" : "com_content",
+		"id_content" : 304,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 58,
+		"type" : "com_content",
+		"id_content" : 306,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 59,
+		"type" : "com_content",
+		"id_content" : 309,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 60,
+		"type" : "com_content",
+		"id_content" : 322,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 61,
+		"type" : "com_content",
+		"id_content" : 325,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 62,
+		"type" : "com_content",
+		"id_content" : 326,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 63,
+		"type" : "com_content",
+		"id_content" : 329,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 64,
+		"type" : "com_content",
+		"id_content" : 331,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 65,
+		"type" : "com_content",
+		"id_content" : 341,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 66,
+		"type" : "com_content",
+		"id_content" : 345,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 67,
+		"type" : "com_content",
+		"id_content" : 349,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 68,
+		"type" : "com_content",
+		"id_content" : 352,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 69,
+		"type" : "com_content",
+		"id_content" : 366,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 70,
+		"type" : "com_content",
+		"id_content" : 371,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 71,
+		"type" : "com_content",
+		"id_content" : 372,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 72,
+		"type" : "com_content",
+		"id_content" : 384,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 73,
+		"type" : "com_content",
+		"id_content" : 415,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 74,
+		"type" : "com_content",
+		"id_content" : 425,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 75,
+		"type" : "com_content",
+		"id_content" : 427,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 76,
+		"type" : "com_content",
+		"id_content" : 432,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 77,
+		"type" : "com_content",
+		"id_content" : 434,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 78,
+		"type" : "com_content",
+		"id_content" : 439,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 79,
+		"type" : "com_content",
+		"id_content" : 448,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 80,
+		"type" : "com_content",
+		"id_content" : 451,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 81,
+		"type" : "com_content",
+		"id_content" : 454,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 82,
+		"type" : "com_content",
+		"id_content" : 467,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 83,
+		"type" : "com_content",
+		"id_content" : 468,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 84,
+		"type" : "com_content",
+		"id_content" : 469,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 85,
+		"type" : "com_content",
+		"id_content" : 473,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 86,
+		"type" : "com_content",
+		"id_content" : 477,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 87,
+		"type" : "com_content",
+		"id_content" : 478,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 88,
+		"type" : "com_content",
+		"id_content" : 479,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 89,
+		"type" : "com_content",
+		"id_content" : 512,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 90,
+		"type" : "com_content",
+		"id_content" : 517,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 91,
+		"type" : "com_content",
+		"id_content" : 527,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 92,
+		"type" : "com_content",
+		"id_content" : 533,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 93,
+		"type" : "com_content",
+		"id_content" : 534,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 94,
+		"type" : "com_content",
+		"id_content" : 535,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 95,
+		"type" : "com_content",
+		"id_content" : 568,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 96,
+		"type" : "com_content",
+		"id_content" : 579,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 97,
+		"type" : "com_content",
+		"id_content" : 591,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 98,
+		"type" : "com_content",
+		"id_content" : 593,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 99,
+		"type" : "com_content",
+		"id_content" : 606,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 100,
+		"type" : "com_content",
+		"id_content" : 610,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 101,
+		"type" : "com_content",
+		"id_content" : 622,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 102,
+		"type" : "com_content",
+		"id_content" : 623,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 103,
+		"type" : "com_content",
+		"id_content" : 624,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 104,
+		"type" : "com_content",
+		"id_content" : 625,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 105,
+		"type" : "com_content",
+		"id_content" : 628,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 106,
+		"type" : "com_content",
+		"id_content" : 630,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 107,
+		"type" : "com_content",
+		"id_content" : 631,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 108,
+		"type" : "com_content",
+		"id_content" : 635,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 109,
+		"type" : "com_content",
+		"id_content" : 637,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 110,
+		"type" : "com_content",
+		"id_content" : 638,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 111,
+		"type" : "com_content",
+		"id_content" : 640,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 112,
+		"type" : "com_content",
+		"id_content" : 647,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 113,
+		"type" : "com_content",
+		"id_content" : 713,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 114,
+		"type" : "com_content",
+		"id_content" : 716,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 115,
+		"type" : "com_content",
+		"id_content" : 725,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 116,
+		"type" : "com_content",
+		"id_content" : 729,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 117,
+		"type" : "com_content",
+		"id_content" : 772,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 118,
+		"type" : "com_content",
+		"id_content" : 773,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 119,
+		"type" : "com_content",
+		"id_content" : 779,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 120,
+		"type" : "com_content",
+		"id_content" : 780,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 121,
+		"type" : "com_content",
+		"id_content" : 783,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 122,
+		"type" : "com_content",
+		"id_content" : 888,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 123,
+		"type" : "com_content",
+		"id_content" : 956,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 124,
+		"type" : "com_content",
+		"id_content" : 8,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 125,
+		"type" : "com_content",
+		"id_content" : 9,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 126,
+		"type" : "com_content",
+		"id_content" : 10,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 127,
+		"type" : "com_content",
+		"id_content" : 13,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 128,
+		"type" : "com_content",
+		"id_content" : 14,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 129,
+		"type" : "com_content",
+		"id_content" : 15,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 130,
+		"type" : "com_content",
+		"id_content" : 16,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 131,
+		"type" : "com_content",
+		"id_content" : 17,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 132,
+		"type" : "com_content",
+		"id_content" : 18,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 133,
+		"type" : "com_content",
+		"id_content" : 19,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 134,
+		"type" : "com_content",
+		"id_content" : 20,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 135,
+		"type" : "com_content",
+		"id_content" : 22,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 136,
+		"type" : "com_content",
+		"id_content" : 25,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 137,
+		"type" : "com_content",
+		"id_content" : 26,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 138,
+		"type" : "com_content",
+		"id_content" : 27,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 139,
+		"type" : "com_content",
+		"id_content" : 28,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 140,
+		"type" : "com_content",
+		"id_content" : 29,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 141,
+		"type" : "com_content",
+		"id_content" : 30,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 142,
+		"type" : "com_content",
+		"id_content" : 31,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 143,
+		"type" : "com_content",
+		"id_content" : 32,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 144,
+		"type" : "com_content",
+		"id_content" : 33,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 145,
+		"type" : "com_content",
+		"id_content" : 35,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 146,
+		"type" : "com_content",
+		"id_content" : 36,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 147,
+		"type" : "com_content",
+		"id_content" : 37,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 148,
+		"type" : "com_content",
+		"id_content" : 38,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 149,
+		"type" : "com_content",
+		"id_content" : 39,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 150,
+		"type" : "com_content",
+		"id_content" : 40,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 151,
+		"type" : "com_content",
+		"id_content" : 48,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 152,
+		"type" : "com_content",
+		"id_content" : 50,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 153,
+		"type" : "com_content",
+		"id_content" : 51,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 154,
+		"type" : "com_content",
+		"id_content" : 52,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 155,
+		"type" : "com_content",
+		"id_content" : 53,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 156,
+		"type" : "com_content",
+		"id_content" : 54,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 157,
+		"type" : "com_content",
+		"id_content" : 61,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 158,
+		"type" : "com_content",
+		"id_content" : 62,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 159,
+		"type" : "com_content",
+		"id_content" : 66,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 160,
+		"type" : "com_content",
+		"id_content" : 67,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 161,
+		"type" : "com_content",
+		"id_content" : 68,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 162,
+		"type" : "com_content",
+		"id_content" : 70,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 163,
+		"type" : "com_content",
+		"id_content" : 71,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 164,
+		"type" : "com_content",
+		"id_content" : 72,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 165,
+		"type" : "com_content",
+		"id_content" : 74,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 166,
+		"type" : "com_content",
+		"id_content" : 76,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 167,
+		"type" : "com_content",
+		"id_content" : 77,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 168,
+		"type" : "com_content",
+		"id_content" : 78,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 169,
+		"type" : "com_content",
+		"id_content" : 79,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 170,
+		"type" : "com_content",
+		"id_content" : 80,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 171,
+		"type" : "com_content",
+		"id_content" : 81,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 172,
+		"type" : "com_content",
+		"id_content" : 82,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 173,
+		"type" : "com_content",
+		"id_content" : 84,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 174,
+		"type" : "com_content",
+		"id_content" : 85,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 175,
+		"type" : "com_content",
+		"id_content" : 86,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 176,
+		"type" : "com_content",
+		"id_content" : 88,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 177,
+		"type" : "com_content",
+		"id_content" : 89,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 178,
+		"type" : "com_content",
+		"id_content" : 90,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 179,
+		"type" : "com_content",
+		"id_content" : 91,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 180,
+		"type" : "com_content",
+		"id_content" : 92,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 181,
+		"type" : "com_content",
+		"id_content" : 94,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 182,
+		"type" : "com_content",
+		"id_content" : 95,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 183,
+		"type" : "com_content",
+		"id_content" : 97,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 184,
+		"type" : "com_content",
+		"id_content" : 98,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 185,
+		"type" : "com_content",
+		"id_content" : 99,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 186,
+		"type" : "com_content",
+		"id_content" : 100,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 187,
+		"type" : "com_content",
+		"id_content" : 102,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 188,
+		"type" : "com_content",
+		"id_content" : 103,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 189,
+		"type" : "com_content",
+		"id_content" : 104,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 190,
+		"type" : "com_content",
+		"id_content" : 107,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 191,
+		"type" : "com_content",
+		"id_content" : 108,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 192,
+		"type" : "com_content",
+		"id_content" : 109,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 193,
+		"type" : "com_content",
+		"id_content" : 110,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 194,
+		"type" : "com_content",
+		"id_content" : 111,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 195,
+		"type" : "com_content",
+		"id_content" : 112,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 196,
+		"type" : "com_content",
+		"id_content" : 114,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 197,
+		"type" : "com_content",
+		"id_content" : 115,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 198,
+		"type" : "com_content",
+		"id_content" : 116,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 199,
+		"type" : "com_content",
+		"id_content" : 117,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 200,
+		"type" : "com_content",
+		"id_content" : 118,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 201,
+		"type" : "com_content",
+		"id_content" : 119,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 202,
+		"type" : "com_content",
+		"id_content" : 121,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 203,
+		"type" : "com_content",
+		"id_content" : 122,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 204,
+		"type" : "com_content",
+		"id_content" : 124,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 205,
+		"type" : "com_content",
+		"id_content" : 125,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 206,
+		"type" : "com_content",
+		"id_content" : 126,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 207,
+		"type" : "com_content",
+		"id_content" : 127,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 208,
+		"type" : "com_content",
+		"id_content" : 128,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 209,
+		"type" : "com_content",
+		"id_content" : 129,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 210,
+		"type" : "com_content",
+		"id_content" : 130,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 211,
+		"type" : "com_content",
+		"id_content" : 131,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 212,
+		"type" : "com_content",
+		"id_content" : 132,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 213,
+		"type" : "com_content",
+		"id_content" : 133,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 214,
+		"type" : "com_content",
+		"id_content" : 134,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 215,
+		"type" : "com_content",
+		"id_content" : 135,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 216,
+		"type" : "com_content",
+		"id_content" : 136,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 217,
+		"type" : "com_content",
+		"id_content" : 137,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 218,
+		"type" : "com_content",
+		"id_content" : 139,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 219,
+		"type" : "com_content",
+		"id_content" : 140,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 220,
+		"type" : "com_content",
+		"id_content" : 141,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 221,
+		"type" : "com_content",
+		"id_content" : 142,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 222,
+		"type" : "com_content",
+		"id_content" : 143,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 223,
+		"type" : "com_content",
+		"id_content" : 144,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 224,
+		"type" : "com_content",
+		"id_content" : 145,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 225,
+		"type" : "com_content",
+		"id_content" : 148,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 226,
+		"type" : "com_content",
+		"id_content" : 151,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 227,
+		"type" : "com_content",
+		"id_content" : 152,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 228,
+		"type" : "com_content",
+		"id_content" : 153,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 229,
+		"type" : "com_content",
+		"id_content" : 154,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 230,
+		"type" : "com_content",
+		"id_content" : 155,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 231,
+		"type" : "com_content",
+		"id_content" : 156,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 232,
+		"type" : "com_content",
+		"id_content" : 157,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 233,
+		"type" : "com_content",
+		"id_content" : 158,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 234,
+		"type" : "com_content",
+		"id_content" : 159,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 235,
+		"type" : "com_content",
+		"id_content" : 162,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 236,
+		"type" : "com_content",
+		"id_content" : 163,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 237,
+		"type" : "com_content",
+		"id_content" : 164,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 238,
+		"type" : "com_content",
+		"id_content" : 165,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 239,
+		"type" : "com_content",
+		"id_content" : 166,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 240,
+		"type" : "com_content",
+		"id_content" : 167,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 241,
+		"type" : "com_content",
+		"id_content" : 168,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 242,
+		"type" : "com_content",
+		"id_content" : 169,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 243,
+		"type" : "com_content",
+		"id_content" : 170,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 244,
+		"type" : "com_content",
+		"id_content" : 171,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 245,
+		"type" : "com_content",
+		"id_content" : 172,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 246,
+		"type" : "com_content",
+		"id_content" : 173,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 247,
+		"type" : "com_content",
+		"id_content" : 174,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 248,
+		"type" : "com_content",
+		"id_content" : 177,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 249,
+		"type" : "com_content",
+		"id_content" : 178,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 250,
+		"type" : "com_content",
+		"id_content" : 179,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 251,
+		"type" : "com_content",
+		"id_content" : 180,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 252,
+		"type" : "com_content",
+		"id_content" : 181,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 253,
+		"type" : "com_content",
+		"id_content" : 182,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 254,
+		"type" : "com_content",
+		"id_content" : 183,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 255,
+		"type" : "com_content",
+		"id_content" : 184,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 256,
+		"type" : "com_content",
+		"id_content" : 185,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 257,
+		"type" : "com_content",
+		"id_content" : 186,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 258,
+		"type" : "com_content",
+		"id_content" : 187,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 259,
+		"type" : "com_content",
+		"id_content" : 188,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 260,
+		"type" : "com_content",
+		"id_content" : 189,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 261,
+		"type" : "com_content",
+		"id_content" : 190,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 262,
+		"type" : "com_content",
+		"id_content" : 191,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 263,
+		"type" : "com_content",
+		"id_content" : 192,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 264,
+		"type" : "com_content",
+		"id_content" : 193,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 265,
+		"type" : "com_content",
+		"id_content" : 194,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 266,
+		"type" : "com_content",
+		"id_content" : 195,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 267,
+		"type" : "com_content",
+		"id_content" : 198,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 268,
+		"type" : "com_content",
+		"id_content" : 199,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 269,
+		"type" : "com_content",
+		"id_content" : 200,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 270,
+		"type" : "com_content",
+		"id_content" : 201,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 271,
+		"type" : "com_content",
+		"id_content" : 203,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 272,
+		"type" : "com_content",
+		"id_content" : 205,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 273,
+		"type" : "com_content",
+		"id_content" : 207,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 274,
+		"type" : "com_content",
+		"id_content" : 208,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 275,
+		"type" : "com_content",
+		"id_content" : 210,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 276,
+		"type" : "com_content",
+		"id_content" : 212,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 277,
+		"type" : "com_content",
+		"id_content" : 213,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 278,
+		"type" : "com_content",
+		"id_content" : 214,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 279,
+		"type" : "com_content",
+		"id_content" : 215,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 280,
+		"type" : "com_content",
+		"id_content" : 220,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 281,
+		"type" : "com_content",
+		"id_content" : 221,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 282,
+		"type" : "com_content",
+		"id_content" : 222,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 283,
+		"type" : "com_content",
+		"id_content" : 223,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 284,
+		"type" : "com_content",
+		"id_content" : 224,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 285,
+		"type" : "com_content",
+		"id_content" : 225,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 286,
+		"type" : "com_content",
+		"id_content" : 226,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 287,
+		"type" : "com_content",
+		"id_content" : 227,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 288,
+		"type" : "com_content",
+		"id_content" : 228,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 289,
+		"type" : "com_content",
+		"id_content" : 229,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 290,
+		"type" : "com_content",
+		"id_content" : 230,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 291,
+		"type" : "com_content",
+		"id_content" : 231,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 292,
+		"type" : "com_content",
+		"id_content" : 232,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 293,
+		"type" : "com_content",
+		"id_content" : 233,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 294,
+		"type" : "com_content",
+		"id_content" : 234,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 295,
+		"type" : "com_content",
+		"id_content" : 235,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 296,
+		"type" : "com_content",
+		"id_content" : 238,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 297,
+		"type" : "com_content",
+		"id_content" : 243,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 298,
+		"type" : "com_content",
+		"id_content" : 245,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 299,
+		"type" : "com_content",
+		"id_content" : 247,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 300,
+		"type" : "com_content",
+		"id_content" : 248,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 301,
+		"type" : "com_content",
+		"id_content" : 249,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 302,
+		"type" : "com_content",
+		"id_content" : 250,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 303,
+		"type" : "com_content",
+		"id_content" : 251,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 304,
+		"type" : "com_content",
+		"id_content" : 253,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 305,
+		"type" : "com_content",
+		"id_content" : 254,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 306,
+		"type" : "com_content",
+		"id_content" : 257,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 307,
+		"type" : "com_content",
+		"id_content" : 258,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 308,
+		"type" : "com_content",
+		"id_content" : 261,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 309,
+		"type" : "com_content",
+		"id_content" : 262,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 310,
+		"type" : "com_content",
+		"id_content" : 264,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 311,
+		"type" : "com_content",
+		"id_content" : 265,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 312,
+		"type" : "com_content",
+		"id_content" : 266,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 313,
+		"type" : "com_content",
+		"id_content" : 267,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 314,
+		"type" : "com_content",
+		"id_content" : 270,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 315,
+		"type" : "com_content",
+		"id_content" : 272,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 316,
+		"type" : "com_content",
+		"id_content" : 273,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 317,
+		"type" : "com_content",
+		"id_content" : 274,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 318,
+		"type" : "com_content",
+		"id_content" : 277,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 319,
+		"type" : "com_content",
+		"id_content" : 278,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 320,
+		"type" : "com_content",
+		"id_content" : 280,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 321,
+		"type" : "com_content",
+		"id_content" : 283,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 322,
+		"type" : "com_content",
+		"id_content" : 285,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 323,
+		"type" : "com_content",
+		"id_content" : 286,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 324,
+		"type" : "com_content",
+		"id_content" : 287,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 325,
+		"type" : "com_content",
+		"id_content" : 289,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 326,
+		"type" : "com_content",
+		"id_content" : 291,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 327,
+		"type" : "com_content",
+		"id_content" : 293,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 328,
+		"type" : "com_content",
+		"id_content" : 294,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 329,
+		"type" : "com_content",
+		"id_content" : 295,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 330,
+		"type" : "com_content",
+		"id_content" : 296,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 331,
+		"type" : "com_content",
+		"id_content" : 299,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 332,
+		"type" : "com_content",
+		"id_content" : 300,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 333,
+		"type" : "com_content",
+		"id_content" : 301,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 334,
+		"type" : "com_content",
+		"id_content" : 302,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 335,
+		"type" : "com_content",
+		"id_content" : 303,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 336,
+		"type" : "com_content",
+		"id_content" : 307,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 337,
+		"type" : "com_content",
+		"id_content" : 310,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 338,
+		"type" : "com_content",
+		"id_content" : 311,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 339,
+		"type" : "com_content",
+		"id_content" : 312,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 340,
+		"type" : "com_content",
+		"id_content" : 313,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 341,
+		"type" : "com_content",
+		"id_content" : 314,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 342,
+		"type" : "com_content",
+		"id_content" : 315,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 343,
+		"type" : "com_content",
+		"id_content" : 316,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 344,
+		"type" : "com_content",
+		"id_content" : 317,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 345,
+		"type" : "com_content",
+		"id_content" : 318,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 346,
+		"type" : "com_content",
+		"id_content" : 319,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 347,
+		"type" : "com_content",
+		"id_content" : 320,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 348,
+		"type" : "com_content",
+		"id_content" : 321,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 349,
+		"type" : "com_content",
+		"id_content" : 323,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 350,
+		"type" : "com_content",
+		"id_content" : 324,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 351,
+		"type" : "com_content",
+		"id_content" : 327,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 352,
+		"type" : "com_content",
+		"id_content" : 328,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 353,
+		"type" : "com_content",
+		"id_content" : 330,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 354,
+		"type" : "com_content",
+		"id_content" : 333,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 355,
+		"type" : "com_content",
+		"id_content" : 334,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 356,
+		"type" : "com_content",
+		"id_content" : 335,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 357,
+		"type" : "com_content",
+		"id_content" : 336,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 358,
+		"type" : "com_content",
+		"id_content" : 337,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 359,
+		"type" : "com_content",
+		"id_content" : 340,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 360,
+		"type" : "com_content",
+		"id_content" : 342,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 361,
+		"type" : "com_content",
+		"id_content" : 343,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 362,
+		"type" : "com_content",
+		"id_content" : 344,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 363,
+		"type" : "com_content",
+		"id_content" : 346,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 364,
+		"type" : "com_content",
+		"id_content" : 347,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 365,
+		"type" : "com_content",
+		"id_content" : 348,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 366,
+		"type" : "com_content",
+		"id_content" : 350,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 367,
+		"type" : "com_content",
+		"id_content" : 351,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 368,
+		"type" : "com_content",
+		"id_content" : 353,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 369,
+		"type" : "com_content",
+		"id_content" : 354,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 370,
+		"type" : "com_content",
+		"id_content" : 355,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 371,
+		"type" : "com_content",
+		"id_content" : 356,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 372,
+		"type" : "com_content",
+		"id_content" : 357,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 373,
+		"type" : "com_content",
+		"id_content" : 358,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 374,
+		"type" : "com_content",
+		"id_content" : 359,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 375,
+		"type" : "com_content",
+		"id_content" : 360,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 376,
+		"type" : "com_content",
+		"id_content" : 361,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 377,
+		"type" : "com_content",
+		"id_content" : 362,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 378,
+		"type" : "com_content",
+		"id_content" : 363,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 379,
+		"type" : "com_content",
+		"id_content" : 364,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 380,
+		"type" : "com_content",
+		"id_content" : 365,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 381,
+		"type" : "com_content",
+		"id_content" : 367,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 382,
+		"type" : "com_content",
+		"id_content" : 368,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 383,
+		"type" : "com_content",
+		"id_content" : 369,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 384,
+		"type" : "com_content",
+		"id_content" : 370,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 385,
+		"type" : "com_content",
+		"id_content" : 373,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 386,
+		"type" : "com_content",
+		"id_content" : 374,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 387,
+		"type" : "com_content",
+		"id_content" : 375,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 388,
+		"type" : "com_content",
+		"id_content" : 376,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 389,
+		"type" : "com_content",
+		"id_content" : 377,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 390,
+		"type" : "com_content",
+		"id_content" : 378,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 391,
+		"type" : "com_content",
+		"id_content" : 379,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 392,
+		"type" : "com_content",
+		"id_content" : 380,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 393,
+		"type" : "com_content",
+		"id_content" : 381,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 394,
+		"type" : "com_content",
+		"id_content" : 382,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 395,
+		"type" : "com_content",
+		"id_content" : 383,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 396,
+		"type" : "com_content",
+		"id_content" : 385,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 397,
+		"type" : "com_content",
+		"id_content" : 386,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 398,
+		"type" : "com_content",
+		"id_content" : 387,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 399,
+		"type" : "com_content",
+		"id_content" : 388,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 400,
+		"type" : "com_content",
+		"id_content" : 389,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 401,
+		"type" : "com_content",
+		"id_content" : 390,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 402,
+		"type" : "com_content",
+		"id_content" : 391,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 403,
+		"type" : "com_content",
+		"id_content" : 392,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 404,
+		"type" : "com_content",
+		"id_content" : 393,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 405,
+		"type" : "com_content",
+		"id_content" : 394,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 406,
+		"type" : "com_content",
+		"id_content" : 395,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 407,
+		"type" : "com_content",
+		"id_content" : 396,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 408,
+		"type" : "com_content",
+		"id_content" : 397,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 409,
+		"type" : "com_content",
+		"id_content" : 398,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 410,
+		"type" : "com_content",
+		"id_content" : 399,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 411,
+		"type" : "com_content",
+		"id_content" : 400,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 412,
+		"type" : "com_content",
+		"id_content" : 401,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 413,
+		"type" : "com_content",
+		"id_content" : 402,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 414,
+		"type" : "com_content",
+		"id_content" : 403,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 415,
+		"type" : "com_content",
+		"id_content" : 404,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 416,
+		"type" : "com_content",
+		"id_content" : 405,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 417,
+		"type" : "com_content",
+		"id_content" : 406,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 418,
+		"type" : "com_content",
+		"id_content" : 407,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 419,
+		"type" : "com_content",
+		"id_content" : 408,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 420,
+		"type" : "com_content",
+		"id_content" : 409,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 421,
+		"type" : "com_content",
+		"id_content" : 410,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 422,
+		"type" : "com_content",
+		"id_content" : 411,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 423,
+		"type" : "com_content",
+		"id_content" : 412,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 424,
+		"type" : "com_content",
+		"id_content" : 413,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 425,
+		"type" : "com_content",
+		"id_content" : 414,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 426,
+		"type" : "com_content",
+		"id_content" : 416,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 427,
+		"type" : "com_content",
+		"id_content" : 417,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 428,
+		"type" : "com_content",
+		"id_content" : 418,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 429,
+		"type" : "com_content",
+		"id_content" : 419,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 430,
+		"type" : "com_content",
+		"id_content" : 420,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 431,
+		"type" : "com_content",
+		"id_content" : 421,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 432,
+		"type" : "com_content",
+		"id_content" : 422,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 433,
+		"type" : "com_content",
+		"id_content" : 423,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 434,
+		"type" : "com_content",
+		"id_content" : 424,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 435,
+		"type" : "com_content",
+		"id_content" : 426,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 436,
+		"type" : "com_content",
+		"id_content" : 428,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 437,
+		"type" : "com_content",
+		"id_content" : 429,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 438,
+		"type" : "com_content",
+		"id_content" : 430,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 439,
+		"type" : "com_content",
+		"id_content" : 431,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 440,
+		"type" : "com_content",
+		"id_content" : 433,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 441,
+		"type" : "com_content",
+		"id_content" : 435,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 442,
+		"type" : "com_content",
+		"id_content" : 436,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 443,
+		"type" : "com_content",
+		"id_content" : 437,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 444,
+		"type" : "com_content",
+		"id_content" : 438,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 445,
+		"type" : "com_content",
+		"id_content" : 440,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 446,
+		"type" : "com_content",
+		"id_content" : 441,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 447,
+		"type" : "com_content",
+		"id_content" : 442,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 448,
+		"type" : "com_content",
+		"id_content" : 443,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 449,
+		"type" : "com_content",
+		"id_content" : 444,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 450,
+		"type" : "com_content",
+		"id_content" : 445,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 451,
+		"type" : "com_content",
+		"id_content" : 446,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 452,
+		"type" : "com_content",
+		"id_content" : 447,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 453,
+		"type" : "com_content",
+		"id_content" : 449,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 454,
+		"type" : "com_content",
+		"id_content" : 450,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 455,
+		"type" : "com_content",
+		"id_content" : 453,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 456,
+		"type" : "com_content",
+		"id_content" : 455,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 457,
+		"type" : "com_content",
+		"id_content" : 456,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 458,
+		"type" : "com_content",
+		"id_content" : 474,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 459,
+		"type" : "com_content",
+		"id_content" : 475,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 460,
+		"type" : "com_content",
+		"id_content" : 476,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 461,
+		"type" : "com_content",
+		"id_content" : 482,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 462,
+		"type" : "com_content",
+		"id_content" : 483,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 463,
+		"type" : "com_content",
+		"id_content" : 484,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 464,
+		"type" : "com_content",
+		"id_content" : 485,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 465,
+		"type" : "com_content",
+		"id_content" : 486,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 466,
+		"type" : "com_content",
+		"id_content" : 487,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 467,
+		"type" : "com_content",
+		"id_content" : 489,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 468,
+		"type" : "com_content",
+		"id_content" : 490,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 469,
+		"type" : "com_content",
+		"id_content" : 494,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 470,
+		"type" : "com_content",
+		"id_content" : 495,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 471,
+		"type" : "com_content",
+		"id_content" : 503,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 472,
+		"type" : "com_content",
+		"id_content" : 504,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 473,
+		"type" : "com_content",
+		"id_content" : 505,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 474,
+		"type" : "com_content",
+		"id_content" : 506,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 475,
+		"type" : "com_content",
+		"id_content" : 518,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 476,
+		"type" : "com_content",
+		"id_content" : 519,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 477,
+		"type" : "com_content",
+		"id_content" : 523,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 478,
+		"type" : "com_content",
+		"id_content" : 525,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 479,
+		"type" : "com_content",
+		"id_content" : 540,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 480,
+		"type" : "com_content",
+		"id_content" : 541,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 481,
+		"type" : "com_content",
+		"id_content" : 544,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 482,
+		"type" : "com_content",
+		"id_content" : 545,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 483,
+		"type" : "com_content",
+		"id_content" : 546,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 484,
+		"type" : "com_content",
+		"id_content" : 547,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 485,
+		"type" : "com_content",
+		"id_content" : 553,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 486,
+		"type" : "com_content",
+		"id_content" : 559,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 487,
+		"type" : "com_content",
+		"id_content" : 561,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 488,
+		"type" : "com_content",
+		"id_content" : 562,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 489,
+		"type" : "com_content",
+		"id_content" : 563,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 490,
+		"type" : "com_content",
+		"id_content" : 565,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 491,
+		"type" : "com_content",
+		"id_content" : 575,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 492,
+		"type" : "com_content",
+		"id_content" : 578,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 493,
+		"type" : "com_content",
+		"id_content" : 584,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 494,
+		"type" : "com_content",
+		"id_content" : 585,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 495,
+		"type" : "com_content",
+		"id_content" : 586,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 496,
+		"type" : "com_content",
+		"id_content" : 590,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 497,
+		"type" : "com_content",
+		"id_content" : 597,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 498,
+		"type" : "com_content",
+		"id_content" : 601,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 499,
+		"type" : "com_content",
+		"id_content" : 603,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 500,
+		"type" : "com_content",
+		"id_content" : 607,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 501,
+		"type" : "com_content",
+		"id_content" : 608,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 502,
+		"type" : "com_content",
+		"id_content" : 612,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 503,
+		"type" : "com_content",
+		"id_content" : 620,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 504,
+		"type" : "com_content",
+		"id_content" : 621,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 505,
+		"type" : "com_content",
+		"id_content" : 626,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 506,
+		"type" : "com_content",
+		"id_content" : 627,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 507,
+		"type" : "com_content",
+		"id_content" : 629,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 508,
+		"type" : "com_content",
+		"id_content" : 632,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 509,
+		"type" : "com_content",
+		"id_content" : 634,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 510,
+		"type" : "com_content",
+		"id_content" : 636,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 511,
+		"type" : "com_content",
+		"id_content" : 644,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 512,
+		"type" : "com_content",
+		"id_content" : 646,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 513,
+		"type" : "com_content",
+		"id_content" : 650,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 514,
+		"type" : "com_content",
+		"id_content" : 651,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 515,
+		"type" : "com_content",
+		"id_content" : 657,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 516,
+		"type" : "com_content",
+		"id_content" : 662,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 517,
+		"type" : "com_content",
+		"id_content" : 664,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 518,
+		"type" : "com_content",
+		"id_content" : 672,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 519,
+		"type" : "com_content",
+		"id_content" : 673,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 520,
+		"type" : "com_content",
+		"id_content" : 676,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 521,
+		"type" : "com_content",
+		"id_content" : 677,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 522,
+		"type" : "com_content",
+		"id_content" : 678,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 523,
+		"type" : "com_content",
+		"id_content" : 687,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 524,
+		"type" : "com_content",
+		"id_content" : 688,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 525,
+		"type" : "com_content",
+		"id_content" : 689,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 526,
+		"type" : "com_content",
+		"id_content" : 690,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 527,
+		"type" : "com_content",
+		"id_content" : 691,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 528,
+		"type" : "com_content",
+		"id_content" : 695,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 529,
+		"type" : "com_content",
+		"id_content" : 696,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 530,
+		"type" : "com_content",
+		"id_content" : 699,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 531,
+		"type" : "com_content",
+		"id_content" : 700,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 532,
+		"type" : "com_content",
+		"id_content" : 701,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 533,
+		"type" : "com_content",
+		"id_content" : 702,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 534,
+		"type" : "com_content",
+		"id_content" : 703,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 535,
+		"type" : "com_content",
+		"id_content" : 705,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 536,
+		"type" : "com_content",
+		"id_content" : 708,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 537,
+		"type" : "com_content",
+		"id_content" : 709,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 538,
+		"type" : "com_content",
+		"id_content" : 712,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 539,
+		"type" : "com_content",
+		"id_content" : 715,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 540,
+		"type" : "com_content",
+		"id_content" : 717,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 541,
+		"type" : "com_content",
+		"id_content" : 718,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 542,
+		"type" : "com_content",
+		"id_content" : 719,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 543,
+		"type" : "com_content",
+		"id_content" : 720,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 544,
+		"type" : "com_content",
+		"id_content" : 722,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 545,
+		"type" : "com_content",
+		"id_content" : 723,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 546,
+		"type" : "com_content",
+		"id_content" : 724,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 547,
+		"type" : "com_content",
+		"id_content" : 726,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 548,
+		"type" : "com_content",
+		"id_content" : 727,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 549,
+		"type" : "com_content",
+		"id_content" : 728,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 550,
+		"type" : "com_content",
+		"id_content" : 730,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 551,
+		"type" : "com_content",
+		"id_content" : 731,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 552,
+		"type" : "com_content",
+		"id_content" : 732,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 553,
+		"type" : "com_content",
+		"id_content" : 733,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 554,
+		"type" : "com_content",
+		"id_content" : 734,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 555,
+		"type" : "com_content",
+		"id_content" : 735,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 556,
+		"type" : "com_content",
+		"id_content" : 736,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 557,
+		"type" : "com_content",
+		"id_content" : 737,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 558,
+		"type" : "com_content",
+		"id_content" : 738,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 559,
+		"type" : "com_content",
+		"id_content" : 739,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 560,
+		"type" : "com_content",
+		"id_content" : 740,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 561,
+		"type" : "com_content",
+		"id_content" : 741,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 562,
+		"type" : "com_content",
+		"id_content" : 742,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 563,
+		"type" : "com_content",
+		"id_content" : 743,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 564,
+		"type" : "com_content",
+		"id_content" : 749,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 565,
+		"type" : "com_content",
+		"id_content" : 750,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 566,
+		"type" : "com_content",
+		"id_content" : 751,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 567,
+		"type" : "com_content",
+		"id_content" : 752,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 568,
+		"type" : "com_content",
+		"id_content" : 759,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 569,
+		"type" : "com_content",
+		"id_content" : 760,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 570,
+		"type" : "com_content",
+		"id_content" : 761,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 571,
+		"type" : "com_content",
+		"id_content" : 762,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 572,
+		"type" : "com_content",
+		"id_content" : 763,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 573,
+		"type" : "com_content",
+		"id_content" : 764,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 574,
+		"type" : "com_content",
+		"id_content" : 765,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 575,
+		"type" : "com_content",
+		"id_content" : 766,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 576,
+		"type" : "com_content",
+		"id_content" : 767,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 577,
+		"type" : "com_content",
+		"id_content" : 768,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 578,
+		"type" : "com_content",
+		"id_content" : 769,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 579,
+		"type" : "com_content",
+		"id_content" : 771,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 580,
+		"type" : "com_content",
+		"id_content" : 776,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 581,
+		"type" : "com_content",
+		"id_content" : 777,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 582,
+		"type" : "com_content",
+		"id_content" : 781,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 583,
+		"type" : "com_content",
+		"id_content" : 782,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 584,
+		"type" : "com_content",
+		"id_content" : 784,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 585,
+		"type" : "com_content",
+		"id_content" : 785,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 586,
+		"type" : "com_content",
+		"id_content" : 786,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 587,
+		"type" : "com_content",
+		"id_content" : 788,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 588,
+		"type" : "com_content",
+		"id_content" : 801,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 589,
+		"type" : "com_content",
+		"id_content" : 802,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 590,
+		"type" : "com_content",
+		"id_content" : 803,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 591,
+		"type" : "com_content",
+		"id_content" : 804,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 592,
+		"type" : "com_content",
+		"id_content" : 805,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 593,
+		"type" : "com_content",
+		"id_content" : 806,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 594,
+		"type" : "com_content",
+		"id_content" : 807,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 595,
+		"type" : "com_content",
+		"id_content" : 810,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 596,
+		"type" : "com_content",
+		"id_content" : 817,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 597,
+		"type" : "com_content",
+		"id_content" : 821,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 598,
+		"type" : "com_content",
+		"id_content" : 822,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 599,
+		"type" : "com_content",
+		"id_content" : 823,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 600,
+		"type" : "com_content",
+		"id_content" : 824,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 601,
+		"type" : "com_content",
+		"id_content" : 825,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 602,
+		"type" : "com_content",
+		"id_content" : 829,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 603,
+		"type" : "com_content",
+		"id_content" : 831,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 604,
+		"type" : "com_content",
+		"id_content" : 832,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 605,
+		"type" : "com_content",
+		"id_content" : 833,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 606,
+		"type" : "com_content",
+		"id_content" : 834,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 607,
+		"type" : "com_content",
+		"id_content" : 835,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 608,
+		"type" : "com_content",
+		"id_content" : 836,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 609,
+		"type" : "com_content",
+		"id_content" : 838,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 610,
+		"type" : "com_content",
+		"id_content" : 840,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 611,
+		"type" : "com_content",
+		"id_content" : 841,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 612,
+		"type" : "com_content",
+		"id_content" : 842,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 613,
+		"type" : "com_content",
+		"id_content" : 843,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 614,
+		"type" : "com_content",
+		"id_content" : 844,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 615,
+		"type" : "com_content",
+		"id_content" : 845,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 616,
+		"type" : "com_content",
+		"id_content" : 848,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 617,
+		"type" : "com_content",
+		"id_content" : 849,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 618,
+		"type" : "com_content",
+		"id_content" : 850,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 619,
+		"type" : "com_content",
+		"id_content" : 851,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 620,
+		"type" : "com_content",
+		"id_content" : 852,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 621,
+		"type" : "com_content",
+		"id_content" : 853,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 622,
+		"type" : "com_content",
+		"id_content" : 854,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 623,
+		"type" : "com_content",
+		"id_content" : 856,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 624,
+		"type" : "com_content",
+		"id_content" : 857,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 625,
+		"type" : "com_content",
+		"id_content" : 858,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 626,
+		"type" : "com_content",
+		"id_content" : 859,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 627,
+		"type" : "com_content",
+		"id_content" : 860,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 628,
+		"type" : "com_content",
+		"id_content" : 861,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 629,
+		"type" : "com_content",
+		"id_content" : 862,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 630,
+		"type" : "com_content",
+		"id_content" : 863,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 631,
+		"type" : "com_content",
+		"id_content" : 865,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 632,
+		"type" : "com_content",
+		"id_content" : 866,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 633,
+		"type" : "com_content",
+		"id_content" : 867,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 634,
+		"type" : "com_content",
+		"id_content" : 868,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 635,
+		"type" : "com_content",
+		"id_content" : 869,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 636,
+		"type" : "com_content",
+		"id_content" : 870,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 637,
+		"type" : "com_content",
+		"id_content" : 871,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 638,
+		"type" : "com_content",
+		"id_content" : 872,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 639,
+		"type" : "com_content",
+		"id_content" : 873,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 640,
+		"type" : "com_content",
+		"id_content" : 874,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 641,
+		"type" : "com_content",
+		"id_content" : 875,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 642,
+		"type" : "com_content",
+		"id_content" : 876,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 643,
+		"type" : "com_content",
+		"id_content" : 877,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 644,
+		"type" : "com_content",
+		"id_content" : 879,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 645,
+		"type" : "com_content",
+		"id_content" : 880,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 646,
+		"type" : "com_content",
+		"id_content" : 881,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 647,
+		"type" : "com_content",
+		"id_content" : 882,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 648,
+		"type" : "com_content",
+		"id_content" : 883,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 649,
+		"type" : "com_content",
+		"id_content" : 884,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 650,
+		"type" : "com_content",
+		"id_content" : 887,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 651,
+		"type" : "com_content",
+		"id_content" : 890,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 652,
+		"type" : "com_content",
+		"id_content" : 891,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 653,
+		"type" : "com_content",
+		"id_content" : 892,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 654,
+		"type" : "com_content",
+		"id_content" : 893,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 655,
+		"type" : "com_content",
+		"id_content" : 894,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 656,
+		"type" : "com_content",
+		"id_content" : 895,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 657,
+		"type" : "com_content",
+		"id_content" : 896,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 658,
+		"type" : "com_content",
+		"id_content" : 897,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 659,
+		"type" : "com_content",
+		"id_content" : 898,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 660,
+		"type" : "com_content",
+		"id_content" : 902,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 661,
+		"type" : "com_content",
+		"id_content" : 903,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 662,
+		"type" : "com_content",
+		"id_content" : 907,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 663,
+		"type" : "com_content",
+		"id_content" : 908,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 664,
+		"type" : "com_content",
+		"id_content" : 909,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 665,
+		"type" : "com_content",
+		"id_content" : 910,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 666,
+		"type" : "com_content",
+		"id_content" : 911,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 667,
+		"type" : "com_content",
+		"id_content" : 912,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 668,
+		"type" : "com_content",
+		"id_content" : 915,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 669,
+		"type" : "com_content",
+		"id_content" : 916,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 670,
+		"type" : "com_content",
+		"id_content" : 917,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 671,
+		"type" : "com_content",
+		"id_content" : 918,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 672,
+		"type" : "com_content",
+		"id_content" : 919,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 673,
+		"type" : "com_content",
+		"id_content" : 920,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 674,
+		"type" : "com_content",
+		"id_content" : 921,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 675,
+		"type" : "com_content",
+		"id_content" : 922,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 676,
+		"type" : "com_content",
+		"id_content" : 923,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 677,
+		"type" : "com_content",
+		"id_content" : 924,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 678,
+		"type" : "com_content",
+		"id_content" : 925,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 679,
+		"type" : "com_content",
+		"id_content" : 926,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 680,
+		"type" : "com_content",
+		"id_content" : 927,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 681,
+		"type" : "com_content",
+		"id_content" : 928,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 682,
+		"type" : "com_content",
+		"id_content" : 929,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 683,
+		"type" : "com_content",
+		"id_content" : 931,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 684,
+		"type" : "com_content",
+		"id_content" : 932,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 685,
+		"type" : "com_content",
+		"id_content" : 933,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 686,
+		"type" : "com_content",
+		"id_content" : 934,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 687,
+		"type" : "com_content",
+		"id_content" : 936,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 688,
+		"type" : "com_content",
+		"id_content" : 937,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 689,
+		"type" : "com_content",
+		"id_content" : 939,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 690,
+		"type" : "com_content",
+		"id_content" : 941,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 691,
+		"type" : "com_content",
+		"id_content" : 942,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 692,
+		"type" : "com_content",
+		"id_content" : 943,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 693,
+		"type" : "com_content",
+		"id_content" : 944,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 694,
+		"type" : "com_content",
+		"id_content" : 945,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 695,
+		"type" : "com_content",
+		"id_content" : 946,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 696,
+		"type" : "com_content",
+		"id_content" : 947,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 697,
+		"type" : "com_content",
+		"id_content" : 950,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 698,
+		"type" : "com_content",
+		"id_content" : 951,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 699,
+		"type" : "com_content",
+		"id_content" : 952,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 700,
+		"type" : "com_content",
+		"id_content" : 955,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 701,
+		"type" : "com_content",
+		"id_content" : 969,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 702,
+		"type" : "com_content",
+		"id_content" : 973,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 703,
+		"type" : "com_content",
+		"id_content" : 975,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 704,
+		"type" : "com_content",
+		"id_content" : 976,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 705,
+		"type" : "com_content",
+		"id_content" : 979,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 706,
+		"type" : "com_content",
+		"id_content" : 980,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 707,
+		"type" : "com_content",
+		"id_content" : 982,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 708,
+		"type" : "com_content",
+		"id_content" : 983,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 709,
+		"type" : "com_content",
+		"id_content" : 984,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 710,
+		"type" : "com_content",
+		"id_content" : 985,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 711,
+		"type" : "com_content",
+		"id_content" : 986,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 712,
+		"type" : "com_content",
+		"id_content" : 987,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 713,
+		"type" : "com_content",
+		"id_content" : 989,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 714,
+		"type" : "com_content",
+		"id_content" : 990,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 715,
+		"type" : "com_content",
+		"id_content" : 991,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 716,
+		"type" : "com_content",
+		"id_content" : 992,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 717,
+		"type" : "com_content",
+		"id_content" : 995,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 718,
+		"type" : "com_content",
+		"id_content" : 996,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 719,
+		"type" : "com_content",
+		"id_content" : 997,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 720,
+		"type" : "com_content",
+		"id_content" : 999,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 721,
+		"type" : "com_content",
+		"id_content" : 1000,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 722,
+		"type" : "com_content",
+		"id_content" : 1001,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 723,
+		"type" : "com_content",
+		"id_content" : 1002,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 724,
+		"type" : "com_content",
+		"id_content" : 1003,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 725,
+		"type" : "com_content",
+		"id_content" : 1004,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 726,
+		"type" : "com_content",
+		"id_content" : 1005,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 727,
+		"type" : "com_content",
+		"id_content" : 1006,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 728,
+		"type" : "com_content",
+		"id_content" : 1007,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 729,
+		"type" : "com_content",
+		"id_content" : 1008,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 730,
+		"type" : "com_content",
+		"id_content" : 1010,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 731,
+		"type" : "com_content",
+		"id_content" : 1013,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 732,
+		"type" : "com_content",
+		"id_content" : 1017,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 733,
+		"type" : "com_content",
+		"id_content" : 1019,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 734,
+		"type" : "com_content",
+		"id_content" : 1022,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 735,
+		"type" : "com_content",
+		"id_content" : 1024,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 736,
+		"type" : "com_content",
+		"id_content" : 1025,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 737,
+		"type" : "com_content",
+		"id_content" : 1026,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 738,
+		"type" : "com_content",
+		"id_content" : 1027,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 739,
+		"type" : "com_content",
+		"id_content" : 1028,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 740,
+		"type" : "com_content",
+		"id_content" : 1029,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 741,
+		"type" : "com_content",
+		"id_content" : 1030,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 742,
+		"type" : "com_content",
+		"id_content" : 1031,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 743,
+		"type" : "com_content",
+		"id_content" : 1032,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 744,
+		"type" : "com_content",
+		"id_content" : 1033,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 745,
+		"type" : "com_content",
+		"id_content" : 1034,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 746,
+		"type" : "com_content",
+		"id_content" : 1035,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 747,
+		"type" : "com_content",
+		"id_content" : 1036,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 748,
+		"type" : "com_content",
+		"id_content" : 1037,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 749,
+		"type" : "com_content",
+		"id_content" : 1038,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 750,
+		"type" : "com_content",
+		"id_content" : 1039,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 751,
+		"type" : "com_content",
+		"id_content" : 1041,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 752,
+		"type" : "com_content",
+		"id_content" : 1042,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 753,
+		"type" : "com_content",
+		"id_content" : 1043,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 754,
+		"type" : "com_content",
+		"id_content" : 1049,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 755,
+		"type" : "com_content",
+		"id_content" : 1050,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 756,
+		"type" : "com_content",
+		"id_content" : 1051,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 757,
+		"type" : "com_content",
+		"id_content" : 1052,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 758,
+		"type" : "com_content",
+		"id_content" : 1053,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 759,
+		"type" : "com_content",
+		"id_content" : 1054,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 760,
+		"type" : "com_content",
+		"id_content" : 1056,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 761,
+		"type" : "com_content",
+		"id_content" : 1057,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 762,
+		"type" : "com_content",
+		"id_content" : 1058,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 763,
+		"type" : "com_content",
+		"id_content" : 1059,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 764,
+		"type" : "com_content",
+		"id_content" : 1060,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 765,
+		"type" : "com_content",
+		"id_content" : 1061,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 766,
+		"type" : "com_content",
+		"id_content" : 1062,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 767,
+		"type" : "com_content",
+		"id_content" : 1063,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 768,
+		"type" : "com_content",
+		"id_content" : 1064,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 769,
+		"type" : "com_content",
+		"id_content" : 1065,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 770,
+		"type" : "com_content",
+		"id_content" : 1066,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 771,
+		"type" : "com_content",
+		"id_content" : 1067,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 772,
+		"type" : "com_content",
+		"id_content" : 1070,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 773,
+		"type" : "com_content",
+		"id_content" : 1071,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 774,
+		"type" : "com_content",
+		"id_content" : 1072,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 775,
+		"type" : "com_content",
+		"id_content" : 1073,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 776,
+		"type" : "com_content",
+		"id_content" : 1074,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 777,
+		"type" : "com_content",
+		"id_content" : 1075,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 778,
+		"type" : "com_content",
+		"id_content" : 1076,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 779,
+		"type" : "com_content",
+		"id_content" : 1077,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 780,
+		"type" : "com_content",
+		"id_content" : 1079,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 781,
+		"type" : "com_content",
+		"id_content" : 1080,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 782,
+		"type" : "com_content",
+		"id_content" : 1082,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 783,
+		"type" : "com_content",
+		"id_content" : 1083,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 784,
+		"type" : "com_content",
+		"id_content" : 1084,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 785,
+		"type" : "com_content",
+		"id_content" : 1085,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 786,
+		"type" : "com_content",
+		"id_content" : 1086,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 787,
+		"type" : "com_content",
+		"id_content" : 1087,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 788,
+		"type" : "com_content",
+		"id_content" : 1088,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 789,
+		"type" : "com_content",
+		"id_content" : 1089,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 790,
+		"type" : "com_content",
+		"id_content" : 1090,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 791,
+		"type" : "com_content",
+		"id_content" : 1091,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 792,
+		"type" : "com_content",
+		"id_content" : 1093,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 793,
+		"type" : "com_content",
+		"id_content" : 1094,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 794,
+		"type" : "com_content",
+		"id_content" : 1095,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 795,
+		"type" : "com_content",
+		"id_content" : 1096,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 796,
+		"type" : "com_content",
+		"id_content" : 1098,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 797,
+		"type" : "com_content",
+		"id_content" : 1099,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 798,
+		"type" : "com_content",
+		"id_content" : 1100,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 799,
+		"type" : "com_content",
+		"id_content" : 1101,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 800,
+		"type" : "com_content",
+		"id_content" : 1102,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 801,
+		"type" : "com_content",
+		"id_content" : 1103,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 802,
+		"type" : "com_content",
+		"id_content" : 1105,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 803,
+		"type" : "com_content",
+		"id_content" : 1106,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 804,
+		"type" : "com_content",
+		"id_content" : 1107,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 805,
+		"type" : "com_content",
+		"id_content" : 1108,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 806,
+		"type" : "com_content",
+		"id_content" : 1109,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 807,
+		"type" : "com_content",
+		"id_content" : 1110,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 808,
+		"type" : "com_content",
+		"id_content" : 1111,
+		"address" : "",
+		"latitude" : "255",
+		"longitude" : "255"
+	},
+	{
+		"id" : 809,
+		"type" : "com_content",
+		"id_content" : 1123,
+		"address" : "Via Carlo Alberto, 18b, Torino, TO, Italia",
+		"latitude" : "45.0665068",
+		"longitude" : "7.6846684"
+	},
+	{
+		"id" : 810,
+		"type" : "com_content",
+		"id_content" : 1124,
+		"address" : "Via Antonio Canova, 21, Torino, TO, Italia",
+		"latitude" : "45.0446778",
+		"longitude" : "7.6730181"
+	},
+	{
+		"id" : 811,
+		"type" : "com_content",
+		"id_content" : 1125,
+		"address" : "Via Giovanni Battista Soresina, n. 13, 20144 Milano, Italia",
+		"latitude" : "45.4644841",
+		"longitude" : "9.1619886999999"
+	},
+	{
+		"id" : 812,
+		"type" : "com_content",
+		"id_content" : 1141,
+		"address" : "Via Vernazza, 7 - 12051 Alba (Cn)",
+		"latitude" : "44.69605",
+		"longitude" : "8.0341"
+	},
+	{
+		"id" : 813,
+		"type" : "com_content",
+		"id_content" : 1142,
+		"address" : "Via Gerolamo Ghilini, 49 - 15121 Alessandria",
+		"latitude" : "44.88127",
+		"longitude" : "8.72304"
+	},
+	{
+		"id" : 814,
+		"type" : "com_content",
+		"id_content" : 1143,
+		"address" : "C.so Alfieri, 447 - 14100 Asti (At)",
+		"latitude" : "44.8992738",
+		"longitude" : "8.1945004"
+	},
+	{
+		"id" : 815,
+		"type" : "com_content",
+		"id_content" : 1144,
+		"address" : "Via Gianbattista Moroni 424, 24127 Bergamo BG",
+		"latitude" : "45.678250536346",
+		"longitude" : "9.648668842328"
+	},
+	{
+		"id" : 816,
+		"type" : "com_content",
+		"id_content" : 1145,
+		"address" : "Via Emilia Ponente, 34 - 40133 Bologna",
+		"latitude" : "44.49712",
+		"longitude" : "11.34448"
+	},
+	{
+		"id" : 817,
+		"type" : "com_content",
+		"id_content" : 1146,
+		"address" : "Via Trento 38\/B - 13900 Biella (Bi)",
+		"latitude" : "45.5582786",
+		"longitude" : "8.0631953"
+	},
+	{
+		"id" : 818,
+		"type" : "com_content",
+		"id_content" : 1147,
+		"address" : "Via San Giovanni,17 - 28021 Borgomanero (No)",
+		"latitude" : "45.6978495",
+		"longitude" : "8.463902"
+	},
+	{
+		"id" : 819,
+		"type" : "com_content",
+		"id_content" : 1148,
+		"address" : "Via Creta, 33 - 25124 Brescia (Bs)",
+		"latitude" : "45.53689",
+		"longitude" : "10.232"
+	},
+	{
+		"id" : 820,
+		"type" : "com_content",
+		"id_content" : 1149,
+		"address" : "Via IV Novembre 12\/a - 21052 Busto Arsizio (Va)",
+		"latitude" : "45.61187",
+		"longitude" : "8.85475"
+	},
+	{
+		"id" : 821,
+		"type" : "com_content",
+		"id_content" : 1150,
+		"address" : "Via Baldassarre Peruzzi, 6, 41012 Carpi, MO, Italia",
+		"latitude" : "44.7827032",
+		"longitude" : "10.8771095"
+	},
+	{
+		"id" : 822,
+		"type" : "com_content",
+		"id_content" : 1151,
+		"address" : "Via XX Settembre, 57 - 15033 Casale Monferrato (AL)",
+		"latitude" : "45.13167",
+		"longitude" : "8.44917"
+	},
+	{
+		"id" : 823,
+		"type" : "com_content",
+		"id_content" : 1152,
+		"address" : "Via Niccolò Copernico, 2, 50051 Malacoda Zona Industriale, Castelfiorentino FI, Italia",
+		"latitude" : "43.5880935",
+		"longitude" : "10.9918568"
+	},
+	{
+		"id" : 824,
+		"type" : "com_content",
+		"id_content" : 1153,
+		"address" : "Via della Gualderia, 3, 10023 Chieri TO, Italia",
+		"latitude" : "45.0085657",
+		"longitude" : "7.8258439"
+	},
+	{
+		"id" : 825,
+		"type" : "com_content",
+		"id_content" : 1154,
+		"address" : "Via San Luigi Versiglia, 1, 62012 Civitanova Marche, MC, Italia",
+		"latitude" : "43.3037822",
+		"longitude" : "13.7235158"
+	},
+	{
+		"id" : 826,
+		"type" : "com_content",
+		"id_content" : 1155,
+		"address" : "Corso Francia, 244\/1 - 10093 Collegno (To)",
+		"latitude" : "45.07287",
+		"longitude" : "7.5685"
+	},
+	{
+		"id" : 827,
+		"type" : "com_content",
+		"id_content" : 1156,
+		"address" : "Via Roma, 32, 10073 Ciriè TO, Italia",
+		"latitude" : "45.2330344",
+		"longitude" : "7.6051328"
+	},
+	{
+		"id" : 828,
+		"type" : "com_content",
+		"id_content" : 1157,
+		"address" : "Via Garibaldi, 16 - 20094 Corsico (Mi)",
+		"latitude" : "45.431723",
+		"longitude" : "9.107902"
+	},
+	{
+		"id" : 829,
+		"type" : "com_content",
+		"id_content" : 1158,
+		"address" : "Corso Marcello Soleri, 3, 12100 Cuneo, CN, Italia",
+		"latitude" : "44.3895742",
+		"longitude" : "7.5453721"
+	},
+	{
+		"id" : 830,
+		"type" : "com_content",
+		"id_content" : 1159,
+		"address" : "Via Pistoiese, 155, 50145 Firenze, FI, Italia",
+		"latitude" : "43.7945632",
+		"longitude" : "11.1957393"
+	},
+	{
+		"id" : 831,
+		"type" : "com_content",
+		"id_content" : 1160,
+		"address" : "Via Bombrini, 16, 16149 Genova GE, Italia",
+		"latitude" : "44.4111299",
+		"longitude" : "8.8853888"
+	},
+	{
+		"id" : 832,
+		"type" : "com_content",
+		"id_content" : 1161,
+		"address" : "Corso Vercelli, 15, 10015 Ivrea, TO, Italia",
+		"latitude" : "45.4684985",
+		"longitude" : "7.8907982000001"
+	},
+	{
+		"id" : 833,
+		"type" : "com_content",
+		"id_content" : 1162,
+		"address" : "Viale della Vittoria, 32\/C, 60035 Jesi AN, Italia",
+		"latitude" : "43.534702190152",
+		"longitude" : "13.263689626874"
+	},
+	{
+		"id" : 834,
+		"type" : "com_content",
+		"id_content" : 1163,
+		"address" : "Corso Giacomo Matteotti, 9\/a - 23900 Lecco (Lc)",
+		"latitude" : "45.8580323",
+		"longitude" : "9.3944897"
+	},
+	{
+		"id" : 835,
+		"type" : "com_content",
+		"id_content" : 1164,
+		"address" : "Via Guareschi Giovanni, 30 - 46010 Curtatone (Mn)",
+		"latitude" : "45.149701549879",
+		"longitude" : "10.765964542328"
+	},
+	{
+		"id" : 836,
+		"type" : "com_content",
+		"id_content" : 1165,
+		"address" : "Via Pastrengo, 122\/A - 10024 Moncalieri (To)",
+		"latitude" : "45.004147",
+		"longitude" : "7.6627980000001"
+	},
+	{
+		"id" : 837,
+		"type" : "com_content",
+		"id_content" : 1166,
+		"address" : "Via Caonada 7\/A -  31044 Montebelluna (Tv)",
+		"latitude" : "45.783625",
+		"longitude" : "12.071595"
+	},
+	{
+		"id" : 838,
+		"type" : "com_content",
+		"id_content" : 1167,
+		"address" : "Via Venezia, 2, 51016 Montecatini Terme, PT, Italia",
+		"latitude" : "43.8807235",
+		"longitude" : "10.7788311"
+	},
+	{
+		"id" : 839,
+		"type" : "com_content",
+		"id_content" : 1168,
+		"address" : "Via Agnesi, 2 -  20900 Monza (Mb)",
+		"latitude" : "45.572336533638",
+		"longitude" : "9.2668546134925"
+	},
+	{
+		"id" : 840,
+		"type" : "com_content",
+		"id_content" : 1169,
+		"address" : "Via Alcarotti, 23, 28100 Novara, NO, Italia",
+		"latitude" : "45.4478597",
+		"longitude" : "8.6086687"
+	},
+	{
+		"id" : 841,
+		"type" : "com_content",
+		"id_content" : 1171,
+		"address" : "Via Manzoni, 22 - 28887 Omegna (Vb)",
+		"latitude" : "45.876146",
+		"longitude" : "8.411054"
+	},
+	{
+		"id" : 842,
+		"type" : "com_content",
+		"id_content" : 1172,
+		"address" : "Via Dottor Sandro Totti, 12, 60131 Ancona, Ancona AN, Italia",
+		"latitude" : "43.5634586",
+		"longitude" : "13.5121126"
+	},
+	{
+		"id" : 843,
+		"type" : "com_content",
+		"id_content" : 1173,
+		"address" : "Via San Crispino, 40, 35129 Padova PD, Italia",
+		"latitude" : "45.4101515",
+		"longitude" : "11.9151076"
+	},
+	{
+		"id" : 844,
+		"type" : "com_content",
+		"id_content" : 1174,
+		"address" : "Via Ponte Oglio, 8, 25036 Palazzolo sull'Oglio, BS, Italia",
+		"latitude" : "45.597983",
+		"longitude" : "9.8820622000001"
+	},
+	{
+		"id" : 845,
+		"type" : "com_content",
+		"id_content" : 1175,
+		"address" : "Largo Luca Ganzi, 9, 43126 Parma, PR, Italia",
+		"latitude" : "44.8093334",
+		"longitude" : "10.3175533"
+	},
+	{
+		"id" : 846,
+		"type" : "com_content",
+		"id_content" : 1176,
+		"address" : "Viale Guglielmo Marconi, 237, 65126 Pescara, PE, Italia",
+		"latitude" : "42.458016404034",
+		"longitude" : "14.212796484656"
+	},
+	{
+		"id" : 847,
+		"type" : "com_content",
+		"id_content" : 1177,
+		"address" : "Via Molino delle Lime, 4, 10064 Pinerolo, TO, Italia",
+		"latitude" : "44.8893065",
+		"longitude" : "7.3549757000001"
+	},
+	{
+		"id" : 848,
+		"type" : "com_content",
+		"id_content" : 1178,
+		"address" : "Via Salceto, 99, 53036 Poggibonsi, SI, Italia",
+		"latitude" : "43.4687231",
+		"longitude" : "11.1548036"
+	},
+	{
+		"id" : 849,
+		"type" : "com_content",
+		"id_content" : 1179,
+		"address" : "Via Roma, 239, 56025 Pontedera, PI, Italia",
+		"latitude" : "43.6553857",
+		"longitude" : "10.6319068"
+	},
+	{
+		"id" : 850,
+		"type" : "com_content",
+		"id_content" : 1180,
+		"address" : "Via Quintino Sella, 2\/b - 42100 Reggio Emilia (Re)",
+		"latitude" : "44.7404085",
+		"longitude" : "10.6025844"
+	},
+	{
+		"id" : 851,
+		"type" : "com_content",
+		"id_content" : 1181,
+		"address" : "Piazzale Artioli, 22 - 42046 Reggiolo (Re)",
+		"latitude" : "44.91650189874",
+		"longitude" : "10.810685971164"
+	},
+	{
+		"id" : 852,
+		"type" : "com_content",
+		"id_content" : 1182,
+		"address" : "Corso Italia, 45, Rivarolo Canavese, TO, Italia",
+		"latitude" : "45.3344793",
+		"longitude" : "7.7247328"
+	},
+	{
+		"id" : 853,
+		"type" : "com_content",
+		"id_content" : 1183,
+		"address" : "Via Cesena, 39, 00182 Roma, RM, Italia",
+		"latitude" : "41.8844534",
+		"longitude" : "12.5136481"
+	},
+	{
+		"id" : 854,
+		"type" : "com_content",
+		"id_content" : 1184,
+		"address" : "Via dei Mille, 8 - 00185 Roma ",
+		"latitude" : "41.9040123",
+		"longitude" : "12.502991"
+	},
+	{
+		"id" : 855,
+		"type" : "com_content",
+		"id_content" : 1185,
+		"address" : "Via Olindo Malagodi, 11\/a - 00157 Roma",
+		"latitude" : "41.886225",
+		"longitude" : "12.512884"
+	},
+	{
+		"id" : 856,
+		"type" : "com_content",
+		"id_content" : 1186,
+		"address" : "Via Nazionale, 525, 64026 Roseto degli Abruzzi TE, Italia",
+		"latitude" : "42.673379035088",
+		"longitude" : "14.017230540338"
+	},
+	{
+		"id" : 857,
+		"type" : "com_content",
+		"id_content" : 1187,
+		"address" : "Via Bagni, 1, 12037 Saluzzo CN, Italia",
+		"latitude" : "44.6473668",
+		"longitude" : "7.4961393999999"
+	},
+	{
+		"id" : 858,
+		"type" : "com_content",
+		"id_content" : 1188,
+		"address" : "Via Fanti 18 - 41049 Sassuolo (Mo)",
+		"latitude" : "44.54187",
+		"longitude" : "10.78142"
+	},
+	{
+		"id" : 859,
+		"type" : "com_content",
+		"id_content" : 1189,
+		"address" : "Via Roma, 108 - 42049 Sant'Ilario d'Enza (Re)",
+		"latitude" : "44.7607",
+		"longitude" : "10.4509"
+	},
+	{
+		"id" : 860,
+		"type" : "com_content",
+		"id_content" : 1190,
+		"address" : "Via Gioacchino Rossini, 57, 20831 Seregno, MB, Italia",
+		"latitude" : "45.6532937",
+		"longitude" : "9.2079325"
+	},
+	{
+		"id" : 861,
+		"type" : "com_content",
+		"id_content" : 1191,
+		"address" : "Via Cavour, 21 - 10036 Settimo t.se  (To)",
+		"latitude" : "45.1378574",
+		"longitude" : "7.7681385999999"
+	},
+	{
+		"id" : 862,
+		"type" : "com_content",
+		"id_content" : 1192,
+		"address" : "Via Lauro de Bosis, 20, 53100 Siena, SI, Italia",
+		"latitude" : "43.3321851",
+		"longitude" : "11.3256895"
+	},
+	{
+		"id" : 863,
+		"type" : "com_content",
+		"id_content" : 1193,
+		"address" : "Piazza Savoia, 3, 10059 Susa, TO, Italia",
+		"latitude" : "45.1378784",
+		"longitude" : "7.0448433"
+	},
+	{
+		"id" : 864,
+		"type" : "com_content",
+		"id_content" : 1194,
+		"address" : "Via Antonio Canova, 21, 10126 Torino, Italia",
+		"latitude" : "45.0446778",
+		"longitude" : "7.6730181"
+	},
+	{
+		"id" : 865,
+		"type" : "com_content",
+		"id_content" : 1195,
+		"address" : "Via Massena 1\/g- 10128 Torino",
+		"latitude" : "45.0639905",
+		"longitude" : "7.6749853"
+	},
+	{
+		"id" : 866,
+		"type" : "com_content",
+		"id_content" : 1196,
+		"address" : "Via Canova, 19\/21 - 10126 Torino",
+		"latitude" : "45.0446866",
+		"longitude" : "7.6727609"
+	},
+	{
+		"id" : 867,
+		"type" : "com_content",
+		"id_content" : 1197,
+		"address" : "Via Canova, 19\/21 - 10126 Torino",
+		"latitude" : "45.0446866",
+		"longitude" : "7.6727609"
+	},
+	{
+		"id" : 868,
+		"type" : "com_content",
+		"id_content" : 1198,
+		"address" : "C.so Galileo Ferraris, 2610121 Torino TO",
+		"latitude" : "45.067272434665",
+		"longitude" : "7.6710466628706"
+	},
+	{
+		"id" : 869,
+		"type" : "com_content",
+		"id_content" : 1199,
+		"address" : "Corso Paolo Bernacchi, 176, 21049 Tradate VA, Italia",
+		"latitude" : "45.7098313",
+		"longitude" : "8.9089383"
+	},
+	{
+		"id" : 870,
+		"type" : "com_content",
+		"id_content" : 1200,
+		"address" : "C.so M. Prestinari, 134 - 13100 Vercelli",
+		"latitude" : "45.32159",
+		"longitude" : "8.41954"
+	},
+	{
+		"id" : 871,
+		"type" : "com_content",
+		"id_content" : 1201,
+		"address" : "Via Sant'Antonio, 4, 37122 Verona, VR, Italia",
+		"latitude" : "45.4014713",
+		"longitude" : "10.9708586"
+	},
+	{
+		"id" : 872,
+		"type" : "com_content",
+		"id_content" : 1202,
+		"address" : "Via Caduti della Libertà, 1, 11029 Verrès, AO, Italia",
+		"latitude" : "45.6682949",
+		"longitude" : "7.6924599"
+	},
+	{
+		"id" : 873,
+		"type" : "com_content",
+		"id_content" : 1203,
+		"address" : "Via di Mezzo, 82, 41058 Vignola MO, Italia",
+		"latitude" : "44.4881349",
+		"longitude" : "11.0130585"
+	},
+	{
+		"id" : 874,
+		"type" : "com_content",
+		"id_content" : 1204,
+		"address" : "Via Luigi Ponti, 10, 20871 Vimercate, MB, Italia",
+		"latitude" : "45.6148139",
+		"longitude" : "9.3683607"
+	},
+	{
+		"id" : 875,
+		"type" : "com_content",
+		"id_content" : 1205,
+		"address" : "Via Umberto I°, 16\/bis - 10088 Volpiano (To)",
+		"latitude" : "45.2011739",
+		"longitude" : "7.7779872999999"
+	},
+	{
+		"id" : 876,
+		"type" : "com_content",
+		"id_content" : 1206,
+		"address" : "Via Giardini, 456\/b -  41100 Modena (Mo)",
+		"latitude" : "44.6361509",
+		"longitude" : "10.9041178"
+	},
+	{
+		"id" : 877,
+		"type" : "com_content",
+		"id_content" : 1207,
+		"address" : "Via Massena, 1- 10128 Torino ",
+		"latitude" : "45.0639905",
+		"longitude" : "7.6749853"
+	},
+	{
+		"id" : 878,
+		"type" : "com_content",
+		"id_content" : 1208,
+		"address" : "Via Fabio Filzi, 8 - 20124 Milano (Mi) ",
+		"latitude" : "45.4826436",
+		"longitude" : "9.1996062000001"
+	},
+	{
+		"id" : 879,
+		"type" : "com_content",
+		"id_content" : 1209,
+		"address" : "Via Chiusa, 2 - 60027 Osimo (An)",
+		"latitude" : "43.48318",
+		"longitude" : "13.48185"
+	},
+	{
+		"id" : 880,
+		"type" : "com_content",
+		"id_content" : 1210,
+		"address" : "Lungo Dora Colletta, 75 - 10153 Torino",
+		"latitude" : "45.07038",
+		"longitude" : "7.68581"
+	},
+	{
+		"id" : 881,
+		"type" : "com_content",
+		"id_content" : 1211,
+		"address" : "Lungo Dora Colletta, 75 - 10153 Torino",
+		"latitude" : "45.07038",
+		"longitude" : "7.68581"
+	},
+	{
+		"id" : 882,
+		"type" : "com_content",
+		"id_content" : 1212,
+		"address" : "Via Olindo Malagodi, 11\/a - 00157 Roma",
+		"latitude" : "41.89475",
+		"longitude" : "12.49331"
+	},
+	{
+		"id" : 883,
+		"type" : "com_content",
+		"id_content" : 1213,
+		"address" : "Via Massena, 1 - 10128 Torinot ",
+		"latitude" : "45.0639905",
+		"longitude" : "7.6749853"
+	},
+	{
+		"id" : 884,
+		"type" : "com_content",
+		"id_content" : 1214,
+		"address" : "Viale Giovanni Amendola, 144, 41125 Modena, Italia",
+		"latitude" : "44.6338115",
+		"longitude" : "10.9068206"
+	},
+	{
+		"id" : 885,
+		"type" : "com_content",
+		"id_content" : 1221,
+		"address" : "Località Autoporto 33\/e - 11020 Pollein (Ao)",
+		"latitude" : "45.72828",
+		"longitude" : "7.35804"
+	},
+	{
+		"id" : 886,
+		"type" : "com_content",
+		"id_content" : 1222,
+		"address" : "Via Saletti,11- 66041 Atessa (Ch)",
+		"latitude" : "42.07155",
+		"longitude" : "14.45187"
+	},
+	{
+		"id" : 887,
+		"type" : "com_content",
+		"id_content" : 1223,
+		"address" : "Via Verdi, 6 - 12032 Barge (Cn)",
+		"latitude" : "44.72819",
+		"longitude" : "7.3278"
+	},
+	{
+		"id" : 888,
+		"type" : "com_content",
+		"id_content" : 1224,
+		"address" : "Via Don Luigi Guanella, 15\/G - 70124 Bari ",
+		"latitude" : "41.094780685845",
+		"longitude" : "16.862348796217"
+	},
+	{
+		"id" : 889,
+		"type" : "com_content",
+		"id_content" : 1225,
+		"address" : "Via di Corticella, 181\/3, 40128 Bologna, BO, Italia",
+		"latitude" : "44.5036584",
+		"longitude" : "11.349783"
+	},
+	{
+		"id" : 890,
+		"type" : "com_content",
+		"id_content" : 1226,
+		"address" : "Via Lenot, 6 - 13011 Borgosesia (Vc)",
+		"latitude" : "45.718",
+		"longitude" : "8.27397"
+	},
+	{
+		"id" : 891,
+		"type" : "com_content",
+		"id_content" : 1227,
+		"address" : "Via Vittorio Veneto 36 - 12042 Bra (Cn)",
+		"latitude" : "44.69534",
+		"longitude" : "7.85717"
+	},
+	{
+		"id" : 892,
+		"type" : "com_content",
+		"id_content" : 1228,
+		"address" : "Via Giotto 7\/b - 20090 Buccinasco (Mi)",
+		"latitude" : "45.42325",
+		"longitude" : "9.11519"
+	},
+	{
+		"id" : 893,
+		"type" : "com_content",
+		"id_content" : 1229,
+		"address" : "Viale Bonaria 28 - 09125 Cagliari (Ca)",
+		"latitude" : "39.22865",
+		"longitude" : "9.1216"
+	},
+	{
+		"id" : 894,
+		"type" : "com_content",
+		"id_content" : 1230,
+		"address" : "Via Giuseppe Malchi, 9 - 22063 Cantù (Co)",
+		"latitude" : "45.73918",
+		"longitude" : "9.12924"
+	},
+	{
+		"id" : 895,
+		"type" : "com_content",
+		"id_content" : 1231,
+		"address" : "Via Raffaele Gasparri, 18, 81100 Caserta CE, Italia",
+		"latitude" : "41.0729964",
+		"longitude" : "14.3298543"
+	},
+	{
+		"id" : 896,
+		"type" : "com_content",
+		"id_content" : 1232,
+		"address" : "Corso Sicilia, 24, 95131 Catania CT, Italia",
+		"latitude" : "37.5074176",
+		"longitude" : "15.0882509"
+	},
+	{
+		"id" : 897,
+		"type" : "com_content",
+		"id_content" : 1233,
+		"address" : "Corso Angelo Gianelli, 26, 16043 Chiavari, GE, Italia",
+		"latitude" : "44.3163069",
+		"longitude" : "9.3210851"
+	},
+	{
+		"id" : 898,
+		"type" : "com_content",
+		"id_content" : 1234,
+		"address" : "Via S. Marco, 27c, 10034 Chivasso, TO, Italia",
+		"latitude" : "45.1909536",
+		"longitude" : "7.8897034"
+	},
+	{
+		"id" : 899,
+		"type" : "com_content",
+		"id_content" : 1235,
+		"address" : "Via Villatico, 36, 23823 Colico, LC, Italia",
+		"latitude" : "46.1337818",
+		"longitude" : "9.3715452"
+	},
+	{
+		"id" : 900,
+		"type" : "com_content",
+		"id_content" : 1236,
+		"address" : "Via Ivrea, 12, 10082 Cuorgnè, TO, Italia",
+		"latitude" : "45.3918675",
+		"longitude" : "7.6509701"
+	},
+	{
+		"id" : 901,
+		"type" : "com_content",
+		"id_content" : 1237,
+		"address" : "Via Tosco Romagnola Sud, 114, 50053 Empoli, FI, Italia",
+		"latitude" : "43.720586",
+		"longitude" : "10.9781613"
+	},
+	{
+		"id" : 902,
+		"type" : "com_content",
+		"id_content" : 1238,
+		"address" : "Via Decio Raggi, 288, 47121 Forlì, FC, Italia",
+		"latitude" : "44.2040228",
+		"longitude" : "12.0469197"
+	},
+	{
+		"id" : 903,
+		"type" : "com_content",
+		"id_content" : 1239,
+		"address" : "Via Tommaso Landolfi, 167, 03100 Frosinone, FR, Italia",
+		"latitude" : "41.638558181944",
+		"longitude" : "13.341672142328"
+	},
+	{
+		"id" : 904,
+		"type" : "com_content",
+		"id_content" : 1240,
+		"address" : "Corso Guglielmo Marconi, 115, 28883 Gravellona Toce, VB, Italia",
+		"latitude" : "45.9325428",
+		"longitude" : "8.4374385"
+	},
+	{
+		"id" : 905,
+		"type" : "com_content",
+		"id_content" : 1241,
+		"address" : "Viale Giosuè Carducci, 37, 40026 Imola BO, Italia",
+		"latitude" : "44.3581567",
+		"longitude" : "11.7111439"
+	},
+	{
+		"id" : 906,
+		"type" : "com_content",
+		"id_content" : 1242,
+		"address" : "Via Garessio, 34, 18100 Imperia IM, Italia",
+		"latitude" : "43.8931876",
+		"longitude" : "8.0383466000001"
+	},
+	{
+		"id" : 907,
+		"type" : "com_content",
+		"id_content" : 1244,
+		"address" : "Viale Alcide De Gasperi, 95t, Lucca, LU, Italia",
+		"latitude" : "43.849791",
+		"longitude" : "10.473382"
+	},
+	{
+		"id" : 908,
+		"type" : "com_content",
+		"id_content" : 1245,
+		"address" : "Piazza Vittorio Veneto, 8, 20013 Magenta, MI, Italia",
+		"latitude" : "45.4657976",
+		"longitude" : "8.8862022"
+	},
+	{
+		"id" : 909,
+		"type" : "com_content",
+		"id_content" : 1246,
+		"address" : "Via Gianni Cecchin, 12, 36063 Marostica VI, Italia",
+		"latitude" : "45.747684616978",
+		"longitude" : "11.659302671165"
+	},
+	{
+		"id" : 910,
+		"type" : "com_content",
+		"id_content" : 1247,
+		"address" : "Viale Aldo Moro, 22, 85025 Melfi PZ, Italia",
+		"latitude" : "40.994743",
+		"longitude" : "15.641486"
+	},
+	{
+		"id" : 911,
+		"type" : "com_content",
+		"id_content" : 1248,
+		"address" : "Viale Francesco Restelli, 5, 20124 Milano, Italia",
+		"latitude" : "45.4881085",
+		"longitude" : "9.1952695"
+	},
+	{
+		"id" : 912,
+		"type" : "com_content",
+		"id_content" : 1249,
+		"address" : "Via Giovanni Battista Soresina, 13, 20144 Milano, MI, Italia",
+		"latitude" : "45.4644946",
+		"longitude" : "9.1619493000001"
+	},
+	{
+		"id" : 913,
+		"type" : "com_content",
+		"id_content" : 1250,
+		"address" : "Via Antonietta De Pace, 1-3, 41037 Mirandola, MO, Italia",
+		"latitude" : "44.8946952",
+		"longitude" : "11.0563651"
+	},
+	{
+		"id" : 914,
+		"type" : "com_content",
+		"id_content" : 1251,
+		"address" : "Viale Pietro Ceccato, 35, 36075 Montecchio Maggiore-Alte Ceccato, Montecchio Maggiore VI, Italia",
+		"latitude" : "45.4949037",
+		"longitude" : "11.4354737"
+	},
+	{
+		"id" : 915,
+		"type" : "com_content",
+		"id_content" : 1252,
+		"address" : "Via G. Falcone 114 - 28015 Montichiari (Bs)",
+		"latitude" : "45.41465",
+		"longitude" : "10.39327"
+	},
+	{
+		"id" : 916,
+		"type" : "com_content",
+		"id_content" : 1253,
+		"address" : "Via Ponte di Tappia, 47, 80133 Napoli, Italia",
+		"latitude" : "40.8412644",
+		"longitude" : "14.2499084"
+	},
+	{
+		"id" : 917,
+		"type" : "com_content",
+		"id_content" : 1254,
+		"address" : "Via Cuneo, 51, 10042 Nichelino, TO, Italia",
+		"latitude" : "45.0044568",
+		"longitude" : "7.6619624"
+	},
+	{
+		"id" : 918,
+		"type" : "com_content",
+		"id_content" : 1255,
+		"address" : "Via degli Alpini, 30, 31046 Oderzo, TV, Italia",
+		"latitude" : "45.7794511",
+		"longitude" : "12.4944693"
+	},
+	{
+		"id" : 919,
+		"type" : "com_content",
+		"id_content" : 1256,
+		"address" : "Strada Torino, 12, 10043 Orbassano TO, Italia",
+		"latitude" : "45.0075845",
+		"longitude" : "7.5460806"
+	},
+	{
+		"id" : 920,
+		"type" : "com_content",
+		"id_content" : 1257,
+		"address" : "Viale Partigiani, 80, 27100 Pavia, Italia",
+		"latitude" : "45.1824172",
+		"longitude" : "9.1720167999999"
+	},
+	{
+		"id" : 921,
+		"type" : "com_content",
+		"id_content" : 1258,
+		"address" : "Via Ponte Vecchio, 52\/54, 06135 Ponte San Giovanni, PG, Italia",
+		"latitude" : "43.099547784626",
+		"longitude" : "12.381925142328"
+	},
+	{
+		"id" : 922,
+		"type" : "com_content",
+		"id_content" : 1259,
+		"address" : "Piazza San Benedetto da Norcia, 33, 00071 Pomezia RM, Italia",
+		"latitude" : "41.6676572",
+		"longitude" : "12.4971372"
+	},
+	{
+		"id" : 923,
+		"type" : "com_content",
+		"id_content" : 1260,
+		"address" : "Piazzetta Abramo Freschi, 2, 33170 Pordenone, PN, Italia",
+		"latitude" : "45.962518402736",
+		"longitude" : "12.662877271164"
+	},
+	{
+		"id" : 924,
+		"type" : "com_content",
+		"id_content" : 1261,
+		"address" : "Viale del Basento, 114, 85100 Potenza PZ, Italia",
+		"latitude" : "40.6322114",
+		"longitude" : "15.8128014"
+	},
+	{
+		"id" : 925,
+		"type" : "com_content",
+		"id_content" : 1262,
+		"address" : "Via Pace, 10, 20017 Rho, MI, Italia",
+		"latitude" : "45.5281061",
+		"longitude" : "9.0505721"
+	},
+	{
+		"id" : 926,
+		"type" : "com_content",
+		"id_content" : 1263,
+		"address" : "Via Cavour, 44, 00184 Roma, Italia",
+		"latitude" : "41.8981556",
+		"longitude" : "12.4969163"
+	},
+	{
+		"id" : 927,
+		"type" : "com_content",
+		"id_content" : 1264,
+		"address" : "Vicolo Amalteo, 3, 33077 Sacile PN, Italia",
+		"latitude" : "45.95877",
+		"longitude" : "12.5082141"
+	},
+	{
+		"id" : 928,
+		"type" : "com_content",
+		"id_content" : 1265,
+		"address" : "Via Santi Martiri Salernitani, 15, 84123 Salerno, SA, Italia",
+		"latitude" : "40.6761694",
+		"longitude" : "14.7688213"
+	},
+	{
+		"id" : 929,
+		"type" : "com_content",
+		"id_content" : 1266,
+		"address" : "Corso Venezia, 117, 37047 San Bonifacio, VR, Italia",
+		"latitude" : "45.4014827",
+		"longitude" : "11.2741451"
+	},
+	{
+		"id" : 930,
+		"type" : "com_content",
+		"id_content" : 1267,
+		"address" : "Via Lanino, 26, 21047 Saronno, VA, Italia",
+		"latitude" : "45.6248885",
+		"longitude" : "9.0286599"
+	},
+	{
+		"id" : 931,
+		"type" : "com_content",
+		"id_content" : 1268,
+		"address" : "Via Alcide de Gasperi, 7, 07100 Sassari, SS, Italia",
+		"latitude" : "40.7203144",
+		"longitude" : "8.5800296"
+	},
+	{
+		"id" : 932,
+		"type" : "com_content",
+		"id_content" : 1269,
+		"address" : "Corso Tardy e Benech, 29R, 17100 Savona, Italia",
+		"latitude" : "44.3033971",
+		"longitude" : "8.4752003"
+	},
+	{
+		"id" : 933,
+		"type" : "com_content",
+		"id_content" : 1270,
+		"address" : "Via F.lli Rosselli 11, 21018 Sesto Calende (Va)",
+		"latitude" : "45.72573",
+		"longitude" : "8.63549"
+	},
+	{
+		"id" : 934,
+		"type" : "com_content",
+		"id_content" : 1271,
+		"address" : "Via Lauro de Bosis, 20, 53100 Siena, SI, Italia",
+		"latitude" : "43.3321851",
+		"longitude" : "11.3256895"
+	},
+	{
+		"id" : 935,
+		"type" : "com_content",
+		"id_content" : 1272,
+		"address" : "Corso Fratelli Brigida, 146, 86039 Termoli CB, Italia",
+		"latitude" : "41.9984858",
+		"longitude" : "14.9965737"
+	},
+	{
+		"id" : 936,
+		"type" : "com_content",
+		"id_content" : 1273,
+		"address" : "Via Pisa, 29, 10152 Torino, Italia",
+		"latitude" : "45.0773444",
+		"longitude" : "7.692893"
+	},
+	{
+		"id" : 937,
+		"type" : "com_content",
+		"id_content" : 1274,
+		"address" : "Via S. Girolamo Emiliani, 22, 31100 Treviso TV, Italia",
+		"latitude" : "45.666187939719",
+		"longitude" : "12.2534783"
+	},
+	{
+		"id" : 938,
+		"type" : "com_content",
+		"id_content" : 1276,
+		"address" : "Corso Torino, 29, 27029 Vigevano, PV, Italia",
+		"latitude" : "45.3126583",
+		"longitude" : "8.8476768"
+	},
+	{
+		"id" : 939,
+		"type" : "com_content",
+		"id_content" : 1280,
+		"address" : "Via Caselle, 76, San Lazzaro di Savena, BO, Italia",
+		"latitude" : "44.477656",
+		"longitude" : "11.4174532"
+	},
+	{
+		"id" : 940,
+		"type" : "com_content",
+		"id_content" : 1332,
+		"address" : "Strada Savonesa, 12, Tortona, AL, Italia",
+		"latitude" : "44.8710133",
+		"longitude" : "8.8088402"
+	},
+	{
+		"id" : 941,
+		"type" : "com_content",
+		"id_content" : 1337,
+		"address" : "Piazza Ezio Mosna, 7, 38122 Trento TN",
+		"latitude" : "46.06652834391",
+		"longitude" : "11.114707142328"
+	},
+	{
+		"id" : 942,
+		"type" : "com_content",
+		"id_content" : 1342,
+		"address" : "Piazza XXVII Ottobre, 62, 30172 Venezia, Venezia VE, Italia",
+		"latitude" : "45.4918344",
+		"longitude" : "12.2445291"
+	},
+	{
+		"id" : 943,
+		"type" : "com_content",
+		"id_content" : 1345,
+		"address" : "",
+		"latitude" : "44.396",
+		"longitude" : "7.817"
+	},
+	{
+		"id" : 944,
+		"type" : "com_content",
+		"id_content" : 1275,
+		"address" : "",
+		"latitude" : "46.063",
+		"longitude" : "13.237"
+	},
+	{
+		"id" : 945,
+		"type" : "com_content",
+		"id_content" : 1348,
+		"address" : "",
+		"latitude" : "43.904",
+		"longitude" : "12.889"
+	},
+	{
+		"id" : 946,
+		"type" : "com_content",
+		"id_content" : 1370,
+		"address" : "Via Nazario Sauro, 14, 73100 Lecce, Lecce LE, Italia",
+		"latitude" : "40.3541874",
+		"longitude" : "18.1781906"
+	},
+	{
+		"id" : 947,
+		"type" : "com_content",
+		"id_content" : 1383,
+		"address" : "",
+		"latitude" : "45.528",
+		"longitude" : "11.512"
+	},
+	{
+		"id" : 948,
+		"type" : "com_content",
+		"id_content" : 1397,
+		"address" : "",
+		"latitude" : "43.55",
+		"longitude" : "11.542"
+	},
+	{
+		"id" : 949,
+		"type" : "com_content",
+		"id_content" : 1455,
+		"address" : "",
+		"latitude" : "45.652",
+		"longitude" : "13.774"
+	},
+	{
+		"id" : 950,
+		"type" : "com_content",
+		"id_content" : 1464,
+		"address" : "",
+		"latitude" : "45.046",
+		"longitude" : "9.698"
+	},
+	{
+		"id" : 951,
+		"type" : "com_content",
+		"id_content" : 1515,
+		"address" : "",
+		"latitude" : "44.854",
+		"longitude" : "11.574"
+	},
+	{
+		"id" : 952,
+		"type" : "com_content",
+		"id_content" : 1581,
+		"address" : "",
+		"latitude" : "45.37170947",
+		"longitude" : "9.688218169"
+	},
+	{
+		"id" : 953,
+		"type" : "com_content",
+		"id_content" : 1590,
+		"address" : "",
+		"latitude" : "43.459782",
+		"longitude" : "12.246834"
+	},
+	{
+		"id" : 954,
+		"type" : "com_content",
+		"id_content" : 1592,
+		"address" : "",
+		"latitude" : "45.3917935",
+		"longitude" : "7.65072265"
+	},
+	{
+		"id" : 956,
+		"type" : "com_content",
+		"id_content" : 1627,
+		"address" : "",
+		"latitude" : "45.35598",
+		"longitude" : "9.32825"
+	},
+	{
+		"id" : 957,
+		"type" : "com_content",
+		"id_content" : 1629,
+		"address" : "",
+		"latitude" : "43.34633",
+		"longitude" : "12.907625"
+	},
+	{
+		"id" : 958,
+		"type" : "com_content",
+		"id_content" : 1642,
+		"address" : "",
+		"latitude" : "40.917575",
+		"longitude" : "14.78036"
+	},
+	{
+		"id" : 959,
+		"type" : "com_content",
+		"id_content" : 1648,
+		"address" : "",
+		"latitude" : "43.867658",
+		"longitude" : "11.105785"
+	},
+	{
+		"id" : 960,
+		"type" : "com_content",
+		"id_content" : 1649,
+		"address" : "",
+		"latitude" : "43.8676664",
+		"longitude" : "11.105742"
+	},
+	{
+		"id" : 961,
+		"type" : "com_content",
+		"id_content" : 1650,
+		"address" : "",
+		"latitude" : "46.486781029664",
+		"longitude" : "11.33816962328"
+	},
+	{
+		"id" : 962,
+		"type" : "com_content",
+		"id_content" : 1651,
+		"address" : "",
+		"latitude" : "45.532563336897",
+		"longitude" : "9.2294335981037"
+	},
+	{
+		"id" : 963,
+		"type" : "com_content",
+		"id_content" : 1652,
+		"address" : "",
+		"latitude" : "45.133297701007",
+		"longitude" : "7.6288684115823"
+	},
+	{
+		"id" : 964,
+		"type" : "com_content",
+		"id_content" : 1653,
+		"address" : "",
+		"latitude" : "38.975974179559",
+		"longitude" : "16.318638569023"
+	},
+	{
+		"id" : 965,
+		"type" : "com_content",
+		"id_content" : 1679,
+		"address" : "",
+		"latitude" : "45.893851467161",
+		"longitude" : "10.848212"
+	},
+	{
+		"id" : 966,
+		"type" : "com_content",
+		"id_content" : 1680,
+		"address" : "",
+		"latitude" : "37.220712871747",
+		"longitude" : "14.524247042328"
+	},
+	{
+		"id" : 967,
+		"type" : "com_content",
+		"id_content" : 1681,
+		"address" : "",
+		"latitude" : "45.654852549616",
+		"longitude" : "10.199221928836"
+	},
+	{
+		"id" : 968,
+		"type" : "com_content",
+		"id_content" : 1682,
+		"address" : "",
+		"latitude" : "44.066726745503",
+		"longitude" : "12.560978971164"
+	},
+	{
+		"id" : 969,
+		"type" : "com_content",
+		"id_content" : 1683,
+		"address" : "",
+		"latitude" : "46.170019841923",
+		"longitude" : "9.899109712603"
+	},
+	{
+		"id" : 970,
+		"type" : "com_content",
+		"id_content" : 1684,
+		"address" : "",
+		"latitude" : "38.146584593782",
+		"longitude" : "13.351135428836"
+	},
+	{
+		"id" : 971,
+		"type" : "com_content",
+		"id_content" : 1688,
+		"address" : "",
+		"latitude" : "46.114790656099",
+		"longitude" : "8.294442"
+	},
+	{
+		"id" : 972,
+		"type" : "com_content",
+		"id_content" : 1693,
+		"address" : "",
+		"latitude" : "44.419321220255",
+		"longitude" : "12.204730986508"
+	},
+	{
+		"id" : 973,
+		"type" : "com_content",
+		"id_content" : 1701,
+		"address" : "",
+		"latitude" : "45.595171831955",
+		"longitude" : "8.915672571164"
+	},
+	{
+		"id" : 974,
+		"type" : "com_content",
+		"id_content" : 1709,
+		"address" : "Via Angelo Moro, 107, 20097 San Donato Milanese, MI, Italia",
+		"latitude" : "45.4298691",
+		"longitude" : "9.2666127"
+	},
+	{
+		"id" : 975,
+		"type" : "com_content",
+		"id_content" : 1710,
+		"address" : "Via Camillo Benso Conte di Cavour, 42, Varese, Italia",
+		"latitude" : "45.8205973",
+		"longitude" : "8.8297188"
+	},
+	{
+		"id" : 976,
+		"type" : "com_content",
+		"id_content" : 1728,
+		"address" : "",
+		"latitude" : "42.560691748778",
+		"longitude" : "12.647503413492"
+	},
+	{
+		"id" : 977,
+		"type" : "com_content",
+		"id_content" : 1737,
+		"address" : "Viale Italia, 547, La Spezia, SP, Italia",
+		"latitude" : "44.1185015",
+		"longitude" : "9.8432896"
+	},
+	{
+		"id" : 978,
+		"type" : "com_content",
+		"id_content" : 1739,
+		"address" : "",
+		"latitude" : "41.599050357806",
+		"longitude" : "12.6525181"
+	},
+	{
+		"id" : 979,
+		"type" : "com_content",
+		"id_content" : 1743,
+		"address" : "",
+		"latitude" : "45.698405153302",
+		"longitude" : "9.405363042328"
+	},
+	{
+		"id" : 980,
+		"type" : "com_content",
+		"id_content" : 1787,
+		"address" : "Via Roma, 42, 61032 Fano PU, Italia",
+		"latitude" : "43.8403464",
+		"longitude" : "13.0109654"
+	},
+	{
+		"id" : 981,
+		"type" : "com_content",
+		"id_content" : 1795,
+		"address" : "",
+		"latitude" : "45.03994860943",
+		"longitude" : "7.6546030423281"
+	},
+	{
+		"id" : 982,
+		"type" : "com_content",
+		"id_content" : 1812,
+		"address" : "Via Darsena, 1, Pisa, PI, Italia",
+		"latitude" : "43.7019242",
+		"longitude" : "10.3865595"
+	},
+	{
+		"id" : 983,
+		"type" : "com_content",
+		"id_content" : 1816,
+		"address" : "Via C. Aroldi, Viadana MN, Italia",
+		"latitude" : "44.9309932",
+		"longitude" : "10.5240243"
+	},
+	{
+		"id" : 984,
+		"type" : "com_content",
+		"id_content" : 1711622156,
+		"address" : "Via Cristoforo Colombo, n. 93, 29122 Piacenza, PC, Italia",
+		"latitude" : "45.0423093",
+		"longitude" : "9.714901"
+	},
+	{
+		"id" : 985,
+		"type" : "com_content",
+		"id_content" : 1827,
+		"address" : "Via Cristoforo Colombo, 93, 29122 Piacenza, PC, Italia",
+		"latitude" : "45.052621591928",
+		"longitude" : "9.6929839038301"
+	},
+	{
+		"id" : 986,
+		"type" : "com_content",
+		"id_content" : 1837,
+		"address" : "Piazza Vitaliano Crivelli, 3, 20056 Trezzo sull'Adda, MI, Italia",
+		"latitude" : "45.607892844169",
+		"longitude" : "9.5188463"
+	},
+	{
+		"id" : 987,
+		"type" : "com_content",
+		"id_content" : 1838,
+		"address" : "",
+		"latitude" : "45.41402241116",
+		"longitude" : "11.898753746272"
+	},
+	{
+		"id" : 988,
+		"type" : "com_content",
+		"id_content" : 1878,
+		"address" : "Via Giodo Bortolazzi, 32, 30027 San Donà di Piave, VE, Italia",
+		"latitude" : "45.62780806585",
+		"longitude" : "12.5736005"
+	},
+	{
+		"id" : 989,
+		"type" : "com_content",
+		"id_content" : 1896,
+		"address" : "Via San Rocco, 3 - 24064 Grumello del Monte (BG).",
+		"latitude" : "45.636988581163",
+		"longitude" : "9.8718627363617"
+	}
+]}
