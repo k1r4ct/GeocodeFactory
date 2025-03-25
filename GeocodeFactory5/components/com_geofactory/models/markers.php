@@ -1071,7 +1071,10 @@ class GeofactoryModelMarkers extends ItemModel
                 'catList'     => &$vTmp,
                 'idTopCategory' => &$idTopParent
             ]);
-            $dispatcher->dispatch('onGetAllSubCats', $evAllSub);
+            $resul_1 = $dispatcher->dispatch('onGetAllSubCats', $evAllSub);
+            
+            var_dump($resul_1);
+            die();
 
             // Aggiunge le sottocategorie
             $childs = [];

@@ -168,12 +168,19 @@ class GeofactoryPluginHelper extends CMSPlugin
      * @return  void
      * @since   1.0
      */
-    public function isPluginInstalled($type, &$flag)
+    public static function getSubscribedEvents(): array
     {
-        if (!$this->isInCurrentType($type)) {
+        return [
+            'onIsPluginInstalled' => 'isPluginInstalled',
+        ];
+    }
+
+     public function isPluginInstalled($event)
+    {
+        if (!$this->isInCurrentType($event->getArgument('type'))) {
             return;
         }
-        $flag = true;
+        return true;
     }
 
     /**
@@ -194,7 +201,7 @@ class GeofactoryPluginHelper extends CMSPlugin
         }
         if (!empty($this->custom_longitude)) {
             $listFields[] = "field_longitude";
-        }
+        } 
         if (!empty($this->custom_street)) {
             $listFields[] = "field_street";
         }

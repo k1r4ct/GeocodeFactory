@@ -102,6 +102,25 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
     }
 
     /**
+     * Verifica se il plugin è installato per il tipo dato.
+     *
+     * @param   string  $type  Tipo di plugin
+     * @param   bool    &$flag  Flag (passato per riferimento)
+     * @return  void
+     * @since   1.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        $parentSubscriptions = parent::getSubscribedEvents();
+
+        $extensionSubriprions = [
+            'onGetAllSubCats' => 'getAllSubCats',
+        ];
+        
+        return array_merge($parentSubscriptions, $extensionSubriprions);
+    }
+
+    /**
      * Caratteristiche del plugin (campi e feature supportate).
      *
      * @param   string  $type
@@ -392,22 +411,52 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
         }
     }
 
-    public function getAllSubCats($type, &$vCats, &$idTopCat)
+    // public function getAllSubCats($type, &$vCats, &$idTopCat)
+    // {
+    //     if (!$this->_isInCurrentType($type)) {
+    //         return;
+    //     }
+    //     $idTopCat = $this->iTopCategory;
+
+    //     $db = Factory::getContainer()->get(DatabaseDriver::class);
+    //     $query = $db->getQuery(true)
+    //         ->select('id AS catid, parent_id AS parentid, title AS title')
+    //         ->from($db->quoteName('#__categories'))
+    //         ->where('extension = ' . $db->quote('com_content'))
+    //         ->order('parent_id');
+
+    //     $db->setQuery($query);
+    //     $vCats = $db->loadObjectList();
+    // }
+
+    public function getAllSubCats($event)
     {
-        if (!$this->_isInCurrentType($type)) {
+        echo "<br>----------event-----------</br>";
+        var_dump($event);
+        if (!$this->_isInCurrentType($event->getArgument('typeList'))) {
             return;
         }
-        $idTopCat = $this->iTopCategory;
+        echo "<br>----------event->getArgument(typeList)-----------</br>";
+        var_dump($event->getArgument('typeList'));
+        $idTopCat = $event->getArgument('idTopCategory');
+        echo "<br>----------idTopCategory-----------</br>";
+        var_dump($idTopCat);
 
         $db = Factory::getContainer()->get(DatabaseDriver::class);
+        
+        echo "<br>----------query-----------</br>";
+        
         $query = $db->getQuery(true)
             ->select('id AS catid, parent_id AS parentid, title AS title')
             ->from($db->quoteName('#__categories'))
             ->where('extension = ' . $db->quote('com_content'))
             ->order('parent_id');
-
+        var_dump($query);
         $db->setQuery($query);
         $vCats = $db->loadObjectList();
+        echo "<br>----------vCats-----------</br>";
+        var_dump($vCats);
+        return [$vCats, $idTopCat];
     }
 
     public function customiseQuery($type, $params, &$sqlSelect, &$sqlJoin, &$sqlWhere)

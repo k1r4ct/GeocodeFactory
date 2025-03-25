@@ -131,7 +131,7 @@ if (!class_exists('GeofactoryHelper')) {
                 $results = $dispatcher->dispatch('onIsPluginInstalled', $event);
                 
                 // Verifica se pluginOk è stato modificato a true dai plugin
-                if (!$pluginOk) {
+                if (!$results) {
                     return null;
                 }
 
