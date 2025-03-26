@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)https://www.dionysopoulos.me/common-mistakes-writing-joomla-plugins.html -->
+<html lang="en-gb" dir="ltr" prefix="og: http://ogp.me/ns#"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+	<meta name="rights" content="Copyright © Nicholas K. Dionysopoulos. All legal rights reserved. Unauthorized copying of parts or the entirety of the content of this site is prohibited.">
+	<meta name="robots" content="index, follow">
+	<meta name="author" content="Nicholas K. Dionysopoulos">
+	<meta name="fediverse:creator" content="@nikosdion@mastodon.social">
+	<meta name="og:type" content="article">
+	<meta name="og:title" content="Common mistakes writing Joomla 4 plugins">
+	<meta name="og:description" content="Personal blog of Nicholas Dionysopoulos. I say what I mean and I mean what I say.">
+	<meta name="og:site_name" content="Dionysopoulos.me">
+	<meta name="og:url" content="https://www.dionysopoulos.me/common-mistakes-writing-joomla-plugins.html">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="color-scheme" content="light dark">
+	<meta name="description" content="Personal blog of Nicholas Dionysopoulos. I say what I mean and I mean what I say.">
+	<meta name="generator" content="MYOB">
+	<title>Common mistakes writing Joomla 4 plugins - Dionysopoulos.me</title>
+	<link href="https://www.dionysopoulos.me/media/templates/site/cassiopeia_twentytwo/images/logos/svg/icon-white-bg-red.svg" rel="icon" type="image/svg+xml">
+	<link href="https://www.dionysopoulos.me/media/templates/site/cassiopeia_twentytwo/images/logos/webp/icon-white-bg-red@2x.webp" rel="icon" type="image/webp">
+	<link href="https://www.dionysopoulos.me/media/templates/site/cassiopeia_twentytwo/images/logos/png/icon-white-bg-red@2x.png" rel="icon" type="image/png">
+	<link href="https://www.dionysopoulos.me/" rel="alternate icon" type="image/vnd.microsoft.icon">
+	<link href="https://mastodon.social/@nikosdion" rel="me">
+	<link href="https://www.dionysopoulos.me/component/finder/search.opensearch?Itemid=101" rel="search" title="OpenSearch Dionysopoulos.me" type="application/opensearchdescription+xml">
+
+    <link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/joomla-fontawesome.min.css" rel="stylesheet"><noscript><link href="/media/system/css/joomla-fontawesome.min.css?65e700" rel="stylesheet"></noscript>
+	<link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/template.min.css" rel="stylesheet">
+	<link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/j5.css" rel="stylesheet">
+	<link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/button.min.css" rel="stylesheet">
+	<link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/awesomplete.css" rel="stylesheet">
+	<link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/cassiopeia.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
+	<link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/joomla-alert.min.css" rel="stylesheet">
+	<link href="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/user.css" rel="stylesheet">
+	<style>.akeeba-sociallogin-unlink-button-facebook, .akeeba-sociallogin-link-button-facebook { color: var(--sociallogin-facebook-fg, #ffffff) !important; background-color: var(--sociallogin-facebook-bg, #1877f2) !important; }
+.akeeba-sociallogin-unlink-button-github, .akeeba-sociallogin-link-button-github { color: var(--sociallogin-github-fg, #ffffff) !important; background-color: var(--sociallogin-github-bg, #000000) !important; }
+</style>
+
+    <script type="application/json" class="joomla-script-options loaded">{"akeeba.Engage.Comments.editURL":"L2NvbXBvbmVudC9lbmdhZ2UvP3JldHVybnVybD1hSFIwY0hNNkx5OTNkM2N1WkdsdmJubHpiM0J2ZFd4dmN5NXRaUzlqYjIxdGIyNHRiV2x6ZEdGclpYTXRkM0pwZEdsdVp5MXFiMjl0YkdFdGNHeDFaMmx1Y3k1b2RHMXMmNjcyMWQxZTYzYzgwMDg2ODIzM2Y1YmE0MTU1OWUzOTA9MSZpZD1fX0lEX18mdGFzaz1jb21tZW50LmVkaXQ=","akeeba.Engage.Comments.deleteURL":"L2NvbXBvbmVudC9lbmdhZ2UvP3JldHVybnVybD1hSFIwY0hNNkx5OTNkM2N1WkdsdmJubHpiM0J2ZFd4dmN5NXRaUzlqYjIxdGIyNHRiV2x6ZEdGclpYTXRkM0pwZEdsdVp5MXFiMjl0YkdFdGNHeDFaMmx1Y3k1b2RHMXMmNjcyMWQxZTYzYzgwMDg2ODIzM2Y1YmE0MTU1OWUzOTA9MSZ0YXNrPWNvbW1lbnRzLmRlbGV0ZSZjaWRbXT1fX0lEX18=","akeeba.Engage.Comments.publishURL":"L2NvbXBvbmVudC9lbmdhZ2UvP3JldHVybnVybD1hSFIwY0hNNkx5OTNkM2N1WkdsdmJubHpiM0J2ZFd4dmN5NXRaUzlqYjIxdGIyNHRiV2x6ZEdGclpYTXRkM0pwZEdsdVp5MXFiMjl0YkdFdGNHeDFaMmx1Y3k1b2RHMXMmNjcyMWQxZTYzYzgwMDg2ODIzM2Y1YmE0MTU1OWUzOTA9MSZ0YXNrPWNvbW1lbnRzLnB1Ymxpc2gmY2lkW109X19JRF9f","akeeba.Engage.Comments.unpublishURL":"L2NvbXBvbmVudC9lbmdhZ2UvP3JldHVybnVybD1hSFIwY0hNNkx5OTNkM2N1WkdsdmJubHpiM0J2ZFd4dmN5NXRaUzlqYjIxdGIyNHRiV2x6ZEdGclpYTXRkM0pwZEdsdVp5MXFiMjl0YkdFdGNHeDFaMmx1Y3k1b2RHMXMmNjcyMWQxZTYzYzgwMDg2ODIzM2Y1YmE0MTU1OWUzOTA9MSZ0YXNrPWNvbW1lbnRzLnVucHVibGlzaCZjaWRbXT1fX0lEX18=","akeeba.Engage.Comments.markhamURL":"L2NvbXBvbmVudC9lbmdhZ2UvP3JldHVybnVybD1hSFIwY0hNNkx5OTNkM2N1WkdsdmJubHpiM0J2ZFd4dmN5NXRaUzlqYjIxdGIyNHRiV2x6ZEdGclpYTXRkM0pwZEdsdVp5MXFiMjl0YkdFdGNHeDFaMmx1Y3k1b2RHMXMmNjcyMWQxZTYzYzgwMDg2ODIzM2Y1YmE0MTU1OWUzOTA9MSZ0YXNrPWNvbW1lbnRzLnJlcG9ydGhhbSZjaWRbXT1fX0lEX18=","akeeba.Engage.Comments.markspamURL":"L2NvbXBvbmVudC9lbmdhZ2UvP3JldHVybnVybD1hSFIwY0hNNkx5OTNkM2N1WkdsdmJubHpiM0J2ZFd4dmN5NXRaUzlqYjIxdGIyNHRiV2x6ZEdGclpYTXRkM0pwZEdsdVp5MXFiMjl0YkdFdGNHeDFaMmx1Y3k1b2RHMXMmNjcyMWQxZTYzYzgwMDg2ODIzM2Y1YmE0MTU1OWUzOTA9MSZ0YXNrPWNvbW1lbnRzLnJlcG9ydHNwYW0mY2lkW109X19JRF9f","akeeba.Engage.Comments.possiblespamURL":"L2NvbXBvbmVudC9lbmdhZ2UvP3JldHVybnVybD1hSFIwY0hNNkx5OTNkM2N1WkdsdmJubHpiM0J2ZFd4dmN5NXRaUzlqYjIxdGIyNHRiV2x6ZEdGclpYTXRkM0pwZEdsdVp5MXFiMjl0YkdFdGNHeDFaMmx1Y3k1b2RHMXMmNjcyMWQxZTYzYzgwMDg2ODIzM2Y1YmE0MTU1OWUzOTA9MSZ0YXNrPWNvbW1lbnRzLnBvc3NpYmxlc3BhbSZjaWRbXT1fX0lEX18=","akeeba.Engage.Comments.pleaseWait":0,"joomla.jtext":{"COM_ENGAGE_COMMENTS_FORM_BTN_SUBMIT_PLEASE_WAIT":"Your comment is being submitted. Please wait…","COM_ENGAGE_COMMENTS_DELETE_PROMPT":"This action deletes the entire comment and all of its replies, no matter how many levels deep, forever.\n\nDeleted comments CAN NOT be restored after they are deleted.\n\nAre you absolutely sure?","PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME":"Cannot find the username field in the login module. Sorry, Passwordless authentication will not work on this site unless you use a different login module.","PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME":"You need to enter your username (but NOT your password) before selecting the passkey login button.","PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME":"The specified username does not correspond to a user account that has enabled passwordless login on this site.","JSHOWPASSWORD":"Show Password","JHIDEPASSWORD":"Hide Password","MOD_FINDER_SEARCH_VALUE":"Search &hellip;","JLIB_JS_AJAX_ERROR_OTHER":"An error has occurred while fetching the JSON data: HTTP %s status code.","JLIB_JS_AJAX_ERROR_PARSE":"A parse error has occurred while processing the following JSON data:<br><code style=\"color:inherit;white-space:pre-wrap;padding:0;margin:0;border:0;background:inherit;\">%s</code>","ERROR":"Error","MESSAGE":"Message","NOTICE":"Notice","WARNING":"Warning","JCLOSE":"Close","JOK":"OK","JOPEN":"Open"},"finder-search":{"url":"/component/finder/?task=suggestions.suggest&format=json&tmpl=component&Itemid=101"},"system.paths":{"root":"","rootFull":"https://www.dionysopoulos.me/","base":"","baseFull":"https://www.dionysopoulos.me/"},"csrf.token":"6721d1e63c800868233f5ba41559e390","system.keepalive":{"interval":3600000,"uri":"/component/ajax/?format=json"}}</script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/core.min.js.download"></script><script bis_use="true" type="text/javascript" charset="utf-8" data-bis-config="[&quot;facebook.com/&quot;,&quot;twitter.com/&quot;,&quot;youtube-nocookie.com/embed/&quot;,&quot;//vk.com/&quot;,&quot;//www.vk.com/&quot;,&quot;linkedin.com/&quot;,&quot;//www.linkedin.com/&quot;,&quot;//instagram.com/&quot;,&quot;//www.instagram.com/&quot;,&quot;//www.google.com/recaptcha/api2/&quot;,&quot;//hangouts.google.com/webchat/&quot;,&quot;//www.google.com/calendar/&quot;,&quot;//www.google.com/maps/embed&quot;,&quot;spotify.com/&quot;,&quot;soundcloud.com/&quot;,&quot;//player.vimeo.com/&quot;,&quot;//disqus.com/&quot;,&quot;//tgwidget.com/&quot;,&quot;//js.driftt.com/&quot;,&quot;friends2follow.com&quot;,&quot;/widget&quot;,&quot;login&quot;,&quot;//video.bigmir.net/&quot;,&quot;blogger.com&quot;,&quot;//smartlock.google.com/&quot;,&quot;//keep.google.com/&quot;,&quot;/web.tolstoycomments.com/&quot;,&quot;moz-extension://&quot;,&quot;chrome-extension://&quot;,&quot;/auth/&quot;,&quot;//analytics.google.com/&quot;,&quot;adclarity.com&quot;,&quot;paddle.com/checkout&quot;,&quot;hcaptcha.com&quot;,&quot;recaptcha.net&quot;,&quot;2captcha.com&quot;,&quot;accounts.google.com&quot;,&quot;www.google.com/shopping/customerreviews&quot;,&quot;buy.tinypass.com&quot;,&quot;gstatic.com&quot;,&quot;secureir.ebaystatic.com&quot;,&quot;docs.google.com&quot;,&quot;contacts.google.com&quot;,&quot;github.com&quot;,&quot;mail.google.com&quot;,&quot;chat.google.com&quot;,&quot;audio.xpleer.com&quot;,&quot;keepa.com&quot;,&quot;static.xx.fbcdn.net&quot;,&quot;sas.selleramp.com&quot;,&quot;1plus1.video&quot;,&quot;console.googletagservices.com&quot;,&quot;//lnkd.demdex.net/&quot;,&quot;//radar.cedexis.com/&quot;,&quot;//li.protechts.net/&quot;,&quot;challenges.cloudflare.com/&quot;,&quot;ogs.google.com&quot;]" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executers/vi-tr.js"></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/template.min.js.download" type="module"></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/comments.min.js.download" defer=""></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/j4buttons.min.js.download" defer=""></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/keepalive.min.js.download" type="module"></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/passwordview.min.js.download" defer=""></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/menu.min.js.download" type="module"></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/awesomplete.min.js.download" defer=""></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/finder.min.js.download" type="module"></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/messages.min.js.download" type="module"></script>
+	<script src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/login.min.js.download" defer=""></script>
+	<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","@id":"https://www.dionysopoulos.me/#/schema/BreadcrumbList/17","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://www.dionysopoulos.me/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"name":"Common mistakes writing Joomla 4 plugins"}}]}</script>
+	<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dionysopoulos.me/#/schema/Organization/base","name":"Dionysopoulos.me","url":"https://www.dionysopoulos.me/"},{"@type":"WebSite","@id":"https://www.dionysopoulos.me/#/schema/WebSite/base","url":"https://www.dionysopoulos.me/","name":"Dionysopoulos.me","publisher":{"@id":"https://www.dionysopoulos.me/#/schema/Organization/base"},"potentialAction":{"@type":"SearchAction","target":"https://www.dionysopoulos.me/component/finder/search.html?q={search_term_string}&amp;Itemid=101","query-input":"required name=search_term_string"}},{"@type":"WebPage","@id":"https://www.dionysopoulos.me/#/schema/WebPage/base","url":"https://www.dionysopoulos.me/common-mistakes-writing-joomla-plugins.html","name":"Common mistakes writing Joomla 4 plugins - Dionysopoulos.me","description":"Personal blog of Nicholas Dionysopoulos. I say what I mean and I mean what I say.","isPartOf":{"@id":"https://www.dionysopoulos.me/#/schema/WebSite/base"},"about":{"@id":"https://www.dionysopoulos.me/#/schema/Organization/base"},"inLanguage":"en-GB","breadcrumb":{"@id":"https://www.dionysopoulos.me/#/schema/BreadcrumbList/17"}},{"@type":"Article","@id":"https://www.dionysopoulos.me/#/schema/com_content/article/190","name":"Common mistakes writing Joomla 4 plugins","headline":"Common mistakes writing Joomla 4 plugins","inLanguage":"en-GB","author":{"@type":"Person","name":"Nicholas K. Dionysopoulos"},"thumbnailUrl":"images/articles/crashed-car.jpg","image":"images/articles/crashed-car.jpg","dateCreated":"2022-06-27T17:28:31+00:00","isPartOf":{"@id":"https://www.dionysopoulos.me/#/schema/WebPage/base"}}]}</script>
+
+<script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script></head>
+
+<body class="site com_content wrapper-static view-article layout-blog no-task itemid-101 has-sidebar-right" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCIsIlBJTlRFUkVTVCI6ImRpc2FibGVkIiwiSU5TVEFHUkFNIjoiZGlzYWJsZWQiLCJMSU5LRURJTiI6ImRpc2FibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMC4yMCIsInNjb3JlIjoyMDAyMH1d" __processed_829dc4fa-a52e-40ca-b513-eadccea264ff__="true">
+    <header class="header container-header full-width position-sticky sticky-top">
+
+        
+        
+		<div class="grid-child d-block d-lg-flex flex-row gap-3 align-items-center" bis_skin_checked="1">
+			<div class="navbar-brand" bis_skin_checked="1">
+				<a class="brand-logo d-flex flex-row gap-2 align-items-center text-decoration-none" href="https://www.dionysopoulos.me/">
+					<picture>
+						<source srcset="">
+						<source media="only screen and (min-device-pixel-ratio: 1.25)" srcset="/media/templates/site/cassiopeia_twentytwo/images/logos/webp/icon-white-bg-red@2x.webp">
+						<source srcset="/media/templates/site/cassiopeia_twentytwo/images/logos/webp/icon-white-bg-red.webp">
+						<source media="only screen and (min-device-pixel-ratio: 1.25)" srcset="/media/templates/site/cassiopeia_twentytwo/images/logos/png/icon-white-bg-red@2x.png">
+						<img src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/icon-white-bg-red.png" alt="Dionysopoulos.me" class="img-fluid">
+					</picture>
+					<h1 class="site-description fs-2 visually-hidden">Dionysopoulos.me</h1>
+				</a>
+			</div>
+
+							<div class="flex-grow-1" bis_skin_checked="1">
+					<ul class="mod-menu mod-list nav flex-sm-row gap-0 gap-sm-3 gap-lg-0">
+<li class="nav-item item-101 default current active"><a href="https://www.dionysopoulos.me/" aria-current="location" tabindex="0"><span class="p-2 fa fa-blog" aria-hidden="true"></span>Blog</a></li><li class="nav-item item-597"><a href="https://www.dionysopoulos.me/book.html" tabindex="0"><span class="p-2 fa fa-book" aria-hidden="true"></span>Book</a></li><li class="nav-item item-572"><a href="https://www.dionysopoulos.me/software-tools.html" tabindex="0"><span class="p-2 fa fa-laptop-code" aria-hidden="true"></span>Software</a></li><li class="nav-item item-138"><a href="https://www.dionysopoulos.me/about-me.html" tabindex="0"><span class="p-2 fa fa-id-card-alt" aria-hidden="true"></span>About Me</a></li><li class="nav-item item-141"><a href="https://www.dionysopoulos.me/contact-me.html?view=item" tabindex="0"><span class="p-2 fa fa-envelope" aria-hidden="true"></span>Contact Me</a></li></ul>
+
+				</div>
+			
+							<div class="container-search" bis_skin_checked="1">
+					
+<form class="mod-finder js-finder-searchform form-search" action="https://www.dionysopoulos.me/component/finder/search.html?Itemid=101" method="get" role="search">
+    <label for="mod-finder-searchword95" class="visually-hidden finder">Search</label><div class="awesomplete" bis_skin_checked="1"><input type="text" name="q" id="mod-finder-searchword95" class="js-finder-search-query form-control" value="" placeholder="Search …" autocomplete="off" aria-autocomplete="list" aria-expanded="false" aria-owns="awesomplete_list_1" role="combobox"><ul hidden="" role="listbox" id="awesomplete_list_1" aria-label="Results List"></ul><span class="visually-hidden" role="status" aria-live="assertive" aria-atomic="true"></span></div>
+            <input type="hidden" name="Itemid" value="101"></form>
+
+				</div>
+					</div>
+	</header>
+
+    <div class="site-grid" bis_skin_checked="1">
+        
+        
+        
+        
+        <div class="grid-child container-component" bis_skin_checked="1">
+            <nav class="mod-breadcrumbs__wrapper" aria-label="Breadcrumbs">
+    <ol class="mod-breadcrumbs breadcrumb px-3 py-2">
+                    <li class="mod-breadcrumbs__here float-start">
+                You are here: &nbsp;
+            </li>
+        
+        <li class="mod-breadcrumbs__item breadcrumb-item"><a href="https://www.dionysopoulos.me/" class="pathway"><span>Home</span></a></li><li class="mod-breadcrumbs__item breadcrumb-item active"><span>Common mistakes writing Joomla 4 plugins</span></li>    </ol>
+    </nav>
+
+            
+            <div id="system-message-container" aria-live="polite" bis_skin_checked="1"></div>
+
+            <main>
+            <div class="com-content-article item-page" bis_skin_checked="1">
+    <meta itemprop="inLanguage" content="en-GB">
+    
+    
+        <div class="page-header" bis_skin_checked="1">
+        <h1>
+            Common mistakes writing Joomla 4 plugins        </h1>
+                            </div>
+        
+        
+            <dl class="article-info text-muted d-block d-sm-flex gap-4">
+
+            <dt class="article-info-term visually-hidden">
+                            Details                    </dt>
+
+                    <dd class="createdby" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+			<img src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/avatar202208.jpg" width="32" height="32" itemprop="image" alt="" class="rounded-circle author-image">
+	
+				Written by: <a href="https://www.gravatar.com/ef6a4cab1568fbacd75928a3c57e7b3dfe9de2291418577b51ec7a27ddfdbb6b" itemprop="url"><span itemprop="name">Nicholas K. Dionysopoulos</span></a>	</dd>
+        
+        
+        
+        
+                    <dd class="published">
+    <span class="icon-calendar icon-fw" aria-hidden="true"></span>
+    <time datetime="2022-06-27T21:48:45+03:00">
+        Published: 27 June 2022    </time>
+</dd>
+        
+    
+            
+        
+            </dl>
+
+<meta itemprop="headline" content="Common mistakes writing Joomla 4 plugins">
+<meta itemprop="dateModified" content="2022-08-22T13:35:25+03:00">
+<meta itemprop="mainEntityOfPage" content="/common-mistakes-writing-joomla-plugins.html">
+
+<div itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization" bis_skin_checked="1">
+	<div itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject" bis_skin_checked="1">
+		<meta itemprop="url" content="https://www.dionysopoulos.me/images/logos/webp/icon-red@4x.webp">
+		<meta itemprop="width" content="400">
+		<meta itemprop="height" content="400">
+	</div>
+	<meta itemprop="name" content="Dionysopoulos.me">
+</div>
+    
+    
+        
+                            <figure class="none item-image">
+    	<picture>
+		<source type="image/webp" sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-852.webp 852w, https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-635.webp 635w, https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-453.webp 453w">
+		<source type="image/jpeg" sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-852.jpg 852w, https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-635.jpg 635w, https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-453.jpg 453w, https://www.dionysopoulos.me/images/articles/crashed-car.jpg 1200w">
+		<img sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-852.webp 852w, https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-635.webp 635w, https://www.dionysopoulos.me/media/cache/autosized/images/articles/crashed-car-453.webp 453w" src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/crashed-car-453.webp" alt="" width="1200" height="775">
+	</picture>
+            <figcaption class="caption">Photo by Gareth Harrison on Unsplash — https://unsplash.com/@gareth_harrison</figcaption>
+    </figure>
+                    <div class="com-content-article__body" bis_skin_checked="1">
+        <p>Over the years I have had the chance to review hundreds of Joomla! plugins written by different developers, typically when they are causing a site to break in unexpected ways. It turns out, most plugins suffer a few very common and easily preventable problems.</p>
+ 
+<p>You might wonder, do developers knowingly publish broken code? Far from it, they have tested it... but they have only done so in the very narrow use case they expect their plugins to be used. This is called “<a href="https://en.wikipedia.org/wiki/Happy_path" target="_blank" rel="nofollow noopener">happy path</a> testing” and is almost as bad as no testing at all.&nbsp;The problem is that when the plugin is used in any other context — the CLI application, non-HTML output, in cases where the output format may not be determined until after the component for the page has finished executing — they will cause unintended consequences, i.e. the site will break. Even worse, clients will start blaming the only innocent parties i.e. Joomla itself and third party developers whose software is written the right way and works perfectly fine. I should know, we are getting at least two tickets every week over at Akeeba Ltd about this kind of broken plugins.</p>
+<p>Unfortunately, this is a chicken and egg problem. If you have never debugged a case where your plugin breaks the site you won't know why, how to test for it or how to write your plugin so it doesn't break other people's code and sites. If someone points the problems out to you it will seem like something trivial, obvious even. Hindsight is 20/20.</p>
+<p>So let's see the common mistakes and how to avoid them through an example taken from a real world plugin which shall remain unnamed — its developer did contact me privately and we had a productive discussion. In fact, this interaction is what prompted this blog post.</p>
+<h3>A symphony of mistakes</h3>
+<p>I will use a very small part of a plugin I was debugging last week to show you <strong>four</strong> major mistakes you can possibly do as a Joomla plugin developer in <em>five lines of code</em>.</p>
+<pre>class plgSystemFoobar extends \Joomla\CMS\Plugin\CMSPlugin
+{
+	public function __construct(&amp;$subject, $config)
+	{<br>		parent::__construct($subject, $config);<br>
+		if (\Joomla\CMS\Factory::getApplication()-&gt;isClient('administrator')) return;
+
+		$document = \Joomla\CMS\Factory::getDocument();
+		$document-&gt;addScript(\Joomla\CMS\Uri\Uri::root(true) . 'plugins/system/foobar/js/foobar.js');
+	}
+}</pre>
+<p>This looks like a deceptively simple system plugin. It adds a JavaScript file to every page load in the frontend. Right?</p>
+<p>Well, that is its intention but not what it actually does. It<span style="color: var(--hiq-text-color,var(--hiq-color-gray-2,#17191c)); font-family: inherit; font-size: 1rem; background-color: var(--hiq-body-background-color,#fff); letter-spacing: var(--hiq-letter-spacing-base,0);">&nbsp;also breaks Joomla 4's CLI and API applications, it breaks pages with non-HTML output, it forbids components from using non-HTML output and tries to load the JavaScript file from the wrong place. Four mistakes in five lines of code.</span></p>
+<h3>Do not execute plugin logic in the plugin constructor</h3>
+<p>Let's think about Joomla's lifetime. In broad terms, the request ends up getting handled by Joomla's <code>index.php</code> file. This spins up the Joomla! application, e.g. <code>\Joomla\CMS\Application\SiteApplication</code> for the frontend. The main entry point for the application object is the <code>doExecute</code> method. This method does a lot of initialisation <em>before</em>&nbsp;routing and dispatching the application, meaning that this initialisation takes place before Joomla has parsed SEF URLs or created a document object. In fact, Joomla will load all enabled <strong>system</strong> plugins before Joomla has figured out any basic facts about itself.</p>
+<p>The developer of this plugin put his business logic in the constructor of the plugin which is executed at this early stage of the Joomla application initialisation. While isClient() will work, the rest of the code which tries to get the document object is <em>wrong code which breaks site</em>.</p>
+<p>The plugin erroneously goes through the&nbsp;<code>\Joomla\CMS\Factory::getDocument()</code> method to get the document. This is deprecated in Joomla 4 and will be removed in Joomla 5. You are supposed to use the <code>getDocument()</code> method <strong>of the application object</strong>. Had the developer done that they'd have seen that they are getting <strong>null</strong> because the document has not been created yet.</p>
+<p>In fact, all this code should be moved from the plugin object constructor to the <strong>onAfterDispatch</strong> method to work correctly.</p>
+<h3>Do not go through the&nbsp;<code>\Joomla\CMS\Factory</code></h3>
+<p>The second problem with this plugin is the exact reason why the Factory's getDocument() method is deprecated.</p>
+<p>Calling the factory's getDocument() will forcibly create a document object which will then be used by the application object. The document object is created based on the information in the request. However, as you might recall, <strong>at this point Joomla has not yet parsed the SEF route</strong>! This would also be true if this code was moved in the onAfterInitialise event, the earliest system plugin event triggered by Joomla.</p>
+<p>Since the SEF URL has not been parsed Joomla cannot reliably know the type of document to use. Think for example about&nbsp;a URL like https://www.example.com/foobar.json&nbsp;which when gone through the SEF URL router will, among other things, set format=json in the request. This means that this request <em>expects</em>&nbsp;Joomla to create&nbsp;a&nbsp;<code>\Joomla\CMS\Document\JsonDocument</code> document object.</p>
+<p>However, since format=json has not been set yet, Joomla will assume format=html when you call getDocument(), therefore it will create&nbsp;a&nbsp;<code>\Joomla\CMS\Document\HtmlDocument</code> document object which will be used by the application object as well. This will of course break the component which is handling the request <em>with the fault lying solely on the broken plugin's author</em>.</p>
+<p>If I had a dime every time I have been accused of my components being buggy because a third party plugin developer did this I'd be a rich man.</p>
+<p>You should only ever call TWO METHODS of the <code>\Joomla\CMS\Factory</code>&nbsp;in Joomla 4:</p>
+<ul>
+<li>getContainer(). This returns Joomla's Dependency Injection container (DI Container, sometimes abbreviated as DIC).</li>
+<li>getApplication(). This returns the current Joomla application object handling the request.</li>
+</ul>
+<p>That's it. You do not get to use anything else! Everything else is either provided through the DI Container or through the application object itself.</p>
+<p>To get the application's document you should do&nbsp;<code>\Joomla\CMS\Factory::getApplication()-&gt;getDocument()</code>.</p>
+<h3>There is more to Joomla than HTML output</h3>
+<p>This is an absurdly common mistake. Developers seem to assume that Joomla will only ever generate HTML output. <strong>THIS HAS NOT BEEN THE CASE EVER SINCE JOOMLA 1.0 RELEASED IN 2005 FOR CHRIST'S SAKE!</strong> Seriously, people! This was even true in Mambo, Joomla's precursor. Joomla is not WordPress, it is perfectly capable of generating non-HTML output such as XML, JSON, RSS feeds, Atom feeds, raw binary output (e.g. images) and so on and so forth.</p>
+<p>The developer of this plugin made the <em>unreasonable</em> assumption that his <code>$document</code> will always contain an HTMLDocument.</p>
+<p>A URL like https://www.example.com/index.php?option=com_whatever&amp;format=json&nbsp;— despite the two problems already mentioned above — would still populate $document with a JSONDocument object. However, JSONDocument does not have an&nbsp;<code>addScript</code> method. Therefore this plugin causes a PHP fatal error right away.</p>
+<p>The correct way to do that is called “feature detection”:</p>
+<pre>$document = \Joomla\CMS\Factory::getApplication()-&gt;getDocument();
+
+if (!($document instanceof \Joomla\CMS\Document\HtmlDocument))
+{
+	return;
+}</pre>
+<p>If the document returned by our application is not an HTMLDocument we get the hell out of Dodge. Simple, isn't it?</p>
+<h3>There is more to Joomla than the frontend and backend</h3>
+<p>Now let's get to the biggest bug of them all: assuming that Joomla consists entirely of the frontend (site) and backend (administrator) application. This has not been true since Joomla 1.6, released in <strong>2010</strong> — that's twelve years ago at the time of this writing and I still see this bug!</p>
+<p>This line is <strong>wrong</strong>:</p>
+<pre>if (\Joomla\CMS\Factory::getApplication()-&gt;isClient('administrator')) return;</pre>
+<p>Clearly, the developer wanted to write “if this is not the frontend of the site don't do anything”. Instead, what they <em>actually</em> wrote is “if this is the backend of the site — therefore it is the frontend of the site&nbsp;<strong>or the api application, or the console application, or any custom application which extends from Joomla's WebApplication class</strong> — don't do anything”. Oops.</p>
+<p>You see, Joomla 4 has a number of applications shipped with it:</p>
+<ul>
+<li><strong>installation</strong>. This is the web installer when you build a new site. Third party code, like our symphony-of-mistakes system plugin, does not load in it and does not concern third party developers. It's been around since Joomla 1.0.</li>
+<li><strong>site</strong>. The frontend of the site. It's been around since Joomla 1.0.</li>
+<li><strong>administrator</strong>. The backend of the site.&nbsp;It's been around since Joomla 1.0.</li>
+<li><strong>api</strong>. The /api folder of your Joomla 4 site. Introduced in Joomla 4.0.</li>
+<li><strong>cli</strong>. The cli/joomla.php command line application. Introduced in Joomla 4.0.</li>
+</ul>
+<p>Further to that, applications other than site and administrator have existing since Joomla 1.5.</p>
+<p>From Joomla 1.5 onwards it's been possible to create your own custom application by extending JApplicationWeb. These custom application do load system plugins by default. They were used to create custom entry points for callbacks, e.g. in payment plugins for e-commerce components. They are no longer used as the reason for their existence has been made a moot point since the advent of com_ajax in Joomla 2.5.</p>
+<p>From Joomla 1.6 and up until Joomla 5.0 will be released it's been possible for developer to create custom CLI applications by extending JApplicationCli. These applications do <em>not</em> load system plugins by default so they are unlikely to have broken.</p>
+<p>This is why despite the fact that this has been an issue for at least 10 years plugin developers may have not bumped into this until Joomla 4 was released.</p>
+<p>The correct way to do this is, of course, to check explicitly for the application you are running under:</p>
+<pre>if (<strong>!</strong>\Joomla\CMS\Factory::getApplication()-&gt;isClient('<strong>site</strong>')) return;</pre>
+<h3>Do not load static resources directly and/or from your plugin's folder</h3>
+<p>This is a bonus round and not a bug which will break sites <em>today</em>, but it will break sites come Joomla 5.0 and a mild security concern :)</p>
+<p>The developer of the extension chose to load their static JavaScript file using the deprecated addScript() method of the document and located the file in the plugin's folder structure. This is a two-in-one issue.</p>
+<p>First of all, ever since Joomla 1.5 (released in 2007 — <strong>15 years ago</strong> at the time of this writing) Joomla introduced the <strong>media</strong> folder where extensions are expected to place all publicly available static files, be they static files or user-generated content managed outside Joomla's Media Manager.</p>
+<p>The developer of the extension should have placed his JavaScript file in the <strong>media/plg_system_foobar/js</strong> folder using the following section in their plugin's XML manifest:</p>
+<pre>&lt;media folder="media" destination="plg_system_foobar"&gt;<br>    &lt;folder&gt;js&lt;/folder&gt;<br>    &lt;file&gt;joomla.asset.json&lt;/file&gt;<br>&lt;/media&gt;</pre>
+<p>(We'll see what the joomla.asset.json file is in a moment)</p>
+<p>It is a bad security practice mixing executable backend code (.php files) with frontend executable code (.js, .es6 etc) files and static media files (CSS, images, videos, ...). Joomla is moving towards placing all frontend accessible stuff into the media folder — even for templates, as of Joomla 4.1 — and will most likely start applying security controls to prevent web access to the plugin, component, module etc folders. You have been warned.</p>
+<p>The next issue is that HTMLDocument's addScript() method has been deprecated. Joomla 4 has moved into using asset dependencies and a Web Asset Manager to, well, manage the asset dependencies!</p>
+<p>Assets and their dependencies are declared in the <code>joomla.asset.json</code> file located in the extension's subdirectory under the <strong>media</strong> directory. So, the developer should've shipped a file media/plg_system_foobar/joomla.asset.json with the following contents:</p>
+<pre>{
+	"$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+	"name": "plg_system_foobar",
+	"version": "1.0.0",
+	"description": "Foobar plugin",
+	"license": "GPL-3.0-or-later",
+	"assets": [
+		{
+			"name": "plg_system_foobar.foobar",
+			"description": "Foobar JavaScript",
+			"type": "script",
+			"uri": "plg_system_foobar/foobar.js",
+			"dependencies": [
+				"core"
+			],
+			"attributes": {
+				"defer": true
+			}
+		}
+	]
+}</pre>
+<p>This allows the developer to tell Joomla to add their script using this very simple piece of code:&nbsp;</p>
+<pre>$document-&gt;getWebAssetManager()-&gt;useScript('plg_system_foobar.foobar');</pre>
+<p>Here's the kicker. This is safe <em>even if you don't check the Document object type</em>. Yeah, if $document is a JSONDocument which does not have a concept of web assets this code would still work. It's still a good idea to check the document type the way I've told you to avoid doing pointless work, or introducing future bugs.</p>
+<h3>Putting it all together</h3>
+<p>Let's put everything we learned together. Our five line plugin barely grew by a couple of lines and it no longer breaks the sites it is installed in. The changes are in bold type:</p>
+<pre>&lt;?php<br>class plgSystemFoobar extends \Joomla\CMS\Plugin\CMSPlugin<br>{<br>   public function <strong>onAfterDispatch</strong>()<br>   {<br>      if (<strong>!</strong>\Joomla\CMS\Factory::getApplication()-&gt;isClient('<strong>site</strong>')) return;<br><br>      $document = \Joomla\CMS\Factory<strong>::getApplication()-&gt;getDocument()</strong>;<br><br>      <strong>if (!($document instanceof \Joomla\CMS\Document\HtmlDocument))<br>      {<br>         return;<br>      }</strong><br><br>      <strong>$document-&gt;getWebAssetManager()-&gt;useScript('plg_system_foobar.foobar');</strong><br>   }<br>}</pre>
+<p>It's still short. It's still readable. It's (mostly) future-proof — well, it's still using the legacy CMSPlugin structure but that's another blog post for another day.</p>
+<p>Hopefully, if you are a Joomla! plugin developer who read this article you can now write plugins which don't break other people's extensions and the sites they are installed in. Even better, you can understand if you are inadvertently breaking people's sites with your plugins and fix them. If you don't we'll find out and have you read this blog post 😉</p>    </div>
+
+        
+        
+<nav class="pagenavigation" aria-label="Page Navigation">
+    <span class="pagination ms-0">
+                <a class="btn btn-sm btn-secondary previous" href="https://www.dionysopoulos.me/displaying-mastodon-toots-on-your-joomla-site.html" rel="prev">
+            <span class="visually-hidden">
+                Previous article: Displaying Mastodon toots on your Joomla site            </span>
+            <span class="icon-chevron-left" aria-hidden="true"></span> <span aria-hidden="true">Prev</span>            </a>
+                    <a class="btn btn-sm btn-secondary next" href="https://www.dionysopoulos.me/hello-apple-silicon.html" rel="next">
+            <span class="visually-hidden">
+                Next article: Hello, Apple Silicon            </span>
+            <span aria-hidden="true">Next</span> <span class="icon-chevron-right" aria-hidden="true"></span>            </a>
+        </span>
+</nav>
+                                        <div class="card blogger-bio" bis_skin_checked="1">
+	<h3 class="card-header blogger-bio-name">
+		Nicholas K. Dionysopoulos	</h3>
+		<div class="d-md-none img-fluid blogger-bio-mobile-image" bis_skin_checked="1">
+			<picture>
+		<source type="image/webp" sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/avatar/avatar202208-453.webp 453w">
+		<source type="image/jpeg" sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/avatar/avatar202208-453.jpg 453w, https://www.dionysopoulos.me/images/avatar/avatar202208.jpg 240w">
+		<img sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/avatar/avatar202208-453.webp 453w" src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/avatar202208.jpg" loading="lazy" alt="" width="240" height="240">
+	</picture>
+	</div>
+		<div class="card-body" bis_skin_checked="1">
+		<div class="d-flex flex-row gap-2" bis_skin_checked="1">
+						<div class="d-none d-md-flex blogger-bio-desktop-image" bis_skin_checked="1">	<picture>
+		<source type="image/webp" sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/avatar/avatar202208-453.webp 453w">
+		<source type="image/jpeg" sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/avatar/avatar202208-453.jpg 453w, https://www.dionysopoulos.me/images/avatar/avatar202208.jpg 240w">
+		<img sizes="(min-width: 665px) 852px, (min-width: 485px) 635px,  453px" srcset="https://www.dionysopoulos.me/media/cache/autosized/images/avatar/avatar202208-453.webp 453w" src="./Common mistakes writing Joomla 4 plugins - Dionysopoulos.me_files/avatar202208.jpg" loading="lazy" alt="" width="240" height="240">
+	</picture>
+</div>
+						<div class="blogger-bio-details" bis_skin_checked="1">
+				<div class="blogger-bio-blurb" bis_skin_checked="1">
+					<p>A Mechanical Engineer turned Software Engineer, Nicholas has been active with Open Source Software since the 1990's and Joomla! in particular since it was called Mambo all the way back in 2004. Mostly known as the lead developer of <a href="https://www.akeeba.com/" rel="nofollow">Akeeba</a> software, such as Akeeba Backup and Admin Tools, Nicholas has been a frequent core contributor to Joomla and author of several extensions.</p>				</div>
+				<div class="blogger-bio-contact" bis_skin_checked="1">
+					<a class="btn btn-sm btn-outline-secondary" href="https://www.gravatar.com/ef6a4cab1568fbacd75928a3c57e7b3dfe9de2291418577b51ec7a27ddfdbb6b" rel="nofollow" target="_blank">
+						<span class="fa fa-external-link" aria-hidden="true"></span>
+						Nicholas‘s profile
+						<span class="visually-hidden">(External link)</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<section id="akengage-comments-section" class="akengage-outer-container" aria-label="Comments section">
+
+	<h3 class="akengage-title h4 border-bottom mb-2">
+		No comments	</h3>
+
+	
+	
+			<footer id="akeeba-engage-login">
+	<h4>
+		Login to post a comment	</h4>
+
+	<form id="login-form-16" class="mod-login" action="https://www.dionysopoulos.me/common-mistakes-writing-joomla-plugins.html" method="post">
+
+    
+    <div class="mod-login__userdata userdata" bis_skin_checked="1">
+        <div class="mod-login__username form-group" bis_skin_checked="1">
+                            <div class="input-group" bis_skin_checked="1">
+                    <input id="modlgn-username-16" type="text" name="username" class="form-control" autocomplete="username" placeholder="Username">
+                    <label for="modlgn-username-16" class="visually-hidden">Username</label>
+                    <span class="input-group-text" title="Username">
+                        <span class="icon-user icon-fw" aria-hidden="true"></span>
+                    </span>
+                </div>
+                    </div>
+
+        <div class="mod-login__password form-group" bis_skin_checked="1">
+                            <div class="input-group" bis_skin_checked="1">
+                    <input id="modlgn-passwd-16" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="Password">
+                    <label for="modlgn-passwd-16" class="visually-hidden">Password</label>
+                    <button type="button" class="btn btn-secondary input-password-toggle" clicklistener="true">
+                        <span class="icon-eye icon-fw" aria-hidden="true"></span>
+                        <span class="visually-hidden">Show Password</span>
+                    </button>
+                </div>
+                    </div>
+
+                    <div class="mod-login__remember form-group" bis_skin_checked="1">
+                <div id="form-login-remember-16" class="form-check" bis_skin_checked="1">
+                    <input type="checkbox" name="remember" class="form-check-input" value="yes" id="form-login-input-remember-16">
+                    <label class="form-check-label" for="form-login-input-remember-16">
+                        Remember Me                    </label>
+                </div>
+            </div>
+        
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 plg_system_webauthn_login_button" data-webauthn-form="login-form-16" title="Sign in with a passkey" id="plg_system_webauthn-ZeG68jT49f6O-3jyDiZOs">
+                                            <svg aria-hidden="true" id="Passkey" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="icon-passkey"><circle id="icon-passkey-head" cx="10.5" cy="6" r="4.5"></circle><path id="icon-passkey-key" d="M22.5,10.5a3.5,3.5,0,1,0-5,3.15V19L19,20.5,21.5,18,20,16.5,21.5,15l-1.24-1.24A3.5,3.5,0,0,0,22.5,10.5Zm-3.5,0a1,1,0,1,1,1-1A1,1,0,0,1,19,10.5Z"></path><path id="icon-passkey-body" d="M14.44,12.52A6,6,0,0,0,12,12H9a6,6,0,0,0-6,6v2H16V14.49A5.16,5.16,0,0,1,14.44,12.52Z"></path></g></svg>
+                                        Sign in with a passkey                </button>
+            </div>
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 akeeba-sociallogin-link-button-j4 akeeba-sociallogin-link-button-j4-facebook akeeba-sociallogin-link-button-facebook" data-socialurl="http://www.facebook.com/dialog/oauth?response_type=code&amp;client_id=272600060799939&amp;redirect_uri=https%3A%2F%2Fwww.dionysopoulos.me%2Findex.php%3Foption%3Dcom_ajax%26group%3Dsociallogin%26plugin%3Dfacebook%26format%3Draw&amp;scope=public_profile%2Cemail" title="Login with Facebook" id="plg_system_sociallogin-facebook-jl2BuG5rVDU1-QeLt7gQl">
+                                            <!---
+  -  @package   AkeebaSocialLogin
+  -  @copyright Copyright (c)2016-2025 Nicholas K. Dionysopoulos / Akeeba Ltd
+  -  @license   GNU General Public License version 3, or later
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 14222 14222"><circle cx="7111" cy="7112" r="7111" fill="#1977f3"></circle><path d="M9879 9168l315-2056H8222V5778c0-562 275-1111 1159-1111h897V2917s-814-139-1592-139c-1624 0-2686 984-2686 2767v1567H4194v2056h1806v4969c362 57 733 86 1111 86s749-30 1111-86V9168z" fill="#fff"></path></svg>                                        Login with Facebook                </button>
+            </div>
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 akeeba-sociallogin-link-button-j4 akeeba-sociallogin-link-button-j4-microsoft akeeba-sociallogin-link-button-microsoft" data-socialurl="https://login.live.com/oauth20_authorize.srf?response_type=code&amp;client_id=00000000403F8A5E&amp;redirect_uri=https%3A%2F%2Fwww.dionysopoulos.me%2Findex.php%3Foption%3Dcom_ajax%26group%3Dsociallogin%26plugin%3Dmicrosoft%26format%3Draw&amp;scope=wl.basic%20wl.emails%20wl.signin" title="Sign in with Microsoft" id="plg_system_sociallogin-microsoft-bwf8boYcRZFU-fYeZjNBA">
+                                            <!---
+  -  @package   AkeebaSocialLogin
+  -  @copyright Copyright (c)2016-2025 Nicholas K. Dionysopoulos / Akeeba Ltd
+  -  @license   GNU General Public License version 3, or later
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 23 23"><path fill="#f3f3f3" d="M0 0h23v23H0z"></path><path fill="#f35325" d="M1 1h10v10H1z"></path><path fill="#81bc06" d="M12 1h10v10H12z"></path><path fill="#05a6f0" d="M1 12h10v10H1z"></path><path fill="#ffba08" d="M12 12h10v10H12z"></path></svg>                                        Sign in with Microsoft                </button>
+            </div>
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 akeeba-sociallogin-link-button-j4 akeeba-sociallogin-link-button-j4-github akeeba-sociallogin-link-button-github" data-socialurl="https://github.com/login/oauth/authorize?response_type=code&amp;client_id=96c7cf31501bd4a55f60&amp;redirect_uri=https%3A%2F%2Fwww.dionysopoulos.me%2Findex.php%3Foption%3Dcom_ajax%26group%3Dsociallogin%26plugin%3Dgithub%26format%3Draw&amp;scope=user" title="Login with GitHub" id="plg_system_sociallogin-github-iMSx4ketE3TR-GYoOAUGG">
+                                            <!---
+  -  @package   AkeebaSocialLogin
+  -  @copyright Copyright (c)2016-2025 Nicholas K. Dionysopoulos / Akeeba Ltd
+  -  @license   GNU General Public License version 3, or later
+  -->
+
+<svg clip-rule="evenodd" fill-rule="evenodd" height="1em" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 136 133" xmlns="http://www.w3.org/2000/svg"><path d="m152.608 331.455c-8.994 0-16.288 7.293-16.288 16.29 0 7.197 4.667 13.302 11.14 15.456.815.15 1.112-.353 1.112-.785 0-.387-.014-1.411-.022-2.77-4.531.984-5.487-2.184-5.487-2.184-.741-1.882-1.809-2.383-1.809-2.383-1.479-1.01.112-.99.112-.99 1.635.115 2.495 1.679 2.495 1.679 1.453 2.489 3.813 1.77 4.741 1.353.148-1.052.569-1.77 1.034-2.177-3.617-.411-7.42-1.809-7.42-8.051 0-1.778.635-3.233 1.677-4.371-.168-.412-.727-2.069.16-4.311 0 0 1.367-.438 4.479 1.67 1.299-.362 2.693-.542 4.078-.549 1.384.007 2.777.187 4.078.549 3.11-2.108 4.475-1.67 4.475-1.67.889 2.242.33 3.899.163 4.311 1.044 1.138 1.674 2.593 1.674 4.371 0 6.258-3.809 7.635-7.437 8.038.584.503 1.105 1.497 1.105 3.016 0 2.178-.02 3.935-.02 4.469 0 .436.294.943 1.12.784 6.468-2.159 11.131-8.26 11.131-15.455 0-8.997-7.294-16.29-16.291-16.29z" fill="#fff" transform="matrix(4.16667 0 0 4.16667 -568 -1381.06)"></path></svg>                                        Login with GitHub                </button>
+            </div>
+        
+        <div class="mod-login__submit form-group" bis_skin_checked="1">
+            <button type="submit" name="Submit" class="btn btn-primary w-100">Log in</button>
+        </div>
+
+                    <ul class="mod-login__options list-unstyled">
+                <li>
+                    <a href="https://www.dionysopoulos.me/component/users/reset.html?Itemid=101">
+                    Forgot your password?</a>
+                </li>
+                <li>
+                    <a href="https://www.dionysopoulos.me/component/users/remind.html?Itemid=101">
+                    Forgot your username?</a>
+                </li>
+                                <li>
+                    <a href="https://www.dionysopoulos.me/component/users/registration.html?Itemid=101">
+                    Create an account <span class="icon-register" aria-hidden="true"></span></a>
+                </li>
+                            </ul>
+        <input type="hidden" name="option" value="com_users">
+        <input type="hidden" name="task" value="user.login">
+        <input type="hidden" name="return" value="aHR0cHM6Ly93d3cuZGlvbnlzb3BvdWxvcy5tZS9jb21tb24tbWlzdGFrZXMtd3JpdGluZy1qb29tbGEtcGx1Z2lucy5odG1s">
+        <input type="hidden" name="6721d1e63c800868233f5ba41559e390" value="1">    </div>
+    </form>	</footer>	
+	
+	</section></div>
+
+            </main>
+            
+        </div>
+
+                <div class="grid-child container-sidebar-right" bis_skin_checked="1">
+            <div class="sidebar-right card  border-primary" bis_skin_checked="1">
+            <h3 class="card-header  h5 bg-primary text-white">Login</h3>        <div class="card-body" bis_skin_checked="1">
+                <form id="login-form-16" class="mod-login" action="https://www.dionysopoulos.me/common-mistakes-writing-joomla-plugins.html" method="post">
+
+    
+    <div class="mod-login__userdata userdata" bis_skin_checked="1">
+        <div class="mod-login__username form-group" bis_skin_checked="1">
+                            <div class="input-group" bis_skin_checked="1">
+                    <input id="modlgn-username-16" type="text" name="username" class="form-control" autocomplete="username" placeholder="Username">
+                    <label for="modlgn-username-16" class="visually-hidden">Username</label>
+                    <span class="input-group-text" title="Username">
+                        <span class="icon-user icon-fw" aria-hidden="true"></span>
+                    </span>
+                </div>
+                    </div>
+
+        <div class="mod-login__password form-group" bis_skin_checked="1">
+                            <div class="input-group" bis_skin_checked="1">
+                    <input id="modlgn-passwd-16" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="Password">
+                    <label for="modlgn-passwd-16" class="visually-hidden">Password</label>
+                    <button type="button" class="btn btn-secondary input-password-toggle" clicklistener="true">
+                        <span class="icon-eye icon-fw" aria-hidden="true"></span>
+                        <span class="visually-hidden">Show Password</span>
+                    </button>
+                </div>
+                    </div>
+
+                    <div class="mod-login__remember form-group" bis_skin_checked="1">
+                <div id="form-login-remember-16" class="form-check" bis_skin_checked="1">
+                    <input type="checkbox" name="remember" class="form-check-input" value="yes" id="form-login-input-remember-16">
+                    <label class="form-check-label" for="form-login-input-remember-16">
+                        Remember Me                    </label>
+                </div>
+            </div>
+        
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 plg_system_webauthn_login_button" data-webauthn-form="login-form-16" title="Sign in with a passkey" id="plg_system_webauthn-d9CTGSQO7PVY-oBohccwR">
+                                            <svg aria-hidden="true" id="Passkey" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="icon-passkey"><circle id="icon-passkey-head" cx="10.5" cy="6" r="4.5"></circle><path id="icon-passkey-key" d="M22.5,10.5a3.5,3.5,0,1,0-5,3.15V19L19,20.5,21.5,18,20,16.5,21.5,15l-1.24-1.24A3.5,3.5,0,0,0,22.5,10.5Zm-3.5,0a1,1,0,1,1,1-1A1,1,0,0,1,19,10.5Z"></path><path id="icon-passkey-body" d="M14.44,12.52A6,6,0,0,0,12,12H9a6,6,0,0,0-6,6v2H16V14.49A5.16,5.16,0,0,1,14.44,12.52Z"></path></g></svg>
+                                        Sign in with a passkey                </button>
+            </div>
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 akeeba-sociallogin-link-button-j4 akeeba-sociallogin-link-button-j4-facebook akeeba-sociallogin-link-button-facebook" data-socialurl="http://www.facebook.com/dialog/oauth?response_type=code&amp;client_id=272600060799939&amp;redirect_uri=https%3A%2F%2Fwww.dionysopoulos.me%2Findex.php%3Foption%3Dcom_ajax%26group%3Dsociallogin%26plugin%3Dfacebook%26format%3Draw&amp;scope=public_profile%2Cemail" title="Login with Facebook" id="plg_system_sociallogin-facebook-qNGLj586CjmS-HsNlj8Hn">
+                                            <!---
+  -  @package   AkeebaSocialLogin
+  -  @copyright Copyright (c)2016-2025 Nicholas K. Dionysopoulos / Akeeba Ltd
+  -  @license   GNU General Public License version 3, or later
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 14222 14222"><circle cx="7111" cy="7112" r="7111" fill="#1977f3"></circle><path d="M9879 9168l315-2056H8222V5778c0-562 275-1111 1159-1111h897V2917s-814-139-1592-139c-1624 0-2686 984-2686 2767v1567H4194v2056h1806v4969c362 57 733 86 1111 86s749-30 1111-86V9168z" fill="#fff"></path></svg>                                        Login with Facebook                </button>
+            </div>
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 akeeba-sociallogin-link-button-j4 akeeba-sociallogin-link-button-j4-microsoft akeeba-sociallogin-link-button-microsoft" data-socialurl="https://login.live.com/oauth20_authorize.srf?response_type=code&amp;client_id=00000000403F8A5E&amp;redirect_uri=https%3A%2F%2Fwww.dionysopoulos.me%2Findex.php%3Foption%3Dcom_ajax%26group%3Dsociallogin%26plugin%3Dmicrosoft%26format%3Draw&amp;scope=wl.basic%20wl.emails%20wl.signin" title="Sign in with Microsoft" id="plg_system_sociallogin-microsoft-YLwqwIW0tiyP-gNgMWUZy">
+                                            <!---
+  -  @package   AkeebaSocialLogin
+  -  @copyright Copyright (c)2016-2025 Nicholas K. Dionysopoulos / Akeeba Ltd
+  -  @license   GNU General Public License version 3, or later
+  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 23 23"><path fill="#f3f3f3" d="M0 0h23v23H0z"></path><path fill="#f35325" d="M1 1h10v10H1z"></path><path fill="#81bc06" d="M12 1h10v10H12z"></path><path fill="#05a6f0" d="M1 12h10v10H1z"></path><path fill="#ffba08" d="M12 12h10v10H12z"></path></svg>                                        Sign in with Microsoft                </button>
+            </div>
+                    <div class="mod-login__submit form-group" bis_skin_checked="1">
+                <button type="button" class="btn btn-secondary w-100 akeeba-sociallogin-link-button-j4 akeeba-sociallogin-link-button-j4-github akeeba-sociallogin-link-button-github" data-socialurl="https://github.com/login/oauth/authorize?response_type=code&amp;client_id=96c7cf31501bd4a55f60&amp;redirect_uri=https%3A%2F%2Fwww.dionysopoulos.me%2Findex.php%3Foption%3Dcom_ajax%26group%3Dsociallogin%26plugin%3Dgithub%26format%3Draw&amp;scope=user" title="Login with GitHub" id="plg_system_sociallogin-github-6OaFLkIrVEcn-OaDoJCoD">
+                                            <!---
+  -  @package   AkeebaSocialLogin
+  -  @copyright Copyright (c)2016-2025 Nicholas K. Dionysopoulos / Akeeba Ltd
+  -  @license   GNU General Public License version 3, or later
+  -->
+
+<svg clip-rule="evenodd" fill-rule="evenodd" height="1em" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 136 133" xmlns="http://www.w3.org/2000/svg"><path d="m152.608 331.455c-8.994 0-16.288 7.293-16.288 16.29 0 7.197 4.667 13.302 11.14 15.456.815.15 1.112-.353 1.112-.785 0-.387-.014-1.411-.022-2.77-4.531.984-5.487-2.184-5.487-2.184-.741-1.882-1.809-2.383-1.809-2.383-1.479-1.01.112-.99.112-.99 1.635.115 2.495 1.679 2.495 1.679 1.453 2.489 3.813 1.77 4.741 1.353.148-1.052.569-1.77 1.034-2.177-3.617-.411-7.42-1.809-7.42-8.051 0-1.778.635-3.233 1.677-4.371-.168-.412-.727-2.069.16-4.311 0 0 1.367-.438 4.479 1.67 1.299-.362 2.693-.542 4.078-.549 1.384.007 2.777.187 4.078.549 3.11-2.108 4.475-1.67 4.475-1.67.889 2.242.33 3.899.163 4.311 1.044 1.138 1.674 2.593 1.674 4.371 0 6.258-3.809 7.635-7.437 8.038.584.503 1.105 1.497 1.105 3.016 0 2.178-.02 3.935-.02 4.469 0 .436.294.943 1.12.784 6.468-2.159 11.131-8.26 11.131-15.455 0-8.997-7.294-16.29-16.291-16.29z" fill="#fff" transform="matrix(4.16667 0 0 4.16667 -568 -1381.06)"></path></svg>                                        Login with GitHub                </button>
+            </div>
+        
+        <div class="mod-login__submit form-group" bis_skin_checked="1">
+            <button type="submit" name="Submit" class="btn btn-primary w-100">Log in</button>
+        </div>
+
+                    <ul class="mod-login__options list-unstyled">
+                <li>
+                    <a href="https://www.dionysopoulos.me/component/users/reset.html?Itemid=101">
+                    Forgot your password?</a>
+                </li>
+                <li>
+                    <a href="https://www.dionysopoulos.me/component/users/remind.html?Itemid=101">
+                    Forgot your username?</a>
+                </li>
+                                <li>
+                    <a href="https://www.dionysopoulos.me/component/users/registration.html?Itemid=101">
+                    Create an account <span class="icon-register" aria-hidden="true"></span></a>
+                </li>
+                            </ul>
+        <input type="hidden" name="option" value="com_users">
+        <input type="hidden" name="task" value="user.login">
+        <input type="hidden" name="return" value="aHR0cHM6Ly93d3cuZGlvbnlzb3BvdWxvcy5tZS9jb21tb24tbWlzdGFrZXMtd3JpdGluZy1qb29tbGEtcGx1Z2lucy5odG1s">
+        <input type="hidden" name="6721d1e63c800868233f5ba41559e390" value="1">    </div>
+    </form>
+    </div>
+</div>
+<div class="sidebar-right card  border-primary" bis_skin_checked="1">
+            <h3 class="card-header  h5 bg-primary text-white">Tags</h3>        <div class="card-body" bis_skin_checked="1">
+                <div class="mod-tagspopular-cloud tagspopular tagscloud" bis_skin_checked="1">
+        <span class="tag">
+            <a class="tag-name" style="font-size: 2em" href="https://www.dionysopoulos.me/component/tags/tag/joomla.html">
+                Joomla!</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1.6976744186047em" href="https://www.dionysopoulos.me/component/tags/tag/how-to.html">
+                how-to</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1.3023255813953em" href="https://www.dionysopoulos.me/component/tags/tag/opinion.html">
+                opinion</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1.1395348837209em" href="https://www.dionysopoulos.me/component/tags/tag/developers.html">
+                developers</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1.1162790697674em" href="https://www.dionysopoulos.me/component/tags/tag/php.html">
+                PHP</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1.1162790697674em" href="https://www.dionysopoulos.me/component/tags/tag/linux.html">
+                Linux</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1.0697674418605em" href="https://www.dionysopoulos.me/component/tags/tag/security.html">
+                security</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1.046511627907em" href="https://www.dionysopoulos.me/component/tags/tag/obsolete.html">
+                Obsolete</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1em" href="https://www.dionysopoulos.me/component/tags/tag/review.html">
+                review</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1em" href="https://www.dionysopoulos.me/component/tags/tag/macos.html">
+                macOS</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1em" href="https://www.dionysopoulos.me/component/tags/tag/windows.html">
+                Windows</a>
+                    </span>
+            <span class="tag">
+            <a class="tag-name" style="font-size: 1em" href="https://www.dionysopoulos.me/component/tags/tag/mandriva.html">
+                Mandriva</a>
+                    </span>
+    </div>
+    </div>
+</div>
+
+        </div>
+        
+        
+            </div>
+
+        <footer class="container-footer footer full-width">
+        <div class="grid-child" bis_skin_checked="1">
+            <div class="moduletable " bis_skin_checked="1">
+        <ul id="footer-menu" class="mod-menu mod-list nav flex-lg-row gap-lg-3">
+<li class="nav-item item-125"><a href="https://www.dionysopoulos.me/privacy.html" tabindex="0">Privacy Policy</a></li><li class="nav-item item-126"><a href="https://www.dionysopoulos.me/cookies.html" tabindex="0">Cookies Policy</a></li><li class="nav-item item-143"><a href="https://www.dionysopoulos.me/tos.html" tabindex="0">Terms of Service</a></li></ul>
+</div>
+
+        </div>
+    </footer>
+    
+    
+    
+
+
+</body></html>

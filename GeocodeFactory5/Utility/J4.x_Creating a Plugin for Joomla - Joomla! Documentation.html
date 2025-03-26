@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla -->
+<html class="client-js js no-touch svg inlinesvg svgclippaths no-ie8compat" lang="en" dir="ltr"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>J4.x:Creating a Plugin for Joomla - Joomla! Documentation</title>
+<script>document.documentElement.className="client-js";RLCONF={"wgBreakFrames":!1,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"892bee42d02fb47452404a75","wgCSPNonce":!1,"wgCanonicalNamespace":"J4.x","wgCanonicalSpecialPageName":!1,"wgNamespaceNumber":148,"wgPageName":"J4.x:Creating_a_Plugin_for_Joomla","wgTitle":"Creating a Plugin for Joomla","wgCurRevisionId":999388,"wgRevisionId":999388,"wgArticleId":208246,"wgIsArticle":!0,"wgIsRedirect":!1,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Pages using deprecated source tags","Pages with syntax highlighting errors","Tutorials","Plugin Development","Development","Joomla! 4.x"],"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"J4.x:Creating_a_Plugin_for_Joomla",
+"wgRelevantArticleId":208246,"wgIsProbablyEditable":!1,"wgRelevantPageIsProbablyEditable":!1,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgMediaViewerOnClick":!0,"wgMediaViewerEnabledByDefault":!0,"wgULSAcceptLanguageList":["*"],"wgULSCurrentAutonym":"English","wgULSPosition":"personal","wgULSisCompactLinksEnabled":!0,"wgTranslatePageTranslation":"source"};RLSTATE={"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"loading","ext.translate":"ready","ext.translate.tag.languages":"ready","ext.pygments":"ready","skins.jforeground.styles":"ready","mediawiki.toc.styles":"ready","ext.uls.pt":"ready"};RLPAGEMODULES=["site","mediawiki.page.startup","mediawiki.page.ready","mediawiki.toc","skins.jforeground.js","ext.uls.compactlinks","ext.uls.interface","ext.translate.pagetranslation.uls"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.options@1hzgi",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});});</script>
+<link rel="stylesheet" href="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/load.php">
+<script async="" src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/load(1).php"></script>
+<style>
+.mw-ui-button{background-color:#f8f9fa;color:#202122;display:inline-block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;min-width:4em;max-width:28.75em;margin:0;padding:6px 12px;border:1px solid #a2a9b1;border-radius:2px;cursor:pointer;vertical-align:middle;font-family:inherit;font-size:1em;font-weight:bold;line-height:1.28571429em;text-align:center;-webkit-appearance:none}.mw-ui-button:visited{color:#202122}.mw-ui-button:hover{background-color:#ffffff;color:#404244;border-color:#a2a9b1}.mw-ui-button:focus{background-color:#ffffff;color:#202122;border-color:#3366cc;box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff;outline-width:0}.mw-ui-button:focus::-moz-focus-inner{border-color:transparent;padding:0}.mw-ui-button:active,.mw-ui-button.is-on{background-color:#c8ccd1;color:#000000;border-color:#72777d;box-shadow:none}.mw-ui-button:disabled{background-color:#c8ccd1;color:#ffffff;border-color:#c8ccd1;cursor:default}.mw-ui-button:disabled:hover,.mw-ui-button:disabled:active{background-color:#c8ccd1;color:#ffffff;box-shadow:none;border-color:#c8ccd1}.mw-ui-button:not(:disabled){-webkit-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;-moz-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms}.mw-ui-button.mw-ui-quiet,.mw-ui-button.mw-ui-quiet.mw-ui-progressive,.mw-ui-button.mw-ui-quiet.mw-ui-destructive{background-color:transparent;color:#202122;border-color:transparent}.mw-ui-button.mw-ui-quiet:hover,.mw-ui-button.mw-ui-quiet.mw-ui-progressive:hover,.mw-ui-button.mw-ui-quiet.mw-ui-destructive:hover{background-color:transparent;color:#404244;border-color:transparent;box-shadow:none}.mw-ui-button.mw-ui-quiet:active,.mw-ui-button.mw-ui-quiet.mw-ui-progressive:active,.mw-ui-button.mw-ui-quiet.mw-ui-destructive:active{background-color:transparent;color:#000000;border-color:transparent}.mw-ui-button.mw-ui-quiet:focus,.mw-ui-button.mw-ui-quiet.mw-ui-progressive:focus,.mw-ui-button.mw-ui-quiet.mw-ui-destructive:focus{background-color:transparent;color:#202122;border-color:transparent;box-shadow:none}.mw-ui-button.mw-ui-quiet:disabled,.mw-ui-button.mw-ui-quiet.mw-ui-progressive:disabled,.mw-ui-button.mw-ui-quiet.mw-ui-destructive:disabled,.mw-ui-button.mw-ui-quiet:disabled:hover,.mw-ui-button.mw-ui-quiet.mw-ui-progressive:disabled:hover,.mw-ui-button.mw-ui-quiet.mw-ui-destructive:disabled:hover,.mw-ui-button.mw-ui-quiet:disabled:active,.mw-ui-button.mw-ui-quiet.mw-ui-progressive:disabled:active,.mw-ui-button.mw-ui-quiet.mw-ui-destructive:disabled:active{background-color:transparent;color:#72777d;border-color:transparent}.mw-ui-button.mw-ui-progressive{background-color:#3366cc;color:#fff;border:1px solid #3366cc}.mw-ui-button.mw-ui-progressive:hover{background-color:#447ff5;border-color:#447ff5}.mw-ui-button.mw-ui-progressive:focus{box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-progressive:active,.mw-ui-button.mw-ui-progressive.is-on{background-color:#2a4b8d;border-color:#2a4b8d;box-shadow:none}.mw-ui-button.mw-ui-progressive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-progressive:disabled:hover,.mw-ui-button.mw-ui-progressive:disabled:active{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-progressive.mw-ui-quiet{color:#3366cc}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:hover{background-color:transparent;color:#447ff5}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:active{color:#2a4b8d}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:focus{background-color:transparent;color:#3366cc}.mw-ui-button.mw-ui-destructive{background-color:#dd3333;color:#fff;border:1px solid #dd3333}.mw-ui-button.mw-ui-destructive:hover{background-color:#ff4242;border-color:#ff4242}.mw-ui-button.mw-ui-destructive:focus{box-shadow:inset 0 0 0 1px #dd3333,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-destructive:active,.mw-ui-button.mw-ui-destructive.is-on{background-color:#b32424;border-color:#b32424;box-shadow:none}.mw-ui-button.mw-ui-destructive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-destructive:disabled:hover,.mw-ui-button.mw-ui-destructive:disabled:active{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-destructive.mw-ui-quiet{color:#dd3333}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:hover{background-color:transparent;color:#ff4242}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:active{color:#b32424}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:focus{background-color:transparent;color:#dd3333}.mw-ui-button.mw-ui-big{font-size:1.3em}.mw-ui-button.mw-ui-block{display:block;width:100%;margin-left:auto;margin-right:auto}input.mw-ui-button::-moz-focus-inner,button.mw-ui-button::-moz-focus-inner{margin-top:-1px;margin-bottom:-1px}a.mw-ui-button{text-decoration:none}a.mw-ui-button:hover,a.mw-ui-button:focus{text-decoration:none}.mw-ui-button-group > *{min-width:48px;border-radius:0;float:left}.mw-ui-button-group > *:first-child{border-top-left-radius:2px;border-bottom-left-radius:2px}.mw-ui-button-group > *:not(:first-child){border-left:0}.mw-ui-button-group > *:last-child{border-top-right-radius:2px;border-bottom-right-radius:2px}.mw-ui-button-group .is-on .button{cursor:default}
+.grid *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box} .grid .left{float:left}.grid .right{float:right}.grid .text-left{text-align:left}.grid .text-right{text-align:right}.grid .text-center{text-align:center}.grid .hide{display:none}.grid .highlight{background:#ff9} .grid .row{width:100%;max-width:none;min-width:600px;margin:0 auto}.grid .row .row{width:auto;max-width:none;min-width:0;margin:0 -5px}.grid .column,.grid .columns{float:left;min-height:1px;padding:0 5px;position:relative}.grid .row.collapse .column,.grid .row.collapse .columns{padding:0}.grid .row .row.collapse{margin:0}.grid .column.centered,.grid .columns.centered{float:none;margin:0 auto}.grid .row .one{width:8.333%}.grid .row .two{width:16.667%}.grid .row .three{width:25%}.grid .row .four{width:33.333%}.grid .row .five{width:41.667%}.grid .row .six{width:50%}.grid .row .seven{width:58.333%}.grid .row .eight{width:66.667%}.grid .row .nine{width:75%}.grid .row .ten{width:83.333%}.grid .row .eleven{width:91.667%}.grid .row .twelve{width:100%}.grid .row .offset-by-one{margin-left:8.333%}.grid .row .offset-by-two{margin-left:16.667%}.grid .row .offset-by-three{margin-left:25%}.grid .row .offset-by-four{margin-left:33.333%}.grid .row .offset-by-five{margin-left:41.667%}.grid .row .offset-by-six{margin-left:50%}.grid .row .offset-by-seven{margin-left:58.333%}.grid .row .offset-by-eight{margin-left:66.667%}.grid .row .offset-by-nine{margin-left:75%}.grid .row .offset-by-ten{margin-left:83.333%}.grid .push-two{left:16.667%}.grid .pull-two{right:16.667%}.grid .push-three{left:25%}.grid .pull-three{right:25%}.grid .push-four{left:33.333%}.grid .pull-four{right:33.333%}.grid .push-five{left:41.667%}.grid .pull-five{right:41.667%}.grid .push-six{left:50%}.grid .pull-six{right:50%}.grid .push-seven{left:58.333%}.grid .pull-seven{right:58.333%}.grid .push-eight{left:66.667%}.grid .pull-eight{right:66.667%}.grid .push-nine{left:75%}.grid .pull-nine{right:75%}.grid .push-ten{left:83.333%}.grid .pull-ten{right:83.333%}.grid .row:before,.grid .row:after{content:'';display:table}.grid .row:after{clear:both}  .grid .block-grid{display:block;overflow:hidden;padding:0}.grid .block-grid > li{display:block;height:auto;float:left}.grid .block-grid.two-up{margin:0 -15px}.grid .block-grid.two-up > li{width:50%;padding:0 15px 15px} .grid .block-grid.three-up{margin:0 -12px}.grid .block-grid.three-up > li{width:33.33%;padding:0 12px 12px} .grid .block-grid.four-up{margin:0 -10px}.grid .block-grid.four-up > li{width:25%;padding:0 10px 10px} .grid .block-grid.five-up{margin:0 -8px}.grid .block-grid.five-up > li{width:20%;padding:0 8px 8px}
+@media screen {
+	.toctoggle{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;font-size:94%}}
+.uls-menu{border-radius:2px; font-size:medium}.uls-search,.uls-language-settings-close-block{border-top-right-radius:2px;border-top-left-radius:2px}.uls-language-list{border-bottom-right-radius:2px;border-bottom-left-radius:2px}.uls-menu.callout:before,.uls-menu.callout:after{border-top:10px solid transparent;border-bottom:10px solid transparent;display:inline-block; top:17px;position:absolute;content:''}.uls-menu.callout.selector-right:before{ border-left:10px solid #c8ccd1; right:-11px}.uls-menu.callout.selector-right:after{ border-left:10px solid #fff; right:-10px}.uls-menu.callout.selector-left:before{ border-right:10px solid #c8ccd1; left:-11px}.uls-menu.callout.selector-left:after{ border-right:10px solid #fff; left:-10px}.uls-ui-languages button{margin:5px 15px 5px 0;white-space:nowrap;overflow:hidden}.uls-search-wrapper-wrapper{position:relative;padding-left:40px;margin-top:5px;margin-bottom:5px}.uls-icon-back{background:transparent url(/extensions/UniversalLanguageSelector/resources/images/back-grey-ltr.svg?01868) no-repeat scroll center center;background-size:28px;height:32px;width:40px;display:block;position:absolute;left:0;border-right:1px solid #c8ccd1;opacity:0.8}.uls-icon-back:hover{opacity:1;cursor:pointer}.uls-menu .uls-no-results-view .uls-no-found-more{background-color:#fff}.uls-menu .uls-no-results-view h3{padding:0 28px;margin:0;color:#54595d;font-size:1em;font-weight:normal}
+#uls-settings-block{background-color:#f8f9fa;border-top:1px solid #c8ccd1;padding-left:10px;line-height:1.2em;border-radius:0 0 2px 2px}#uls-settings-block > button{background:left top transparent no-repeat;background-size:20px auto;color:#54595d;display:inline-block;margin:8px 15px;border:0;padding:0 0 0 26px;font-size:medium;cursor:pointer}#uls-settings-block > button:hover{color:#202122}#uls-settings-block > button.display-settings-block{background-image:url(/extensions/UniversalLanguageSelector/resources/images/display.svg?b78f7)}#uls-settings-block > button.input-settings-block{background-image:url(/extensions/UniversalLanguageSelector/resources/images/input.svg?e7c85)}.uls-tipsy.uls-tipsy{z-index:1000}</style><style>
+#p-lang .body ul .uls-trigger,#p-lang .pBody ul .uls-trigger{background-image:none;padding:0}#p-lang .mw-interlanguage-selector,#p-lang .mw-interlanguage-selector:active{background-image:url(/extensions/UniversalLanguageSelector/resources/images/language-base20.svg?b7954);background-position:left 4px center;background-repeat:no-repeat;background-size:16px;margin:4px 0 8px;padding:4px 8px 4px 26px;font-size:13px;font-weight:normal;text-align:left;cursor:pointer} .mw-interlanguage-selector.selector-open{background-color:#c8ccd1} .interlanguage-uls-menu:before,.interlanguage-uls-menu:after{border-top:10px solid transparent;border-bottom:10px solid transparent;display:inline-block; top:17px;position:absolute;content:''}.interlanguage-uls-menu.selector-right:before{ border-left:10px solid #c8ccd1; right:-11px}.interlanguage-uls-menu.selector-right:after{ border-left:10px solid #fff; right:-10px}.interlanguage-uls-menu.selector-left:before{ border-right:10px solid #c8ccd1; left:-11px}.interlanguage-uls-menu.selector-left:after{ border-right:10px solid #fff; left:-10px}
+.uls-trigger{background:url(/extensions/UniversalLanguageSelector/lib/jquery.uls/images/language.svg?80b0b) no-repeat left center;padding-left:24px}.uls-menu{position:absolute;z-index:1000;display:none;margin-top:1px;background-color:#fff;border:1px solid #ccc;border-color:rgba(0,0,0,0.2);-webkit-box-shadow:0 5px 10px rgba(0,0,0,0.2);-moz-box-shadow:0 5px 10px rgba(0,0,0,0.2);box-shadow:0 5px 10px rgba(0,0,0,0.2);-webkit-background-clip:padding-box;-moz-background-clip:padding;background-clip:padding-box}.uls-wide{min-width:715px}.uls-medium{min-width:360px} .uls-medium.grid .row{min-width:300px}.uls-narrow{min-width:180px} .uls-narrow.grid .row{min-width:150px}.uls-search{background-color:#fff;padding:5px 16px;border-bottom:1px solid #ddd}.grid .uls-search{padding-left:0} .uls-search-wrapper{position:relative;padding-left:44px;margin-right:5px;height:32px}.uls-search-label{background:url(/extensions/UniversalLanguageSelector/lib/jquery.uls/images/search.svg?ad30e) no-repeat center center;background-size:20px;height:32px;width:44px;display:block;position:absolute;left:0;opacity:0.5}.uls-search-input-wrapper{position:relative} .uls-filterinput{font-size:16px;height:32px;width:100%; padding:6px 25px 6px 0;outline:0;border:0;display:block;position:absolute;top:0;left:0} .uls-languagefilter{background-color:transparent;border:0;color:#222} .uls-filtersuggestion{background-color:#fff;color:#777}.uls-languagefilter-clear{background:url(/extensions/UniversalLanguageSelector/lib/jquery.uls/images/close.svg?2ba46) no-repeat left center;background-size:15px;cursor:pointer;height:15px;width:15px;opacity:0.7; margin:8.5px 5px;position:absolute;right:0; z-index:1} .uls-lcd{background-color:#fcfcfc;height:20em; overflow-x:hidden;overflow-y:auto;width:auto;padding:0 16px}.uls-lcd-region-title{color:#555;font-size:14px;padding-left:28px}.uls-lcd--no-quicklist [data-region='all'] .uls-lcd-region-title{display:none}.uls-lcd-region-section{margin-top:10px} .grid .uls-language-block.row{padding:0;margin:0}.uls-language-block > ul{ list-style:none none} .grid .uls-language-block > ul{margin:0 0 20px 0;padding:0 16px}.grid .uls-language-block > ul:first-child{padding-left:0}.grid .uls-language-block > ul:last-child{padding-right:0}.uls-language-block > ul > li{cursor:pointer;margin-left:20px;padding:8px; text-align:left}.uls-language-block > ul > li:hover{background-color:#eaeff7}.uls-language-block a{cursor:pointer;text-decoration:none;color:#36c;font-size:14px;display:inline-block;width:100%;overflow-x:hidden; text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}.uls-no-results-view{display:none}.uls-lcd.uls-no-results > .uls-lcd-region-section{display:none}.uls-lcd.uls-no-results > .uls-no-results-view{display:block}.uls-no-results-found-title{font-size:16px;padding:0 16px 0 28px;margin:20px 0;border-bottom:0;color:#54595d}.uls-no-found-more{border-top:1px solid #eaecf0;color:#54595d;padding:12px 16px 12px 44px;font-size:0.9em;width:100%;margin-top:1.6em;line-height:1.6em;position:absolute;bottom:0;left:0}</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/load(2).php">
+<meta name="generator" content="MediaWiki 1.35.14">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0">
+<link rel="apple-touch-icon" href="https://docs.joomla.org/apple-touch-icon-precomposed.png">
+<link rel="shortcut icon" href="https://docs.joomla.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://docs.joomla.org/opensearch_desc.php" title="Joomla! Documentation (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://docs.joomla.org/api.php?action=rsd">
+<link rel="license" href="https://docs.joomla.org/JEDL">
+<link rel="alternate" type="application/atom+xml" title="Joomla! Documentation Atom feed" href="https://docs.joomla.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<!--[if lt IE 9]><script src="/resources/lib/html5shiv/html5shiv.js"></script><![endif]-->
+<script bis_use="true" type="text/javascript" charset="utf-8" data-bis-config="[&quot;facebook.com/&quot;,&quot;twitter.com/&quot;,&quot;youtube-nocookie.com/embed/&quot;,&quot;//vk.com/&quot;,&quot;//www.vk.com/&quot;,&quot;linkedin.com/&quot;,&quot;//www.linkedin.com/&quot;,&quot;//instagram.com/&quot;,&quot;//www.instagram.com/&quot;,&quot;//www.google.com/recaptcha/api2/&quot;,&quot;//hangouts.google.com/webchat/&quot;,&quot;//www.google.com/calendar/&quot;,&quot;//www.google.com/maps/embed&quot;,&quot;spotify.com/&quot;,&quot;soundcloud.com/&quot;,&quot;//player.vimeo.com/&quot;,&quot;//disqus.com/&quot;,&quot;//tgwidget.com/&quot;,&quot;//js.driftt.com/&quot;,&quot;friends2follow.com&quot;,&quot;/widget&quot;,&quot;login&quot;,&quot;//video.bigmir.net/&quot;,&quot;blogger.com&quot;,&quot;//smartlock.google.com/&quot;,&quot;//keep.google.com/&quot;,&quot;/web.tolstoycomments.com/&quot;,&quot;moz-extension://&quot;,&quot;chrome-extension://&quot;,&quot;/auth/&quot;,&quot;//analytics.google.com/&quot;,&quot;adclarity.com&quot;,&quot;paddle.com/checkout&quot;,&quot;hcaptcha.com&quot;,&quot;recaptcha.net&quot;,&quot;2captcha.com&quot;,&quot;accounts.google.com&quot;,&quot;www.google.com/shopping/customerreviews&quot;,&quot;buy.tinypass.com&quot;,&quot;gstatic.com&quot;,&quot;secureir.ebaystatic.com&quot;,&quot;docs.google.com&quot;,&quot;contacts.google.com&quot;,&quot;github.com&quot;,&quot;mail.google.com&quot;,&quot;chat.google.com&quot;,&quot;audio.xpleer.com&quot;,&quot;keepa.com&quot;,&quot;static.xx.fbcdn.net&quot;,&quot;sas.selleramp.com&quot;,&quot;1plus1.video&quot;,&quot;console.googletagservices.com&quot;,&quot;//lnkd.demdex.net/&quot;,&quot;//radar.cedexis.com/&quot;,&quot;//li.protechts.net/&quot;,&quot;challenges.cloudflare.com/&quot;,&quot;ogs.google.com&quot;]" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executers/vi-tr.js"></script><script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-148 ns-subject page-J4_x_Creating_a_Plugin_for_Joomla rootpage-J4_x_Creating_a_Plugin_for_Joomla skin-jforeground action-view webfonts-changed" __processed_7c94dd41-cc46-479f-8b8a-3832bcc07268__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCIsIlBJTlRFUkVTVCI6ImRpc2FibGVkIiwiSU5TVEFHUkFNIjoiZGlzYWJsZWQiLCJMSU5LRURJTiI6ImRpc2FibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMC4yMCIsInNjb3JlIjoyMDAyMH1d" style="padding-top: 45px;"><div id="navwrapper" bis_skin_checked="1" style="margin-bottom: 5em;">		<!-- START FOREGROUNDTEMPLATE -->
+		<div id="top-nav" class="fixed" bis_skin_checked="1">
+			<nav id="topnav" class="top-bar top row">
+				<ul class="title-area">
+					<li class="name logo">
+													<a href="https://docs.joomla.org/Main_Page">
+								<img alt="Joomla! Documentation" src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/joomla_logo_small.png" style="max-width: 64px;height:auto; max-height:36px; display: inline-block; vertical-align:middle;"></a>
+											</li>
+					<li class="toggle-topbar menu-icon">
+						<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#"><span> </span></a>
+					</li>
+				</ul>
+
+				
+			<section class="top-bar-section">
+
+					<ul id="top-bar-left" class="left">
+						<li class="has-dropdown active" id="p-sidebar-Joomla">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">Joomla!</a>
+							<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+								<li id="n-sidebar-Main"><a href="https://www.joomla.org/"><i class="fa fa-joomla 2x-fa icon"></i>Joomla! Home</a></li>
+								<li id="n-sidebar-What"><a href="https://www.joomla.org/about-joomla.html">What is Joomla?</a></li>
+								<li id="n-sidebar-Benefits"><a href="https://www.joomla.org/core-features.html">Benefits &amp; Features</a></li>
+								<li id="n-sidebar-Leadership"><a href="https://www.joomla.org/about-joomla/the-project.html">Project &amp; Leadership</a></li>
+								<li id="n-sidebar-Trademark"><a href="https://tm.joomla.org/">Trademark &amp; Licensing</a></li>
+								<li class="divider"></li>
+								<li id="label"><label>Support Joomla!</label></li>
+								<li id="n-sidebar-Contribute"><a href="https://www.joomla.org/contribute-to-joomla.html">Contribute</a></li>
+								<li id="n-sidebar-Sponsorship"><a href="https://www.joomla.org/sponsor.html">Sponsor</a></li>
+								<li id="n-sidebar-Partner"><a href="https://www.joomla.org/about-joomla/partners.html">Partner</a></li>
+								<li id="n-sidebar-Shop"><a href="https://shop.joomla.org/">Shop</a></li>
+							</ul>
+						</li>
+						<li class="has-dropdown active" id="p-sidebar-Extend">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">Download &amp; Extend</a>
+							<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+								<li id="n-sidebar-JoomlaCode"><a href="https://downloads.joomla.org/">Downloads</a></li>
+								<li id="n-sidebar-Extensions"><a href="https://extensions.joomla.org/">Extensions</a></li>
+								<li id="n-sidebar-Translations"><a href="https://community.joomla.org/translations.html">Languages</a></li>
+								<li id="n-sidebar-Free-Hosted"><a href="https://launch.joomla.org/">Get a free site</a></li>
+							</ul>
+						</li>
+						<li class="has-dropdown active" id="p-sidebar-About">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">Discover &amp; Learn</a>
+							<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+								<li id="n-sidebar-Docs" class=""><a href="https://docs.joomla.org/">Documentation</a></li>
+								<li id="n-sidebar-Training" class=""><a href="https://training.joomla.org/">Training</a></li>
+								<li id="n-sidebar-Certification" class=""><a href="https://certification.joomla.org/">Certification</a></li>
+								<li id="n-sidebar-Showcase" class=""><a href="https://showcase.joomla.org/">Site Showcase</a></li>
+								<li id="n-sidebar-Announcements"><a href="https://www.joomla.org/announcements.html">Announcements</a></li>
+								<li id="n-sidebar-Blogs"><a href="https://community.joomla.org/blogs.html">Blogs</a></li>
+								<li id="n-sidebar-Magazine"><a href="https://magazine.joomla.org/">Magazine</a></li>
+							</ul>
+						</li>
+
+						<li class="has-dropdown active" id="p-sidebar-News">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">Community &amp; Support</a>
+							<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+								<li id="n-sidebar-Community"><a href="https://community.joomla.org/">Community Portal</a></li>
+								<li id="n-sidebar-Events"><a href="https://events.joomla.org/">Events</a></li>
+								<li id="n-sidebar-JUGs"><a href="https://community.joomla.org/user-groups.html">User Groups</a></li>
+								<li id="n-sidebar-Forum"><a href="https://forum.joomla.org/">Forum</a></li>
+								<li id="n-sidebar-Resources"><a href="https://resources.joomla.org/">Resources Directory</a></li>
+								<li id="n-sidebar-Volunteers"><a href="https://volunteers.joomla.org/">Volunteers Portal</a></li>
+								<li id="n-sidebar-Vel"><a href="https://vel.joomla.org/">Vulnerable Extensions List</a></li>
+							</ul>
+						</li>
+
+						<li class="has-dropdown active" id="p-sidebar-Developers">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">Developer Resources</a>
+							<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+								<li id="n-sidebar-Developers" class=""><a href="https://developer.joomla.org/">Developer Network</a></li>
+								<li id="n-sidebar-Security"><a href="https://developer.joomla.org/security-centre.html">Security Centre</a></li>
+								<li id="n-sidebar-Issues" class=""><a href="https://issues.joomla.org/">Issue Tracker</a></li>
+								<li id="n-sidebar-Github"><a href="https://github.com/joomla">GitHub</a></li>
+								<li id="n-sidebar-API"><a href="https://api.joomla.org/">API Documentation</a></li>
+								<li id="n-sidebar-Framework"><a href="https://framework.joomla.org/">Joomla! Framework</a></li>
+								<li id="n-sidebar-JoomlaCode"><a href="http://joomlacode.org/">JoomlaCode</a></li>
+							</ul>
+						</li>
+					</ul>
+
+					<ul id="top-bar-right" class="right">
+
+						<li class="has-dropdown active"><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#"><i class="fa fa-cogs"></i></a>
+							<ul id="toolbox-dropdown" class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+								<li id="t-whatlinkshere"><a href="https://docs.joomla.org/Special:WhatLinksHere/J4.x:Creating_a_Plugin_for_Joomla" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-arrows fa-fw"></i></div>What links here</a></li><li id="t-recentchangeslinked"><a href="https://docs.joomla.org/Special:RecentChangesLinked/J4.x:Creating_a_Plugin_for_Joomla" rel="nofollow" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-bars fa-fw"></i></div>Related changes</a></li><li id="t-specialpages"><a href="https://docs.joomla.org/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-magic fa-fw"></i></div>Special pages</a></li><li id="t-print"><a href="javascript:print();" rel="alternate" title="Printable version of this page [alt-shift-p]" accesskey="p"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-print fa-fw"></i></div>Printable version</a></li><li id="t-permalink"><a href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;oldid=999388" title="Permanent link to this revision of the page"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-dot-circle-o fa-fw"></i></div>Permanent link</a></li><li id="t-info"><a href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;action=info" title="More information about this page"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-info fa-fw"></i></div>Page information</a></li>								<li id="n-recentchanges"><a href="https://docs.joomla.org/Special:RecentChanges" title="Special:RecentChanges"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-tasks fa-fw"></i></div>Recent changes</a></li>								<li id="n-help"><a href="https://docs.joomla.org/S:MyLanguage/Help:Contents"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-question fa-fw"></i></div>Help</a></li>							</ul>
+						</li>
+
+													<li class="">
+																	<a href="https://docs.joomla.org/index.php?title=Special:UserLogin&amp;returnto=J4.x%3ACreating+a+Plugin+for+Joomla">Log in</a>
+															</li>
+
+						
+					</ul>
+				</section></nav>
+		</div>
+
+		<div id="global-header" bis_skin_checked="1">
+			<nav class="global-header">
+				<div class="row" bis_skin_checked="1">
+					<div class="large-6 column" bis_skin_checked="1">
+						<h1 class="page-title">
+							<a href="https://docs.joomla.org/Main_Page">
+								<div class="title-name" style="display: inline-block;" bis_skin_checked="1">Joomla! Documentation<sup>™</sup></div>
+							</a>
+						</h1>
+					</div>
+					<div class="large-6 column hide-for-small" bis_skin_checked="1">
+						<ul class="button-group pull-right">
+							<li><a href="https://downloads.joomla.org/" class="button success radius" target="_blank">Download</a></li>
+							<li><a href="https://launch.joomla.org/" class="button top radius" target="_blank">Launch</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+
+		<div id="bottom-nav" bis_skin_checked="1" class="fixed">
+			<nav id="bottomnav" class="top-bar bottom row">
+				<ul class="title-area">
+					<li class="name">
+						<h1 class="title-name-small">
+							<a href="https://docs.joomla.org/Main_Page">
+								<div class="title-name" style="display: inline-block;" bis_skin_checked="1">Joomla! Documentation<sup>™</sup></div>
+							</a>
+						</h1>
+					</li>
+					<li class="toggle-topbar menu-icon">
+						<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#"><span></span></a>
+					</li>
+				</ul>
+
+				
+			<section class="top-bar-section">
+
+					<ul id="top-bar-left" class="left">
+												<li class="has-dropdown active" id="p-Learn">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-university fa-fw"></i></div>Learn</a>
+															<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+									<li id="n-More-About-Joomla.21"><a href="https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More">More About Joomla!</a></li><li id="n-Beginners"><a href="https://docs.joomla.org/Portal:Beginners">Beginners</a></li><li id="n-Administrators"><a href="https://docs.joomla.org/Portal:Administrators">Administrators</a></li><li id="n-Developers"><a href="https://docs.joomla.org/Portal:Developers">Developers</a></li><li id="n-Joomla.21-Get-Involved"><a href="https://docs.joomla.org/Portal:Participating_in_the_Community">Joomla! Get Involved</a></li><li id="n-Joomla.21-Code-Contributors"><a href="https://docs.joomla.org/Portal:Joomla!_Code_Contributors">Joomla! Code Contributors</a></li><li id="n-Joomla-User-Groups"><a href="https://docs.joomla.org/Special:MyLanguage/Portal:Joomla_User_Groups">Joomla User Groups</a></li>								</ul>
+																				</li><li class="has-dropdown active" id="p-Browse">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-search fa-fw"></i></div>Browse</a>
+															<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+									<li id="n-CMS-Help-Screens"><a href="https://docs.joomla.org/Help_screens">CMS Help Screens</a></li><li id="n-Our-Docs"><a href="https://docs.joomla.org/Category:Top_Level">Our Docs</a></li><li id="n-Our-Glossary"><a href="https://docs.joomla.org/Glossary">Our Glossary</a></li><li id="n-The-Joomla.21-FAQs"><a href="https://docs.joomla.org/Category:FAQ">The Joomla! FAQs</a></li><li id="n-Tips-and-tricks"><a href="https://docs.joomla.org/Category:Tips_and_tricks">Tips and tricks</a></li><li id="n-Recent-Changes"><a href="https://docs.joomla.org/Special:RecentChanges">Recent Changes</a></li>								</ul>
+																				</li><li class="has-dropdown active" id="p-Help">
+							<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#"><div class="drop-icon" bis_skin_checked="1"><i class="fa fa-life-ring fa-fw"></i></div>Help</a>
+															<ul class="dropdown"><li class="title back js-generated"><h5><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#">« Back</a></h5></li>
+									<li id="n-Contribute-to-Joomla.21-Docs"><a href="https://docs.joomla.org/JDOC:How_to_Contribute_to_Joomla!_Documentation">Contribute to Joomla! Docs</a></li><li id="n-Translate-Joomla.21-Docs"><a href="https://docs.joomla.org/JDOC:Documentation_Translators">Translate Joomla! Docs</a></li><li id="n-Editing-Help"><a href="https://docs.joomla.org/JHelp:Cheatsheet">Editing Help</a></li><li id="n-Play-in-the-Sandbox"><a href="https://docs.joomla.org/Sandbox">Play in the Sandbox</a></li><li id="n-JDOC.27s-Policies"><a href="https://docs.joomla.org/JDOC:Wiki_policy">JDOC's Policies</a></li><li id="n-Documentation-License"><a href="https://docs.joomla.org/JEDL">Documentation License</a></li><li id="n-More-Help"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Contents" rel="nofollow" target="_blank">More Help</a></li>								</ul>
+																										</li></ul>
+
+					<ul id="top-bar-right" class="right">
+
+						<li class="has-form">
+							<form action="https://docs.joomla.org/index.php" id="searchform" class="mw-search">
+								<div class="row" bis_skin_checked="1">
+									<div class="small-12 columns" bis_skin_checked="1">
+										<input type="search" name="search" placeholder="Search Joomla! Documentation" title="Search Joomla! Documentation [alt-shift-f]" accesskey="f" id="searchInput" class="webfonts-changed">										<button type="submit" class="button search main webfonts-changed">Search</button>
+									</div>
+								</div>
+							</form>
+						</li>
+
+					</ul>
+				</section></nav>
+		</div>
+
+		</div>
+		<div id="page-content" bis_skin_checked="1">
+			<div class="row" bis_skin_checked="1">
+				<div class="large-12 columns" bis_skin_checked="1">
+					<!--[if lt IE 9]>
+				<div id="siteNotice" class="sitenotice panel radius">Joomla! Documentation may not look as expected in this version of Internet Explorer. We recommend you upgrade to a newer version of Internet Explorer or switch to a browser like Firefox or Chrome.</div>
+				<![endif]-->
+
+															<!-- Output page indicators -->
+					<div class="mw-indicators mw-body-content" bis_skin_checked="1">
+</div>
+					<!-- If user is logged in output echo location -->
+									</div>
+			</div>
+
+			<div id="mw-js-message" style="display:none;" bis_skin_checked="1"></div>
+
+			<div class="row" bis_skin_checked="1">
+				<div id="p-cactions" class="large-12 columns" bis_skin_checked="1">
+					<h4 class="namespace label">J4.x</h4>					<article id="content">
+						<h1 class="title">Creating a Plugin for Joomla</h1>
+						                            <h3 id="tagline">From Joomla! Documentation</h3>
+						
+						<h5 class="subtitle"></h5>
+
+													<div id="ad" bis_skin_checked="1">
+								<script async="" type="text/javascript" src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/carbon.js.download" id="_carbonads_js"></script><div id="carbonads" bis_skin_checked="1"><span>
+<style>#carbonads{all:revert}#carbonads *{margin:initial;padding:initial;line-height:initial}#carbonads{--carbon-font-size:14px;--carbon-padding-size:12px}#carbonads{z-index:100;display:inline-block;font-family:system-ui,sans-serif;font-size:var(--carbon-font-size)}#carbonads > span{max-width:380px;min-height:100px;background-color:#EFF6FF}#carbonads a{text-decoration:none;color:inherit}#carbonads a:hover{color:inherit}#carbonads span{display:block;position:relative}#carbonads .carbon-wrap{display:flex;width:300px}#carbonads .carbon-img{height:100px;width:130px}#carbonads .carbon-img img{display:block}#carbonads .carbon-text{width:initial;padding:0.625em 1em;font-size:0.8125em;margin-bottom:1.5em;line-height:1.4;text-align:left}#carbonads .carbon-poweredby{display:block;padding:6px 8px;background:#E4ECF6;text-align:center;text-transform:uppercase;letter-spacing:0.1ch;font-weight:600;font-size:0.5em;line-height:1;border-top-left-radius:3px;position:absolute;bottom:0;right:0}</style>
+<span class="carbon-wrap">
+	<a href="https://srv.carbonads.net/ads/click/x/GTND427WCVAIEKQJCWS4YKQUCE7IV53EF6YIKZ3JCABDCK7LF6YI6KQKC6BIP5QUCVAIT5QYFTYDCKQWC6ADCZ3JCABD65QUCYYDTK3K2JWNABY" class="carbon-img" target="_blank" rel="noopener sponsored" bis_size="{&quot;x&quot;:877,&quot;y&quot;:154,&quot;w&quot;:130,&quot;h&quot;:100,&quot;abs_x&quot;:877,&quot;abs_y&quot;:154}">
+		<img src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/4f41183b8e7cdc3c7a8b52a388041454d08148f6" alt="ads via Carbon" border="0" height="100" width="130" data-statview="https://srv.carbonads.net/ads/viewable/x/GTND427WCVAIEKQJCWS4YKQUCE7IV53EF6YIKZ3JCABDCK7LF6YI6KQKC6BIP5QUCVAIT5QYFTYDCKQWC6ADCZ3JCABD65QUCYYDTK3K57WNPRS3KQNCP?segment=placement:joomlaorg" style="max-width: 130px;" bis_size="{&quot;x&quot;:877,&quot;y&quot;:154,&quot;w&quot;:130,&quot;h&quot;:100,&quot;abs_x&quot;:877,&quot;abs_y&quot;:154}" bis_id="bn_0dxcedlztdwg3e8wm5whek">
+	</a>
+	<a href="https://srv.carbonads.net/ads/click/x/GTND427WCVAIEKQJCWS4YKQUCE7IV53EF6YIKZ3JCABDCK7LF6YI6KQKC6BIP5QUCVAIT5QYFTYDCKQWC6ADCZ3JCABD65QUCYYDTK3K2JWNABY" class="carbon-text" target="_blank" rel="noopener sponsored">
+		VPS da alte prestazioni in offerta a partire da 11,50 €+IVA/mese
+	</a>
+</span>
+<a href="http://carbonads.net/?utm_source=joomlaorg&amp;utm_medium=ad_via_link&amp;utm_campaign=in_unit&amp;utm_term=carbon" class="carbon-poweredby" target="_blank" rel="noopener sponsored">ads via Carbon</a>
+<div class="carbon-pixels" style="display: none;" bis_skin_checked="1"><img src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/saved_resource" border="0" height="1" width="1" alt="ads via Carbon" style="display: none;"></div></span></div>
+							</div>
+						
+						<div class="clear_both" bis_skin_checked="1"></div>
+						<div class="mw-bodytext" bis_skin_checked="1">
+							<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr" bis_skin_checked="1"><div class="mw-parser-output" bis_skin_checked="1"><div class="mw-parser-output" bis_skin_checked="1"><div class="mw-pt-languages noprint" lang="en" dir="ltr" bis_skin_checked="1"><div class="mw-pt-languages-label" bis_skin_checked="1">Other languages:</div><div class="mw-pt-languages-list" bis_skin_checked="1"><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/id" class="mw-pt-progress mw-pt-progress--low" title="Membuat Plugin untuk Joomla (29% translated)" lang="id">Bahasa Indonesia</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/de" class="mw-pt-progress mw-pt-progress--complete" title="Ein Plugin für Joomla! erstellen (94% translated)" lang="de">Deutsch</a>&nbsp;• ‎<span class="mw-pt-languages-ui mw-pt-languages-selected mw-pt-progress mw-pt-progress--complete" lang="en">English</span>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/nl" class="mw-pt-progress mw-pt-progress--stub" title="Een plugin bouwen voor Joomla! (3% translated)" lang="nl">Nederlands</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/tr" class="mw-pt-progress mw-pt-progress--stub" title="J4.x:Joomla için Uyumlu Ek Oluşturma (15% translated)" lang="tr">Türkçe</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/es" class="mw-pt-progress mw-pt-progress--complete" title="Creando un Plugin para Joomla (94% translated)" lang="es">español</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/fr" class="mw-pt-progress mw-pt-progress--complete" title="Créer un plugin pour Joomla (94% translated)" lang="fr">français</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/it" class="mw-pt-progress mw-pt-progress--complete" title="Creazione di un plugin per Joomla! (94% translated)" lang="it">italiano</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/pt-br" class="mw-pt-progress mw-pt-progress--complete" title="J4.x:Criando um plugin para o Joomla (94% translated)" lang="pt-BR">português do Brasil</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/ru" class="mw-pt-progress mw-pt-progress--complete" title="J4.x:Создание Плагина для Joomla (88% translated)" lang="ru">русский</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/fa" class="mw-pt-progress mw-pt-progress--stub" title="جوملا 4.x: ساخت یک پلاگین برای جوملا (12% translated)" lang="fa">فارسی</a>&nbsp;• ‎<a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla/zh-tw" class="mw-pt-progress mw-pt-progress--stub" title="為 Joomla! 4 建立外掛 (3% translated)" lang="zh-Hant-TW">中文（台灣）‎</a></div></div>
+<div class="panel text-center white-bkgd" bis_skin_checked="1"><icon class="fa fa-magic fa-3x" style="color:#5091cd;"></icon><span id="main-portal-heading" style="color:#333;">Tutorial<br>
+How to create a Plugin for Joomla 4</span></div>
+<div class="version" style="float: right; margin: .25em 0 .5em 1em;" bis_skin_checked="1">
+<div title="The latest stable version is 4.4.10 and 3.10.12" style="margin-right:-5px;font-size: 80%;display:inline-block;border: 1px solid #888888;text-align: right;padding: .8em .4em;" bis_skin_checked="1">Joomla!&nbsp;</div>
+<div style="margin:0;display:inline-block; border:solid #61BF1A 5px; vertical-align:middle; text-align: center; padding: .3em .3em; position: relative;z-index: 2" bis_skin_checked="1"><abbr title="The latest stable version is 4.4.10 and 3.10.12" style="font-weight: bold; font-size: 120%;">4.x</abbr></div>
+<div style="margin-left:-5px;font-size: 80%;display:inline-block;border: 1px solid #888888;text-align: right;padding: .8em .4em;" bis_skin_checked="1">series</div></div>
+<div style="clear:both;" bis_skin_checked="1"></div>
+<p>The plugin structure for Joomla! 1.5, 2.5 and 3.x was very flexible and powerful. Not only can plugins be used to handle events triggered by the core application and extensions, but plugins can also be used to make third party extensions extensible and powerful. In Joomla 4.x we have rewritten a lot of the dispatcher system behind this to increase the flexibility further when you modify the parameters passed as events whilst simultaneously increasing the performance of plugins.
+</p><p>This How-To should provide you with the basics of what you need to know to develop your own plugin. Most plugins consist of just a single code file but to correctly install the plugin code it must be packaged into an installation file which can be processed by the Joomla installer.
+</p>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading" bis_skin_checked="1"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox webfonts-changed" style="display:none"><div class="toctitle" lang="en" dir="ltr" bis_skin_checked="1"><h2 id="mw-toc-heading">Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#Creating_the_Installation_File"><span class="tocnumber">1</span> <span class="toctext">Creating the Installation File</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#Creating_the_Plugin"><span class="tocnumber">2</span> <span class="toctext">Creating the Plugin</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#Using_Plugins_in_Your_Code"><span class="tocnumber">3</span> <span class="toctext">Using Plugins in Your Code</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#New_Joomla_4_Way"><span class="tocnumber">3.1</span> <span class="toctext">New Joomla 4 Way</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="https://docs.joomla.org/J4.x:Creating_a_Plugin_for_Joomla#How_to_achieve_maximum_compatibility_with_Joomla_3"><span class="tocnumber">3.2</span> <span class="toctext">How to achieve maximum compatibility with Joomla 3</span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+<h3><span class="mw-headline" id="Creating_the_Installation_File">Creating the Installation File</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;action=edit&amp;section=1" title="Edit section: Creating the Installation File">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>As with all extensions in Joomla, plugins are easily installed as a .zip file (.tar.gz is also supported) but a correctly formatted XML file must be included. <br>
+As an example, here is the XML installation file for the categories search plugin:
+</p>
+<div class="mw-highlight mw-highlight-lang-xml mw-content-ltr" dir="ltr" bis_skin_checked="1"><pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;extension type="plugin" group="search" method="upgrade"&gt;
+	&lt;name&gt;plg_search_categories&lt;/name&gt;
+	&lt;author&gt;Joomla! Project&lt;/author&gt;
+	&lt;creationDate&gt;November 2005&lt;/creationDate&gt;
+	&lt;copyright&gt;Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.&lt;/copyright&gt;
+	&lt;license&gt;GNU General Public License version 2 or later; see LICENSE.txt&lt;/license&gt;
+	&lt;authorEmail&gt;admin@joomla.org&lt;/authorEmail&gt;
+	&lt;authorUrl&gt;www.joomla.org&lt;/authorUrl&gt;
+	&lt;version&gt;3.0.0&lt;/version&gt;
+	&lt;description&gt;PLG_SEARCH_CATEGORIES_XML_DESCRIPTION&lt;/description&gt;
+	&lt;files&gt;
+		&lt;filename plugin="categories"&gt;categories.php&lt;/filename&gt;
+	&lt;/files&gt;
+	&lt;languages&gt;
+		&lt;language tag="en-GB"&gt;en-GB.plg_search_categories.ini&lt;/language&gt;
+		&lt;language tag="en-GB"&gt;en-GB.plg_search_categories.sys.ini&lt;/language&gt;
+	&lt;/languages&gt;
+	&lt;config&gt;
+		&lt;fields name="params"&gt;
+
+			&lt;fieldset name="basic"&gt;
+				&lt;field
+					name="search_limit"
+					type="number"
+					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
+					default="50"
+				/&gt;
+
+				&lt;field
+					name="search_content"
+					type="radio"
+					label="JFIELD_PLG_SEARCH_ALL_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					&gt;
+					&lt;option value="1"&gt;JYES&lt;/option&gt;
+					&lt;option value="0"&gt;JNO&lt;/option&gt;
+				&lt;/field&gt;
+
+				&lt;field
+					name="search_archived"
+					type="radio"
+					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					&gt;
+					&lt;option value="1"&gt;JYES&lt;/option&gt;
+					&lt;option value="0"&gt;JNO&lt;/option&gt;
+				&lt;/field&gt;
+			&lt;/fieldset&gt;
+
+		&lt;/fields&gt;
+	&lt;/config&gt;
+&lt;/extension&gt;</pre></div>
+<p>As you can see, the system is similar to other Joomla XML installation files. You only have to look out for the <tt>group="xxx"</tt> entry in the <tt>&lt;extension&gt;</tt> tag and the extended information in the <tt>&lt;filename&gt;</tt> tag. This information tells Joomla into which folder to copy the file and to which group the plugin should be added.
+</p><p>If you are creating a plugin that responds to existing core events, the <tt>group="xxx"</tt> attribute would be changed to reflect the name of existing plugin folder for the event type you wish to augment. e.g. <tt>group="authentication"</tt> or <tt>group="user"</tt>. See <a href="https://docs.joomla.org/Special:MyLanguage/Plugin/Events" title="Special:MyLanguage/Plugin/Events">Plugin/Events</a> for a complete list of existing core event categories. In creating a new plugin to respond to core events it is important that your plugin's name is unique and does not conflict with any of the other plugins that may also be responding to the core event you wish to service as well.
+</p><p>If you are creating a plugin to respond to non-core system events your choice for the <tt>group="xxx"</tt> tag should be different than any of the existing core categories.
+</p><p><b>TIP:</b> <i>If you add the attribute <tt>method="upgrade"</tt> to the tag <tt>extension</tt>, this plugin can be installed without uninstalling an earlier version. All existing files will be overwritten, but old files will not be deleted.</i>
+</p><p><br>
+</p>
+<h3><span class="mw-headline" id="Creating_the_Plugin">Creating the Plugin</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;action=edit&amp;section=2" title="Edit section: Creating the Plugin">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>In Joomla 4 you can also have namespaced code in your plugin - please read <a href="https://docs.joomla.org/J4.x:Namespace_Conventions_In_Joomla" title="J4.x:Namespace Conventions In Joomla">Namespace Conventions in Joomla 4</a>. Note the main entry file is not namespaced but fields and any other supporting code is.
+</p><p>The object-oriented way of writing plugins involves writing a subclass of <a target="_blank" rel="noreferrer noopener" class="external text" href="https://api.joomla.org/cms-4/classes/Joomla.CMS.Plugin.CMSPlugin.html">CMSPlugin</a>, a base class that implements the basic properties of plugins. In your methods, the following properties are available:
+</p>
+<ul><li><tt>$this-&gt;params</tt>: the <a href="https://docs.joomla.org/Special:MyLanguage/Parameter" title="Special:MyLanguage/Parameter">parameters</a> set for this plugin by the administrator</li>
+<li><tt>$this-&gt;_name</tt>: the name of the plugin</li>
+<li><tt>$this-&gt;_type</tt>: the group (type) of the plugin</li>
+<li><tt>$this-&gt;db</tt>: the db object</li>
+<li><tt>$this-&gt;app</tt>: the application object</li></ul>
+<p><b>TIP:</b> <i>To use <tt>$this-&gt;db</tt> and <tt>$this-&gt;app</tt>, <tt>CMSPlugin</tt> tests if the property exists and is not private. If it is desired for the default objects to be used, create un-instantiated properties in the plugin class (i.e. <tt>protected $db; protected $app;</tt> in the same area as <tt>protected $autoloadLanguage = true;</tt>). The properties will not exist unless explicitly created.</i>
+</p><p>In the following code example, <tt>&lt;PluginGroup&gt;</tt> represents the group (type) of the plugin, and <tt>&lt;PluginName&gt;</tt> represents its name. Note that class and function names in PHP are case-insensitive.
+</p><p>We also implement the <a target="_blank" rel="noreferrer noopener" class="external text" href="https://api.joomla.org/framework-2/classes/Joomla.Event.SubscriberInterface.html">SubscriberInterface</a> here which is the major change from Joomla 1.5-3.x. Instead of the function name automatically being detected and being the same as the event name this allows you to have custom function names. This allows us to tell what plugins are implementing what functions and as parsing public methods in PHP code is slow gives a significant performance boost.
+</p><p>Note throughout the Joomla 4 series there is a deprecated layer that will cover plugins using the old naming strategy of plugin names being the same as the event name when SubscriberInterface is not implemented.
+</p>
+<div class="mw-highlight mw-highlight-lang-php mw-content-ltr" dir="ltr" bis_skin_checked="1"><pre>&lt;?php
+// no direct access
+defined( '_JEXEC' ) or die;
+
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Event;
+use Joomla\Event\SubscriberInterface;
+
+class Plg&lt;PluginGroup&gt;&lt;PluginName&gt; extends CMSPlugin implements SubscriberInterface
+{
+	/**
+	 * Load the language file on instantiation
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'&lt;EventName&gt;' =&gt; 'myFunctionName',
+		];
+	}
+
+	/**
+	 * Plugin method is the array value in the getSubscribedEvents method
+	 * The plugin then modifies the Event object (if it's not immutable)
+	 */
+	 public function myFunctionName(Event $event)
+	 {
+		/*
+		 * Plugin code goes here.
+		 * You can access parameters via $this-&gt;params
+		 */
+		return true;
+	}
+}
+?&gt;</pre></div>
+<p><br>
+</p>
+<h3><span class="mw-headline" id="Using_Plugins_in_Your_Code">Using Plugins in Your Code</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;action=edit&amp;section=3" title="Edit section: Using Plugins in Your Code">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>If you are creating a plugin for a new, non-core event, remember to activate your plugin after you install it. Precede any reference to your new plugin with the <tt>PluginHelper::importPlugin()</tt> command.
+</p><p>Now that you've created your plugin, you will probably want to call it in your code. You might not: the Joomla core has a number of built-in events that you might want your plugin code to be registered to (and in that case you can ignore this section).
+</p>
+<h4><span class="mw-headline" id="New_Joomla_4_Way">New Joomla 4 Way</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;action=edit&amp;section=4" title="Edit section: New Joomla 4 Way">edit</a><span class="mw-editsection-bracket">]</span></span></h4>
+<p>The new way of doing this in Joomla 4 is to get the dispatcher and dispatch a named event.
+</p>
+<div class="mw-highlight mw-highlight-lang-php mw-content-ltr" dir="ltr" bis_skin_checked="1"><pre>use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Factory;
+
+$dispatcher = Factory::getApplication()-&gt;getDispatcher();
+
+// Here we create an event however as long as you implement EventInterface you can create your own 
+// custom classes
+$event = AbstractEvent::create(
+	'&lt;EventName&gt;',
+	[
+		'name' =&gt; $value,
+	]
+);
+
+$eventResult = $dispatcher-&gt;dispatch('&lt;EventName&gt;', $event);</pre></div>
+<p>If you want to allow the user to modify values you can then use the event result and getResults back out of it. You can look at 
+</p>
+<div class="mw-highlight mw-highlight-lang-php mw-content-ltr" dir="ltr" bis_skin_checked="1"><pre>defined('_JEXEC') or die;
+
+use BadMethodCallException;
+use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Table\TableInterface;
+
+/**
+ * Event class for an event
+ */
+class MyCustomEvent extends AbstractImmutableEvent
+{
+	/**
+	 * Constructor.
+	 *
+	 * @param   string  $name       The event name.
+	 * @param   array   $arguments  The event arguments.
+	 *
+	 * @throws  BadMethodCallException
+	 */
+	public function __construct($name, array $arguments = array())
+	{
+		if (!array_key_exists('myProperty', $arguments))
+		{
+			throw new BadMethodCallException("Argument 'myProperty' is required for event $name");
+		}
+
+		parent::__construct($name, $arguments);
+	}
+
+	/**
+	 * Setter for the myProperty argument
+	 *
+	 * @param   mixed  $value  The value to set
+	 *
+	 * @return  mixed
+	 *
+	 * @throws  BadMethodCallException  if the argument is not of the expected type
+	 */
+	protected function setMyProperty($value)
+	{
+		if (!empty($value) &amp;&amp; !is_object($value) &amp;&amp; !is_array($value))
+		{
+			throw new BadMethodCallException("Argument 'src' of event {$this-&gt;name} must be empty, object or array");
+		}
+
+		return $value;
+	}
+}</pre></div>
+<p>Why have we introduced this name class over parameters? Well it makes it easier to introduce custom setters and getters for properties - currently a plugin can either completely change a property as it wants - for a components there's no way of imposing any limitations. Additionally it makes it much easier for developers to add and remove parameters in an event without having major b/c issues (as you are now calling defined methods and are not subject to a property being the 2nd argument of your function).
+</p>
+<h4><span class="mw-headline" id="How_to_achieve_maximum_compatibility_with_Joomla_3">How to achieve maximum compatibility with Joomla 3</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;action=edit&amp;section=5" title="Edit section: How to achieve maximum compatibility with Joomla 3">edit</a><span class="mw-editsection-bracket">]</span></span></h4>
+<p>If you want to trigger an event in a similar way to the removed J3.x JEventDispatcher then you use code like this:
+</p>
+<div class="mw-highlight mw-highlight-lang-php mw-content-ltr" dir="ltr" bis_skin_checked="1"><pre>$results = \Joomla\CMS\Factory::getApplication()-&gt;triggerEvent( '&lt;EventName&gt;', &lt;ParameterArray&gt; );</pre></div>
+<p>It is important to note that the parameters have to be in an array. The plugin function itself will get the parameters as an Event object if it implements the SubscriberInterface and as individual values if it does not, but this method will always return an array that the plugin returns.
+</p><p>Note that if ANY plugin in a group doesn't implement the SubscriberInterface then the result property (as both a named parameter and result from a plugin) is used as a special property and cannot be used.
+</p>
+<!-- 
+NewPP limit report
+Cached time: 20250320132240
+Cache expiry: 86400
+Dynamic content: false
+Complications: []
+CPU time usage: 0.072 seconds
+Real time usage: 0.110 seconds
+Preprocessor visited node count: 306/1000000
+Post‐expand include size: 2213/2097152 bytes
+Template argument size: 229/2097152 bytes
+Highest expansion depth: 8/40
+Expensive parser function count: 0/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 7384/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    7.301      1 -total
+ 63.73%    4.653      1 Template:Joomla_version
+ 53.64%    3.916      1 Template:Joomla_version/layout
+ 27.45%    2.004      1 Template:Top_portal_heading
+ 25.57%    1.867      2 Template:Version-msg-latest-tooltip/en
+ 11.74%    0.857      1 Template:Icon
+ 10.46%    0.764      2 Template:Translation_language
+  8.70%    0.635      2 Template:CurrentSTSVer
+  7.99%    0.583      2 Template:CurrentSTSVer4
+  7.84%    0.572      1 Template:-
+-->
+
+<!-- Saved in parser cache with key docsj_mediawiki:pcache:idhash:208246-0!canonical and timestamp 20250320132240 and revision id 999388
+ -->
+</div></div></div><div class="printfooter" bis_skin_checked="1">
+Retrieved from "<a dir="ltr" href="https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;oldid=999388">https://docs.joomla.org/index.php?title=J4.x:Creating_a_Plugin_for_Joomla&amp;oldid=999388</a>"</div>
+							<div class="clear_both" bis_skin_checked="1"></div>
+						</div>
+
+						<div class="group" bis_skin_checked="1"><div id="catlinks" class="catlinks" data-mw="interface" bis_skin_checked="1"><div id="mw-normal-catlinks" class="mw-normal-catlinks" bis_skin_checked="1"><a href="https://docs.joomla.org/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="https://docs.joomla.org/Category:Pages_using_deprecated_source_tags" title="Category:Pages using deprecated source tags" class="label">Pages using deprecated source tags</a></li><li><a href="https://docs.joomla.org/Category:Pages_with_syntax_highlighting_errors" title="Category:Pages with syntax highlighting errors" class="label">Pages with syntax highlighting errors</a></li><li><a href="https://docs.joomla.org/Category:Tutorials" title="Category:Tutorials" class="label">Tutorials</a></li><li><a href="https://docs.joomla.org/Category:Plugin_Development" title="Category:Plugin Development" class="label">Plugin Development</a></li><li><a href="https://docs.joomla.org/Category:Development" title="Category:Development" class="label">Development</a></li><li><a href="https://docs.joomla.org/Category:Joomla!_4.x" title="Category:Joomla! 4.x" class="label">Joomla! 4.x</a></li></ul></div></div></div>
+											</article>
+				</div>
+			</div>
+
+			<footer class="row">
+				<div id="footer" bis_skin_checked="1">
+					<div id="footer-left" class="large-8 small-12 columns" bis_skin_checked="1">
+						<ul id="footer-left">
+															<li id="footer-lastmod"> This page was last edited on 21 February 2023, at 10:08.</li>
+															<li id="footer-copyright">Content is available under <a href="https://docs.joomla.org/JEDL" title="JEDL">Joomla! EDL</a> unless otherwise noted.<br>Joomla!<sup>®</sup> is a registered trademark of Open Source Matters, Inc.<br>If you are experiencing technical issues with this website, <a href="https://github.com/joomla/joomla-websites/issues/new?title=%5Bjdocs%5D%20&amp;body=Please%20describe%20the%20problem%20or%20your%20issue" target="_blank" rel="nofollow">please report it</a><!-- Cached 20250320132240 -->
+.
+<br>Notice a content problem? <a href="https://docs.joomla.org/JDOC:How_to_Contribute_to_Joomla!_Documentation" rel="nofollow">Create an account</a><!-- Cached 20250320132240 -->
+ and fix it.</li>
+															<li id="footer-privacy"><a href="https://docs.joomla.org/JDOC:Privacy_policy" title="JDOC:Privacy policy">Privacy policy</a></li>
+															<li id="footer-about"><a href="https://docs.joomla.org/JDOC:About" title="JDOC:About">About Joomla! Documentation</a></li>
+															<li id="footer-disclaimer"><a href="https://docs.joomla.org/JDOC:General_disclaimer" class="mw-redirect" title="JDOC:General disclaimer">Terms of Service</a></li>
+													</ul>
+					</div>
+					<div id="footer-right-icons" class="large-4 small-12 columns" bis_skin_checked="1">
+						<ul id="poweredby">
+															<li class="copyright">										<a href="https://docs.joomla.org/JEDL" target="_blank"><img src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/JEDL_icon.png" alt="Joomla! EDL" width="88" height="31" loading="lazy"></a>																	</li>
+															<li class="poweredby">										<a href="https://www.mediawiki.org/" target="_blank"><img src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31" loading="lazy"></a>																	</li>
+															<li class="rochen">										<a href="https://www.rochen.com/joomla-hosting" target="_blank" bis_size="{&quot;x&quot;:1639,&quot;y&quot;:5651,&quot;w&quot;:88,&quot;h&quot;:15,&quot;abs_x&quot;:1639,&quot;abs_y&quot;:5651}"><img src="./J4.x_Creating a Plugin for Joomla - Joomla! Documentation_files/rochen_footer_logo_white.png" alt="Joomla! Hosting by Rochen..." width="88" height="31" loading="lazy" bis_size="{&quot;x&quot;:1639,&quot;y&quot;:5638,&quot;w&quot;:88,&quot;h&quot;:44,&quot;abs_x&quot;:1639,&quot;abs_y&quot;:5638}" bis_id="bn_cuv0q9ksyvp0c419ffpw1r"></a>																	</li>
+													</ul>
+					</div>
+				</div>
+			</footer>
+
+		</div>
+
+		
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.072","walltime":"0.110","ppvisitednodes":{"value":306,"limit":1000000},"postexpandincludesize":{"value":2213,"limit":2097152},"templateargumentsize":{"value":229,"limit":2097152},"expansiondepth":{"value":8,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":7384,"limit":5000000},"timingprofile":["100.00%    7.301      1 -total"," 63.73%    4.653      1 Template:Joomla_version"," 53.64%    3.916      1 Template:Joomla_version/layout"," 27.45%    2.004      1 Template:Top_portal_heading"," 25.57%    1.867      2 Template:Version-msg-latest-tooltip/en"," 11.74%    0.857      1 Template:Icon"," 10.46%    0.764      2 Template:Translation_language","  8.70%    0.635      2 Template:CurrentSTSVer","  7.99%    0.583      2 Template:CurrentSTSVer4","  7.84%    0.572      1 Template:-"]},"cachereport":{"timestamp":"20250320132240","ttl":86400,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":268});});</script>
+		
+		
+
+
+		</body><!-- Cached 20250320132240 --></html>

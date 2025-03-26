@@ -1,0 +1,212 @@
+@charset "UTF-8";
+/*!
+ *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+ *
+ *  @package     tpl_cassiopeia_twentytwo
+ *  @copyright   (C) 2022-2023 Nicholas K. Dionysopoulos
+ *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+/*
+ *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+ *
+ *  @package     tpl_cassiopeia_twentytwo
+ *  @copyright   (C) 2022-2023 Nicholas K. Dionysopoulos
+ *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+:root {
+  --primary: #d43431;
+  --secondary: #932220;
+  --secondary-color: #932220;
+  --success: #4bd24b;
+  --info: #4786bd;
+  --warning: #edc25e;
+  --danger: #e23936;
+  --dark: #415058;
+  --primary-rgb: 212, 52, 49;
+  --secondary-rgb: 147, 34, 32;
+  --success-rgb: 75, 210, 75;
+  --info-rgb: 71, 134, 189;
+  --warning-rgb: 237, 194, 94;
+  --danger-rgb: 226, 57, 54;
+  --cassiopeia-font-family-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --cassiopeia-color-primary: #d43431;
+  --cassiopeia-color-link: #932220;
+  --cassiopeia-color-hover: #e23936;
+  --link-color: #932220;
+  --link-hover-color: #e23936;
+  --hue: 1;
+  --template-bg-light: #f0f4fb;
+  --template-text-dark: #495057;
+  --template-text-light: #ffffff;
+  --template-link-color: #932220;
+  --template-special-color: #932220;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :root {
+    --cassiopeia-color-link: #cb5a5a;
+    --link-color: #cb5a5a;
+    --link-hover-color: #932220;
+    --secondary-color: #97b8cc;
+    --card-color: #e9ecef !important;
+  }
+}
+/*
+ *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+ *
+ *  @package     tpl_cassiopeia_twentytwo
+ *  @copyright   (C) 2022-2023 Nicholas K. Dionysopoulos
+ *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+.container-header {
+  background-color: var(--dark);
+  background-image: linear-gradient(135deg, black 10%, var(--dark) 100%);
+}
+@media screen and (prefers-color-scheme: dark) {
+  .container-header {
+    background-image: linear-gradient(135deg, black 0%, var(--dark) 100%) !important;
+    border-bottom: thin solid rgba(255, 255, 255, 0.2);
+  }
+}
+.container-header div.navbar-brand > a.brand-logo img {
+  height: 1.5em;
+}
+
+/*
+ *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+ *
+ *  @package     tpl_cassiopeia_twentytwo
+ *  @copyright   (C) 2022-2023 Nicholas K. Dionysopoulos
+ *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+@media screen and (prefers-color-scheme: dark) {
+  .btn-secondary {
+    background-color: var(--secondary) !important;
+    color: white !important;
+  }
+  .btn-secondary:hover {
+    background-color: var(--primary) !important;
+  }
+}
+/*
+ *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+ *
+ *  @package     tpl_cassiopeia_twentytwo
+ *  @copyright   (C) 2022-2023 Nicholas K. Dionysopoulos
+ *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+div.com-content-category-blog__item.blog-item {
+  border-bottom: 3px solid var(--primary);
+}
+div.com-content-category-blog__item.blog-item .item-image img {
+  border-radius: 0.5em;
+}
+@media screen and (prefers-color-scheme: dark) {
+  div.com-content-category-blog__item.blog-item .item-image img {
+    transition: filter 500ms ease-in;
+    filter: saturate(0.1);
+  }
+  div.com-content-category-blog__item.blog-item .item-image img:hover {
+    filter: none;
+  }
+}
+div.com-content-category-blog__item.blog-item .item-content .page-header h2 > a {
+  text-decoration: none;
+}
+div.com-content-category-blog__item.blog-item .item-content .page-header h2 > a:hover {
+  text-decoration: underline;
+}
+div.com-content-category-blog__item.blog-item .item-content aside.akenage-comments-counter--blog {
+  margin-bottom: 0.75em;
+}
+
+.com-content-article div.com-content-article__body {
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+}
+.com-content-article div.com-content-article__body code {
+  color: var(--primary);
+  font-weight: 500;
+}
+.com-content-article div.com-content-article__body pre {
+  border: thin solid rgba(255, 255, 255, 0.1333333333);
+  border-radius: 0.5em;
+  padding: 0.5em;
+  background-color: rgba(204, 255, 204, 0.1215686275);
+}
+
+.card.blogger-bio {
+  margin-top: 4em;
+  margin-bottom: 3em;
+}
+.card.blogger-bio .card-header.blogger-bio-name {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+/*
+ *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+ *
+ *  @package     tpl_cassiopeia_twentytwo
+ *  @copyright   (C) 2022-2023 Nicholas K. Dionysopoulos
+ *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+.list-group-item-action {
+  background-color: rgba(255, 255, 255, 0.062745098) !important;
+  color: #f0f0f0;
+}
+.list-group-item-action a {
+  color: var(--cassiopeia-color-link) !important;
+  font-weight: 500;
+  text-decoration: none;
+}
+.list-group-item-action:focus, .list-group-item-action:hover {
+  background-color: rgba(255, 255, 255, 0.7529411765) !important;
+  color: #303030;
+}
+.list-group-item-action:focus a, .list-group-item-action:hover a {
+  color: var(--cassiopeia-color-hover) !important;
+}
+
+/*
+ *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+ *
+ *  @package     tpl_cassiopeia_twentytwo
+ *  @copyright   (C) 2022-2023 Nicholas K. Dionysopoulos
+ *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+.container-footer {
+  background-color: var(--secondary);
+  background-image: linear-gradient(135deg, var(--secondary) 10%, var(--primary) 100%);
+}
+@media screen and (prefers-color-scheme: dark) {
+  .container-footer {
+    background-image: linear-gradient(135deg, var(--secondary) 10%, black 100%) !important;
+    border-top: thin solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  /**
+   *  Cassiopeia/TwentyTwo — Dionysopoulos.me Official Site Template
+   *
+   *  @package     tpl_cassiopeia_twentytwo
+   *  @copyright   (C) 2022 Nicholas K. Dionysopoulos
+   *  @license     GNU General Public License version 2 or later; see LICENSE.txt
+   */
+  html {
+    font-size: 1.1rem;
+  }
+  .card-body {
+    color: #e9ecef;
+  }
+  .card.blogger-bio {
+    border-color: #932220;
+  }
+  .card.blogger-bio .card-header.blogger-bio-name {
+    background-color: #932220;
+    color: white;
+  }
+}
+
+/*# sourceMappingURL=user.css.map */
