@@ -8,7 +8,7 @@
  * @website     www.myJoom.com
  * @update      Daniele Bellante
  */
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
@@ -160,22 +160,16 @@ class GeofactoryPluginHelper extends CMSPlugin implements SubscriberInterface
         $isOnCurItem = true;
     }
 
-    /**
-     * Verifica se il plugin è installato per il tipo dato.
-     *
-     * @param   string  $type  Tipo di plugin
-     * @param   bool    &$flag  Flag (passato per riferimento)
-     * @return  void
-     * @since   1.0
-     */
+    
+    
     public static function getSubscribedEvents(): array
     {
         return [
             'onIsPluginInstalled' => 'isPluginInstalled',
-            'onGetAllSubCats' => 'onGetAllSubCats',
-	    'onTest' => 'test'
+            'onGetAllSubCats' => 'onGetAllSubCats'
         ];
     }
+
 
      public function isPluginInstalled($event)
     {
@@ -189,10 +183,11 @@ class GeofactoryPluginHelper extends CMSPlugin implements SubscriberInterface
     }
 
 
-	public function onGetAllSubCats($event)
+	public function onGetAllSubCats(Event $event)
     {
 
-        var_dump($event);
+        var_dump('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>parent');
+        $event->setArgument("result",">>>>>>>>>>>>>>>>>>>>>>>>>>>>>parent");
         die();
         if (!$this->_isInCurrentType($event->getArgument('typeList'))) {
             return;

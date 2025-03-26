@@ -23,7 +23,10 @@ use Joomla\Event\Event;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Event\AbstractEvent;
 
-require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactoryPlugin.php';
+
+
+
+// require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactoryPlugin.php';
 
 // Funzioni di ordinamento per gli array di markers
 if (!function_exists('orderUser')) {
@@ -1049,10 +1052,42 @@ class GeofactoryModelMarkers extends ItemModel
      */
     protected function _getQueryForMs($oMs)
     {
-        // $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        //----------------------------------------------------------------
+        //----------------------------------------------------------------
+        //----------------------------------------------------------------
+        // PluginHelper::importPlugin('bcame');
+        // $dispatcher = Factory::getApplication()->getDispatcher();
+        // $event = AbstractEvent::create(
+        //     'onTestEvent',
+        //     [
+        //         'subject' => $oMs,
+        //         'test' => 'test'
+        //     ]
+        // );
+        // $eventResult = $dispatcher->dispatch('onTestEvent', $event);
+        // var_dump($eventResult->getArgument('result'));	
+		// die();
+        //----------------------------------------------------------------
+        //----------------------------------------------------------------
+        //----------------------------------------------------------------
         PluginHelper::importPlugin('geocodefactory');
-	$dispatcher = Factory::getApplication()->getDispatcher();
-	//PluginHelper::importPlugin('geocodefactory');
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $event = AbstractEvent::create('onGetAllSubCats', [
+            'subject'     => $oMs,
+             'typeList'    => $oMs->typeList,
+             'catList'     => [],
+             'idTopCategory' => -1
+         ]);
+        $eventResult = $dispatcher->dispatch('onGetAllSubCats', $event);
+        var_dump($eventResult->getArgument('result'));	
+		die();
+        //----------------------------------------------------------------
+        //----------------------------------------------------------------
+        //----------------------------------------------------------------
+
+        // $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        // PluginHelper::importPlugin('geocodefactory');
+	    // $dispatcher = Factory::getApplication()->getDispatcher();
         $app = Factory::getApplication('site');
         
         // Recupera categoria corrente
@@ -1068,17 +1103,20 @@ class GeofactoryModelMarkers extends ItemModel
         $vTmp = [];
         $idTopParent = -1;
         if (isset($oMs->childCats) && $oMs->childCats == 1 && is_array($inCats) && (count($inCats) > 0)) {
+            // var_dump('ok');	
+		    // die();
             // Evento per ottenere le sottocategorie
-             $evAllSub = AbstractEvent::create('onGetAllSubCats', [
-		 'subject'     => $this,
+             PluginHelper::importPlugin('geocodefactory');
+             $dispatcher = Factory::getApplication()->getDispatcher();
+             $event = AbstractEvent::create('onGetAllSubCats', [
+                 'subject'     => $oMs,
                  'typeList'    => $oMs->typeList,
-                 'catList'     => &$vTmp,
-                 'idTopCategory' => &$idTopParent
-             ]);
-            
-            $resul_1 = $dispatcher->dispatch('onGetAllSubCats', $evAllSub);
-//	      $resul_1 = $dispatcher->dispatch('onTest');
-		var_dump($result_1);	
+                 'catList'     => [],//$vTmp,
+                 'idTopCategory' => 1//$idTopParent
+              ]);
+             $eventResult = $dispatcher->dispatch('onGetAllSubCats', $event);
+             var_dump($eventResult);	
+	        // $resul_1 = $dispatcher->dispatch('onTestEvent', $evAllSub);	
 		var_dump('ajsldkjklajsdkljsakldj');
 		die();
 	

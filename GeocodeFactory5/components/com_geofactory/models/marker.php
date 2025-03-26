@@ -70,7 +70,7 @@ class GeofactoryModelMarker extends ItemModel
                     'params'    => $params
                 ]
             );
-            $dispatcher->dispatch('onMarkerTemplateAndPlaceholder', $event);
+            $dispatcher->dispatch($event);
 
             $this->m_objMarkers[] = $objMarker;
         }
@@ -107,7 +107,7 @@ class GeofactoryModelMarker extends ItemModel
                 'params'    => $params
             ]
         );
-        $dispatcher->dispatch('onMarkerTemplateAndPlaceholder', $event);
+        $dispatcher->dispatch($event);
 
         $this->m_objMarkers[] = $objMarker;
     }
@@ -171,7 +171,7 @@ class GeofactoryModelMarker extends ItemModel
                 'limitstart'  => 0,
             ]
         );
-        $dispatcher->dispatch('onContentPrepare',$event);
+        $dispatcher->dispatch($event);
 
         return $temp->text;
     }
