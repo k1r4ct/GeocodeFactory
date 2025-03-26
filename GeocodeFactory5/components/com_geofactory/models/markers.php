@@ -21,7 +21,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\Event;
 use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Event\AbstractEvent;
 
+require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactoryPlugin.php';
 
 // Funzioni di ordinamento per gli array di markers
 if (!function_exists('orderUser')) {
@@ -1047,8 +1049,10 @@ class GeofactoryModelMarkers extends ItemModel
      */
     protected function _getQueryForMs($oMs)
     {
-        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        // $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         PluginHelper::importPlugin('geocodefactory');
+	$dispatcher = Factory::getApplication()->getDispatcher();
+	//PluginHelper::importPlugin('geocodefactory');
         $app = Factory::getApplication('site');
         
         // Recupera categoria corrente
@@ -1060,22 +1064,24 @@ class GeofactoryModelMarkers extends ItemModel
         if (!is_array($inCats)) {
             $inCats = explode(',', $inCats);
         }
-
         // Sottocategorie
         $vTmp = [];
         $idTopParent = -1;
         if (isset($oMs->childCats) && $oMs->childCats == 1 && is_array($inCats) && (count($inCats) > 0)) {
             // Evento per ottenere le sottocategorie
-            $evAllSub = new Event('onGetAllSubCats', [
-                'typeList'    => $oMs->typeList,
-                'catList'     => &$vTmp,
-                'idTopCategory' => &$idTopParent
-            ]);
-            $resul_1 = $dispatcher->dispatch('onGetAllSubCats', $evAllSub);
+             $evAllSub = AbstractEvent::create('onGetAllSubCats', [
+		 'subject'     => $this,
+                 'typeList'    => $oMs->typeList,
+                 'catList'     => &$vTmp,
+                 'idTopCategory' => &$idTopParent
+             ]);
             
-            var_dump($resul_1);
-            die();
-
+            $resul_1 = $dispatcher->dispatch('onGetAllSubCats', $evAllSub);
+//	      $resul_1 = $dispatcher->dispatch('onTest');
+		var_dump($result_1);	
+		var_dump('ajsldkjklajsdkljsakldj');
+		die();
+	
             // Aggiunge le sottocategorie
             $childs = [];
             foreach ($inCats as $catPar) {
@@ -2019,3 +2025,4 @@ class markerObject
         return GeofactoryHelper::markerInArea($this->m_vMarker, $vp);
     }
 }
+

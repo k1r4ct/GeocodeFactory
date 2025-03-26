@@ -128,10 +128,10 @@ if (!class_exists('GeofactoryHelper')) {
                 ]);
                 
                 // Dispatch dell'evento
-                $pluginOk = $dispatcher->dispatch('onIsPluginInstalled', $event);
+                $results = $dispatcher->dispatch('onIsPluginInstalled', $event);
                 
                 // Verifica se pluginOk è stato modificato a true dai plugin
-                if (!$pluginOk) {
+                if (!$results) {
                     return null;
                 }
 
@@ -150,6 +150,7 @@ if (!class_exists('GeofactoryHelper')) {
                 throw $e;
             }
         }
+
 
         /**
          * Recupera i campi di coordinate da un campo di assegnazione

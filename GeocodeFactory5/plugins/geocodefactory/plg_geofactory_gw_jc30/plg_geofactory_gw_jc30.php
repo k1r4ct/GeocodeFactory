@@ -101,24 +101,21 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
         );
     }
 
-    /**
-     * Verifica se il plugin è installato per il tipo dato.
-     *
-     * @param   string  $type  Tipo di plugin
-     * @param   bool    &$flag  Flag (passato per riferimento)
-     * @return  void
-     * @since   1.0
-     */
-    public static function getSubscribedEvents(): array
-    {
-        $parentSubscriptions = parent::getSubscribedEvents();
-
-        $extensionSubriprions = [
-            'onGetAllSubCats' => 'getAllSubCats',
-        ];
-        
-        return array_merge($parentSubscriptions, $extensionSubriprions);
-    }
+    // /**
+    //  * Verifica se il plugin è installato per il tipo dato.
+    //  *
+    //  * @param   string  $type  Tipo di plugin
+    //  * @param   bool    &$flag  Flag (passato per riferimento)
+    //  * @return  void
+    //  * @since   1.0
+    //  */
+    // public static function getSubscribedEvents(): array
+    // {
+    //     return [
+    //         'onIsPluginInstalled' => 'isPluginInstalled',
+    //         'onGetAllSubCats' => 'getAllSubCats',
+    //     ];
+    // }
 
     /**
      * Caratteristiche del plugin (campi e feature supportate).
@@ -429,33 +426,30 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
     //     $vCats = $db->loadObjectList();
     // }
 
+	public function test()
+	{
+		return 'testOK';
+	}
+
     public function getAllSubCats($event)
     {
-        echo "<br>----------event-----------</br>";
-        var_dump($event);
-        if (!$this->_isInCurrentType($event->getArgument('typeList'))) {
+
+	var_dump($event);
+	die();
+	if (!$this->_isInCurrentType($event->getArgument('typeList'))) {
             return;
         }
-        echo "<br>----------event->getArgument(typeList)-----------</br>";
-        var_dump($event->getArgument('typeList'));
         $idTopCat = $event->getArgument('idTopCategory');
-        echo "<br>----------idTopCategory-----------</br>";
-        var_dump($idTopCat);
-
         $db = Factory::getContainer()->get(DatabaseDriver::class);
         
-        echo "<br>----------query-----------</br>";
         
         $query = $db->getQuery(true)
             ->select('id AS catid, parent_id AS parentid, title AS title')
             ->from($db->quoteName('#__categories'))
             ->where('extension = ' . $db->quote('com_content'))
             ->order('parent_id');
-        var_dump($query);
         $db->setQuery($query);
         $vCats = $db->loadObjectList();
-        echo "<br>----------vCats-----------</br>";
-        var_dump($vCats);
         return [$vCats, $idTopCat];
     }
 

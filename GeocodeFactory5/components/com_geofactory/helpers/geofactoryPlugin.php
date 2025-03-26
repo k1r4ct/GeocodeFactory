@@ -18,13 +18,13 @@ use Joomla\CMS\Log\Log;
 use Joomla\Event\Event;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Database\DatabaseInterface;
-
+use Joomla\Event\SubscriberInterface;
 /**
  * Classe helper per i plugin di geocodefactory
  * 
  * @since  1.0
  */
-class GeofactoryPluginHelper extends CMSPlugin
+class GeofactoryPluginHelper extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Restituisce le informazioni del plugin per la visualizzazione nelle liste del backend.
@@ -172,16 +172,45 @@ class GeofactoryPluginHelper extends CMSPlugin
     {
         return [
             'onIsPluginInstalled' => 'isPluginInstalled',
+            'onGetAllSubCats' => 'onGetAllSubCats',
+	    'onTest' => 'test'
         ];
     }
 
      public function isPluginInstalled($event)
     {
+
+	var_dump("---------------------");
+	die();
         if (!$this->isInCurrentType($event->getArgument('type'))) {
             return;
         }
         return true;
     }
+
+
+	public function onGetAllSubCats($event)
+    {
+
+        var_dump($event);
+        die();
+        if (!$this->_isInCurrentType($event->getArgument('typeList'))) {
+            return;
+        }
+        $idTopCat = $event->getArgument('idTopCategory');
+        $db = Factory::getContainer()->get(DatabaseDriver::class);
+
+
+        $query = $db->getQuery(true)
+            ->select('id AS catid, parent_id AS parentid, title AS title')
+            ->from($db->quoteName('#__categories'))
+            ->where('extension = ' . $db->quote('com_content'))
+            ->order('parent_id');
+        $db->setQuery($query);
+        $vCats = $db->loadObjectList();
+        return [$vCats, $idTopCat];
+    }
+
 
     /**
      * Restituisce la lista dei campi di assegnazione.
