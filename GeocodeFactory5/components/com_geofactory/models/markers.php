@@ -254,7 +254,7 @@ class GeofactoryModelMarkers extends ItemModel
                 $zIdx++;
                 $queryForMsg = "";
                 $msDb = $this->_getDataFromMsDb($objMs, $queryForMsg);
-
+                
 
                 // Debug info
                 if (GeofactoryHelper::isDebugMode()) {
@@ -281,11 +281,9 @@ class GeofactoryModelMarkers extends ItemModel
                     'isSpecialMs' => &$isSpecialMs
                 ]);
                 $dispatcher->dispatch('onIsSpecialMs', $evIsSpec);
-
                 // Elaborazione markerset normale o speciale
                 if (!$isSpecialMs) {
                     $msDb = $this->_extractMarkersFrom($msDb, $objMs, $latRad, $lngRad, $jsRadius, $zIdx);
-                    
                     if (!is_array($msDb) || !count($msDb)) {
                         $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_MARKERS') . $objMs->id;
                         continue;
@@ -341,6 +339,8 @@ class GeofactoryModelMarkers extends ItemModel
             return json_encode($data);
         }
 
+
+        
         // Filtraggi finali
         if ($map->totalmarkers == 1) {
             $msDbOk = $this->_purgeIfZoomMeAndUniqueMarker($msDbOk);
@@ -350,6 +350,8 @@ class GeofactoryModelMarkers extends ItemModel
         if (isset($map->randomMarkers) && $map->randomMarkers) {
             shuffle($msDbOk);
         }
+        // var_dump($msDbOk);
+        // die();    
 
         // Ordinamento
         if (isset($msDbOk[0]['di']) && $msDbOk[0]['di'] != -1) {
@@ -493,6 +495,8 @@ class GeofactoryModelMarkers extends ItemModel
                 unset($add['lgu']);
                 unset($add['pr']);
                 unset($add['ev']);
+                $add['id'] = '' . $add['id'];
+                $add['idL'] = '' . $add['idL'];
                 $res[] = $add;
             }
         }
@@ -897,8 +901,9 @@ class GeofactoryModelMarkers extends ItemModel
         // Parametri
         $ss_zoomMeId = $app->input->getInt('zmid');
         $ss_zoomMeTy = $app->input->getString('tmty');
-        $allM = $app->input->getInt('allM');
-
+        // $allM = $app->input->getInt('allM');
+        $allM = 1;
+       
         // Flag plugin
         $isUserPlg = false;
         $evProf = new Event('onIsProfile', [
@@ -945,7 +950,7 @@ class GeofactoryModelMarkers extends ItemModel
         $tmp = new markerObject();
         $tmp->setCommon($oMs, $listCatIcon, $listCatEntry, $this->m_idDyncat);
         $count = 0;
-        
+
         // Elaborazione markers
         if (is_array($msDb)) {
             foreach ($msDb as $m) {
@@ -993,7 +998,7 @@ class GeofactoryModelMarkers extends ItemModel
         // $query = $this->_getQueryForMs($oMs);
         // var_dump($query);
         // die();
-        $query = "SELECT DISTINCT 'MS_JC' AS typeList,O.id_content AS id, C.title, O.latitude, O.longitude FROM #__geofactory_contents O LEFT JOIN #__content AS C ON C.id = O.id_content WHERE O.type = 'com_content' AND C.catid IN (69) AND C.state > 0 AND ((O.latitude <> '' AND O.latitude IS NOT NULL AND O.latitude <> 0) OR (O.longitude <> '' AND O.longitude IS NOT NULL AND O.longitude <> 0))";
+        $query = "SELECT DISTINCT 'MS_JC' AS typeList,O.id_content AS id, C.title, O.latitude, O.longitude FROM #__geofactory_contents O LEFT JOIN #__content AS C ON C.id = O.id_content WHERE O.type = 'com_content' AND C.catid IN (73) AND C.state > 0 AND ((O.latitude <> '' AND O.latitude IS NOT NULL AND O.latitude <> 0) OR (O.longitude <> '' AND O.longitude IS NOT NULL AND O.longitude <> 0))";
         $brut = $this->_getQueryResult($query, $oMs);
         // var_dump($brut);
         // die();
@@ -1327,7 +1332,7 @@ $this->getMainQuery($data, $query);
         }
         return 'C.state > 0';
     }
-
+    
     /**
      * Aggiunge una condizione WHERE per testare la validità delle coordinate.
      *
@@ -1338,6 +1343,7 @@ $this->getMainQuery($data, $query);
      */
     protected function getValidCoordTest($fieldLat, $fieldLng)
     {
+        
         $app = Factory::getApplication('site');
         $vp = $app->input->getString('bo', '');
         $allM = $app->input->getInt('allM');
@@ -2184,6 +2190,8 @@ class markerObject
             if ($this->m_vMarker['lng'] >= $vpAll[3]) {
                 $vpAll[3] = $this->m_vMarker['lng'];
             }
+
+            // return GeofactoryHelper::markerInArea($this->m_vMarker, $vp);
             
             return true;
         }

@@ -212,7 +212,7 @@ class GeofactoryViewMap extends HtmlView
             $js[] = "  console.log('GeocodeFactory Debug: Esecuzione init_{$jsVarName}()');";
             $js[] = "  sleepMulti(repos);";
             $js[] = "  jQuery.getJSON({$jsVarName}.getMapUrl('{$dataMap}'), function(data){";
-            $js[] = "    console.log('GeocodeFactory Debug: getJSON callback eseguito');";
+            $js[] = "    console.log('GeocodeFactory Debug: getJSON callback eseguito', data);";
             $js[] = "    if (!{$jsVarName}.checkMapData(data)) {";
             $js[] = "      document.getElementById('{$jsVarName}').innerHTML = 'Map error.';";
             $js[] = "      console.log('Bad map format in init_{$jsVarName}()');";
