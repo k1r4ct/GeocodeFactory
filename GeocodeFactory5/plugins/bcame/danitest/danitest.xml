@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="bcame" method="upgrade">
+    <name>plg_bcame_danitest</name>
+    <author>Daniele Sbalagante</author>
+    <creationDate>March 2025</creationDate>
+    <copyright>Copyright (C) 2025. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>blblblblblblblblblb@gmail.com</authorEmail>
+    <authorUrl>www.sblblblblblbl.com</authorUrl>
+    <version>1.0.0</version>
+    <description>PLG_BCAME_DANITEST_XML_DESCRIPTION</description>
+    <files>
+        <filename plugin="danitest">danitest.php</filename>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+            </fieldset>
+        </fields>
+    </config>
+</extension>
