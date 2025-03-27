@@ -19,6 +19,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;                  // <-- Import Joomla 4 Event class
 use Joomla\Registry\Registry;
 
+require_once JPATH_ROOT . '/components/com_geofactory/helpers/GeofactoryHelperPlus.php';
+
 class GeofactoryModelMarker extends ItemModel
 {
     protected $_context = 'com_geofactory.marker';
@@ -63,14 +65,16 @@ class GeofactoryModelMarker extends ItemModel
 
             // Rinominiamo l'evento in "onMarkerTemplateAndPlaceholder"
             // e usiamo il nuovo dispatcher->dispatch(...)
-            $event = new Event(
-                'onMarkerTemplateAndPlaceholder',
-                [
-                    'objMarker' => $objMarker,
-                    'params'    => $params
-                ]
-            );
-            $dispatcher->dispatch($event);
+            // $event = new Event(
+            //     'onMarkerTemplateAndPlaceholder',
+            //     [
+            //         'objMarker' => $objMarker,
+            //         'params'    => $params
+            //     ]
+            // );
+            // $dispatcher->dispatch($event);
+
+            GeofactoryHelperPlus::onMarkerTemplateAndPlaceholder($objMarker, $params);
 
             $this->m_objMarkers[] = $objMarker;
         }
@@ -99,15 +103,16 @@ class GeofactoryModelMarker extends ItemModel
             'dateFormat'  => ''
         ];
 
-        // Stessa logica di dispatch
-        $event = new Event(
-            'onMarkerTemplateAndPlaceholder',
-            [
-                'objMarker' => $objMarker,
-                'params'    => $params
-            ]
-        );
-        $dispatcher->dispatch($event);
+        // // Stessa logica di dispatch
+        // $event = new Event(
+        //     'onMarkerTemplateAndPlaceholder',
+        //     [
+        //         'objMarker' => $objMarker,
+        //         'params'    => $params
+        //     ]
+        // );
+        // $dispatcher->dispatch($event);
+        GeofactoryHelperPlus::onMarkerTemplateAndPlaceholder($objMarker, $params);
 
         $this->m_objMarkers[] = $objMarker;
     }
