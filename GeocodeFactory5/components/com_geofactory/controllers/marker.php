@@ -20,19 +20,8 @@ use Joomla\CMS\Language\Text;
 class GeofactoryControllerMarker extends BaseController
 {
     protected $text_prefix = 'COM_GEOFACTORY';
-    protected $log_file = JPATH_ROOT . '/logs/marker_debug.log';
 
-    /**
-     * Scrive un messaggio nel file di log
-     *
-     * @param string $message Il messaggio da loggare
-     */
-    protected function logMessage($message)
-    {
-        $timestamp = date('Y-m-d H:i:s');
-        file_put_contents($this->log_file, "[{$timestamp}] {$message}\n", FILE_APPEND);
-    }
-
+   
     /**
      * Metodo per la visualizzazione della "bolla" (bubble)
      * 
@@ -45,18 +34,11 @@ class GeofactoryControllerMarker extends BaseController
         $idM  = $app->input->getInt('idU', -1);
         $idMs = $app->input->getInt('idL', -1);
         $dist = $app->input->getFloat('dist', -1);
-
-        $this->logMessage("Richiesta bubble per marker ID={$idM}, set={$idMs}, dist={$dist}");
-
         $model = $this->getModel('Marker');
         $vids  = [$idM];
         $vDist = [$dist];
-
         $model->init($vids, $idMs, $vDist, 1);
         $content = $model->loadTemplate();
-
-        $this->logMessage("Bubble generato con successo (dimensione: " . strlen($content) . " bytes)");
-
         // Output diretto
         header('Content-Type: text/html; charset=utf-8');
         echo $content;
@@ -74,14 +56,9 @@ class GeofactoryControllerMarker extends BaseController
         $app  = Factory::getApplication();
         $dist = $app->input->getFloat('dist', -1);
         $idMs = $app->input->getInt('idL', -1);
-
-        $this->logMessage("Richiesta bubblePl per set={$idMs}, dist={$dist}");
-
         $model = $this->getModel('Marker');
         $model->initLt($idMs);
         $content = $model->loadTemplate();
-
-        $this->logMessage("BubblePl generato con successo (dimensione: " . strlen($content) . " bytes)");
 
         // Output diretto
         header('Content-Type: text/html; charset=utf-8');
@@ -102,16 +79,15 @@ class GeofactoryControllerMarker extends BaseController
         $idMs = $app->input->getInt('idL', -1);
         $dist = $app->input->getFloat('dist', -1);
 
-        $this->logMessage("Richiesta side per marker ID={$idM}, set={$idMs}, dist={$dist}");
 
         $model = $this->getModel('Marker');
         $vids  = [$idM];
         $vDist = [$dist];
 
+        var_dump($vids);
+        die();
         $model->init($vids, $idMs, $vDist, 2);
         $content = $model->loadTemplate();
-
-        $this->logMessage("Side marker generato con successo (dimensione: " . strlen($content) . " bytes)");
 
         // Output diretto
         header('Content-Type: text/html; charset=utf-8');
@@ -130,9 +106,6 @@ class GeofactoryControllerMarker extends BaseController
         $app  = Factory::getApplication();
         $json = $app->input->get('idsDists', '', 'STRING');
         $idMs = $app->input->getInt('idL', -1);
-
-        $this->logMessage("Richiesta fullSide per set={$idMs}, idsDists={$json}");
-
         $model  = $this->getModel('Marker');
         $brutes = json_decode($json, true);
         
@@ -154,10 +127,7 @@ class GeofactoryControllerMarker extends BaseController
 
             $model->init($vIds, $idMs, $vDist, 2);
             $content = $model->loadTemplate();
-            $this->logMessage("FullSide generato con " . count($vIds) . " markers");
-        } else {
-            $this->logMessage("FullSide: formato dati non valido");
-        }
+        }         
 
         // Output diretto
         header('Content-Type: text/html; charset=utf-8');
@@ -178,7 +148,6 @@ class GeofactoryControllerMarker extends BaseController
         $json = $app->input->get('idsDists', '', 'STRING');
         $idMs = $app->input->getInt('idL', -1);
         
-        $this->logMessage("Richiesta bubbleMulti per set={$idMs}, idsDists={$json}");
         
         $model = $this->getModel('Marker');
 
@@ -188,8 +157,8 @@ class GeofactoryControllerMarker extends BaseController
             // Verifica che json_decode non abbia fallito, altrimenti fallback a stringa
             if ($brutes === null) {
                 $brutes = $json;
-                $this->logMessage("JSON decode fallito, usando stringa originale");
             }
+    
         } else {
             $brutes = $json;
         }
@@ -218,9 +187,7 @@ class GeofactoryControllerMarker extends BaseController
             $model->init($vIds, $idMs, $vDist, 1);
             $model->initBubbleMulti($start, $end);
             $content = $model->loadTemplate();
-            $this->logMessage("BubbleMulti generato con " . count($vIds) . " markers");
-        } else {
-            $this->logMessage("BubbleMulti: formato dati non valido");
+
         }
 
         $titre = Text::_('COM_GEOFACTORY_THEREIS_X_ENTRIES_HERE');
