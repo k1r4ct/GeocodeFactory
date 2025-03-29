@@ -1,5 +1,6 @@
 <?php
 /**
+ * MODEL
  * @name        Geocode Factory
  * @package     geoFactory
  * @copyright   Copyright © 2013 - All rights reserved.
@@ -30,20 +31,24 @@ class GeofactoryModelMarker extends ItemModel
     protected $m_type = 1; // 1: bubble, 2: side
     protected $m_containers = null;
 
+    public function getItem($pk=null){
+        
+        return null;
+    }
+
     // Inizializza il caricamento: carica il marker set e prepara il template
     public function init($vIdM, $idMs, $vDist, $type)
     {
-        // Importiamo i plugin
-        PluginHelper::importPlugin('geocodefactory');
+        // // Importiamo i plugin
+        // PluginHelper::importPlugin('geocodefactory');
 
         // Recuperiamo application e dispatcher
         $app        = Factory::getApplication();
-        $dispatcher = $app->getDispatcher();
+        // $dispatcher = $app->getDispatcher();
 
         $this->m_type  = $type;
         $this->m_idMs  = $idMs;
-        $this->m_objMs = GeofactoryHelper::getMs($this->m_idMs);
-
+        
         $iCountEntry = count($vIdM);
         $params = [];
         $params['titleField']   = (!empty($this->m_objMs->field_title))   ? $this->m_objMs->field_title   : null;
@@ -51,6 +56,7 @@ class GeofactoryModelMarker extends ItemModel
         $params['offlineTmpl']  = (!empty($this->m_objMs->offlineTmp))   ? $this->m_objMs->offlineTmp    : null;
         $params['menuId']       = (!empty($this->m_objMs->j_menu_id))    ? $this->m_objMs->j_menu_id     : null;
         $params['dateFormat']   = (!empty($this->m_objMs->dateFormat))   ? $this->m_objMs->dateFormat    : '';
+        $this->m_objMs = GeofactoryHelper::getMs($this->m_idMs);
 
         foreach ($vIdM as $i => $id) {
             $objMarker = new \stdClass();
@@ -73,9 +79,8 @@ class GeofactoryModelMarker extends ItemModel
             //     ]
             // );
             // $dispatcher->dispatch($event);
-
-            GeofactoryHelperPlus::onMarkerTemplateAndPlaceholder($objMarker, $params);
-
+            GeofactoryHelperPlus::markerTemplateAndPlaceholder($objMarker, $params);
+            
             $this->m_objMarkers[] = $objMarker;
         }
     }
@@ -103,16 +108,15 @@ class GeofactoryModelMarker extends ItemModel
             'dateFormat'  => ''
         ];
 
-        // // Stessa logica di dispatch
-        // $event = new Event(
-        //     'onMarkerTemplateAndPlaceholder',
-        //     [
-        //         'objMarker' => $objMarker,
-        //         'params'    => $params
-        //     ]
-        // );
-        // $dispatcher->dispatch($event);
-        GeofactoryHelperPlus::onMarkerTemplateAndPlaceholder($objMarker, $params);
+        // Stessa logica di dispatch
+        $event = new Event(
+            'onMarkerTemplateAndPlaceholder',
+            [
+                'objMarker' => $objMarker,
+                'params'    => $params
+            ]
+        );
+        $dispatcher->dispatch($event);
 
         $this->m_objMarkers[] = $objMarker;
     }
@@ -136,10 +140,18 @@ class GeofactoryModelMarker extends ItemModel
             $this->_replacePlaceHolder($objMarker->template, '{distance}', $objMarker->distance);
             $this->_replacePlaceHolder($objMarker->template, '{waysearch}', $this->_getWaySearch());
 
+            // $placeHolders = [];
+            // GeofactoryHelperPlus::getPlaceHoldersForMapTemplate($placeHolders);
+            var_dump($objMarker);
+            // die();
+            // foreach ($placeHolders as $value => $key) {
+            //     $this->_replacePlaceHolder($objMarker->template, $key, $value);
+            // }
+            
             $objMarker->template = str_ireplace($objMarker->search, $objMarker->replace, $objMarker->template);
-
+            
             $this->_setContainer($objMarker);
-
+            
             if (function_exists("mb_convert_encoding")) {
                 $objMarker->template = mb_convert_encoding($objMarker->template, 'HTML-ENTITIES', "UTF-8");
             }
@@ -156,28 +168,28 @@ class GeofactoryModelMarker extends ItemModel
         }
 
         // Prepara i plugin di contenuto
-        PluginHelper::importPlugin('content');
+        // PluginHelper::importPlugin('content');
 
         $temp       = new \stdClass();
         $temp->text = $res;
         $temp->id   = isset($objMarker->id) ? $objMarker->id : 0;
         $params     = new Registry;
-
+        
         // Usando il nuovo dispatcher per onContentPrepare
-        $app        = Factory::getApplication();
-        $dispatcher = $app->getDispatcher();
-        $event      = new Event(
-            'onContentPrepare',
-            [
-                // Argomenti tipici di onContentPrepare:
-                'context'     => 'content.prepare',
-                'article'     => $temp,    // Prima si passava per riferimento
-                'params'      => $params,
-                'limitstart'  => 0,
-            ]
-        );
-        $dispatcher->dispatch($event);
-
+        // $app        = Factory::getApplication();
+        // $dispatcher = $app->getDispatcher();
+        // $event      = new Event(
+        //     'onContentPrepare',
+        //     [
+        //         // Argomenti tipici di onContentPrepare:
+        //         'context'     => 'content.prepare',
+        //         'article'     => $temp,    // Prima si passava per riferimento
+        //         'params'      => $params,
+        //         'limitstart'  => 0,
+        //     ]
+        // );
+        // $dispatcher->dispatch($event);
+        GeofactoryHelperPlus::contentPrepare('content.prepare', $temp, $params, 0);
         return $temp->text;
     }
 

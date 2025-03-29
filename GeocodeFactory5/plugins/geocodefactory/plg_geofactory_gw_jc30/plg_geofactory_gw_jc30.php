@@ -435,7 +435,7 @@ class plggeocodefactoryPlg_geofactory_gw_jc30 extends GeofactoryPluginHelper
     {
 
 	var_dump($event);
-	die();
+	// die();
 	if (!$this->_isInCurrentType($event->getArgument('typeList'))) {
             return;
         }

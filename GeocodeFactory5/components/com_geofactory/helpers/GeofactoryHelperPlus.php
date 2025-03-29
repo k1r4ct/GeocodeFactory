@@ -21,9 +21,13 @@ use Joomla\CMS\Cache\Cache;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Event\Event;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Router\Route;
+
 
 if (!class_exists('GeofactoryHelperPlus')) {
     //error_log('GeofactoryHelper: Inizializzazione classe helper');
+    // Carica il route helper di com_content
+    require_once JPATH_SITE . '/components/com_content/src/Helper/RouteHelper.php';
     
     class GeofactoryHelperPlus
     {
@@ -782,7 +786,6 @@ if (!class_exists('GeofactoryHelperPlus')) {
             // if (!$this->isInCurrentType($objMarker->type)) {
             //     return;
             // }
-
             $article = Table::getInstance('content');
             $article->load($objMarker->id);
 
@@ -801,12 +804,37 @@ if (!class_exists('GeofactoryHelperPlus')) {
 
             $slug    = $article->id . ':' . $article->alias;
             $catslug = $article->catid;
-            $objMarker->link = Route::_(RouteHelper::getArticleRoute($slug, $catslug));
+
+            // $objMarker->link = Route::_(RouteHelper::getArticleRoute($slug, $catslug));
+            $objMarker->link = Route::_(GeofactoryHelperPlus::getArticleRoute($article->id, $catslug));
             $objMarker->rawTitle= $article->title;
+
+            // // magic
+            // $objMarker->article= $article;
 
             foreach ($objMarker->replace as $k => $v) {
                 $objMarker->search[] = $k;
             }
+        }
+
+        public static function getArticleRoute($id, $catid = 0, $language = null, $layout = null)
+        {
+            // Create the link
+            $link = 'index.php?option=com_content&view=article&id=' . $id;
+
+            if ((int) $catid > 1) {
+                $link .= '&catid=' . $catid;
+            }
+
+            if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
+                $link .= '&lang=' . $language;
+            }
+
+            if ($layout) {
+                $link .= '&layout=' . $layout;
+            }
+
+            return $link;
         }
 
         public static function getPlaceHoldersTemplate($typeList, &$placeHolders)
@@ -890,12 +918,12 @@ if (!class_exists('GeofactoryHelperPlus')) {
             return $adre;
         }
 
-        public static function onContentPrepare($context, &$article, &$params, $limitstart = 0): bool
+        public static function contentPrepare($context, &$article, &$params, $limitstart = 0): bool
         {
+
             if ($context == 'com_finder.indexer') {
                 return true;
             }
-
             if ($context == 'com_mtree.category') {
                 $view = strtolower(Factory::getApplication()->input->getString("view"));
                 $task = strtolower(Factory::getApplication()->input->getString("task"));
@@ -928,7 +956,7 @@ if (!class_exists('GeofactoryHelperPlus')) {
                     $session->set('gf_mt_links', $links);
                 }
             }
-
+            
             if (!is_object($article) || !isset($article->id)) {
                 return false;
             }
@@ -937,7 +965,7 @@ if (!class_exists('GeofactoryHelperPlus')) {
             if (strpos($context, 'com_k2') !== false) {
                 $c_opt = 'com_k2';
             }
-
+            
             if (strpos($article->text, '{myjoom_gf') !== false) {
                 $regex = '/{myjoom_gf\s+(.*?)}/i';
                 $new = '{' . GeofactoryHelperPlus::$m_plgCode . '}';
@@ -1015,7 +1043,7 @@ if (!class_exists('GeofactoryHelperPlus')) {
                     if (($zoom > 17) || ($zoom < 1)) {
                         $zoom = 5;
                     }
-                    
+
                     $config = ComponentHelper::getParams('com_geofactory');
                     $ggApikey = (strlen($config->get('ggApikey')) > 3) ? "&key=" . $config->get('ggApikey') : "";
                     $width = 200;//$this->params->get('staticWidth', 200);
