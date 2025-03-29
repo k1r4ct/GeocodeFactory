@@ -23,10 +23,7 @@ use Joomla\Event\Event;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Event\AbstractEvent;
 
-
-
-
-// require_once JPATH_ROOT . '/components/com_geofactory/helpers/geofactoryPlugin.php';
+require_once JPATH_ROOT . '/components/com_geofactory/helpers/GeofactoryHelperPlus.php';
 
 // Funzioni di ordinamento per gli array di markers
 if (!function_exists('orderUser')) {
@@ -142,14 +139,12 @@ class GeofactoryModelMarkers extends ItemModel
 
         // Carica la mappa e i markerset collegati
         try {
-            
             $map = GeofactoryHelper::getMap($idMap);
             if (!$map) {
                 throw new \RuntimeException(Text::_('COM_GEOFACTORY_MAP_NOT_FOUND'), 404);
             }
-            
-            
-            $ms = GeofactoryHelper::getArrayIdMs($idMap);
+
+            $ms = GeofactoryHelper::getArrayIdMs($idMap);    
             $data = $this->_createDataFile($out, $ms, $map);
             
             // Se il caching è attivo, salva il file
@@ -200,29 +195,19 @@ class GeofactoryModelMarkers extends ItemModel
 
         // Dispatcher e plugin
         $app = Factory::getApplication('site');
-        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
-        PluginHelper::importPlugin('geocodefactory');
-
-        // Esegui eventi in modo aggiornato per Joomla 4
-        $event = new Event('onResetBeforeGateway', []);
-        $dispatcher->dispatch('onResetBeforeGateway', $event);
-
         // Parametri dalla request
         $jsLat = $app->input->getFloat('lat');
         $jsLng = $app->input->getFloat('lng');
         $jsRadius = $app->input->getFloat('rad');
         $curZoom = $app->input->getInt('cz');
         $newMethod = GeofactoryHelper::useNewMethod($map);
-
         // Lista selezionata sulla mappa
         $selLists = $app->input->getString('lst', -1);
         $useSelLists = ($selLists == -1 || $selLists == '') ? false : true;
         $selLists = $this->getIdMsFromName($selLists);
-
         // Se esiste un viewport
         $this->m_vpMaps = $app->input->getString('bo', '');
         $this->m_vpMaps = explode(',', $this->m_vpMaps);
-
         $zIdx = 0;
         $msDbOk = [];
         $objMs = null;
@@ -236,7 +221,6 @@ class GeofactoryModelMarkers extends ItemModel
                 if ($useSelLists && !in_array($idMs, $selLists)) {
                     continue;
                 }
-
                 // Carica il markerset
                 $objMs = GeofactoryHelper::getMs($idMs);
                 
@@ -266,22 +250,12 @@ class GeofactoryModelMarkers extends ItemModel
                     $data['infos']['messages'][] = Text::_('COM_GEOFACTORY_MS_NO_DATA') . $objMs->id;
                     continue;
                 }
-
                 // Parametri raggio
                 $latRad = $map->centerlat;
                 $lngRad = $map->centerlng;
                 $this->_getRadiusCenterDirectory($latRad, $lngRad, $jsRadius, $jsLat, $jsLng, $objMs, $map);
-
                 $arIdsMarkers = [];
                 $isSpecialMs = false;
-                
-                // Aggiornato per Joomla 4: isSpecialMs event
-                $evIsSpec = new Event('onIsSpecialMs', [
-                    'typeList' => $objMs->typeList,
-                    'isSpecialMs' => &$isSpecialMs
-                ]);
-                $dispatcher->dispatch('onIsSpecialMs', $evIsSpec);
-                // Elaborazione markerset normale o speciale
                 if (!$isSpecialMs) {
                     $msDb = $this->_extractMarkersFrom($msDb, $objMs, $latRad, $lngRad, $jsRadius, $zIdx);
                     if (!is_array($msDb) || !count($msDb)) {
@@ -292,14 +266,6 @@ class GeofactoryModelMarkers extends ItemModel
                     if (!isset($vCheckArray[$objMs->typeList])) {
                         $vCheckArray[$objMs->typeList] = [];
                     }
-
-                    // Aggiornato per Joomla 4: cleanResultsFromPlugins event
-                    $evClean = new Event('onCleanResultsFromPlugins', [
-                        'typeList' => $objMs->typeList,
-                        'msDb'     => &$msDb,
-                        'objMs'    => $objMs
-                    ]);
-                    $dispatcher->dispatch('onCleanResultsFromPlugins', $evClean);
 
                     // Filtra e aggiungi i markers
                     if (is_array($msDb)) {
@@ -350,8 +316,6 @@ class GeofactoryModelMarkers extends ItemModel
         if (isset($map->randomMarkers) && $map->randomMarkers) {
             shuffle($msDbOk);
         }
-        // var_dump($msDbOk);
-        // die();    
 
         // Ordinamento
         if (isset($msDbOk[0]['di']) && $msDbOk[0]['di'] != -1) {
@@ -901,8 +865,8 @@ class GeofactoryModelMarkers extends ItemModel
         // Parametri
         $ss_zoomMeId = $app->input->getInt('zmid');
         $ss_zoomMeTy = $app->input->getString('tmty');
-        // $allM = $app->input->getInt('allM');
-        $allM = 1;
+        $allM = $app->input->getInt('allM');
+        // $allM = 1;
        
         // Flag plugin
         $isUserPlg = false;
@@ -995,13 +959,8 @@ class GeofactoryModelMarkers extends ItemModel
      */
     protected function _getDataFromMsDb($oMs, &$queryForMsg)
     {
-        // $query = $this->_getQueryForMs($oMs);
-        // var_dump($query);
-        // die();
-        $query = "SELECT DISTINCT 'MS_JC' AS typeList,O.id_content AS id, C.title, O.latitude, O.longitude FROM #__geofactory_contents O LEFT JOIN #__content AS C ON C.id = O.id_content WHERE O.type = 'com_content' AND C.catid IN (73) AND C.state > 0 AND ((O.latitude <> '' AND O.latitude IS NOT NULL AND O.latitude <> 0) OR (O.longitude <> '' AND O.longitude IS NOT NULL AND O.longitude <> 0))";
+        $query = $this->_getQueryForMs($oMs);
         $brut = $this->_getQueryResult($query, $oMs);
-        // var_dump($brut);
-        // die();
         $queryForMsg = $query;
         return $brut;
     }
@@ -1021,24 +980,15 @@ class GeofactoryModelMarkers extends ItemModel
         // Impostazioni per query grandi
         $bigSelect = $config->get('useBigSelect', 1);
         if ($bigSelect > 0) {
-            try {
-                $db->setQuery("SET SQL_BIG_SELECTS=1");
-                $db->execute();
-            } catch (\Exception $e) {
-                Log::add('Errore SET SQL_BIG_SELECTS: ' . $e->getMessage(), Log::WARNING, 'geofactory');
-            }
+            $db->setQuery("SET SQL_BIG_SELECTS=1");
+            $db->execute();
         }
         
         // Esegui la query
-        try {
-            $db->setQuery($query);
-            $oU = $db->loadObjectList();
-            $query = $db->getQuery(true);
-            $query = (string)$query;
-        } catch (\Exception $e) {
-            Log::add('Errore query: ' . $e->getMessage(), Log::ERROR, 'geofactory');
-            return null;
-        }
+        $db->setQuery($query);
+        $oU = $db->loadObjectList();
+        $query = $db->getQuery(true);
+        $query = (string)$query;
 
         // Verifica risultati
         if (!is_array($oU) || !count($oU)) {
@@ -1046,12 +996,12 @@ class GeofactoryModelMarkers extends ItemModel
         }
         
         // Evento per verificare i risultati
-        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
-        $evCheck = new Event('onCheckMainQueryResults', [
-            'typeList' => $oMs->typeList,
-            'results'  => &$oU
-        ]);
-        $dispatcher->dispatch('onCheckMainQueryResults', $evCheck);
+        // $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        // $evCheck = new Event('onCheckMainQueryResults', [
+        //     'typeList' => $oMs->typeList,
+        //     'results'  => &$oU
+        // ]);
+        // $dispatcher->dispatch('onCheckMainQueryResults', $evCheck);
 
         return $oU;
     }
@@ -1064,45 +1014,7 @@ class GeofactoryModelMarkers extends ItemModel
      */
     protected function _getQueryForMs($oMs)
     {
-        //----------------------------------------------------------------
-        //----------------------------------------------------------------
-        //----------------------------------------------------------------
-        // PluginHelper::importPlugin('bcame');
-        // $dispatcher = Factory::getApplication()->getDispatcher();
-        // $event = AbstractEvent::create(
-        //     'onTestEvent',
-        //     [
-        //         'subject' => $oMs,
-        //         'test' => 'test'
-        //     ]
-        // );
-        // $eventResult = $dispatcher->dispatch('onTestEvent', $event);
-        // var_dump($eventResult->getArgument('result'));	
-		// die();
-        //----------------------------------------------------------------
-        //----------------------------------------------------------------
-        //----------------------------------------------------------------
-        // PluginHelper::importPlugin('geocodefactory');
-        // $dispatcher = Factory::getApplication()->getDispatcher();
-        // $event = AbstractEvent::create('onGetAllSubCats', [
-        //     'subject'     => $oMs,
-        //      'typeList'    => $oMs->typeList,
-        //      'catList'     => [],
-        //      'idTopCategory' => -1
-        //  ]);
-        // $eventResult = $dispatcher->dispatch('onGetAllSubCats', $event);
-        // var_dump($eventResult->getArgument('result'));	
-		// die();
-        // ----------------------------------------------------------------
-        //----------------------------------------------------------------
-        //----------------------------------------------------------------
-
-        // $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
-        // PluginHelper::importPlugin('geocodefactory');
-	    // $dispatcher = Factory::getApplication()->getDispatcher();
         $db = Factory::getDbo();
-        // $db = Factory::getContainer()->get(DatabaseInterface::class);
-        
         $app = Factory::getApplication('site');
         
         // Recupera categoria corrente
@@ -1118,34 +1030,8 @@ class GeofactoryModelMarkers extends ItemModel
         $vTmp = [];
         $idTopParent = -1;
         if (isset($oMs->childCats) && $oMs->childCats == 1 && is_array($inCats) && (count($inCats) > 0)) {
-            // if (!$this->isInCurrentType($oMs->typeList)) {
-            //     return;
-            // }
-            // $db = Factory::getDbo();
-            $query = $db->getQuery(true)
-                ->select('id AS catid, parent_id AS parentid, title AS title')
-                ->from($db->quoteName('#__categories'))
-                ->where('extension = ' . $db->quote('com_content'))
-                ->order('parent_id');
-            $db->setQuery($query);
-            $vTmp = $db->loadObjectList();
-            // var_dump('ok');	
-		    // die();
             // Evento per ottenere le sottocategorie
-            //  PluginHelper::importPlugin('geocodefactory');
-            //  $dispatcher = Factory::getApplication()->getDispatcher();
-            //  $event = AbstractEvent::create('onGetAllSubCats', [
-            //      'subject'     => $oMs,
-            //      'typeList'    => $oMs->typeList,
-            //      'catList'     => [],//$vTmp,
-            //      'idTopCategory' => 1//$idTopParent
-            //   ]);
-            //  $eventResult = $dispatcher->dispatch('onGetAllSubCats', $event);
-            //  var_dump($eventResult);	
-	        // $resul_1 = $dispatcher->dispatch('onTestEvent', $evAllSub);	
-		// var_dump('-----------------------------');
-        // var_dump($vTmp);
-		// die();
+            GeofactoryHelperPlus::getAllSubCats($oMs->typeList, $vTmp, $idTopParent);
 	
             // Aggiunge le sottocategorie
             $childs = [];
@@ -1160,25 +1046,10 @@ class GeofactoryModelMarkers extends ItemModel
         
         // Converti in stringa
         $inCats = is_array($inCats) ? implode(',', $inCats) : "";
-
         // Categoria auto
         if ((isset($oMs->catAuto) && ($oMs->catAuto == 1) && ($curCat >= 0)) || ($this->m_idDyncat != -1)) {
             if (!is_array($vTmp) || !count($vTmp)) {
-                
-$query = $db->getQuery(true)
-    ->select('id AS catid, parent_id AS parentid, title AS title')
-    ->from($db->quoteName('#__categories'))
-    ->where('extension = ' . $db->quote('com_content'))
-    ->order('parent_id');
-$db->setQuery($query);
-$vTmp = $db->loadObjectList();
-                // // Ricarica le categorie se necessario
-                // $evAllSub2 = new Event('onGetAllSubCats', [
-                //     'typeList'    => $oMs->typeList,
-                //     'catList'     => &$vTmp,
-                //     'idTopParent' => &$idTopParent
-                // ]);
-                // $dispatcher->dispatch('onGetAllSubCats', $evAllSub2);
+                GeofactoryHelperPlus::getAllSubCats($oMs->typeList, $vTmp, $idTopParent);
             }
             
             // Filtra per categorie permesse
@@ -1207,12 +1078,11 @@ $vTmp = $db->loadObjectList();
         
         // Filtro finale categorie
         $inCats = $this->_getAllowedCats($oMs, $inCats);
-
         // Inizializzazione array per query
         $sqlSelect = ["'{$oMs->typeList}' AS typeList"];
         $sqlJoin = [];
         $sqlWhere = [];
-
+        
         // Parametri per i plugin
         $params = [];
         $params['linesOwners']   = (isset($oMs->linesOwners) && $oMs->linesOwners > 0) ? 1 : 0;
@@ -1227,13 +1097,13 @@ $vTmp = $db->loadObjectList();
         $params['fields_coor']   = GeofactoryHelper::getCoordFields((isset($oMs->field_assignation)) ? $oMs->field_assignation : 0);
         $params['inCats']        = $inCats;
         $params['type']          = $oMs->typeList;
-
+        
         // Gruppi
         $include_groups = (isset($oMs->include_groups) && is_array($oMs->include_groups)) 
-            ? array_filter($oMs->include_groups, 'strlen') 
-            : [];
+        ? array_filter($oMs->include_groups, 'strlen') 
+        : [];
         $params['include_groups'] = count($include_groups) > 0 ? implode(',', $include_groups) : '';
-
+        
         // Tag
         $params['tags'] = null;
         if (isset($oMs->tags) && is_array($oMs->tags) && count($oMs->tags)) {
@@ -1255,27 +1125,11 @@ $vTmp = $db->loadObjectList();
                 $params['tags'] = implode(',', $oMs->tags);
             }
         }
-
+        
         // // Eventi per customizzare la query
-        // $evCustom = new Event('onCustomiseQuery', [
-        //     'typeList'   => $oMs->typeList,
-        //     'params'     => $params,
-        //     'sqlSelect'  => &$sqlSelect,
-        //     'sqlJoin'    => &$sqlJoin,
-        //     'sqlWhere'   => &$sqlWhere
-        // ]);
-        // $dispatcher->dispatch('onCustomiseQuery', $evCustom);
-$this->customiseQuery($oMs->typeList, $params, $sqlSelect, $sqlJoin, $sqlWhere);
+        GeofactoryHelperPlus::customiseQuery($oMs->typeList, $params, $sqlSelect, $sqlJoin, $sqlWhere);
         // // Filtri aggiuntivi
-        // $evSetMain = new Event('onSetMainQueryFilters', [
-        //     'typeList'  => $oMs->typeList,
-        //     'oMs'       => $oMs,
-        //     'sqlSelect' => &$sqlSelect,
-        //     'sqlJoin'   => &$sqlJoin,
-        //     'sqlWhere'  => &$sqlWhere
-        // ]);
-        // $dispatcher->dispatch('onSetMainQueryFilters', $evSetMain);
-$this->setMainQueryFilters($oMs->typeList, $oMs, $sqlSelect, $sqlJoin, $sqlWhere);
+        GeofactoryHelperPlus::setMainQueryFilters($oMs->typeList, $oMs, $sqlSelect, $sqlJoin, $sqlWhere);
         // Costruzione query finale
         $query = "";
         $sqlSelect = (is_array($sqlSelect) && count($sqlSelect) > 0) ? implode(',', $sqlSelect) : "";
@@ -1291,117 +1145,10 @@ $this->setMainQueryFilters($oMs->typeList, $oMs, $sqlSelect, $sqlJoin, $sqlWhere
         ];
 
         // // Evento per la query finale
-        // $evMainQ = new Event('onGetMainQuery', [
-        //     'data'   => $data,
-        //     'query'  => &$query
-        // ]);
-        // $dispatcher->dispatch('onGetMainQuery', $evMainQ);
-$this->getMainQuery($data, $query);
+        GeofactoryHelperPlus::getMainQuery($data, $query);
         // Aggiunta DISTINCT e return
         $query = "SELECT DISTINCT " . $query;
         return $query;
-    }
-
-    public function customiseQuery($type, $params, &$sqlSelect, &$sqlJoin, &$sqlWhere)
-    {
-        // if (!$this->isInCurrentType($type)) {
-        //     return;
-        // }
-        $sqlSelect[] = "O.id_content AS id, C.title, O.latitude, O.longitude";
-        $sqlJoin[]   = "LEFT JOIN #__content AS C ON C.id = O.id_content";
-        $sqlWhere[]  = "O.type = 'com_content'";
-
-        if (!empty($params['linesOwners']) && $params['linesOwners'] == 1) {
-            $sqlSelect[] = "C.created_by AS owner";
-        }
-        if (!empty($params['tags'])) {
-            $sqlJoin[]  = "LEFT JOIN #__contentitem_tag_map AS T ON C.id = T.content_item_id AND type_alias = 'com_content.article'";
-            $sqlWhere[] = "T.tag_id IN (" . $params['tags'] . ")";
-        }
-        if (!empty($params['inCats'])) {
-            $sqlWhere[] = "C.catid IN (" . $params['inCats'] . ")";
-        }
-        $sqlWhere[] = $this->_getPublishedState(isset($params['onlyPublished']) ? $params['onlyPublished'] : 0);
-        $sqlWhere[] = $this->getValidCoordTest("O.latitude", "O.longitude");
-    }
-
-    public function _getPublishedState($state)
-    {
-        if ($state == 1) {
-            return 'C.state = 0';
-        }
-        return 'C.state > 0';
-    }
-    
-    /**
-     * Aggiunge una condizione WHERE per testare la validità delle coordinate.
-     *
-     * @param   string  $fieldLat  Campo latitudine
-     * @param   string  $fieldLng  Campo longitudine
-     * @return  string
-     * @since   1.0
-     */
-    protected function getValidCoordTest($fieldLat, $fieldLng)
-    {
-        
-        $app = Factory::getApplication('site');
-        $vp = $app->input->getString('bo', '');
-        $allM = $app->input->getInt('allM');
-        
-        $vp = explode(',', $vp);
-        if (!is_array($vp) || count($vp) != 4 || $allM == 1) {
-            $vp = null;
-        }
-        
-        // $db = Factory::getContainer()->get(DatabaseInterface::class);
-        $db = Factory::getDbo();
-        $t = "(";
-        $t .= "({$fieldLat} <> " . $db->quote('');
-        
-        if ($vp) {
-            $t .= " AND ({$fieldLat} BETWEEN " . $db->escape($vp[0]) . " AND " . $db->escape($vp[2]) . ")";
-        }
-        
-        $t .= " AND {$fieldLat} IS NOT NULL ";
-        $t .= " AND {$fieldLat} <> 0 ";
-        $t .= " AND {$fieldLat} <> " . $this->defEmptyLat . ")";
-        $t .= " OR ";
-        $t .= "({$fieldLng} <> " . $db->quote('');
-        
-        if ($vp) {
-            $t .= " AND ({$fieldLng} BETWEEN " . $db->escape($vp[1]) . " AND " . $db->escape($vp[3]) . ")";
-        }
-        
-        $t .= " AND {$fieldLng} IS NOT NULL ";
-        $t .= " AND {$fieldLng} <> 0 ";
-        $t .= " AND {$fieldLng} <> " . $this->defEmptyLng . ")";
-        $t .= ")";
-        
-        return str_replace(array('\t', '   ', '  '), ' ', $t);
-    }
-
-    public function setMainQueryFilters($type, $oMs, &$sqlSelect, &$sqlJoin, &$sqlWhere)
-    {
-        // if (!$this->isInCurrentType($type)) {
-        //     return;
-        // }
-        if (isset($oMs->filter) && strlen($oMs->filter) > 0) {
-            $sqlWhere[] = $oMs->filter;
-        }
-    }
-
-    public function getMainQuery($data, &$retQuery)
-    {
-        // if (!$this->isInCurrentType($data['type'])) {
-        //     return;
-        // }
-        $parts = array();
-        $parts[] = $data['sqlSelect'];
-        $parts[] = "FROM {$this->plgTable} O";
-        $parts[] = $data['sqlJoin'];
-        $parts[] = $data['sqlWhere'];
-
-        $retQuery = implode(" ", $parts);
     }
 
     /**
