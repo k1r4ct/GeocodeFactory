@@ -809,9 +809,6 @@ if (!class_exists('GeofactoryHelperPlus')) {
             $objMarker->link = Route::_(GeofactoryHelperPlus::getArticleRoute($article->id, $catslug));
             $objMarker->rawTitle= $article->title;
 
-            // // magic
-            // $objMarker->article= $article;
-
             foreach ($objMarker->replace as $k => $v) {
                 $objMarker->search[] = $k;
             }
