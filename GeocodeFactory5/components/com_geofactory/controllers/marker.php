@@ -152,13 +152,9 @@ class GeofactoryControllerMarker extends BaseController
                 $i++;
                 $vDist[] = (float)$brutes[$i];
             }
-            // $x = GeofactoryHelperPlus::getMapFields($vIds);
-            // var_dump($x);
-            // die();
+            
             $model->init($vIds, $idMs, $vDist, 2);
             $content = $model->loadTemplate();
-            // var_dump('kkk');
-            // die();
             // $this->logMessage("FullSide generato con " . count($vIds) . " markers");
         } else {
             // $this->logMessage("FullSide: formato dati non valido");

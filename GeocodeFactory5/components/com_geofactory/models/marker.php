@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Event\Event;                  // <-- Import Joomla 4 Event class
+use Joomla\Event\Event;                  
 use Joomla\Registry\Registry;
 
 require_once JPATH_ROOT . '/components/com_geofactory/helpers/GeofactoryHelperPlus.php';
@@ -39,12 +39,9 @@ class GeofactoryModelMarker extends ItemModel
     // Inizializza il caricamento: carica il marker set e prepara il template
     public function init($vIdM, $idMs, $vDist, $type)
     {
-        // // Importiamo i plugin
+        // // Importiamo il plugin Plus
         // PluginHelper::importPlugin('geocodefactory');
-        // var_dump($vIdM);
-        // Recuperiamo application e dispatcher
         $app        = Factory::getApplication();
-        // $dispatcher = $app->getDispatcher();
 
         $this->m_type  = $type;
         $this->m_idMs  = $idMs;
@@ -69,20 +66,7 @@ class GeofactoryModelMarker extends ItemModel
                 ? $this->m_objMs->template_bubble
                 : $this->m_objMs->template_sidebar;
 
-            
-            // $x = GeofactoryHelperPlus::getMapFields($id);
-            // var_dump($x);
-            
-            // Rinominiamo l'evento in "onMarkerTemplateAndPlaceholder"
-            // e usiamo il nuovo dispatcher->dispatch(...)
-            // $event = new Event(
-            //     'onMarkerTemplateAndPlaceholder',
-            //     [
-            //         'objMarker' => $objMarker,
-            //         'params'    => $params
-            //     ]
-            // );
-            // $dispatcher->dispatch($event);
+            GeofactoryHelperPlus::getMapPlaceholdersFields($id, $objMarker);
             GeofactoryHelperPlus::markerTemplateAndPlaceholder($objMarker, $params);
             
             $this->m_objMarkers[] = $objMarker;
@@ -94,10 +78,8 @@ class GeofactoryModelMarker extends ItemModel
     {
         // PluginHelper::importPlugin('geocodefactory');
         // $app        = Factory::getApplication();
-        // $dispatcher = $app->getDispatcher();
 
         $this->m_objMs = GeofactoryHelper::getMs($idMs);
-        //??? full object ?????
         $objMarker = new \stdClass();
         $objMarker->replace   = [];
         $objMarker->search    = [];
@@ -112,15 +94,6 @@ class GeofactoryModelMarker extends ItemModel
             'dateFormat'  => ''
         ];
 
-        // Stessa logica di dispatch
-        // $event = new Event(
-        //     'onMarkerTemplateAndPlaceholder',
-        //     [
-        //         'objMarker' => $objMarker,
-        //         'params'    => $params
-        //     ]
-        // );
-        // $dispatcher->dispatch($event);
         GeofactoryHelperPlus::markerTemplateAndPlaceholder($objMarker, $params);
         $this->m_objMarkers[] = $objMarker;
     }
@@ -144,9 +117,10 @@ class GeofactoryModelMarker extends ItemModel
             $this->_replacePlaceHolder($objMarker->template, '{distance}', $objMarker->distance);
             $this->_replacePlaceHolder($objMarker->template, '{waysearch}', $this->_getWaySearch());
             
-            // foreach ($placeHolders as $value => $key) {
-            //     $this->_replacePlaceHolder($objMarker->template, $key, $value);
-            // }
+            
+            foreach ($objMarker->placeholders as $key => $value) {
+                $this->_replacePlaceHolder($objMarker->template, $key, $value);
+            }
             
             $objMarker->template = str_ireplace($objMarker->search, $objMarker->replace, $objMarker->template);
             
@@ -174,21 +148,7 @@ class GeofactoryModelMarker extends ItemModel
         $temp->text = $res;
         $temp->id   = isset($objMarker->id) ? $objMarker->id : 0;
         $params     = new Registry;
-        
-        // Usando il nuovo dispatcher per onContentPrepare
-        // $app        = Factory::getApplication();
-        // $dispatcher = $app->getDispatcher();
-        // $event      = new Event(
-        //     'onContentPrepare',
-        //     [
-        //         // Argomenti tipici di onContentPrepare:
-        //         'context'     => 'content.prepare',
-        //         'article'     => $temp,    // Prima si passava per riferimento
-        //         'params'      => $params,
-        //         'limitstart'  => 0,
-        //     ]
-        // );
-        // $dispatcher->dispatch($event);
+     
         GeofactoryHelperPlus::contentPrepare('content.prepare', $temp, $params, 0);
         return $temp->text;
     }

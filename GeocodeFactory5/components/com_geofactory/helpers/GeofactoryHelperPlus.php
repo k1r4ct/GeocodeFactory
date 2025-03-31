@@ -1092,11 +1092,10 @@ if (!class_exists('GeofactoryHelperPlus')) {
             return $html;
         }
 
-        public static function getMapFields($idMs)
+        public static function getMapPlaceholdersFields($idMs, &$objMarker)
         {
-            var_dump($idMs);
-            try{
-            $db = Factory::getContainer()->get(DatabaseDriver::class);
+
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select('ef.title AS field, efv.value AS value')
                 ->from($db->quoteName('#__fields_groups') . ' AS efg')
@@ -1104,12 +1103,22 @@ if (!class_exists('GeofactoryHelperPlus')) {
                 ->join('LEFT', $db->quoteName('#__fields_values') . ' AS efv ON efv.field_id = ef.id')
                 ->where('efg.title = ' . $db->quote('Dati Filiale') . ' AND efv.item_id = ' . (int)$idMs);
             $db->setQuery($query);
-            var_dump($query);
-            $res = $db->loadObjectList();
             
-            return $res;
-            }catch(Exception $e) {
-            var_dump('Message: ' .$e->getMessage());
+            $res = $db->loadObjectList();
+            $placeholdersMap = [
+                'città' => '{field_7}',
+                'telefono' => '{field_8}',
+                'indirizzofiliale' => '{field_9}',
+                'emailfiliale' => '{field_10}',
+            ];
+
+            if (is_array($res) && count($res) > 0) {
+                foreach ($res as $obj) {
+                    $obj->field = strtolower($obj->field);
+                    $obj->field = str_replace(" ", "", $obj->field);
+                    $obj->field = $placeholdersMap[$obj->field] ?? $obj->field;
+                    $objMarker->placeholders[$obj->field] = $obj->value;
+                }
             }
         }
     }
