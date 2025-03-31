@@ -134,7 +134,6 @@ class GeofactoryControllerMarker extends BaseController
         $json = $app->input->get('idsDists', '', 'STRING');
         $idMs = $app->input->getInt('idL', -1);
         
-        
         $model  = $this->getModel('Marker');
         $brutes = json_decode($json, true);
         
@@ -153,7 +152,9 @@ class GeofactoryControllerMarker extends BaseController
                 $i++;
                 $vDist[] = (float)$brutes[$i];
             }
-            
+            // $x = GeofactoryHelperPlus::getMapFields($vIds);
+            // var_dump($x);
+            // die();
             $model->init($vIds, $idMs, $vDist, 2);
             $content = $model->loadTemplate();
             // var_dump('kkk');

@@ -804,7 +804,7 @@ if (!class_exists('GeofactoryHelperPlus')) {
 
             $slug    = $article->id . ':' . $article->alias;
             $catslug = $article->catid;
-
+            
             // $objMarker->link = Route::_(RouteHelper::getArticleRoute($slug, $catslug));
             $objMarker->link = Route::_(GeofactoryHelperPlus::getArticleRoute($article->id, $catslug));
             $objMarker->rawTitle= $article->title;
@@ -1092,5 +1092,25 @@ if (!class_exists('GeofactoryHelperPlus')) {
             return $html;
         }
 
+        public static function getMapFields($idMs)
+        {
+            var_dump($idMs);
+            try{
+            $db = Factory::getContainer()->get(DatabaseDriver::class);
+            $query = $db->getQuery(true)
+                ->select('ef.title AS field, efv.value AS value')
+                ->from($db->quoteName('#__fields_groups') . ' AS efg')
+                ->join('LEFT', $db->quoteName('#__fields') . ' AS ef ON efg.id = ef.group_id')
+                ->join('LEFT', $db->quoteName('#__fields_values') . ' AS efv ON efv.field_id = ef.id')
+                ->where('efg.title = ' . $db->quote('Dati Filiale') . ' AND efv.item_id = ' . (int)$idMs);
+            $db->setQuery($query);
+            var_dump($query);
+            $res = $db->loadObjectList();
+            
+            return $res;
+            }catch(Exception $e) {
+            var_dump('Message: ' .$e->getMessage());
+            }
+        }
     }
 }

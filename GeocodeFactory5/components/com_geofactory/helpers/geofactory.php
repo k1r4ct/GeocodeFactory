@@ -115,25 +115,25 @@ if (!class_exists('GeofactoryHelper')) {
                 if (empty($data) || !isset($data->typeList)) {
                     return null;
                 }
-
-                PluginHelper::importPlugin('geocodefactory');
-                $app = Factory::getApplication();
-                $dispatcher = $app->getDispatcher();
-                $pluginOk = false;
                 
-                // Creazione dell'evento con passaggio per riferimento del parametro pluginOk
-                $event = new Event('onIsPluginInstalled', [
-                    'typeList' => $data->typeList,
-                    'pluginOk' => &$pluginOk
-                ]);
+                // PluginHelper::importPlugin('geocodefactory');
+                // $app = Factory::getApplication();
+                // $dispatcher = $app->getDispatcher();
+                // $pluginOk = false;
+                
+                // // Creazione dell'evento con passaggio per riferimento del parametro pluginOk
+                // $event = new Event('onIsPluginInstalled', [
+                //     'typeList' => $data->typeList,
+                //     'pluginOk' => &$pluginOk
+                // ]);
                 
                 // Dispatch dell'evento
-                $results = $dispatcher->dispatch('onIsPluginInstalled', $event);
+                // $results = $dispatcher->dispatch('onIsPluginInstalled', $event);
                 
                 // Verifica se pluginOk è stato modificato a true dai plugin
-                if (!$results) {
-                    return null;
-                }
+                // if (!$results) {
+                //     return null;
+                // }
 
                 self::mergeRegistry($data, "params_markerset_settings");
                 self::mergeRegistry($data, "params_markerset_radius");

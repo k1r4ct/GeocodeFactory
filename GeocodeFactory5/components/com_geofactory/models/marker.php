@@ -41,7 +41,7 @@ class GeofactoryModelMarker extends ItemModel
     {
         // // Importiamo i plugin
         // PluginHelper::importPlugin('geocodefactory');
-
+        // var_dump($vIdM);
         // Recuperiamo application e dispatcher
         $app        = Factory::getApplication();
         // $dispatcher = $app->getDispatcher();
@@ -57,7 +57,7 @@ class GeofactoryModelMarker extends ItemModel
         $params['menuId']       = (!empty($this->m_objMs->j_menu_id))    ? $this->m_objMs->j_menu_id     : null;
         $params['dateFormat']   = (!empty($this->m_objMs->dateFormat))   ? $this->m_objMs->dateFormat    : '';
         $this->m_objMs = GeofactoryHelper::getMs($this->m_idMs);
-
+        
         foreach ($vIdM as $i => $id) {
             $objMarker = new \stdClass();
             $objMarker->replace   = [];
@@ -69,6 +69,10 @@ class GeofactoryModelMarker extends ItemModel
                 ? $this->m_objMs->template_bubble
                 : $this->m_objMs->template_sidebar;
 
+            
+            // $x = GeofactoryHelperPlus::getMapFields($id);
+            // var_dump($x);
+            
             // Rinominiamo l'evento in "onMarkerTemplateAndPlaceholder"
             // e usiamo il nuovo dispatcher->dispatch(...)
             // $event = new Event(
@@ -88,12 +92,12 @@ class GeofactoryModelMarker extends ItemModel
     // Inizializza il caricamento "light" per i Google Places
     public function initLt($idMs)
     {
-        PluginHelper::importPlugin('geocodefactory');
-        $app        = Factory::getApplication();
-        $dispatcher = $app->getDispatcher();
+        // PluginHelper::importPlugin('geocodefactory');
+        // $app        = Factory::getApplication();
+        // $dispatcher = $app->getDispatcher();
 
         $this->m_objMs = GeofactoryHelper::getMs($idMs);
-
+        //??? full object ?????
         $objMarker = new \stdClass();
         $objMarker->replace   = [];
         $objMarker->search    = [];
@@ -109,15 +113,15 @@ class GeofactoryModelMarker extends ItemModel
         ];
 
         // Stessa logica di dispatch
-        $event = new Event(
-            'onMarkerTemplateAndPlaceholder',
-            [
-                'objMarker' => $objMarker,
-                'params'    => $params
-            ]
-        );
-        $dispatcher->dispatch($event);
-
+        // $event = new Event(
+        //     'onMarkerTemplateAndPlaceholder',
+        //     [
+        //         'objMarker' => $objMarker,
+        //         'params'    => $params
+        //     ]
+        // );
+        // $dispatcher->dispatch($event);
+        GeofactoryHelperPlus::markerTemplateAndPlaceholder($objMarker, $params);
         $this->m_objMarkers[] = $objMarker;
     }
 
@@ -139,11 +143,7 @@ class GeofactoryModelMarker extends ItemModel
             $this->_replacePlaceHolder($objMarker->template, '{locate_me}', Text::_('COM_GEOFACTORY_LOCATE_ME_BUBBLE'));
             $this->_replacePlaceHolder($objMarker->template, '{distance}', $objMarker->distance);
             $this->_replacePlaceHolder($objMarker->template, '{waysearch}', $this->_getWaySearch());
-
-            // $placeHolders = [];
-            // GeofactoryHelperPlus::getPlaceHoldersForMapTemplate($placeHolders);
-            var_dump($objMarker);
-            // die();
+            
             // foreach ($placeHolders as $value => $key) {
             //     $this->_replacePlaceHolder($objMarker->template, $key, $value);
             // }
